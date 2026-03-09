@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "zoho-creator": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["tsx", "src/index.ts"],
+      "env": {
+        "ZOHO_CLIENT_ID": "${ZOHO_CLIENT_ID}",
+        "ZOHO_CLIENT_SECRET": "${ZOHO_CLIENT_SECRET}",
+        "ZOHO_REFRESH_TOKEN": "${ZOHO_REFRESH_TOKEN}",
+        "ZOHO_OWNER_ID": "${ZOHO_OWNER_ID}",
+        "ZOHO_APP_LINK_NAME": "${ZOHO_APP_LINK_NAME}",
+        "ZOHO_ACCOUNTS_DOMAIN": "${ZOHO_ACCOUNTS_DOMAIN}"
+      }
+    }
+  }
+}

@@ -1,0 +1,697 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - text:         
+      - generic:
+        - text:     󯄩   
+        - generic [ref=e45]:
+          - link "" [ref=e47] [cursor=pointer]:
+            - /url: javascript:;
+            - generic [ref=e48]: 
+          - list [ref=e50]:
+            - listitem [ref=e51]:
+              - link " Constructor" [ref=e52] [cursor=pointer]:
+                - /url: /appbuilder/formacion11/human-resource-management/edit
+                - generic [ref=e53]: 
+                - generic [ref=e54]: Constructor
+            - listitem [ref=e55]:
+              - link "Flujo de trabajo" [ref=e56] [cursor=pointer]:
+                - /url: /appbuilder/formacion11/human-resource-management/workflow/edit
+                - generic [ref=e57]: 
+                - generic [ref=e58]: Flujo de trabajo
+            - listitem [ref=e59]:
+              - link "Configuración" [ref=e60] [cursor=pointer]:
+                - /url: /appbuilder/formacion11/human-resource-management/settings/edit
+                - generic [ref=e61]: 
+                - generic [ref=e62]: Configuración
+        - list [ref=e8]:
+          - listitem
+          - listitem [ref=e63]:
+            - generic "Notificaciones" [ref=e65] [cursor=pointer]:
+              - generic [ref=e66]: 
+          - listitem [ref=e67]:
+            - link "Compartir" [ref=e68] [cursor=pointer]:
+              - /url: javascript:;
+              - generic [ref=e69]: 
+              - text: Compartir
+          - listitem [ref=e70]:
+            - link "Acceder a esta aplicación" [ref=e71] [cursor=pointer]:
+              - /url: https://creatorapp.zoho.com/formacion11/human-resource-management/
+              - generic [ref=e72]: 
+              - text: Acceder a esta aplicación
+      - generic [ref=e9]:
+        - img [ref=e73]
+        - paragraph [ref=e11]: Eva Cama
+        - paragraph [ref=e12]: ecama@sicma21.com
+        - generic [ref=e13]: "User ID: 31923584"
+        - generic [ref=e14]:
+          - link "Cerrar sesión" [ref=e15] [cursor=pointer]:
+            - /url: /logoutpage.jsp?sharedBy=675420877
+            - generic [ref=e16]: 
+            - text: Cerrar sesión
+          - link " Mi cuenta" [ref=e17] [cursor=pointer]:
+            - /url: https://accounts.zoho.com/u/h#profile/personal
+            - generic [ref=e18]: 
+            - text: Mi cuenta
+      - generic [ref=e21] [cursor=pointer]:
+        - generic [ref=e22]: Gestión de Recursos Humanos
+        - generic [ref=e23]: Flujo de trabajo
+      - generic:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+      - generic [ref=e25]:
+        - generic [ref=e27]:
+          - generic [ref=e28]: Mis aplicaciones
+          - list [ref=e30]:
+            - listitem [ref=e83]: No hay más aplicaciones para mostrar
+        - generic [ref=e31]:
+          - link [ref=e32] [cursor=pointer]:
+            - /url: https://accounts.zoho.com/u/h#profile/personal
+            - img [ref=e86]
+          - generic [ref=e33]: Eva Cama
+          - generic [ref=e34]: ecama@sicma21.com
+          - generic [ref=e35]:
+            - link "Inicio" [ref=e37] [cursor=pointer]:
+              - /url: /userhome/dashboard
+            - link "Suscripción" [ref=e39] [cursor=pointer]:
+              - /url: javascript:void(0);
+            - link "Configuración" [ref=e41] [cursor=pointer]:
+              - /url: /userhome/formacion11/dashboard/setup
+          - link "Cerrar sesión" [ref=e43] [cursor=pointer]:
+            - /url: /logoutpage.jsp?sharedBy=675420877
+            - generic [ref=e44]: 
+            - text: Cerrar sesión
+      - text: 
+    - generic:     
+    - generic [ref=e90]:
+      - generic [ref=e91]:
+        - generic [ref=e92]:
+          - list:
+            - listitem [ref=e93]:
+              - generic [ref=e94] [cursor=pointer]: Flujos de trabajo de formulario
+            - listitem [ref=e95]:
+              - generic [ref=e96] [cursor=pointer]: Programas
+            - listitem [ref=e97]:
+              - generic [ref=e98] [cursor=pointer]: Aprobaciones
+            - listitem [ref=e99]:
+              - generic [ref=e100] [cursor=pointer]: Pagos
+            - listitem [ref=e101]:
+              - generic [ref=e102] [cursor=pointer]: Planos
+            - listitem [ref=e103]:
+              - generic [ref=e104] [cursor=pointer]: Flujos de trabajo por lotes
+            - listitem [ref=e105]:
+              - generic [ref=e106] [cursor=pointer]: Flujos de trabajo de informe
+            - listitem [ref=e107]:
+              - generic [ref=e108] [cursor=pointer]: Funciones
+        - generic [ref=e109]:
+          - generic [ref=e110]:
+            - textbox "Search for Workflows or Actions" [ref=e111]
+            - text: 
+            - generic [ref=e112]: 
+          - text:  
+          - button "Nuevo flujo de trabajo" [ref=e114] [cursor=pointer]
+      - text: 
+      - generic [ref=e115]:
+        - text: 
+        - generic [ref=e116]:
+          - generic [ref=e117] [cursor=pointer]:
+            - text: 
+            - generic [ref=e118]: 
+          - generic [ref=e119]:
+            - generic [ref=e120]:
+              - textbox "Buscar formularios" [ref=e121]
+              - generic [ref=e122]: 
+            - generic [ref=e126]:
+              - generic [ref=e127]:
+                - generic [ref=e128] [cursor=pointer]:
+                  - text: Formularios con flujos de trabajo
+                  - generic [ref=e129]: 
+                  - text: 
+                - list [ref=e130]:
+                  - listitem [ref=e131] [cursor=pointer]:
+                    - generic [ref=e132]:
+                      - generic [ref=e133]: 
+                      - text: Add Announcement
+                  - listitem [ref=e134] [cursor=pointer]:
+                    - generic [ref=e135]:
+                      - generic [ref=e136]: 
+                      - text: Add Candidate Details
+                  - listitem [ref=e137] [cursor=pointer]:
+                    - generic [ref=e138]:
+                      - generic [ref=e139]: 
+                      - text: Add Daily Logs
+                  - listitem [ref=e140] [cursor=pointer]:
+                    - generic [ref=e141]:
+                      - generic [ref=e142]: 
+                      - text: Add Holidays
+                  - listitem [ref=e143] [cursor=pointer]:
+                    - generic [ref=e144]:
+                      - generic [ref=e145]: 
+                      - text: Add Job
+                  - listitem [ref=e146] [cursor=pointer]:
+                    - generic [ref=e147]:
+                      - generic [ref=e148]: 
+                      - text: Add Leave
+                  - listitem [ref=e149] [cursor=pointer]:
+                    - generic [ref=e150]:
+                      - generic [ref=e151]: 
+                      - text: Add New Appraisal
+                  - listitem [ref=e152] [cursor=pointer]:
+                    - generic [ref=e153]:
+                      - generic [ref=e154]: 
+                      - text: Add Project
+                  - listitem [ref=e155] [cursor=pointer]:
+                    - generic [ref=e156]:
+                      - generic [ref=e157]: 
+                      - text: Add Time Logs
+                  - listitem [ref=e158] [cursor=pointer]:
+                    - generic [ref=e159]:
+                      - generic [ref=e160]: 
+                      - text: Add weekly Logs
+                  - listitem [ref=e161] [cursor=pointer]:
+                    - generic [ref=e162]:
+                      - generic [ref=e163]: 
+                      - text: Alta / Baja EPI - Herramientas
+                  - listitem [ref=e164] [cursor=pointer]:
+                    - generic [ref=e165]:
+                      - generic [ref=e166]: 
+                      - text: Apply Resignation
+                  - listitem [ref=e167] [cursor=pointer]:
+                    - generic [ref=e168]:
+                      - generic [ref=e169]: 
+                      - text: Asignacion EPI Ropa Herramienta
+                  - listitem [ref=e170] [cursor=pointer]:
+                    - generic [ref=e171]:
+                      - generic [ref=e172]: 
+                      - text: Asignacion Técnico Cliente
+                  - listitem [ref=e173] [cursor=pointer]:
+                    - generic [ref=e174]:
+                      - generic [ref=e175]: 
+                      - text: Asignacion Técnico Cliente Año
+                  - listitem [ref=e176] [cursor=pointer]:
+                    - generic [ref=e177]:
+                      - generic [ref=e178]: 
+                      - text: Asignar / Desasignar Trabajadores
+                  - listitem [ref=e179] [cursor=pointer]:
+                    - generic [ref=e180]:
+                      - generic [ref=e181]: 
+                      - text: Asignar Activo Empleado
+                  - listitem [ref=e182] [cursor=pointer]:
+                    - generic [ref=e183]:
+                      - generic [ref=e184]: 
+                      - text: Asignar Chofer
+                  - listitem [ref=e185] [cursor=pointer]:
+                    - generic [ref=e186]:
+                      - generic [ref=e187]: 
+                      - text: Asignar EPI
+                  - listitem [ref=e188] [cursor=pointer]:
+                    - generic [ref=e189]:
+                      - generic [ref=e190]: 
+                      - text: Asignar EPI a Trabajador
+                  - listitem [ref=e191] [cursor=pointer]:
+                    - generic [ref=e192]:
+                      - generic [ref=e193]: 
+                      - text: Asignar Trabajador a Cliente
+                  - listitem [ref=e194] [cursor=pointer]:
+                    - generic [ref=e195]:
+                      - generic [ref=e196]: 
+                      - text: Attendance
+                  - listitem [ref=e197] [cursor=pointer]:
+                    - generic [ref=e198]:
+                      - generic [ref=e199]: 
+                      - text: Centro Formativo
+                  - listitem [ref=e200] [cursor=pointer]:
+                    - generic [ref=e201]:
+                      - generic [ref=e202]: 
+                      - text: Configuración General
+                  - listitem [ref=e203] [cursor=pointer]:
+                    - generic [ref=e204]:
+                      - generic [ref=e205]: 
+                      - text: Dar de Alta / Baja a Activos de Empleados
+                  - listitem [ref=e206] [cursor=pointer]:
+                    - generic [ref=e207]:
+                      - generic [ref=e208]: 
+                      - text: Datos de Empleado
+                  - listitem [ref=e209] [cursor=pointer]:
+                    - generic [ref=e210]:
+                      - generic [ref=e211]: 
+                      - text: Datos del Empleado
+                  - listitem [ref=e212] [cursor=pointer]:
+                    - generic [ref=e213]:
+                      - generic [ref=e214]: 
+                      - text: Decline
+                  - listitem [ref=e215] [cursor=pointer]:
+                    - generic [ref=e216]:
+                      - generic [ref=e217]: 
+                      - text: Dejar un mensaje
+                  - listitem [ref=e218] [cursor=pointer]:
+                    - generic [ref=e219]:
+                      - generic [ref=e220]: 
+                      - text: Desasignar Chofer
+                  - listitem [ref=e221] [cursor=pointer]:
+                    - generic [ref=e222]:
+                      - generic [ref=e223]: 
+                      - text: Desasignar EPI - Herramienta
+                  - listitem [ref=e224] [cursor=pointer]:
+                    - generic [ref=e225]:
+                      - generic [ref=e226]: 
+                      - text: DNI
+                  - listitem [ref=e227] [cursor=pointer]:
+                    - generic [ref=e228]:
+                      - generic [ref=e229]: 
+                      - text: Elegir Trabajador
+                  - listitem [ref=e230] [cursor=pointer]:
+                    - generic [ref=e231]:
+                      - generic [ref=e232]: 
+                      - text: Enviar Documentos
+                  - listitem [ref=e233] [cursor=pointer]:
+                    - generic [ref=e234]:
+                      - generic [ref=e235]: 
+                      - text: Enviar WhatsApp
+                  - listitem [ref=e236] [cursor=pointer]:
+                    - generic [ref=e237]:
+                      - generic [ref=e238]: 
+                      - text: Exit Interview
+                  - listitem [ref=e239] [cursor=pointer]:
+                    - generic [ref=e240]:
+                      - generic [ref=e241]: 
+                      - text: Formación
+                  - listitem [ref=e242] [cursor=pointer]:
+                    - generic [ref=e243]:
+                      - generic [ref=e244]: 
+                      - text: Importación Empleado Recruit
+                  - listitem [ref=e245] [cursor=pointer]:
+                    - generic [ref=e246]:
+                      - generic [ref=e247]: 
+                      - text: Importar Cuenta Cliente
+                  - listitem [ref=e248] [cursor=pointer]:
+                    - generic [ref=e249]:
+                      - generic [ref=e250]: 
+                      - text: Importar Trabajador desde Recruit
+                  - listitem [ref=e251] [cursor=pointer]:
+                    - generic [ref=e252]:
+                      - generic [ref=e253]: 
+                      - text: Job Application
+                  - listitem [ref=e254] [cursor=pointer]:
+                    - generic [ref=e255]:
+                      - generic [ref=e256]: 
+                      - text: Jornada
+                  - listitem [ref=e257] [cursor=pointer]:
+                    - generic [ref=e258]:
+                      - generic [ref=e259]: 
+                      - text: Modificar Requisitos Autónomos
+                  - listitem [ref=e260] [cursor=pointer]:
+                    - generic [ref=e261]:
+                      - generic [ref=e262]: 
+                      - text: Modificar Requisitos Clientes
+                  - listitem [ref=e263] [cursor=pointer]:
+                    - generic [ref=e264]:
+                      - generic [ref=e265]: 
+                      - text: Modificar Requisitos Empresa
+                  - listitem [ref=e266] [cursor=pointer]:
+                    - generic [ref=e267]:
+                      - generic [ref=e268]: 
+                      - text: Modificar Requisitos Trabajadores
+                  - listitem [ref=e269] [cursor=pointer]:
+                    - generic [ref=e270]:
+                      - generic [ref=e271]: 
+                      - text: Nota sobre Baja Trabajador
+                  - listitem [ref=e272] [cursor=pointer]:
+                    - generic [ref=e273]:
+                      - generic [ref=e274]: 
+                      - text: Nueva Empresa
+                  - listitem [ref=e275] [cursor=pointer]:
+                    - generic [ref=e276]:
+                      - generic [ref=e277]: 
+                      - text: Nueva Encuesta
+                  - listitem [ref=e278] [cursor=pointer]:
+                    - generic [ref=e279]:
+                      - generic [ref=e280]: 
+                      - text: Nueva Lista de Requisitos
+                  - listitem [ref=e281] [cursor=pointer]:
+                    - generic [ref=e282]:
+                      - generic [ref=e283]: 
+                      - text: Nueva Plantilla Envío de Documentación
+                  - listitem [ref=e284] [cursor=pointer]:
+                    - generic [ref=e285]:
+                      - generic [ref=e286]: 
+                      - text: Nueva Solicitud EPI - Herramienta
+                  - listitem [ref=e287] [cursor=pointer]:
+                    - generic [ref=e288]:
+                      - generic [ref=e289]: 
+                      - text: Nueva Solicitud Permiso
+                  - listitem [ref=e290] [cursor=pointer]:
+                    - generic [ref=e291]:
+                      - generic [ref=e292]: 
+                      - text: Nuevo Activo
+                  - listitem [ref=e293] [cursor=pointer]:
+                    - generic [ref=e294]:
+                      - generic [ref=e295]: 
+                      - text: Nuevo Cliente
+                  - listitem [ref=e296] [cursor=pointer]:
+                    - generic [ref=e297]:
+                      - generic [ref=e298]: 
+                      - text: Nuevo Empleado
+                  - listitem [ref=e299] [cursor=pointer]:
+                    - generic [ref=e300]:
+                      - generic [ref=e301]: 
+                      - text: Nuevo EPI - Herramienta
+                  - listitem [ref=e302] [cursor=pointer]:
+                    - generic [ref=e303]:
+                      - generic [ref=e304]: 
+                      - text: Nuevo Modelo de Documento
+                  - listitem [ref=e305] [cursor=pointer]:
+                    - generic [ref=e306]:
+                      - generic [ref=e307]: 
+                      - text: Nuevo Requisito Doc
+                  - listitem [ref=e308] [cursor=pointer]:
+                    - generic [ref=e309]:
+                      - generic [ref=e310]: 
+                      - text: Nuevo Vehículo
+                  - listitem [ref=e311] [cursor=pointer]:
+                    - generic [ref=e312]:
+                      - generic [ref=e313]: 
+                      - text: Opción Respuesta
+                  - listitem [ref=e314] [cursor=pointer]:
+                    - generic [ref=e315]:
+                      - generic [ref=e316]: 
+                      - text: Pregunta Encuesta
+                  - listitem [ref=e317] [cursor=pointer]:
+                    - generic [ref=e318]:
+                      - generic [ref=e319]: 
+                      - text: Raise Your Requirement
+                  - listitem [ref=e320] [cursor=pointer]:
+                    - generic [ref=e321]:
+                      - generic [ref=e322]: 
+                      - text: Requisito de Baja
+                  - listitem [ref=e323] [cursor=pointer]:
+                    - generic [ref=e324]:
+                      - generic [ref=e325]: 
+                      - text: Responder Solicitud EPI - Herramienta
+                  - listitem [ref=e326] [cursor=pointer]:
+                    - generic [ref=e327]:
+                      - generic [ref=e328]: 
+                      - text: Salary Structure
+                  - listitem [ref=e329] [cursor=pointer]:
+                    - generic [ref=e330]:
+                      - generic [ref=e331]: 
+                      - text: Schedule Interview
+                  - listitem [ref=e332] [cursor=pointer]:
+                    - generic [ref=e333]:
+                      - generic [ref=e334]: 
+                      - text: Search
+                  - listitem [ref=e335] [cursor=pointer]:
+                    - generic [ref=e336]:
+                      - generic [ref=e337]: 
+                      - text: Sede Centro Formativo
+                  - listitem [ref=e338] [cursor=pointer]:
+                    - generic [ref=e339]:
+                      - generic [ref=e340]: 
+                      - text: Subir Documento
+                  - listitem [ref=e341] [cursor=pointer]:
+                    - generic [ref=e342]:
+                      - generic [ref=e343]: 
+                      - text: Subir Multiples Documentos Otro
+                  - listitem [ref=e344] [cursor=pointer]:
+                    - generic [ref=e345]:
+                      - generic [ref=e346]: 
+                      - text: Turno
+                  - listitem [ref=e347] [cursor=pointer]:
+                    - generic [ref=e348]:
+                      - generic [ref=e349]: 
+                      - text: Unidad de Activo Empleado
+                  - listitem [ref=e350] [cursor=pointer]:
+                    - generic [ref=e351]:
+                      - generic [ref=e352]: 
+                      - text: Unidad de EPI-Herramienta
+              - generic [ref=e353]:
+                - generic [ref=e354] [cursor=pointer]:
+                  - text: Formularios sin flujos de trabajo
+                  - generic [ref=e355]: 
+                  - text: 
+                - list [ref=e356]:
+                  - listitem [ref=e357] [cursor=pointer]:
+                    - generic [ref=e358]:
+                      - generic [ref=e359]: 
+                      - text: Add Asset Details
+                  - listitem [ref=e360] [cursor=pointer]:
+                    - generic [ref=e361]:
+                      - generic [ref=e362]: 
+                      - text: Add Asset Type
+                  - listitem [ref=e363] [cursor=pointer]:
+                    - generic [ref=e364]:
+                      - generic [ref=e365]: 
+                      - text: Add Department
+                  - listitem [ref=e366] [cursor=pointer]:
+                    - generic [ref=e367]:
+                      - generic [ref=e368]: 
+                      - text: Add Designation
+                  - listitem [ref=e369] [cursor=pointer]:
+                    - generic [ref=e370]:
+                      - generic [ref=e371]: 
+                      - text: Add Employee Level
+                  - listitem [ref=e372] [cursor=pointer]:
+                    - generic [ref=e373]:
+                      - generic [ref=e374]: 
+                      - text: Add Employee Type
+                  - listitem [ref=e375] [cursor=pointer]:
+                    - generic [ref=e376]:
+                      - generic [ref=e377]: 
+                      - text: Add Leave Type
+                  - listitem [ref=e378] [cursor=pointer]:
+                    - generic [ref=e379]:
+                      - generic [ref=e380]: 
+                      - text: Add Location
+                  - listitem [ref=e381] [cursor=pointer]:
+                    - generic [ref=e382]:
+                      - generic [ref=e383]: 
+                      - text: Add Pay Component
+                  - listitem [ref=e384] [cursor=pointer]:
+                    - generic [ref=e385]:
+                      - generic [ref=e386]: 
+                      - text: Add Weekdays
+                  - listitem [ref=e387] [cursor=pointer]:
+                    - generic [ref=e388]:
+                      - generic [ref=e389]: 
+                      - text: Add Your Organisation
+                  - listitem [ref=e390] [cursor=pointer]:
+                    - generic [ref=e391]:
+                      - generic [ref=e392]: 
+                      - text: AttendanceStateless
+                  - listitem [ref=e393] [cursor=pointer]:
+                    - generic [ref=e394]:
+                      - generic [ref=e395]: 
+                      - text: Calendario de Técnico
+                  - listitem [ref=e396] [cursor=pointer]:
+                    - generic [ref=e397]:
+                      - generic [ref=e398]: 
+                      - text: Cargar múltiples documentos
+                  - listitem [ref=e399] [cursor=pointer]:
+                    - generic [ref=e400]:
+                      - generic [ref=e401]: 
+                      - text: Configuración Formaciones
+                  - listitem [ref=e402] [cursor=pointer]:
+                    - generic [ref=e403]:
+                      - generic [ref=e404]: 
+                      - text: Confirmaciones de Entrega
+                  - listitem [ref=e405] [cursor=pointer]:
+                    - generic [ref=e406]:
+                      - generic [ref=e407]: 
+                      - text: Conjunto Requisitos Documentacion
+                  - listitem [ref=e408] [cursor=pointer]:
+                    - generic [ref=e409]:
+                      - generic [ref=e410]: 
+                      - text: Contacto
+                  - listitem [ref=e411] [cursor=pointer]:
+                    - generic [ref=e412]:
+                      - generic [ref=e413]: 
+                      - text: contacts
+                  - listitem [ref=e414] [cursor=pointer]:
+                    - generic [ref=e415]:
+                      - generic [ref=e416]: 
+                      - text: Conversación
+                  - listitem [ref=e417] [cursor=pointer]:
+                    - generic [ref=e418]:
+                      - generic [ref=e419]: 
+                      - text: Dar de Baja
+                  - listitem [ref=e420] [cursor=pointer]:
+                    - generic [ref=e421]:
+                      - generic [ref=e422]: 
+                      - text: Education
+                  - listitem [ref=e423] [cursor=pointer]:
+                    - generic [ref=e424]:
+                      - generic [ref=e425]: 
+                      - text: Fecha de Caducidad Modelo
+                  - listitem [ref=e426] [cursor=pointer]:
+                    - generic [ref=e427]:
+                      - generic [ref=e428]: 
+                      - text: MonthyJoineesResigneesHidden
+                  - listitem [ref=e429] [cursor=pointer]:
+                    - generic [ref=e430]:
+                      - generic [ref=e431]: 
+                      - text: Nueva Encuesta
+                  - listitem [ref=e432] [cursor=pointer]:
+                    - generic [ref=e433]:
+                      - generic [ref=e434]: 
+                      - text: Nueva Nota
+                  - listitem [ref=e435] [cursor=pointer]:
+                    - generic [ref=e436]:
+                      - generic [ref=e437]: 
+                      - text: Nueva Plantilla de Correo
+                  - listitem [ref=e438] [cursor=pointer]:
+                    - generic [ref=e439]:
+                      - generic [ref=e440]: 
+                      - text: Par Modelo-Documento
+                  - listitem [ref=e441] [cursor=pointer]:
+                    - generic [ref=e442]:
+                      - generic [ref=e443]: 
+                      - text: Persona contacto
+                  - listitem [ref=e444] [cursor=pointer]:
+                    - generic [ref=e445]:
+                      - generic [ref=e446]: 
+                      - text: Persona Contacto en Planta
+                  - listitem [ref=e447] [cursor=pointer]:
+                    - generic [ref=e448]:
+                      - generic [ref=e449]: 
+                      - text: Persona Responsable CAE
+                  - listitem [ref=e450] [cursor=pointer]:
+                    - generic [ref=e451]:
+                      - generic [ref=e452]: 
+                      - text: Rango Fechas Asingacion
+                  - listitem [ref=e453] [cursor=pointer]:
+                    - generic [ref=e454]:
+                      - generic [ref=e455]: 
+                      - text: Subir Multiples Documentos
+                  - listitem [ref=e456] [cursor=pointer]:
+                    - generic [ref=e457]:
+                      - generic [ref=e458]: 
+                      - text: TrabajadorExcel
+                  - listitem [ref=e459] [cursor=pointer]:
+                    - generic [ref=e460]:
+                      - generic [ref=e461]: 
+                      - text: Usuario
+                  - listitem [ref=e462] [cursor=pointer]:
+                    - generic [ref=e463]:
+                      - generic [ref=e464]: 
+                      - text: Work experience
+          - text:     
+          - generic [ref=e467]:
+            - heading "Filtrar por evento de formulario" [level=4] [ref=e468]
+            - list [ref=e473]:
+              - listitem [ref=e474] [cursor=pointer]:
+                - generic [ref=e475]: All
+              - listitem [ref=e476] [cursor=pointer]:
+                - generic [ref=e477]:
+                  - text: Creado
+                  - generic [ref=e478]: 
+                  - text: 
+                - list [ref=e479]:
+                  - listitem [ref=e480]:
+                    - generic [ref=e481]: Reglas de campos
+              - text:        
+        - text:                               
+        - generic [ref=e484]:
+          - table [ref=e486]:
+            - rowgroup [ref=e487]:
+              - row "Nombre del flujo de trabajo Detalles Estado Creado en" [ref=e488]:
+                - columnheader "Nombre del flujo de trabajo" [ref=e489]
+                - columnheader "Detalles" [ref=e490]
+                - columnheader "Estado" [ref=e491]
+                - columnheader "Creado en" [ref=e492]
+          - text: 
+          - table [ref=e497]:
+            - rowgroup [ref=e498]:
+              - row "Creado  Reglas de campos" [ref=e499]:
+                - cell "Creado  Reglas de campos" [ref=e500]:
+                  - text: Creado
+                  - generic [ref=e501]: 
+                  - generic [ref=e502]: Reglas de campos
+              - row " Run Scripts - While Adding a Record 1 Acción Habilitado Deshabilitado 26-02-2025" [ref=e503]:
+                - cell " Run Scripts - While Adding a Record" [ref=e504]:
+                  - text: 
+                  - generic [ref=e505]: 
+                  - paragraph [ref=e506] [cursor=pointer]:
+                    - link "Run Scripts - While Adding a Record" [ref=e507]:
+                      - /url: /appbuilder/formacion11/human-resource-management/workflowbuilder/Run_Scripts_While_Adding_40/edit
+                - cell "1 Acción" [ref=e508]:
+                  - generic [ref=e510] [cursor=pointer]: 1 Acción
+                - cell "Habilitado Deshabilitado" [ref=e511]:
+                  - generic [ref=e512]:
+                    - checkbox "Habilitado Deshabilitado" [checked] [ref=e513]
+                    - generic [ref=e515] [cursor=pointer]:
+                      - generic [ref=e516]: Habilitado
+                      - generic [ref=e518]: Deshabilitado
+                - cell "26-02-2025" [ref=e519]
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+            - rowgroup: 
+        - text:                                                                                                                                                                       
+      - text:       
+    - generic:
+      - generic:        
+      - text:     
+  - img
+  - img
+  - generic [ref=e522]:
+    - generic [ref=e523]:
+      - text:               
+      - generic [ref=e524]:
+        - generic "Chats" [ref=e525] [cursor=pointer]:  Chats
+        - generic "Channels" [ref=e526] [cursor=pointer]:  Channels
+        - generic "Contacts" [ref=e527] [cursor=pointer]:  Contacts
+    - generic [ref=e528]: Here is your Smart Chat (Ctrl+Space)
+    - text: 
+    - generic [ref=e531]:
+      - text: 
+      - link "Suscripción" [ref=e533] [cursor=pointer]:
+        - /url: javascript:void(0);
+        - generic [ref=e534]: Suscripción
+      - generic "Métodos abreviados del teclado" [ref=e535] [cursor=pointer]:
+        - generic [ref=e536]: 
+      - text:   
+      - generic [ref=e537] [cursor=pointer]:
+        - generic [ref=e538]: 
+        - generic [ref=e539]: Ayuda
+    - text: 
+    - generic [ref=e540] [cursor=pointer]:  
+  - iframe
+  - text:    Search across Apps       

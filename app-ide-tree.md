@@ -1,0 +1,1826 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - text:         
+      - generic:
+        - text:     󯄩   
+        - generic [ref=e45]:
+          - link "" [ref=e47] [cursor=pointer]:
+            - /url: javascript:;
+            - generic [ref=e48]: 
+          - list [ref=e50]:
+            - listitem [ref=e51]:
+              - link " Constructor" [ref=e52] [cursor=pointer]:
+                - /url: /appbuilder/formacion11/human-resource-management/edit
+                - generic [ref=e53]: 
+                - generic [ref=e54]: Constructor
+            - listitem [ref=e55]:
+              - link "Flujo de trabajo" [ref=e56] [cursor=pointer]:
+                - /url: /appbuilder/formacion11/human-resource-management/workflow/edit
+                - generic [ref=e57]: 
+                - generic [ref=e58]: Flujo de trabajo
+            - listitem [ref=e59]:
+              - link "Configuración" [ref=e60] [cursor=pointer]:
+                - /url: /appbuilder/formacion11/human-resource-management/settings/edit
+                - generic [ref=e61]: 
+                - generic [ref=e62]: Configuración
+        - list [ref=e8]:
+          - listitem
+          - listitem [ref=e63]:
+            - generic "Notificaciones" [ref=e65] [cursor=pointer]:
+              - generic [ref=e66]: 
+          - listitem [ref=e67]:
+            - link "Compartir" [ref=e68] [cursor=pointer]:
+              - /url: javascript:;
+              - generic [ref=e69]: 
+              - text: Compartir
+          - listitem [ref=e70]:
+            - link "Acceder a esta aplicación" [ref=e71] [cursor=pointer]:
+              - /url: https://creatorapp.zoho.com/formacion11/human-resource-management#Form:Add_Announcement
+              - generic [ref=e72]: 
+              - text: Acceder a esta aplicación
+      - generic [ref=e9]:
+        - img [ref=e73]
+        - paragraph [ref=e11]: Eva Cama
+        - paragraph [ref=e12]: ecama@sicma21.com
+        - generic [ref=e13]: "User ID: 31923584"
+        - generic [ref=e14]:
+          - link "Cerrar sesión" [ref=e15] [cursor=pointer]:
+            - /url: /logoutpage.jsp?sharedBy=675420877
+            - generic [ref=e16]: 
+            - text: Cerrar sesión
+          - link " Mi cuenta" [ref=e17] [cursor=pointer]:
+            - /url: https://accounts.zoho.com/u/h#profile/personal
+            - generic [ref=e18]: 
+            - text: Mi cuenta
+      - generic [ref=e21] [cursor=pointer]:
+        - generic [ref=e22]: Gestión de Recursos Humanos
+        - generic [ref=e23]: Configuración
+      - generic:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+      - generic [ref=e25]:
+        - generic [ref=e27]:
+          - generic [ref=e28]: Mis aplicaciones
+          - list [ref=e30]:
+            - listitem [ref=e83]: No hay más aplicaciones para mostrar
+        - generic [ref=e31]:
+          - link [ref=e32] [cursor=pointer]:
+            - /url: https://accounts.zoho.com/u/h#profile/personal
+            - img [ref=e86]
+          - generic [ref=e33]: Eva Cama
+          - generic [ref=e34]: ecama@sicma21.com
+          - generic [ref=e35]:
+            - link "Inicio" [ref=e37] [cursor=pointer]:
+              - /url: /userhome/dashboard
+            - link "Suscripción" [ref=e39] [cursor=pointer]:
+              - /url: javascript:void(0);
+            - link "Configuración" [ref=e41] [cursor=pointer]:
+              - /url: /userhome/formacion11/dashboard/setup
+          - link "Cerrar sesión" [ref=e43] [cursor=pointer]:
+            - /url: /logoutpage.jsp?sharedBy=675420877
+            - generic [ref=e44]: 
+            - text: Cerrar sesión
+      - text: 
+    - generic:     
+    - generic [ref=e87]:
+      - text:                                                                                                                                                                            
+      - generic [ref=e88]:
+        - list [ref=e94]:
+          - listitem [ref=e95]:
+            - generic [ref=e96]: Usuarios y control
+            - list [ref=e97]:
+              - listitem [ref=e98]:
+                - link "Usuarios" [ref=e99] [cursor=pointer]:
+                  - /url: "#users"
+                  - generic [ref=e100]: Usuarios
+              - listitem [ref=e101]:
+                - link "Portal del cliente" [ref=e102] [cursor=pointer]:
+                  - /url: "#portal"
+                  - generic [ref=e103]: Portal del cliente
+              - listitem [ref=e104]:
+                - link "Publicar" [ref=e105] [cursor=pointer]:
+                  - /url: "#publish"
+                  - generic [ref=e106]: Publicar
+              - listitem [ref=e107]:
+                - link "Descargar aplicación para móviles" [ref=e108] [cursor=pointer]:
+                  - /url: "#mobile"
+                  - generic [ref=e109]: Descargar aplicación para móviles
+          - listitem [ref=e110]:
+            - generic [ref=e111]: Administración de datos
+            - list [ref=e112]:
+              - listitem [ref=e113]:
+                - link "Localización" [ref=e114] [cursor=pointer]:
+                  - /url: "#localization"
+                  - generic [ref=e115]: Localización
+              - listitem [ref=e116]:
+                - link "Mensajes contextuales" [ref=e117] [cursor=pointer]:
+                  - /url: "#contextualMessages"
+                  - generic [ref=e118]: Mensajes contextuales
+              - listitem [ref=e119]:
+                - link "Respaldo" [ref=e120] [cursor=pointer]:
+                  - /url: "#backup"
+                  - generic [ref=e121]: Respaldo
+              - listitem [ref=e122]:
+                - link "Seguimiento de auditoría" [ref=e123] [cursor=pointer]:
+                  - /url: "#audittrail"
+                  - generic [ref=e124]: Seguimiento de auditoría
+              - listitem [ref=e125]:
+                - link "Análisis del diagrama" [ref=e126] [cursor=pointer]:
+                  - /url: "#blueprintanalytics"
+                  - generic [ref=e127]: Análisis del diagrama
+          - listitem [ref=e128]:
+            - generic [ref=e129]: Herramientas del desarrollador
+            - list [ref=e130]:
+              - listitem [ref=e131]:
+                - link "Entorno de pruebas" [ref=e132] [cursor=pointer]:
+                  - /url: "#sandbox"
+                  - generic [ref=e133]: Entorno de pruebas
+              - listitem [ref=e134]:
+                - link "Creador de esquemas" [ref=e135] [cursor=pointer]:
+                  - /url: "#relationshipdiagram"
+                  - generic [ref=e136]: Creador de esquemas
+              - listitem [ref=e137]:
+                - link "IDE de la aplicación" [ref=e138] [cursor=pointer]:
+                  - /url: "#applicationide"
+                  - generic [ref=e139]: IDE de la aplicación
+              - listitem [ref=e140]:
+                - link "Registros" [ref=e141] [cursor=pointer]:
+                  - /url: "#usagelog"
+                  - generic [ref=e142]: Registros
+              - listitem [ref=e143]:
+                - link "SDK para móviles" [ref=e144] [cursor=pointer]:
+                  - /url: "#mobilesdk"
+                  - generic [ref=e145]: SDK para móviles
+              - listitem [ref=e146]:
+                - link "Widgets" [ref=e147] [cursor=pointer]:
+                  - /url: "#widgets"
+                  - generic [ref=e148]: Widgets
+              - listitem [ref=e149]:
+                - link "Variables" [ref=e150] [cursor=pointer]:
+                  - /url: "#appvariables"
+                  - generic [ref=e151]: Variables
+          - listitem [ref=e152]:
+            - generic [ref=e153]: Extensiones
+            - list [ref=e154]:
+              - listitem [ref=e155]:
+                - link "Plantillas de registro" [ref=e156] [cursor=pointer]:
+                  - /url: "#formtemplates"
+                  - generic [ref=e157]: Plantillas de registro
+        - generic [ref=e160]:
+          - generic [ref=e163]:
+            - generic [ref=e164]:
+              - generic [ref=e165]:
+                - generic [ref=e166]: IDE de la aplicación
+                - text: 
+              - generic [ref=e170]:
+                - generic [ref=e171]:
+                  - generic [ref=e172]:
+                    - generic [ref=e173]: 
+                    - text: Formatos
+                  - generic [ref=e174]:
+                    - generic [ref=e175] [cursor=pointer]:
+                      - generic [ref=e176]: 
+                      - text: Add Announcement
+                    - generic [ref=e177]:
+                      - generic [ref=e178] [cursor=pointer]: All Announcements
+                      - generic [ref=e179] [cursor=pointer]: Announcements
+                      - generic [ref=e180] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e181]:
+                    - generic [ref=e182] [cursor=pointer]:
+                      - generic [ref=e183]: 
+                      - text: Add Asset Details
+                    - generic [ref=e185] [cursor=pointer]: Asset Details
+                  - generic [ref=e186]:
+                    - generic [ref=e187] [cursor=pointer]:
+                      - generic [ref=e188]: 
+                      - text: Add Asset Type
+                    - generic [ref=e190] [cursor=pointer]: Asset Types
+                  - generic [ref=e191]:
+                    - generic [ref=e192] [cursor=pointer]:
+                      - generic [ref=e193]: 
+                      - text: Add Candidate Details
+                    - generic [ref=e194]:
+                      - generic [ref=e195] [cursor=pointer]: Accepted Offers
+                      - generic [ref=e196] [cursor=pointer]: Candidate Details
+                      - generic [ref=e197] [cursor=pointer]: Declined Offers
+                      - generic [ref=e198] [cursor=pointer]: Offered Candidates
+                      - generic [ref=e199] [cursor=pointer]: Your Offer
+                      - generic [ref=e200] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e201] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e202] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e203] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e204] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e205] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e206] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e207] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e208] [cursor=pointer]: Run Scripts - While Editing a Record
+                      - generic [ref=e209] [cursor=pointer]: Run Scripts - While Editing a Record
+                      - generic [ref=e210] [cursor=pointer]: Generate Document
+                  - generic [ref=e211]:
+                    - generic [ref=e212] [cursor=pointer]:
+                      - generic [ref=e213]: 
+                      - text: Add Daily Logs
+                    - generic [ref=e214]:
+                      - generic [ref=e215] [cursor=pointer]: Daily Logs
+                      - generic [ref=e216] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e217] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e218] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e219] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e220] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e221] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e222] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e223] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e224]:
+                    - generic [ref=e225] [cursor=pointer]:
+                      - generic [ref=e226]: 
+                      - text: Add Department
+                    - generic [ref=e228] [cursor=pointer]: Departments
+                  - generic [ref=e229]:
+                    - generic [ref=e230] [cursor=pointer]:
+                      - generic [ref=e231]: 
+                      - text: Add Designation
+                    - generic [ref=e233] [cursor=pointer]: Designations
+                  - generic [ref=e234]:
+                    - generic [ref=e235] [cursor=pointer]:
+                      - generic [ref=e236]: 
+                      - text: Add Employee Level
+                    - generic [ref=e238] [cursor=pointer]: Employee Levels
+                  - generic [ref=e239]:
+                    - generic [ref=e240] [cursor=pointer]:
+                      - generic [ref=e241]: 
+                      - text: Add Employee Type
+                    - generic [ref=e243] [cursor=pointer]: Employee Types
+                  - generic [ref=e244]:
+                    - generic [ref=e245] [cursor=pointer]:
+                      - generic [ref=e246]: 
+                      - text: Add Holidays
+                    - generic [ref=e247]:
+                      - generic [ref=e248] [cursor=pointer]: Holidays
+                      - generic [ref=e249] [cursor=pointer]: Holidays
+                      - generic [ref=e250] [cursor=pointer]: Holidays
+                      - generic [ref=e251] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e252] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e253] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e254]:
+                    - generic [ref=e255] [cursor=pointer]:
+                      - generic [ref=e256]: 
+                      - text: Add Job
+                    - generic [ref=e257]:
+                      - generic [ref=e258] [cursor=pointer]: Jobs
+                      - generic [ref=e259] [cursor=pointer]: Run Scripts - While Deleting a Record
+                      - generic [ref=e260] [cursor=pointer]: Run Scripts - While Deleting a Record
+                      - generic [ref=e261] [cursor=pointer]: Run Scripts - While Editing a Record
+                      - generic [ref=e262] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e263] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e264]:
+                    - generic [ref=e265] [cursor=pointer]:
+                      - generic [ref=e266]: 
+                      - text: Add Leave
+                    - generic [ref=e267]:
+                      - generic [ref=e268] [cursor=pointer]: Employee Leaves
+                      - generic [ref=e269] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e270] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e271] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e272]:
+                    - generic [ref=e273] [cursor=pointer]:
+                      - generic [ref=e274]: 
+                      - text: Add Leave Type
+                    - generic [ref=e276] [cursor=pointer]: Leave Types
+                  - generic [ref=e277]:
+                    - generic [ref=e278] [cursor=pointer]:
+                      - generic [ref=e279]: 
+                      - text: Add Location
+                    - generic [ref=e281] [cursor=pointer]: Locations
+                  - generic [ref=e282]:
+                    - generic [ref=e283] [cursor=pointer]:
+                      - generic [ref=e284]: 
+                      - text: Add New Appraisal
+                    - generic [ref=e285]:
+                      - generic [ref=e286] [cursor=pointer]: Employee Appraisals
+                      - generic [ref=e287] [cursor=pointer]: My Team Appraisals
+                      - generic [ref=e288] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e289] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e290] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e291] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e292] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e293]:
+                    - generic [ref=e294] [cursor=pointer]:
+                      - generic [ref=e295]: 
+                      - text: Add Pay Component
+                    - generic [ref=e297] [cursor=pointer]: Pay Components
+                  - generic [ref=e298]:
+                    - generic [ref=e299] [cursor=pointer]:
+                      - generic [ref=e300]: 
+                      - text: Add Project
+                    - generic [ref=e301]:
+                      - generic [ref=e302] [cursor=pointer]: Projects
+                      - generic [ref=e303] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e304] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e305] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e306] [cursor=pointer]: Run Scripts - On Always
+                  - generic [ref=e307]:
+                    - generic [ref=e308] [cursor=pointer]:
+                      - generic [ref=e309]: 
+                      - text: Add Time Logs
+                    - generic [ref=e310]:
+                      - generic [ref=e311] [cursor=pointer]: My Logs
+                      - generic [ref=e312] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e313] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e314] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e315] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e316] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e317] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e318] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e319] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e320] [cursor=pointer]: Run Scripts - While Editing a Record
+                      - generic [ref=e321] [cursor=pointer]: Run Scripts - While Editing a Record
+                      - generic [ref=e322] [cursor=pointer]: Run Scripts - While Editing a Record
+                      - generic [ref=e323] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e324] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e325] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e326] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e327]:
+                    - generic [ref=e328] [cursor=pointer]:
+                      - generic [ref=e329]: 
+                      - text: Add Weekdays
+                    - generic [ref=e331] [cursor=pointer]: Weekdays
+                  - generic [ref=e332]:
+                    - generic [ref=e333] [cursor=pointer]:
+                      - generic [ref=e334]: 
+                      - text: Add weekly Logs
+                    - generic [ref=e335]:
+                      - generic [ref=e336] [cursor=pointer]: Weekly Logs
+                      - generic [ref=e337] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e338] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e339] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e340] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e341] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e342] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e343] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e344] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e345] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e346] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e347] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e348] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e349] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e350]:
+                    - generic [ref=e351] [cursor=pointer]:
+                      - generic [ref=e352]: 
+                      - text: Add Your Organisation
+                    - generic [ref=e354] [cursor=pointer]: Organisation Details
+                  - generic [ref=e355]:
+                    - generic [ref=e356] [cursor=pointer]:
+                      - generic [ref=e357]: 
+                      - text: Alta / Baja EPI - Herramientas
+                    - generic [ref=e358]:
+                      - generic [ref=e359] [cursor=pointer]: Copy of Dar de Alta / Baja a Activos de Emp Report
+                      - generic [ref=e360] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e361] [cursor=pointer]: Envío de Formulario
+                      - generic [ref=e362] [cursor=pointer]: RevertirAccion
+                      - generic [ref=e363] [cursor=pointer]: Validar Cantidad
+                  - generic [ref=e364]:
+                    - generic [ref=e365] [cursor=pointer]:
+                      - generic [ref=e366]: 
+                      - text: Apply Resignation
+                    - generic [ref=e367]:
+                      - generic [ref=e368] [cursor=pointer]: Resignation Requests
+                      - generic [ref=e369] [cursor=pointer]: Resigned Employees
+                      - generic [ref=e370] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e371] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e372] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e373] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e374]:
+                    - generic [ref=e375] [cursor=pointer]:
+                      - generic [ref=e376]: 
+                      - text: Asignacion EPI Ropa Herramienta
+                    - generic [ref=e377]:
+                      - generic [ref=e378] [cursor=pointer]: Calendario Asignaciones EPI
+                      - generic [ref=e379] [cursor=pointer]: Historial de Asignaciones
+                      - generic [ref=e380] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e381] [cursor=pointer]: Envío de Formulario
+                      - generic [ref=e382] [cursor=pointer]: Carga del Formulario
+                      - generic [ref=e383] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e384] [cursor=pointer]: Validar Unidades Asignadas
+                  - generic [ref=e385]:
+                    - generic [ref=e386] [cursor=pointer]:
+                      - generic [ref=e387]: 
+                      - text: Asignacion Técnico Cliente
+                    - generic [ref=e388]:
+                      - generic [ref=e389] [cursor=pointer]: Asignacion Técnico Cliente Report
+                      - generic [ref=e390] [cursor=pointer]: calendario de prueba
+                      - generic [ref=e391] [cursor=pointer]: Calendario Prueba 2
+                      - generic [ref=e392] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e393] [cursor=pointer]: Reglas de Campos On Load
+                      - generic [ref=e394] [cursor=pointer]: Validaciones al enviar formulario
+                      - generic [ref=e395] [cursor=pointer]: Envío de Formulario
+                      - generic [ref=e396] [cursor=pointer]: On Success
+                      - generic [ref=e397] [cursor=pointer]: CrearListaDeRequisitos
+                      - generic [ref=e398] [cursor=pointer]: AsignarEmpleadoACliente
+                      - generic [ref=e399] [cursor=pointer]: OnDelete
+                      - generic [ref=e400] [cursor=pointer]: Notificar
+                      - generic [ref=e401] [cursor=pointer]: Notificar
+                      - generic [ref=e402] [cursor=pointer]: Notificar Asignaciones Tecnicos 1 semana antes
+                      - generic [ref=e403] [cursor=pointer]: Ocultar Campos Subformulario
+                      - generic [ref=e404] [cursor=pointer]: Actualizacioes segun fecha comienzo
+                      - generic [ref=e405] [cursor=pointer]: OnInput Fechas Fecha Fin
+                      - generic [ref=e406] [cursor=pointer]: RecordatorioAsignTecClientes2SemanasAntes
+                      - generic [ref=e407] [cursor=pointer]: RecordatorioAsignTecClientes3SemanasAntes
+                      - generic [ref=e408] [cursor=pointer]: RecordatorioAsignTecClientes1MesAntes
+                      - generic [ref=e409] [cursor=pointer]: RecordatorioAsignTecClientes1DiaAntes
+                      - generic [ref=e410] [cursor=pointer]: SetValuesSubform
+                      - generic [ref=e411] [cursor=pointer]: Seleccionar Horas según turno
+                      - generic [ref=e412] [cursor=pointer]: Revisar Configuracion Notificaciones
+                  - generic [ref=e413]:
+                    - generic [ref=e414] [cursor=pointer]:
+                      - generic [ref=e415]: 
+                      - text: Asignacion Técnico Cliente Año
+                    - generic [ref=e416]:
+                      - generic [ref=e417] [cursor=pointer]: 52 Semanas
+                      - generic [ref=e418] [cursor=pointer]: Prueba hoja de calculo
+                      - generic [ref=e419] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e420] [cursor=pointer]: Reglas de Campos On Load
+                      - generic [ref=e421] [cursor=pointer]: Validaciones al enviar formulario
+                      - generic [ref=e422] [cursor=pointer]: Envío de Formulario
+                      - generic [ref=e423] [cursor=pointer]: Ocultar Casillas
+                      - generic [ref=e424] [cursor=pointer]: OnDelete
+                  - generic [ref=e425]:
+                    - generic [ref=e426] [cursor=pointer]:
+                      - generic [ref=e427]: 
+                      - text: Asignar / Desasignar Trabajadores
+                    - generic [ref=e428]:
+                      - generic [ref=e429] [cursor=pointer]: Asignar / Desasignar Trabajadores Report
+                      - generic [ref=e430] [cursor=pointer]: Field Rules
+                      - generic [ref=e431] [cursor=pointer]: On Send
+                      - generic [ref=e432] [cursor=pointer]: Registrar Modificacion Asignaciones
+                      - generic [ref=e433] [cursor=pointer]: Actualizar Pagina
+                  - generic [ref=e434]:
+                    - generic [ref=e435] [cursor=pointer]:
+                      - generic [ref=e436]: 
+                      - text: Asignar Activo Empleado
+                    - generic [ref=e437]:
+                      - generic [ref=e438] [cursor=pointer]: Historial de Asignaciones de Activos
+                      - generic [ref=e439] [cursor=pointer]: Historial de Asignaciones de Activos
+                      - generic [ref=e440] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e441] [cursor=pointer]: Envio Correcto
+                      - generic [ref=e442] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e443] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e444] [cursor=pointer]: Validaciones
+                      - generic [ref=e445] [cursor=pointer]: Carga de Formulario
+                  - generic [ref=e446]:
+                    - generic [ref=e447] [cursor=pointer]:
+                      - generic [ref=e448]: 
+                      - text: Asignar Chofer
+                    - generic [ref=e449]:
+                      - generic [ref=e450] [cursor=pointer]: Calendario Asignaciones
+                      - generic [ref=e451] [cursor=pointer]: Calendario de Asignaciones
+                      - generic [ref=e452] [cursor=pointer]: Historial de Asignaciones
+                      - generic [ref=e453] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e454] [cursor=pointer]: Envío de Formulario
+                  - generic [ref=e455]:
+                    - generic [ref=e456] [cursor=pointer]:
+                      - generic [ref=e457]: 
+                      - text: Asignar EPI
+                    - generic [ref=e458]:
+                      - generic [ref=e459] [cursor=pointer]: Historial de Asignaciones
+                      - generic [ref=e460] [cursor=pointer]: Disable
+                      - generic [ref=e461] [cursor=pointer]: Asignar EPIs
+                      - generic [ref=e462] [cursor=pointer]: Reglas de Campos
+                  - generic [ref=e463]:
+                    - generic [ref=e464] [cursor=pointer]:
+                      - generic [ref=e465]: 
+                      - text: Asignar EPI a Trabajador
+                    - generic [ref=e466]:
+                      - generic [ref=e467] [cursor=pointer]: Asiganr EPI a Trabajador Reporte
+                      - generic [ref=e468] [cursor=pointer]: Field Rules
+                      - generic [ref=e469] [cursor=pointer]: On Send
+                  - generic [ref=e470]:
+                    - generic [ref=e471] [cursor=pointer]:
+                      - generic [ref=e472]: 
+                      - text: Asignar Trabajador a Cliente
+                    - generic [ref=e473]:
+                      - generic [ref=e474] [cursor=pointer]: Asignar Trabajador a Cliente Reporte
+                      - generic [ref=e475] [cursor=pointer]: Field Rules
+                      - generic [ref=e476] [cursor=pointer]: On Send
+                      - generic [ref=e477] [cursor=pointer]: Registrar Modificacion Asignaciones
+                      - generic [ref=e478] [cursor=pointer]: Actualizar Pagina
+                  - generic [ref=e479]:
+                    - generic [ref=e480] [cursor=pointer]:
+                      - generic [ref=e481]: 
+                      - text: Attendance
+                    - generic [ref=e482]:
+                      - generic [ref=e483] [cursor=pointer]: Employee Attendance
+                      - generic [ref=e484] [cursor=pointer]: My Attendance
+                      - generic [ref=e485] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e487] [cursor=pointer]:
+                    - generic [ref=e488]: 
+                    - text: AttendanceStateless
+                  - generic [ref=e489]:
+                    - generic [ref=e490] [cursor=pointer]:
+                      - generic [ref=e491]: 
+                      - text: Calendario de Técnico
+                    - generic [ref=e493] [cursor=pointer]: Calendario de Técnico Reporte
+                  - generic [ref=e494]:
+                    - generic [ref=e495] [cursor=pointer]:
+                      - generic [ref=e496]: 
+                      - text: Cargar múltiples documentos
+                    - generic [ref=e498] [cursor=pointer]: Cargar múltiples documentos Reporte
+                  - generic [ref=e499]:
+                    - generic [ref=e500] [cursor=pointer]:
+                      - generic [ref=e501]: 
+                      - text: Centro Formativo
+                    - generic [ref=e502]:
+                      - generic [ref=e503] [cursor=pointer]: Listado Centros Formativos
+                      - generic [ref=e504] [cursor=pointer]: Reglas de Campos
+                  - generic [ref=e505]:
+                    - generic [ref=e506] [cursor=pointer]:
+                      - generic [ref=e507]: 
+                      - text: Configuración Formaciones
+                    - generic [ref=e509] [cursor=pointer]: Configuración
+                  - generic [ref=e510]:
+                    - generic [ref=e511] [cursor=pointer]:
+                      - generic [ref=e512]: 
+                      - text: Configuración General
+                    - generic [ref=e513]:
+                      - generic [ref=e514] [cursor=pointer]: Configuración General
+                      - generic [ref=e515] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e516] [cursor=pointer]: prueba enlace
+                  - generic [ref=e517]:
+                    - generic [ref=e518] [cursor=pointer]:
+                      - generic [ref=e519]: 
+                      - text: Confirmaciones de Entrega
+                    - generic [ref=e520]:
+                      - generic [ref=e521] [cursor=pointer]: Confirmaciones de Entrega
+                      - generic [ref=e522] [cursor=pointer]: Confirmaciones de Entrega
+                  - generic [ref=e523]:
+                    - generic [ref=e524] [cursor=pointer]:
+                      - generic [ref=e525]: 
+                      - text: Conjunto Requisitos Documentacion
+                    - generic [ref=e527] [cursor=pointer]: Conjunto Requisitos Documentacion Reporte
+                  - generic [ref=e528]:
+                    - generic [ref=e529] [cursor=pointer]:
+                      - generic [ref=e530]: 
+                      - text: Contacto
+                    - generic [ref=e532] [cursor=pointer]: Contactos
+                  - generic [ref=e533]:
+                    - generic [ref=e534] [cursor=pointer]:
+                      - generic [ref=e535]: 
+                      - text: contacts
+                    - generic [ref=e537] [cursor=pointer]: contacts Report
+                  - generic [ref=e538]:
+                    - generic [ref=e539] [cursor=pointer]:
+                      - generic [ref=e540]: 
+                      - text: Conversación
+                    - generic [ref=e542] [cursor=pointer]: Mensajes de Empleados
+                  - generic [ref=e543]:
+                    - generic [ref=e544] [cursor=pointer]:
+                      - generic [ref=e545]: 
+                      - text: Dar de Alta / Baja a Activos de Empleados
+                    - generic [ref=e546]:
+                      - generic [ref=e547] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e548] [cursor=pointer]: Envío de Formulario
+                      - generic [ref=e549] [cursor=pointer]: RevertirAccion
+                      - generic [ref=e550] [cursor=pointer]: Validar Cantidad
+                  - generic [ref=e551]:
+                    - generic [ref=e552] [cursor=pointer]:
+                      - generic [ref=e553]: 
+                      - text: Dar de Baja
+                    - generic [ref=e555] [cursor=pointer]: Gestión de Bajas
+                  - generic [ref=e556]:
+                    - generic [ref=e557] [cursor=pointer]:
+                      - generic [ref=e558]: 
+                      - text: Datos de Empleado
+                    - generic [ref=e559]:
+                      - generic [ref=e560] [cursor=pointer]: On Load
+                      - generic [ref=e561] [cursor=pointer]: Ocultar Campos
+                  - generic [ref=e562]:
+                    - generic [ref=e563] [cursor=pointer]:
+                      - generic [ref=e564]: 
+                      - text: Datos del Empleado
+                    - generic [ref=e565]:
+                      - generic [ref=e566] [cursor=pointer]: Datos del Empleado Report
+                      - generic [ref=e567] [cursor=pointer]: On Load
+                  - generic [ref=e568]:
+                    - generic [ref=e569] [cursor=pointer]:
+                      - generic [ref=e570]: 
+                      - text: Decline
+                    - generic [ref=e571]:
+                      - generic [ref=e572] [cursor=pointer]: Run Scripts - On Click of 'Confirm' Button
+                      - generic [ref=e573] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e574]:
+                    - generic [ref=e575] [cursor=pointer]:
+                      - generic [ref=e576]: 
+                      - text: Dejar un mensaje
+                    - generic [ref=e577]:
+                      - generic [ref=e578] [cursor=pointer]: Historial Mensajes y Respuestas
+                      - generic [ref=e579] [cursor=pointer]: Mensajes de Empleados
+                      - generic [ref=e580] [cursor=pointer]: On Load
+                      - generic [ref=e581] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e582] [cursor=pointer]: Crear conversación
+                      - generic [ref=e583] [cursor=pointer]: SetearTecnico
+                      - generic [ref=e584] [cursor=pointer]: Actualizar Pagina si respuesta
+                  - generic [ref=e585]:
+                    - generic [ref=e586] [cursor=pointer]:
+                      - generic [ref=e587]: 
+                      - text: Desasignar Chofer
+                    - generic [ref=e588]:
+                      - generic [ref=e589] [cursor=pointer]: Unassign Driver Reporte
+                      - generic [ref=e590] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e591] [cursor=pointer]: Envío de Formulario
+                      - generic [ref=e592] [cursor=pointer]: Refrescar pagina
+                  - generic [ref=e593]:
+                    - generic [ref=e594] [cursor=pointer]:
+                      - generic [ref=e595]: 
+                      - text: Desasignar EPI - Herramienta
+                    - generic [ref=e596]:
+                      - generic [ref=e597] [cursor=pointer]: Desasignar EPI - Herramienta Reporte
+                      - generic [ref=e598] [cursor=pointer]: Envío de Formulario
+                      - generic [ref=e599] [cursor=pointer]: Reglas de Campos
+                  - generic [ref=e600]:
+                    - generic [ref=e601] [cursor=pointer]:
+                      - generic [ref=e602]: 
+                      - text: DNI
+                    - generic [ref=e603]:
+                      - generic [ref=e604] [cursor=pointer]: DNI Reporte
+                      - generic [ref=e605] [cursor=pointer]: Generate Document DNI
+                      - generic [ref=e606] [cursor=pointer]: Generate Document DNI
+                  - generic [ref=e607]:
+                    - generic [ref=e608] [cursor=pointer]:
+                      - generic [ref=e609]: 
+                      - text: Education
+                    - generic [ref=e611] [cursor=pointer]: Education Details
+                  - generic [ref=e612]:
+                    - generic [ref=e613] [cursor=pointer]:
+                      - generic [ref=e614]: 
+                      - text: Elegir Trabajador
+                    - generic [ref=e615]:
+                      - generic [ref=e616] [cursor=pointer]: Elegir Trabajador Reporte
+                      - generic [ref=e617] [cursor=pointer]: Actualizar lista de empleados
+                      - generic [ref=e618] [cursor=pointer]: Disable
+                      - generic [ref=e619] [cursor=pointer]: Comparar plantillas vs documetnos trabajadores
+                      - generic [ref=e620] [cursor=pointer]: Entrada de Trabajadores
+                  - generic [ref=e621]:
+                    - generic [ref=e622] [cursor=pointer]:
+                      - generic [ref=e623]: 
+                      - text: Enviar Documentos
+                    - generic [ref=e624]:
+                      - generic [ref=e625] [cursor=pointer]: Historial de envíos de documentación
+                      - generic [ref=e626] [cursor=pointer]: On Update Field Rules
+                      - generic [ref=e627] [cursor=pointer]: On Send Enviar correo
+                      - generic [ref=e628] [cursor=pointer]: Llenar cuando se especifique el cliente
+                      - generic [ref=e629] [cursor=pointer]: Mostrar ocultar campos
+                      - generic [ref=e630] [cursor=pointer]: Actualizar Estado Doc Cliente Trabajador
+                      - generic [ref=e631] [cursor=pointer]: Cargar plantilla en mensaje
+                      - generic [ref=e632] [cursor=pointer]: Seleccion de Docs de Trabajadores
+                      - generic [ref=e633] [cursor=pointer]: On check mark Docs Empresa
+                      - generic [ref=e634] [cursor=pointer]: Set Field Values by Forma de envio
+                      - generic [ref=e635] [cursor=pointer]: EnvioProgramadoDocumentacion
+                      - generic [ref=e636] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e637] [cursor=pointer]: Entrada de Programar envio
+                  - generic [ref=e638]:
+                    - generic [ref=e639] [cursor=pointer]:
+                      - generic [ref=e640]: 
+                      - text: Enviar WhatsApp
+                    - generic [ref=e641]:
+                      - generic [ref=e642] [cursor=pointer]: Historial de WhatsApp Enviados
+                      - generic [ref=e643] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e644] [cursor=pointer]: Cargar Plantilla
+                      - generic [ref=e645] [cursor=pointer]: Refresh Page
+                      - generic [ref=e646] [cursor=pointer]: Validaciones al enviar formulario
+                      - generic [ref=e647] [cursor=pointer]: EnvioProgramadoWhatsapp
+                      - generic [ref=e648] [cursor=pointer]: Eliminar fecha
+                  - generic [ref=e649]:
+                    - generic [ref=e650] [cursor=pointer]:
+                      - generic [ref=e651]: 
+                      - text: Exit Interview
+                    - generic [ref=e652]:
+                      - generic [ref=e653] [cursor=pointer]: Employee Exit Surveys
+                      - generic [ref=e654] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e655] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e656]:
+                    - generic [ref=e657] [cursor=pointer]:
+                      - generic [ref=e658]: 
+                      - text: Fecha de Caducidad Modelo
+                    - generic [ref=e660] [cursor=pointer]: Fecha de Caducidad Modelo Reporte
+                  - generic [ref=e661]:
+                    - generic [ref=e662] [cursor=pointer]:
+                      - generic [ref=e663]: 
+                      - text: Formación
+                    - generic [ref=e664]:
+                      - generic [ref=e665] [cursor=pointer]: Calendario de Formaciones
+                      - generic [ref=e666] [cursor=pointer]: Formaciones
+                      - generic [ref=e667] [cursor=pointer]: Formación
+                      - generic [ref=e668] [cursor=pointer]: On Load
+                      - generic [ref=e669] [cursor=pointer]: Reglas de Campos
+                  - generic [ref=e670]:
+                    - generic [ref=e671] [cursor=pointer]:
+                      - generic [ref=e672]: 
+                      - text: Importación Empleado Recruit
+                    - generic [ref=e673]:
+                      - generic [ref=e674] [cursor=pointer]: Importación Empleado Recruit Report
+                      - generic [ref=e675] [cursor=pointer]: Run Scripts - While Deleting a Record
+                      - generic [ref=e676] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e677] [cursor=pointer]: Ocultar campos
+                      - generic [ref=e678] [cursor=pointer]: Ocultar campos OnCreate
+                      - generic [ref=e679] [cursor=pointer]: Asignar Cliente a Trabajador
+                      - generic [ref=e680] [cursor=pointer]: Eliminar Requisitos
+                      - generic [ref=e681] [cursor=pointer]: CorregirMayusculas
+                      - generic [ref=e682] [cursor=pointer]: Entrada de Fecha de Alta
+                  - generic [ref=e683]:
+                    - generic [ref=e684] [cursor=pointer]:
+                      - generic [ref=e685]: 
+                      - text: Importar Cuenta Cliente
+                    - generic [ref=e686]:
+                      - generic [ref=e687] [cursor=pointer]: Importar Cuenta Cliente Reporte
+                      - generic [ref=e688] [cursor=pointer]: ImportarCuentaCliente
+                      - generic [ref=e689] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e690] [cursor=pointer]: Entrada de Cliente
+                  - generic [ref=e691]:
+                    - generic [ref=e692] [cursor=pointer]:
+                      - generic [ref=e693]: 
+                      - text: Importar Trabajador desde Recruit
+                    - generic [ref=e694]:
+                      - generic [ref=e695] [cursor=pointer]: Importar Trabajador Reporte
+                      - generic [ref=e696] [cursor=pointer]: ImportarTrabajador
+                      - generic [ref=e697] [cursor=pointer]: ActulizarPagina
+                  - generic [ref=e698]:
+                    - generic [ref=e699] [cursor=pointer]:
+                      - generic [ref=e700]: 
+                      - text: Job Application
+                    - generic [ref=e701]:
+                      - generic [ref=e702] [cursor=pointer]: Applied Candidates
+                      - generic [ref=e703] [cursor=pointer]: Interview Scheduled Candidates
+                      - generic [ref=e704] [cursor=pointer]: Rejected Candidates
+                      - generic [ref=e705] [cursor=pointer]: Selected Candidates
+                      - generic [ref=e706] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e707] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e708] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e709] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e710] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e711]:
+                    - generic [ref=e712] [cursor=pointer]:
+                      - generic [ref=e713]: 
+                      - text: Jornada
+                    - generic [ref=e714]:
+                      - generic [ref=e715] [cursor=pointer]: Calendario del Técnico
+                      - generic [ref=e716] [cursor=pointer]: Jornada Reporte
+                      - generic [ref=e717] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e718] [cursor=pointer]: Verificar Si Hay Extension del Rango de Fechas
+                  - generic [ref=e719]:
+                    - generic [ref=e720] [cursor=pointer]:
+                      - generic [ref=e721]: 
+                      - text: Modificar Requisitos Autónomos
+                    - generic [ref=e722]:
+                      - generic [ref=e723] [cursor=pointer]: Modificar Requisitos Autónomos Reporte
+                      - generic [ref=e724] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e725] [cursor=pointer]: Envío de Formulario
+                  - generic [ref=e726]:
+                    - generic [ref=e727] [cursor=pointer]:
+                      - generic [ref=e728]: 
+                      - text: Modificar Requisitos Clientes
+                    - generic [ref=e729]:
+                      - generic [ref=e730] [cursor=pointer]: Modificar Requisitos Clientes Report
+                      - generic [ref=e731] [cursor=pointer]: Envío de formulario
+                  - generic [ref=e732]:
+                    - generic [ref=e733] [cursor=pointer]:
+                      - generic [ref=e734]: 
+                      - text: Modificar Requisitos Empresa
+                    - generic [ref=e735]:
+                      - generic [ref=e736] [cursor=pointer]: Modificar Requisitos Empresa Reporte
+                      - generic [ref=e737] [cursor=pointer]: Envío de Formulario
+                  - generic [ref=e738]:
+                    - generic [ref=e739] [cursor=pointer]:
+                      - generic [ref=e740]: 
+                      - text: Modificar Requisitos Trabajadores
+                    - generic [ref=e741]:
+                      - generic [ref=e742] [cursor=pointer]: Modificar Requisitos Trabajadores Reporte
+                      - generic [ref=e743] [cursor=pointer]: Envío de formulario
+                      - generic [ref=e744] [cursor=pointer]: Modelo Añadido
+                      - generic [ref=e745] [cursor=pointer]: On Add Models
+                  - generic [ref=e746]:
+                    - generic [ref=e747] [cursor=pointer]:
+                      - generic [ref=e748]: 
+                      - text: MonthyJoineesResigneesHidden
+                    - generic [ref=e750] [cursor=pointer]: MonthyJoineesResigneesHidden Report
+                  - generic [ref=e751]:
+                    - generic [ref=e752] [cursor=pointer]:
+                      - generic [ref=e753]: 
+                      - text: Nota sobre Baja Trabajador
+                    - generic [ref=e754]:
+                      - generic [ref=e755] [cursor=pointer]: Nota sobre Baja Trabajador Reporte
+                      - generic [ref=e756] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e757] [cursor=pointer]: Envío de Formulario
+                  - generic [ref=e758]:
+                    - generic [ref=e759] [cursor=pointer]:
+                      - generic [ref=e760]: 
+                      - text: Nueva Empresa
+                    - generic [ref=e761]:
+                      - generic [ref=e762] [cursor=pointer]: Empresa
+                      - generic [ref=e763] [cursor=pointer]: Ocultar campos
+                      - generic [ref=e764] [cursor=pointer]: Nº Orden Autoincrementado
+                      - generic [ref=e765] [cursor=pointer]: Ocultar campos
+                  - generic [ref=e766]:
+                    - generic [ref=e767] [cursor=pointer]:
+                      - generic [ref=e768]: 
+                      - text: Nueva Encuesta
+                    - generic [ref=e769]:
+                      - generic [ref=e770] [cursor=pointer]: Encuestas
+                      - generic [ref=e771] [cursor=pointer]: Respuestas
+                      - generic [ref=e772] [cursor=pointer]: Ver Encuestas
+                      - generic [ref=e773] [cursor=pointer]: Enviar Encuestas a Trabajadores
+                      - generic [ref=e774] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e775] [cursor=pointer]: Eliminar Encuesta
+                      - generic [ref=e776] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e777] [cursor=pointer]: Generar Numero Orden
+                      - generic [ref=e778] [cursor=pointer]: Reglas de Campos
+                  - generic [ref=e779]:
+                    - generic [ref=e780] [cursor=pointer]:
+                      - generic [ref=e781]: 
+                      - text: Nueva Encuesta
+                    - generic [ref=e782]:
+                      - generic [ref=e783] [cursor=pointer]: Encuestas
+                      - generic [ref=e784] [cursor=pointer]: Encuestas Zoho Survey
+                  - generic [ref=e785]:
+                    - generic [ref=e786] [cursor=pointer]:
+                      - generic [ref=e787]: 
+                      - text: Nueva Lista de Requisitos
+                    - generic [ref=e788]:
+                      - generic [ref=e789] [cursor=pointer]: Cliente - Empleado
+                      - generic [ref=e790] [cursor=pointer]: Empresa
+                      - generic [ref=e791] [cursor=pointer]: Listas Requisitos sin actualizar
+                      - generic [ref=e792] [cursor=pointer]: Ver Listas de Documentación Requerida
+                      - generic [ref=e793] [cursor=pointer]: Deshabilitar campos subformulario
+                      - generic [ref=e794] [cursor=pointer]: Autorellenar Campos Nueva Fila Subform
+                      - generic [ref=e795] [cursor=pointer]: Deshabilitar campos
+                      - generic [ref=e796] [cursor=pointer]: Nº Orden Autoincrementado
+                      - generic [ref=e797] [cursor=pointer]: Autocrear Nombre
+                      - generic [ref=e798] [cursor=pointer]: Rellenar Requisitos
+                      - generic [ref=e799] [cursor=pointer]: Autorrellenar Campo Etiqueta Coloreada
+                      - generic [ref=e800] [cursor=pointer]: Autorrellenar Campo Etiqueta Coloreada Cliente
+                      - generic [ref=e801] [cursor=pointer]: Autorrellenar Nombre Color Estado Subformulario
+                      - generic [ref=e802] [cursor=pointer]: Autorrellenar Campo Etiqueta Coloreada Empresa
+                      - generic [ref=e803] [cursor=pointer]: Actualizar Estado Documentación
+                      - generic [ref=e804] [cursor=pointer]: On Delete
+                      - generic [ref=e805] [cursor=pointer]: Reglas de Campos
+                  - generic [ref=e806]:
+                    - generic [ref=e807] [cursor=pointer]:
+                      - generic [ref=e808]: 
+                      - text: Nueva Nota
+                    - generic [ref=e809]:
+                      - generic [ref=e810] [cursor=pointer]: Anotaciones de Usuarios
+                      - generic [ref=e811] [cursor=pointer]: Casos de Uso
+                      - generic [ref=e812] [cursor=pointer]: Sugerencias
+                  - generic [ref=e813]:
+                    - generic [ref=e814] [cursor=pointer]:
+                      - generic [ref=e815]: 
+                      - text: Nueva Plantilla de Correo
+                    - generic [ref=e817] [cursor=pointer]: Plantillas de Correo
+                  - generic [ref=e818]:
+                    - generic [ref=e819] [cursor=pointer]:
+                      - generic [ref=e820]: 
+                      - text: Nueva Plantilla Envío de Documentación
+                    - generic [ref=e821]:
+                      - generic [ref=e822] [cursor=pointer]: Plantillas Envío
+                      - generic [ref=e823] [cursor=pointer]: Mostrar campos segun forma de envio
+                      - generic [ref=e824] [cursor=pointer]: Mostrar campos segun forma de envio
+                      - generic [ref=e825] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e826] [cursor=pointer]: Disable
+                  - generic [ref=e827]:
+                    - generic [ref=e828] [cursor=pointer]:
+                      - generic [ref=e829]: 
+                      - text: Nueva Solicitud EPI - Herramienta
+                    - generic [ref=e830]:
+                      - generic [ref=e831] [cursor=pointer]: Solicitud de EPI - Herramienta
+                      - generic [ref=e832] [cursor=pointer]: Solicitudes EPI - Herramientas
+                      - generic [ref=e833] [cursor=pointer]: Ocultar campos
+                      - generic [ref=e834] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e835] [cursor=pointer]: Notificar
+                      - generic [ref=e836] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e837] [cursor=pointer]: Load Employee
+                      - generic [ref=e838] [cursor=pointer]: Envío de Formulario
+                      - generic [ref=e839] [cursor=pointer]: Envío de Formulario
+                      - generic [ref=e840] [cursor=pointer]: Notificaciones
+                      - generic [ref=e841] [cursor=pointer]: Notificar
+                      - generic [ref=e842] [cursor=pointer]: Notificar
+                      - generic [ref=e843] [cursor=pointer]: OnLoad
+                  - generic [ref=e844]:
+                    - generic [ref=e845] [cursor=pointer]:
+                      - generic [ref=e846]: 
+                      - text: Nueva Solicitud Permiso
+                    - generic [ref=e847]:
+                      - generic [ref=e848] [cursor=pointer]: Calendario Solicitudes
+                      - generic [ref=e849] [cursor=pointer]: Solicitudes de Permisos o Vacaciones
+                      - generic [ref=e850] [cursor=pointer]: Solicitudes Permisos
+                      - generic [ref=e851] [cursor=pointer]: Ocultar Campos
+                      - generic [ref=e852] [cursor=pointer]: Load Employee
+                      - generic [ref=e853] [cursor=pointer]: Carga del formulario
+                      - generic [ref=e854] [cursor=pointer]: Entrada de Fecha Comienzo
+                      - generic [ref=e855] [cursor=pointer]: Entrada Fecha Comienzo
+                      - generic [ref=e856] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e857] [cursor=pointer]: CrearAsignacionCalendario
+                      - generic [ref=e858] [cursor=pointer]: Eliminar Asignacion En Calendario 52
+                  - generic [ref=e859]:
+                    - generic [ref=e860] [cursor=pointer]:
+                      - generic [ref=e861]: 
+                      - text: Nuevo Activo
+                    - generic [ref=e862]:
+                      - generic [ref=e863] [cursor=pointer]: Activos de Empleados
+                      - generic [ref=e864] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e865] [cursor=pointer]: Validar Unidades Disponibles
+                      - generic [ref=e866] [cursor=pointer]: Validar Unidades Totales
+                      - generic [ref=e867] [cursor=pointer]: Ocultar Campos Subformulario
+                      - generic [ref=e868] [cursor=pointer]: Asignar Etiqueta Nombre de Activo a Instancias
+                      - generic [ref=e869] [cursor=pointer]: Contar Alta
+                      - generic [ref=e870] [cursor=pointer]: UnidadesTotales
+                      - generic [ref=e871] [cursor=pointer]: Actualizar Cantidades Unidades
+                      - generic [ref=e872] [cursor=pointer]: Envio de Formulario
+                  - generic [ref=e873]:
+                    - generic [ref=e874] [cursor=pointer]:
+                      - generic [ref=e875]: 
+                      - text: Nuevo Cliente
+                    - generic [ref=e876]:
+                      - generic [ref=e877] [cursor=pointer]: Clientes
+                      - generic [ref=e878] [cursor=pointer]: Clientes Documentación
+                      - generic [ref=e879] [cursor=pointer]: Mapa de Clientes
+                      - generic [ref=e880] [cursor=pointer]: Ocultar campos, Establecer valores campos
+                      - generic [ref=e881] [cursor=pointer]: Nº Orden Autoincrementado
+                      - generic [ref=e882] [cursor=pointer]: Agregar Trabajador a Cliente
+                      - generic [ref=e883] [cursor=pointer]: Actualizar Documentacion Plantillas Empresa
+                      - generic [ref=e884] [cursor=pointer]: Color Trabajador Segun Doc
+                      - generic [ref=e885] [cursor=pointer]: Estado General Doc Actualizar
+                      - generic [ref=e886] [cursor=pointer]: Ocultat Contadores
+                      - generic [ref=e887] [cursor=pointer]: Modelo Doc Empresa Eliminado
+                      - generic [ref=e888] [cursor=pointer]: Modelo Doc Trabajador Eliminado
+                      - generic [ref=e889] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e890] [cursor=pointer]: Eliminar Requisitos
+                      - generic [ref=e891] [cursor=pointer]: Agregar Modelo Doc a Trabajador
+                  - generic [ref=e892]:
+                    - generic [ref=e893] [cursor=pointer]:
+                      - generic [ref=e894]: 
+                      - text: Nuevo Empleado
+                    - generic [ref=e895]:
+                      - generic [ref=e896] [cursor=pointer]: Empleados por Categoría Profesional
+                      - generic [ref=e897] [cursor=pointer]: Empleados por Especialidad
+                      - generic [ref=e898] [cursor=pointer]: Empleados por Profesión
+                      - generic [ref=e899] [cursor=pointer]: Empleados por Puesto Laboral Actual
+                      - generic [ref=e900] [cursor=pointer]: Empleados por Área Profesional
+                      - generic [ref=e901] [cursor=pointer]: Empleados por Área Profesional
+                      - generic [ref=e902] [cursor=pointer]: EmployeeDetailsHidden
+                      - generic [ref=e903] [cursor=pointer]: Listado Empleados
+                      - generic [ref=e904] [cursor=pointer]: Listado Empleados
+                      - generic [ref=e905] [cursor=pointer]: Listado Salario
+                      - generic [ref=e906] [cursor=pointer]: Mapa Empleados
+                      - generic [ref=e907] [cursor=pointer]: Mi perfil
+                      - generic [ref=e908] [cursor=pointer]: Mi perfil
+                      - generic [ref=e909] [cursor=pointer]: Ver Técnicos
+                      - generic [ref=e910] [cursor=pointer]: Run Scripts - While Deleting a Record
+                      - generic [ref=e911] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e912] [cursor=pointer]: Ocultar campos
+                      - generic [ref=e913] [cursor=pointer]: Nº Orden Autoincrementado
+                      - generic [ref=e914] [cursor=pointer]: Ocultar campos OnCreate
+                      - generic [ref=e915] [cursor=pointer]: Asignar Cliente a Trabajador
+                      - generic [ref=e916] [cursor=pointer]: Eliminar Requisitos
+                      - generic [ref=e917] [cursor=pointer]: CorregirMayusculas
+                      - generic [ref=e918] [cursor=pointer]: Entrada de Fecha de Alta
+                      - generic [ref=e919] [cursor=pointer]: Enviar Mail Enlace Registro
+                      - generic [ref=e920] [cursor=pointer]: Solicitar Confirmación Lectura Documentos
+                      - generic [ref=e921] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e922] [cursor=pointer]: Set Address Values for Map
+                      - generic [ref=e923] [cursor=pointer]: Deshabilitar Campos
+                  - generic [ref=e924]:
+                    - generic [ref=e925] [cursor=pointer]:
+                      - generic [ref=e926]: 
+                      - text: Nuevo EPI - Herramienta
+                    - generic [ref=e927]:
+                      - generic [ref=e928] [cursor=pointer]: EPI
+                      - generic [ref=e929] [cursor=pointer]: Herramientas
+                      - generic [ref=e930] [cursor=pointer]: Ropa
+                      - generic [ref=e931] [cursor=pointer]: Deshabilitar campos
+                      - generic [ref=e932] [cursor=pointer]: Nº Orden Autoincrementado
+                      - generic [ref=e933] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e934] [cursor=pointer]: Reglas de Campo Subformulario Unidades
+                      - generic [ref=e935] [cursor=pointer]: ContabilizarNuevaUnidad
+                      - generic [ref=e936] [cursor=pointer]: ContabilizarBajaUnidad
+                      - generic [ref=e937] [cursor=pointer]: Conteo de Unidades Total y Disponibles
+                      - generic [ref=e938] [cursor=pointer]: Asignar Etiqueta Nombre de EPI a Instancias
+                      - generic [ref=e939] [cursor=pointer]: Redireccionar Siempre a Reporte
+                      - generic [ref=e940] [cursor=pointer]: HabilitarMotrarCamposNuevamente
+                      - generic [ref=e941] [cursor=pointer]: Reglas de Campos EPI
+                      - generic [ref=e942] [cursor=pointer]: Reglas de Campos
+                  - generic [ref=e943]:
+                    - generic [ref=e944] [cursor=pointer]:
+                      - generic [ref=e945]: 
+                      - text: Nuevo Modelo de Documento
+                    - generic [ref=e946]:
+                      - generic [ref=e947] [cursor=pointer]: Modelos de Documentos
+                      - generic [ref=e948] [cursor=pointer]: Deshabilitar campos
+                      - generic [ref=e949] [cursor=pointer]: Vaciar campo EMPRESA
+                      - generic [ref=e950] [cursor=pointer]: Nº Orden Autoincrementado
+                      - generic [ref=e951] [cursor=pointer]: Ocultar campos
+                      - generic [ref=e952] [cursor=pointer]: Actualizar Campo Caducidad Tolerancia Requisitos
+                      - generic [ref=e953] [cursor=pointer]: CorregirMayusculas
+                      - generic [ref=e954] [cursor=pointer]: ModeloClienteAsignar
+                  - generic [ref=e955]:
+                    - generic [ref=e956] [cursor=pointer]:
+                      - generic [ref=e957]: 
+                      - text: Nuevo Requisito Doc
+                    - generic [ref=e958]:
+                      - generic [ref=e959] [cursor=pointer]: Documentación
+                      - generic [ref=e960] [cursor=pointer]: Documentación Requerida
+                      - generic [ref=e961] [cursor=pointer]: Requisitos sin actualizar
+                      - generic [ref=e962] [cursor=pointer]: Nº Orden Autoincrementado
+                      - generic [ref=e963] [cursor=pointer]: Deshabilitar campos
+                      - generic [ref=e964] [cursor=pointer]: Autocrear Nombre
+                      - generic [ref=e965] [cursor=pointer]: Checar Documento según plantilla
+                      - generic [ref=e966] [cursor=pointer]: Checar Estado Requisito
+                      - generic [ref=e967] [cursor=pointer]: Checar Estado Requisito
+                      - generic [ref=e968] [cursor=pointer]: Checar Estado Requisito
+                      - generic [ref=e969] [cursor=pointer]: Autorrellenar Nombre con Color Estado
+                      - generic [ref=e970] [cursor=pointer]: On Delete
+                      - generic [ref=e971] [cursor=pointer]: Checar y actualizar estado
+                      - generic [ref=e972] [cursor=pointer]: ActualizarEstado
+                  - generic [ref=e973]:
+                    - generic [ref=e974] [cursor=pointer]:
+                      - generic [ref=e975]: 
+                      - text: Nuevo Vehículo
+                    - generic [ref=e976]:
+                      - generic [ref=e977] [cursor=pointer]: Nuevo Vehículo Reporte
+                      - generic [ref=e978] [cursor=pointer]: Vehículos
+                      - generic [ref=e979] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e980] [cursor=pointer]: Reglas de Campos
+                  - generic [ref=e981]:
+                    - generic [ref=e982] [cursor=pointer]:
+                      - generic [ref=e983]: 
+                      - text: Opción Respuesta
+                    - generic [ref=e984]:
+                      - generic [ref=e985] [cursor=pointer]: Opción Respuesta Reporte
+                      - generic [ref=e986] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e987] [cursor=pointer]: Envío de Formulario
+                  - generic [ref=e988]:
+                    - generic [ref=e989] [cursor=pointer]:
+                      - generic [ref=e990]: 
+                      - text: Par Modelo-Documento
+                    - generic [ref=e992] [cursor=pointer]: SubFormPlantillaFichero Reporte
+                  - generic [ref=e993]:
+                    - generic [ref=e994] [cursor=pointer]:
+                      - generic [ref=e995]: 
+                      - text: Persona contacto
+                    - generic [ref=e997] [cursor=pointer]: Persona contacto Reporte
+                  - generic [ref=e998]:
+                    - generic [ref=e999] [cursor=pointer]:
+                      - generic [ref=e1000]: 
+                      - text: Persona Contacto en Planta
+                    - generic [ref=e1002] [cursor=pointer]: Persona Contacto en Planta Reporte
+                  - generic [ref=e1003]:
+                    - generic [ref=e1004] [cursor=pointer]:
+                      - generic [ref=e1005]: 
+                      - text: Persona Responsable CAE
+                    - generic [ref=e1007] [cursor=pointer]: Persona Responsable CAE Reporte
+                  - generic [ref=e1008]:
+                    - generic [ref=e1009] [cursor=pointer]:
+                      - generic [ref=e1010]: 
+                      - text: Pregunta Encuesta
+                    - generic [ref=e1011]:
+                      - generic [ref=e1012] [cursor=pointer]: Encuesta
+                      - generic [ref=e1013] [cursor=pointer]: Pregunta Encuesta Reporte
+                      - generic [ref=e1014] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e1015] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e1016] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e1017] [cursor=pointer]: Entrada de Tipo Respuesta
+                  - generic [ref=e1018]:
+                    - generic [ref=e1019] [cursor=pointer]:
+                      - generic [ref=e1020]: 
+                      - text: Raise Your Requirement
+                    - generic [ref=e1021]:
+                      - generic [ref=e1022] [cursor=pointer]: Closed Requirements
+                      - generic [ref=e1023] [cursor=pointer]: Open Requirements
+                      - generic [ref=e1024] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e1025] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e1026] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e1027] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e1028] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e1029]:
+                    - generic [ref=e1030] [cursor=pointer]:
+                      - generic [ref=e1031]: 
+                      - text: Rango Fechas Asingacion
+                    - generic [ref=e1032]:
+                      - generic [ref=e1033] [cursor=pointer]: Calendario Asignaciones Técnico
+                      - generic [ref=e1034] [cursor=pointer]: Rango Fechas Asingacion Report
+                  - generic [ref=e1035]:
+                    - generic [ref=e1036] [cursor=pointer]:
+                      - generic [ref=e1037]: 
+                      - text: Requisito de Baja
+                    - generic [ref=e1038]:
+                      - generic [ref=e1039] [cursor=pointer]: Requisitos de Baja
+                      - generic [ref=e1040] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e1041] [cursor=pointer]: Envío de Formulario
+                  - generic [ref=e1042]:
+                    - generic [ref=e1043] [cursor=pointer]:
+                      - generic [ref=e1044]: 
+                      - text: Responder Solicitud EPI - Herramienta
+                    - generic [ref=e1045]:
+                      - generic [ref=e1046] [cursor=pointer]: Responder Solicitud Reporte
+                      - generic [ref=e1047] [cursor=pointer]: Reglas de Campos
+                      - generic [ref=e1048] [cursor=pointer]: Envío de Formulario
+                  - generic [ref=e1049]:
+                    - generic [ref=e1050] [cursor=pointer]:
+                      - generic [ref=e1051]: 
+                      - text: Salary Structure
+                    - generic [ref=e1052]:
+                      - generic [ref=e1053] [cursor=pointer]: Employee Salary Structures
+                      - generic [ref=e1054] [cursor=pointer]: Run Scripts - On Always
+                      - generic [ref=e1055] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e1056]:
+                    - generic [ref=e1057] [cursor=pointer]:
+                      - generic [ref=e1058]: 
+                      - text: Schedule Interview
+                    - generic [ref=e1059]:
+                      - generic [ref=e1060] [cursor=pointer]: Run Scripts - On Click of 'Schedule' Button
+                      - generic [ref=e1061] [cursor=pointer]: Run Scripts - While Adding a Record
+                      - generic [ref=e1062] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e1063]:
+                    - generic [ref=e1064] [cursor=pointer]:
+                      - generic [ref=e1065]: 
+                      - text: Search
+                    - generic [ref=e1066]:
+                      - generic [ref=e1067] [cursor=pointer]: Run Scripts - On Click of 'Search' Button
+                      - generic [ref=e1068] [cursor=pointer]: Run Scripts - While Adding a Record
+                  - generic [ref=e1069]:
+                    - generic [ref=e1070] [cursor=pointer]:
+                      - generic [ref=e1071]: 
+                      - text: Sede Centro Formativo
+                    - generic [ref=e1072]:
+                      - generic [ref=e1073] [cursor=pointer]: Sede Centro Formativo Report
+                      - generic [ref=e1074] [cursor=pointer]: Reglas de Campos
+                  - generic [ref=e1075]:
+                    - generic [ref=e1076] [cursor=pointer]:
+                      - generic [ref=e1077]: 
+                      - text: Subir Documento
+                    - generic [ref=e1078]:
+                      - generic [ref=e1079] [cursor=pointer]: Archivados
+                      - generic [ref=e1080] [cursor=pointer]: Documentos
+                      - generic [ref=e1081] [cursor=pointer]: Empresa
+                      - generic [ref=e1082] [cursor=pointer]: Lista de Documentación Trabajadores - Empresa
+                      - generic [ref=e1083] [cursor=pointer]: Trabajadores
+                      - generic [ref=e1084] [cursor=pointer]: Mostrar campos según Plantilla
+                      - generic [ref=e1085] [cursor=pointer]: Calcular Fecha caducidad del documento
+                      - generic [ref=e1086] [cursor=pointer]: Calcular fecha de caducidad
+                      - generic [ref=e1087] [cursor=pointer]: Calcular fecha de caducidad
+                      - generic [ref=e1088] [cursor=pointer]: Establecer campos de solo lectura
+                      - generic [ref=e1089] [cursor=pointer]: Calcular valor semáforo
+                      - generic [ref=e1090] [cursor=pointer]: Autocrear nombre de formulario
+                      - generic [ref=e1091] [cursor=pointer]: Nº Orden Autoincrementado
+                      - generic [ref=e1092] [cursor=pointer]: Verificar formato y tamaño de documento
+                      - generic [ref=e1093] [cursor=pointer]: Verificar formato y tamaño de documento
+                      - generic [ref=e1094] [cursor=pointer]: actualizarSemaforosCaducidadDocumentos
+                      - generic [ref=e1095] [cursor=pointer]: Asignar Documento A Requsito
+                      - generic [ref=e1096] [cursor=pointer]: Calcular fecha de caducidad
+                      - generic [ref=e1097] [cursor=pointer]: Campos según plantilla
+                      - generic [ref=e1098] [cursor=pointer]: On Delete
+                      - generic [ref=e1099] [cursor=pointer]: Field Rules On Update
+                      - generic [ref=e1100] [cursor=pointer]: checar si debe ser archivado
+                      - generic [ref=e1101] [cursor=pointer]: Cargar usuario como trabajador
+                      - generic [ref=e1102] [cursor=pointer]: Deshabilitar campos Rol Empleado
+                      - generic [ref=e1103] [cursor=pointer]: Calcular Días para caducar
+                      - generic [ref=e1104] [cursor=pointer]: Ocultar campo trabajador
+                      - generic [ref=e1105] [cursor=pointer]: ColocarEtiqueta
+                      - generic [ref=e1106] [cursor=pointer]: Carga del Formulario
+                      - generic [ref=e1107] [cursor=pointer]: NombrarDocumento
+                  - generic [ref=e1108]:
+                    - generic [ref=e1109] [cursor=pointer]:
+                      - generic [ref=e1110]: 
+                      - text: Subir Multiples Documentos
+                    - generic [ref=e1112] [cursor=pointer]: Subir Multiples Documentos 2 Report
+                  - generic [ref=e1113]:
+                    - generic [ref=e1114] [cursor=pointer]:
+                      - generic [ref=e1115]: 
+                      - text: Subir Multiples Documentos Otro
+                    - generic [ref=e1116]:
+                      - generic [ref=e1117] [cursor=pointer]: Subir Multiples Documentos Reporte
+                      - generic [ref=e1118] [cursor=pointer]: Envío de Formulario
+                      - generic [ref=e1119] [cursor=pointer]: Al Enviar
+                  - generic [ref=e1120]:
+                    - generic [ref=e1121] [cursor=pointer]:
+                      - generic [ref=e1122]: 
+                      - text: TrabajadorExcel
+                    - generic [ref=e1124] [cursor=pointer]: TrabajadorExcel Reporte
+                  - generic [ref=e1125]:
+                    - generic [ref=e1126] [cursor=pointer]:
+                      - generic [ref=e1127]: 
+                      - text: Turno
+                    - generic [ref=e1128]:
+                      - generic [ref=e1129] [cursor=pointer]: Turno Reporte
+                      - generic [ref=e1130] [cursor=pointer]: Seleccionar Horas según turno
+                  - generic [ref=e1131]:
+                    - generic [ref=e1132] [cursor=pointer]:
+                      - generic [ref=e1133]: 
+                      - text: Unidad de Activo Empleado
+                    - generic [ref=e1134]:
+                      - generic [ref=e1135] [cursor=pointer]: Unidades de Activo
+                      - generic [ref=e1136] [cursor=pointer]: OnDelete
+                  - generic [ref=e1137]:
+                    - generic [ref=e1138] [cursor=pointer]:
+                      - generic [ref=e1139]: 
+                      - text: Unidad de EPI-Herramienta
+                    - generic [ref=e1140]:
+                      - generic [ref=e1141] [cursor=pointer]: EPI - Herramientas
+                      - generic [ref=e1142] [cursor=pointer]: Unidades Asignadas
+                      - generic [ref=e1143] [cursor=pointer]: Unidades EPI - Herramienta
+                      - generic [ref=e1144] [cursor=pointer]: Reglas de Campos
+                  - generic [ref=e1145]:
+                    - generic [ref=e1146] [cursor=pointer]:
+                      - generic [ref=e1147]: 
+                      - text: Usuario
+                    - generic [ref=e1149] [cursor=pointer]: Usuarios
+                  - generic [ref=e1150]:
+                    - generic [ref=e1151] [cursor=pointer]:
+                      - generic [ref=e1152]: 
+                      - text: Work experience
+                    - generic [ref=e1154] [cursor=pointer]: Experience Details
+                - generic [ref=e1155]:
+                  - generic [ref=e1156]:
+                    - generic [ref=e1157]: 
+                    - text: Páginas
+                  - generic [ref=e1159] [cursor=pointer]:
+                    - generic [ref=e1160]: 
+                    - text: Documentación del Cliente
+                  - generic [ref=e1162] [cursor=pointer]:
+                    - generic [ref=e1163]: 
+                    - text: 52 Semanas Nuevo
+                  - generic [ref=e1165] [cursor=pointer]:
+                    - generic [ref=e1166]: 
+                    - text: Prueba de ZML
+                  - generic [ref=e1168] [cursor=pointer]:
+                    - generic [ref=e1169]: 
+                    - text: Tablero PRL
+                  - generic [ref=e1171] [cursor=pointer]:
+                    - generic [ref=e1172]: 
+                    - text: Gestión de Baja de Trabajador
+                  - generic [ref=e1174] [cursor=pointer]:
+                    - generic [ref=e1175]: 
+                    - text: Tablero Flota
+                  - generic [ref=e1177] [cursor=pointer]:
+                    - generic [ref=e1178]: 
+                    - text: Offer Letter
+                  - generic [ref=e1180] [cursor=pointer]:
+                    - generic [ref=e1181]: 
+                    - text: Importar Trabajadores del Recruit
+                  - generic [ref=e1183] [cursor=pointer]:
+                    - generic [ref=e1184]: 
+                    - text: Empresa
+                  - generic [ref=e1186] [cursor=pointer]:
+                    - generic [ref=e1187]: 
+                    - text: Añadir Cliente
+                  - generic [ref=e1189] [cursor=pointer]:
+                    - generic [ref=e1190]: 
+                    - text: Dashboard
+                  - generic [ref=e1192] [cursor=pointer]:
+                    - generic [ref=e1193]: 
+                    - text: SearchPage
+                  - generic [ref=e1195] [cursor=pointer]:
+                    - generic [ref=e1196]: 
+                    - text: prueba
+                  - generic [ref=e1198] [cursor=pointer]:
+                    - generic [ref=e1199]: 
+                    - text: Documentación Empleado
+                  - generic [ref=e1201] [cursor=pointer]:
+                    - generic [ref=e1202]: 
+                    - text: Admin Dashboard
+                  - generic [ref=e1204] [cursor=pointer]:
+                    - generic [ref=e1205]: 
+                    - text: Vista Detallada Asignacion
+                  - generic [ref=e1207] [cursor=pointer]:
+                    - generic [ref=e1208]: 
+                    - text: Tablero Empleados
+                  - generic [ref=e1210] [cursor=pointer]:
+                    - generic [ref=e1211]: 
+                    - text: 52 Semanas
+                  - generic [ref=e1213] [cursor=pointer]:
+                    - generic [ref=e1214]: 
+                    - text: Importar Desde Excel Trabajadores
+                  - generic [ref=e1216] [cursor=pointer]:
+                    - generic [ref=e1217]: 
+                    - text: Tablero Inicio
+                  - generic [ref=e1219] [cursor=pointer]:
+                    - generic [ref=e1220]: 
+                    - text: Encuestas
+                  - generic [ref=e1222] [cursor=pointer]:
+                    - generic [ref=e1223]: 
+                    - text: Solicitudes de Permisos
+                  - generic [ref=e1225] [cursor=pointer]:
+                    - generic [ref=e1226]: 
+                    - text: EmployeeSearchResult
+                  - generic [ref=e1228] [cursor=pointer]:
+                    - generic [ref=e1229]: 
+                    - text: Profile Page
+                - generic [ref=e1230]:
+                  - generic [ref=e1231]:
+                    - generic [ref=e1232]: 
+                    - text: Programas
+                  - generic [ref=e1234] [cursor=pointer]:
+                    - generic [ref=e1235]: 
+                    - text: actualizarSemaforosCaducidadDocumentos
+                  - generic [ref=e1237] [cursor=pointer]:
+                    - generic [ref=e1238]: 
+                    - text: EnvioProgramadoWhatsapp
+                  - generic [ref=e1240] [cursor=pointer]:
+                    - generic [ref=e1241]: 
+                    - text: EnvioProgramadoDocumentacion
+                  - generic [ref=e1243] [cursor=pointer]:
+                    - generic [ref=e1244]: 
+                    - text: CalclularAniguedadTrabajadores
+                  - generic [ref=e1246] [cursor=pointer]:
+                    - generic [ref=e1247]: 
+                    - text: ActualizarListaClientes
+                  - generic [ref=e1249] [cursor=pointer]:
+                    - generic [ref=e1250]: 
+                    - text: ActualizarAsignacionTecnicoFechaActual
+                  - generic [ref=e1252] [cursor=pointer]:
+                    - generic [ref=e1253]: 
+                    - text: Notificar Asignaciones Tecnicos 1 semana antes
+                  - generic [ref=e1255] [cursor=pointer]:
+                    - generic [ref=e1256]: 
+                    - text: RecordatorioAsignTecClientes1DiaAntes
+                  - generic [ref=e1258] [cursor=pointer]:
+                    - generic [ref=e1259]: 
+                    - text: RecordatorioAsignTecClientes2SemanasAntes
+                  - generic [ref=e1261] [cursor=pointer]:
+                    - generic [ref=e1262]: 
+                    - text: RecordatorioAsignTecClientes3SemanasAntes
+                  - generic [ref=e1264] [cursor=pointer]:
+                    - generic [ref=e1265]: 
+                    - text: RecordatorioAsignTecClientes1MesAntes
+                  - generic [ref=e1267] [cursor=pointer]:
+                    - generic [ref=e1268]: 
+                    - text: RecordatorioAsignTecClientes1DiaAntes
+                  - generic [ref=e1270] [cursor=pointer]:
+                    - generic [ref=e1271]: 
+                    - text: actualizarSemaforosCaducidadDocumentos
+                  - generic [ref=e1273] [cursor=pointer]:
+                    - generic [ref=e1274]: 
+                    - text: Backup de documentos PRL
+                - text: 
+                - generic [ref=e1275]:
+                  - generic [ref=e1276]:
+                    - generic [ref=e1277]: 
+                    - text: Funciones personalizadas
+                  - generic [ref=e1278]:
+                    - generic [ref=e1279]:
+                      - generic [ref=e1280]:
+                        - generic [ref=e1281]: 
+                        - text: Default
+                      - generic [ref=e1282] [cursor=pointer]: CambiarNombrePDF
+                    - generic [ref=e1283]:
+                      - generic [ref=e1284]:
+                        - generic [ref=e1285]: 
+                        - text: ActivosEmpleados
+                      - generic [ref=e1286] [cursor=pointer]: FinalizarAsignacionUnidadActivo
+                      - generic [ref=e1287] [cursor=pointer]: ModificarCantidadActivos
+                    - generic [ref=e1288]:
+                      - generic [ref=e1289]:
+                        - generic [ref=e1290]: 
+                        - text: AsignacionTecnico
+                      - generic [ref=e1291] [cursor=pointer]: NotificarAsignacionTecnicoCliente
+                    - generic [ref=e1292]:
+                      - generic [ref=e1293]:
+                        - generic [ref=e1294]: 
+                        - text: Calendario52HTML
+                      - generic [ref=e1295] [cursor=pointer]: DevolverHTMLCalendario52Semanas
+                    - generic [ref=e1296]:
+                      - generic [ref=e1297]:
+                        - generic [ref=e1298]: 
+                        - text: CustomAction
+                      - generic [ref=e1299] [cursor=pointer]: AcceptOffer
+                      - generic [ref=e1300] [cursor=pointer]: AsignarEPI
+                      - generic [ref=e1301] [cursor=pointer]: CancelResignation
+                      - generic [ref=e1302] [cursor=pointer]: CompleteJob
+                      - generic [ref=e1303] [cursor=pointer]: CompleteOnboarding
+                      - generic [ref=e1304] [cursor=pointer]: DeclineOffer
+                      - generic [ref=e1305] [cursor=pointer]: RejectCandidate
+                      - generic [ref=e1306] [cursor=pointer]: ScheduleInterview
+                      - generic [ref=e1307] [cursor=pointer]: SelectCandidate
+                      - generic [ref=e1308] [cursor=pointer]: SendOfferLetter
+                      - generic [ref=e1309] [cursor=pointer]: SendResignationAcceptance
+                      - generic [ref=e1310] [cursor=pointer]: stopTimer
+                      - generic [ref=e1311] [cursor=pointer]: ViewOfferLetter
+                    - generic [ref=e1312]:
+                      - generic [ref=e1313]:
+                        - generic [ref=e1314]: 
+                        - text: DropdownList
+                      - generic [ref=e1315] [cursor=pointer]: BloodGroupList
+                    - generic [ref=e1316]:
+                      - generic [ref=e1317]:
+                        - generic [ref=e1318]: 
+                        - text: Empresa
+                      - generic [ref=e1319] [cursor=pointer]: AbrirWhatsappEmpresa
+                    - generic [ref=e1320]:
+                      - generic [ref=e1321]:
+                        - generic [ref=e1322]: 
+                        - text: EnvioDeDocumentos
+                      - generic [ref=e1323] [cursor=pointer]: LoadRequirements
+                    - generic [ref=e1324]:
+                      - generic [ref=e1325]:
+                        - generic [ref=e1326]: 
+                        - text: FuncionesEstaticas
+                      - generic [ref=e1327] [cursor=pointer]: GetColoresUI
+                      - generic [ref=e1328] [cursor=pointer]: GetEstadosRequisitos
+                      - generic [ref=e1329] [cursor=pointer]: GetIndiceEstadoRequisito
+                      - generic [ref=e1330] [cursor=pointer]: Notificacion
+                      - generic [ref=e1331] [cursor=pointer]: NumeroACadenaCerosIzq
+                    - generic [ref=e1332]:
+                      - generic [ref=e1333]:
+                        - generic [ref=e1334]: 
+                        - text: GestionDeBajaEmpleado
+                      - generic [ref=e1335] [cursor=pointer]: AbrirEditorNotaBaja
+                      - generic [ref=e1336] [cursor=pointer]: CrearBaja
+                      - generic [ref=e1337] [cursor=pointer]: CrearEtiquetaParaRequisitoBaja
+                    - generic [ref=e1338]:
+                      - generic [ref=e1339]:
+                        - generic [ref=e1340]: 
+                        - text: JornadaCalendario
+                      - generic [ref=e1341] [cursor=pointer]: GenerarJornadasRangoFechas
+                    - generic [ref=e1342]:
+                      - generic [ref=e1343]:
+                        - generic [ref=e1344]: 
+                        - text: mails
+                      - generic [ref=e1345] [cursor=pointer]: SendToAssignees
+                    - generic [ref=e1346]:
+                      - generic [ref=e1347]:
+                        - generic [ref=e1348]: 
+                        - text: NotificacionesMail
+                      - generic [ref=e1349] [cursor=pointer]: NotificarSolicitudDeEPIaEncargado
+                    - generic [ref=e1350]:
+                      - generic [ref=e1351]:
+                        - generic [ref=e1352]: 
+                        - text: NuevaListaDeRequisitos
+                      - generic [ref=e1353] [cursor=pointer]: ActualizarContadoresListasRequisitosPorIndice
+                      - generic [ref=e1354] [cursor=pointer]: ActualizarEstadosListasRequisitos
+                      - generic [ref=e1355] [cursor=pointer]: ClienteColorDoc
+                      - generic [ref=e1356] [cursor=pointer]: ContadorRrequisitoSegunEstado
+                      - generic [ref=e1357] [cursor=pointer]: CrearNuevaListaRequisitos
+                      - generic [ref=e1358] [cursor=pointer]: CrearNuevaListaRequisitosEmpresa
+                      - generic [ref=e1359] [cursor=pointer]: EliminarListaDeRequisitos
+                      - generic [ref=e1360] [cursor=pointer]: EstadoDocumentacionClienteTrabajador
+                      - generic [ref=e1361] [cursor=pointer]: GetStatusEnviadoByIndex
+                      - generic [ref=e1362] [cursor=pointer]: LlevarContadoresrRequisitosACero
+                      - generic [ref=e1363] [cursor=pointer]: NombreAutomaticoListaRequisitos
+                      - generic [ref=e1364] [cursor=pointer]: TrabajadorColorDoc
+                    - generic [ref=e1365]:
+                      - generic [ref=e1366]:
+                        - generic [ref=e1367]: 
+                        - text: NuevoCliente
+                      - generic [ref=e1368] [cursor=pointer]: AbrirFormAsignarDesasignarEmpleado
+                      - generic [ref=e1369] [cursor=pointer]: AbrirFormModificarRequisitosAutonomo
+                      - generic [ref=e1370] [cursor=pointer]: AbrirFormModificarRequisitosCliente
+                      - generic [ref=e1371] [cursor=pointer]: AbrirFormModificarRequisitosEmpleado
+                      - generic [ref=e1372] [cursor=pointer]: AbrirFormModificarRequisitosEmpresa
+                      - generic [ref=e1373] [cursor=pointer]: AccionActualizarRequisitosAutomatico
+                      - generic [ref=e1374] [cursor=pointer]: ActualizarContadorRequisitosLista
+                      - generic [ref=e1375] [cursor=pointer]: AgregarModeloCliente
+                      - generic [ref=e1376] [cursor=pointer]: AnteriorCliente
+                      - generic [ref=e1377] [cursor=pointer]: ChecarAgregarRequisitos
+                      - generic [ref=e1378] [cursor=pointer]: ChecarEliminarRequisitosEmpresa
+                      - generic [ref=e1379] [cursor=pointer]: ChecarEliminarRequisitosTrabajador
+                      - generic [ref=e1380] [cursor=pointer]: contarRequisitoSegunEstado
+                      - generic [ref=e1381] [cursor=pointer]: EstadoClientePRL
+                      - generic [ref=e1382] [cursor=pointer]: getAllTecnicos
+                      - generic [ref=e1383] [cursor=pointer]: getEnlace
+                      - generic [ref=e1384] [cursor=pointer]: ImportarClientesUnaVez
+                      - generic [ref=e1385] [cursor=pointer]: LlevarContadoresrRequisitosACero
+                      - generic [ref=e1386] [cursor=pointer]: RestablecerContadroesRequisitosTodosLosClientes
+                      - generic [ref=e1387] [cursor=pointer]: RestablecerNumerosOrdenClientes
+                      - generic [ref=e1388] [cursor=pointer]: setCaducidadTolerancia
+                      - generic [ref=e1389] [cursor=pointer]: SetTrabajadores
+                      - generic [ref=e1390] [cursor=pointer]: SicronizarDatosDeClientes
+                      - generic [ref=e1391] [cursor=pointer]: SiguienteCliente
+                      - generic [ref=e1392] [cursor=pointer]: SincronizarClientes
+                    - generic [ref=e1393]:
+                      - generic [ref=e1394]:
+                        - generic [ref=e1395]: 
+                        - text: NuevoEmpleado
+                      - generic [ref=e1396] [cursor=pointer]: AnteriorEmpleado
+                      - generic [ref=e1397] [cursor=pointer]: AsignarCliente
+                      - generic [ref=e1398] [cursor=pointer]: AsignarEPIaEmpleado
+                      - generic [ref=e1399] [cursor=pointer]: ContarRequisitoAnadido
+                      - generic [ref=e1400] [cursor=pointer]: CorregirMaysculasNombre
+                      - generic [ref=e1401] [cursor=pointer]: DesasignarCliente
+                      - generic [ref=e1402] [cursor=pointer]: EliminarRegistrosQueYaNoEstenEnRecruit
+                      - generic [ref=e1403] [cursor=pointer]: EnviarMailBienvenida
+                      - generic [ref=e1404] [cursor=pointer]: EvaluarParametrosDocEmpleado
+                      - generic [ref=e1405] [cursor=pointer]: getClientesAll
+                      - generic [ref=e1406] [cursor=pointer]: getEnlace
+                      - generic [ref=e1407] [cursor=pointer]: GuardarDatosCodigoOperario
+                      - generic [ref=e1408] [cursor=pointer]: PasarDatosADireccion
+                      - generic [ref=e1409] [cursor=pointer]: SetClientes
+                      - generic [ref=e1410] [cursor=pointer]: SiguienteEmpleado
+                      - generic [ref=e1411] [cursor=pointer]: SolicitarConfirmacionLenturaManualBienvenida
+                      - generic [ref=e1412] [cursor=pointer]: TraerRegistrosDeTrabajadoresDesdeRecruit
+                      - generic [ref=e1413] [cursor=pointer]: whatsapp
+                      - generic [ref=e1414] [cursor=pointer]: whatsappMasivo
+                    - generic [ref=e1415]:
+                      - generic [ref=e1416]:
+                        - generic [ref=e1417]: 
+                        - text: NuevoEPIRopaHerramienta
+                      - generic [ref=e1418] [cursor=pointer]: DesasignarUnidadEPIHerramienta
+                      - generic [ref=e1419] [cursor=pointer]: ModificarCantidadEPI
+                      - generic [ref=e1420] [cursor=pointer]: ModificarCantidadUnidades
+                      - generic [ref=e1421] [cursor=pointer]: NotificarCambioSolicitudEPI
+                      - generic [ref=e1422] [cursor=pointer]: SetAsignada
+                      - generic [ref=e1423] [cursor=pointer]: VerHistorialAsignacionesEPI
+                    - generic [ref=e1424]:
+                      - generic [ref=e1425]:
+                        - generic [ref=e1426]: 
+                        - text: NuevoRequisitoDoc
+                      - generic [ref=e1427] [cursor=pointer]: ActualizarEstado
+                      - generic [ref=e1428] [cursor=pointer]: ActualizarEstadosRequisitos
+                      - generic [ref=e1429] [cursor=pointer]: ActualizarEstadosTodosRequisitos
+                      - generic [ref=e1430] [cursor=pointer]: ActualizarRequisitos
+                      - generic [ref=e1431] [cursor=pointer]: AutollenarNombreColorCaducidad
+                      - generic [ref=e1432] [cursor=pointer]: AutorrellenarNombreColorEnviado
+                      - generic [ref=e1433] [cursor=pointer]: CalcularCaducidadTolerancia
+                      - generic [ref=e1434] [cursor=pointer]: CrearRequsitoAtomaticamente
+                      - generic [ref=e1435] [cursor=pointer]: EliminarRequisito
+                      - generic [ref=e1436] [cursor=pointer]: EstadoGeneral
+                      - generic [ref=e1437] [cursor=pointer]: GetEnviado
+                      - generic [ref=e1438] [cursor=pointer]: GetEstado
+                      - generic [ref=e1439] [cursor=pointer]: getEstadoEnviadoAClienteSegunIndice
+                      - generic [ref=e1440] [cursor=pointer]: getEstadoIndice
+                      - generic [ref=e1441] [cursor=pointer]: getIndiceEstadoEnviadoACliente
+                      - generic [ref=e1442] [cursor=pointer]: getIndiceEviadoAprobado
+                      - generic [ref=e1443] [cursor=pointer]: isEnviado
+                      - generic [ref=e1444] [cursor=pointer]: MatchDocumentWithRequirement
+                      - generic [ref=e1445] [cursor=pointer]: SetEstado
+                      - generic [ref=e1446] [cursor=pointer]: ThreeLeftCeros
+                    - generic [ref=e1447]:
+                      - generic [ref=e1448]:
+                        - generic [ref=e1449]: 
+                        - text: PaginaImportacionRecruit
+                      - generic [ref=e1450] [cursor=pointer]: ActualizarCamposListadoOficial
+                      - generic [ref=e1451] [cursor=pointer]: IdentificarNuevosPorDNI
+                      - generic [ref=e1452] [cursor=pointer]: ImportarTrabajadores1_200
+                      - generic [ref=e1453] [cursor=pointer]: ImportarTrabajadores201_400
+                      - generic [ref=e1454] [cursor=pointer]: TraerEmpleadosDeRecruitDeFormaOrdenada
+                      - generic [ref=e1455] [cursor=pointer]: VaciarListadoImportacionEmpleados
+                    - generic [ref=e1456]:
+                      - generic [ref=e1457]:
+                        - generic [ref=e1458]: 
+                        - text: ProgramaAnualActividadTecnico
+                      - generic [ref=e1459] [cursor=pointer]: CrearAsignacionEnCalendario52Semanas
+                      - generic [ref=e1460] [cursor=pointer]: CrearJornadas
+                      - generic [ref=e1461] [cursor=pointer]: CrearSolicitudPermisoEnCalendario52
+                      - generic [ref=e1462] [cursor=pointer]: CrearTabadeProgramaActividadParaUnTecnico
+                      - generic [ref=e1463] [cursor=pointer]: CrearTabladeProgramaActividadTecnicos
+                      - generic [ref=e1464] [cursor=pointer]: SetSemanaByIndex
+                    - generic [ref=e1465]:
+                      - generic [ref=e1466]:
+                        - generic [ref=e1467]: 
+                        - text: RequisitoDoc
+                      - generic [ref=e1468] [cursor=pointer]: defaultFunction
+                      - generic [ref=e1469] [cursor=pointer]: EstadoListaSegunRequisitos
+                      - generic [ref=e1470] [cursor=pointer]: NombreAutomaticoRequisitos
+                    - generic [ref=e1471]:
+                      - generic [ref=e1472]:
+                        - generic [ref=e1473]: 
+                        - text: RolEmpleado
+                      - generic [ref=e1474] [cursor=pointer]: GetEmpleadoLogueado
+                    - generic [ref=e1475]:
+                      - generic [ref=e1476]:
+                        - generic [ref=e1477]: 
+                        - text: Schedule
+                      - generic [ref=e1478] [cursor=pointer]: ActualizarEstadoListasRequisitosDocumentos
+                      - generic [ref=e1479] [cursor=pointer]: UpdateAttendance
+                    - generic [ref=e1480]:
+                      - generic [ref=e1481]:
+                        - generic [ref=e1482]: 
+                        - text: Semanas52
+                      - generic [ref=e1483] [cursor=pointer]: Semanas52AnteriorAnio
+                      - generic [ref=e1484] [cursor=pointer]: Semanas52SiguienteAnio
+                    - generic [ref=e1485]:
+                      - generic [ref=e1486]:
+                        - generic [ref=e1487]: 
+                        - text: SolicitudEPI
+                      - generic [ref=e1488] [cursor=pointer]: NotificarSolicitudEPI
+                    - generic [ref=e1489]:
+                      - generic [ref=e1490]:
+                        - generic [ref=e1491]: 
+                        - text: SolicitudPermiso
+                      - generic [ref=e1492] [cursor=pointer]: NotificarAEmpleado
+                    - generic [ref=e1493]:
+                      - generic [ref=e1494]:
+                        - generic [ref=e1495]: 
+                        - text: SubirDocumento
+                      - generic [ref=e1496] [cursor=pointer]: ActualizarEstadoDocumentos
+                      - generic [ref=e1497] [cursor=pointer]: AsignarDocumentosTrabajadorNombre
+                      - generic [ref=e1498] [cursor=pointer]: CalcularDiasParaCaducar
+                      - generic [ref=e1499] [cursor=pointer]: CalcularValorSemaforo
+                      - generic [ref=e1500] [cursor=pointer]: getEnlace
+                      - generic [ref=e1501] [cursor=pointer]: NombrarUnDocumento
+                      - generic [ref=e1502] [cursor=pointer]: NotificarCaducidadDocumento
+                      - generic [ref=e1503] [cursor=pointer]: RenombrarDocumentosEstandarAdecuado
+                      - generic [ref=e1504] [cursor=pointer]: RestablecerNumeroOrdenDOcumentos
+                      - generic [ref=e1505] [cursor=pointer]: SetEstado
+                    - generic [ref=e1506]:
+                      - generic [ref=e1507]:
+                        - generic [ref=e1508]: 
+                        - text: Time
+                      - generic [ref=e1509] [cursor=pointer]: GetDifference
+                      - generic [ref=e1510] [cursor=pointer]: GetStringTime
+                    - generic [ref=e1511]:
+                      - generic [ref=e1512]:
+                        - generic [ref=e1513]: 
+                        - text: TimeCalc
+                      - generic [ref=e1514] [cursor=pointer]: AddHoursToDate
+                      - generic [ref=e1515] [cursor=pointer]: autoStopTimer
+                      - generic [ref=e1516] [cursor=pointer]: GetDifference
+                      - generic [ref=e1517] [cursor=pointer]: GetStringTime
+                      - generic [ref=e1518] [cursor=pointer]: HoursCalculation
+                      - generic [ref=e1519] [cursor=pointer]: TimeVal
+                      - generic [ref=e1520] [cursor=pointer]: TimeValidation
+                      - generic [ref=e1521] [cursor=pointer]: TotalHours
+                    - generic [ref=e1522]:
+                      - generic [ref=e1523]:
+                        - generic [ref=e1524]: 
+                        - text: TrabajadorExcel
+                      - generic [ref=e1525] [cursor=pointer]: AsociarClienteATrabajador
+                      - generic [ref=e1526] [cursor=pointer]: PasarTrabajadoresImportadosExcel
+                      - generic [ref=e1527] [cursor=pointer]: PasarTrabajadoresOmportadosExcel
+            - generic [ref=e1530]:
+              - generic [ref=e1531]:
+                - generic [ref=e1532]:
+                  - link " Abrir creador" [ref=e1533] [cursor=pointer]:
+                    - /url: /appbuilder/formacion11/human-resource-management/formbuilder/Add_Announcement/edit
+                    - generic [ref=e1534]: 
+                    - text: Abrir creador
+                  - link " Guardar" [ref=e1535] [cursor=pointer]:
+                    - /url: javascript:;
+                    - generic [ref=e1536]: 
+                    - text: Guardar
+                  - text: 
+                - generic [ref=e1537]:
+                  - link " Exportar" [ref=e1538] [cursor=pointer]:
+                    - /url: /appbuilder/formacion11/human-resource-management/exportScript
+                    - generic [ref=e1539]: 
+                    - text: Exportar
+                  - link " Papelera" [ref=e1540] [cursor=pointer]:
+                    - /url: javascript:;
+                    - generic [ref=e1541]: 
+                    - text: Papelera
+              - generic [ref=e1544]:
+                - generic [ref=e1548]:
+                  - textbox [ref=e1549]
+                  - generic [ref=e1554]:
+                    - generic [ref=e1555]:
+                      - generic [ref=e1559]: "1"
+                      - text: form Add_Announcement
+                    - generic [ref=e1560]:
+                      - generic [ref=e1561]:
+                        - generic [ref=e1562]: "2"
+                        - generic [ref=e1563]: ▾
+                      - text: "{"
+                    - generic [ref=e1564]:
+                      - generic [ref=e1566]: "3"
+                      - text: displayname = "Add Announcement"
+                    - generic [ref=e1567]:
+                      - generic [ref=e1569]: "4"
+                      - text: success message = "New Announcement Added Successfully!"
+                    - generic [ref=e1570]:
+                      - generic [ref=e1572]: "5"
+                      - text: feature property = 32
+                    - generic [ref=e1573]:
+                      - generic [ref=e1575]: "6"
+                      - text: Section
+                    - generic [ref=e1576]:
+                      - generic [ref=e1578]: "7"
+                      - text: (
+                    - generic [ref=e1579]:
+                      - generic [ref=e1581]: "8"
+                      - text: type = section
+                    - generic [ref=e1582]:
+                      - generic [ref=e1584]: "9"
+                      - text: row = 1
+                    - generic [ref=e1585]:
+                      - generic [ref=e1587]: "10"
+                      - text: column = 0
+                    - generic [ref=e1588]:
+                      - generic [ref=e1590]: "11"
+                      - text: width = medium
+                    - generic [ref=e1591]:
+                      - generic [ref=e1593]: "12"
+                      - text: )
+                    - generic [ref=e1594]:
+                      - generic [ref=e1596]: "13"
+                      - text: must have Title
+                    - generic [ref=e1597]:
+                      - generic [ref=e1599]: "14"
+                      - text: (
+                    - generic [ref=e1600]:
+                      - generic [ref=e1602]: "15"
+                      - text: type = text
+                    - generic [ref=e1603]:
+                      - generic [ref=e1605]: "16"
+                      - text: displayname = "Subject"
+                    - generic [ref=e1606]:
+                      - generic [ref=e1608]: "17"
+                      - text: row = 1
+                    - generic [ref=e1609]:
+                      - generic [ref=e1611]: "18"
+                      - text: column = 1
+                    - generic [ref=e1612]:
+                      - generic [ref=e1614]: "19"
+                      - text: width = medium
+                    - generic [ref=e1615]:
+                      - generic [ref=e1617]: "20"
+                      - text: )
+                    - generic [ref=e1618]:
+                      - generic [ref=e1620]: "21"
+                      - text: must have Message
+                    - generic [ref=e1621]:
+                      - generic [ref=e1623]: "22"
+                      - text: (
+                    - generic [ref=e1624]:
+                      - generic [ref=e1626]: "23"
+                      - text: type = textarea
+                    - generic [ref=e1627]:
+                      - generic [ref=e1629]: "24"
+                      - text: height = 150px
+                    - generic [ref=e1630]:
+                      - generic [ref=e1632]: "25"
+                      - text: row = 1
+                    - generic [ref=e1633]:
+                      - generic [ref=e1635]: "26"
+                      - text: column = 1
+                    - generic [ref=e1636]:
+                      - generic [ref=e1638]: "27"
+                      - text: width = medium
+                    - generic [ref=e1639]:
+                      - generic [ref=e1641]: "28"
+                      - text: )
+                    - generic [ref=e1642]:
+                      - generic [ref=e1644]: "29"
+                      - text: Expires_On
+                    - generic [ref=e1645]:
+                      - generic [ref=e1647]: "30"
+                      - text: (
+                    - generic [ref=e1648]:
+                      - generic [ref=e1650]: "31"
+                      - text: type = date
+                    - generic [ref=e1651]:
+                      - generic [ref=e1653]: "32"
+                      - text: displayname = "Expires On"
+                    - generic [ref=e1654]:
+                      - generic [ref=e1656]: "33"
+                      - text: alloweddays = 0,1,2,3,4,5,6
+                    - generic [ref=e1657]:
+                      - generic [ref=e1659]: "34"
+                      - text: row = 1
+                    - generic [ref=e1660]:
+                      - generic [ref=e1662]: "35"
+                      - text: column = 1
+                    - generic [ref=e1663]:
+                      - generic [ref=e1665]: "36"
+                      - text: width = medium
+                    - generic [ref=e1666]:
+                      - generic [ref=e1668]: "37"
+                      - text: )
+                    - generic [ref=e1669]:
+                      - generic [ref=e1671]: "38"
+                      - text: Announced_By
+                    - generic [ref=e1672]:
+                      - generic [ref=e1674]: "39"
+                      - text: (
+                    - generic [ref=e1675]:
+                      - generic [ref=e1677]: "40"
+                      - text: type = picklist
+                - generic [ref=e1684] [cursor=pointer]: 
+          - link [ref=e1685] [cursor=pointer]:
+            - /url: javascript:;
+            - text: 
+            - generic [ref=e1686]: 
+    - generic:
+      - generic:        
+      - text:     
+  - img
+  - img
+  - generic [ref=e1687]:
+    - generic [ref=e1688]:
+      - text:               
+      - generic [ref=e1689]:
+        - generic "Chats" [ref=e1690] [cursor=pointer]:  Chats
+        - generic "Channels" [ref=e1691] [cursor=pointer]:  Channels
+        - generic "Contacts" [ref=e1692] [cursor=pointer]:  Contacts
+    - generic [ref=e1693]: Here is your Smart Chat (Ctrl+Space)
+    - text: 
+    - generic [ref=e1696]:
+      - text: 
+      - link "Suscripción" [ref=e1698] [cursor=pointer]:
+        - /url: javascript:void(0);
+        - generic [ref=e1699]: Suscripción
+      - generic "Métodos abreviados del teclado" [ref=e1700] [cursor=pointer]:
+        - generic [ref=e1701]: 
+      - text:   
+      - generic [ref=e1702] [cursor=pointer]:
+        - generic [ref=e1703]: 
+        - generic [ref=e1704]: Ayuda
+    - text: 
+    - generic [ref=e1705] [cursor=pointer]:  
+  - text:     Search across Apps       
+  - iframe
+  - text:   
