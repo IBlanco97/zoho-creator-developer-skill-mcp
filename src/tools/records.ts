@@ -1,16 +1,5 @@
 import { zohoClient } from "../zoho-client.js";
-
-const OWNER = () => {
-  const v = process.env.ZOHO_OWNER_ID;
-  if (!v) throw new Error("ZOHO_OWNER_ID is not set");
-  return v;
-};
-
-const APP = () => {
-  const v = process.env.ZOHO_APP_LINK_NAME;
-  if (!v) throw new Error("ZOHO_APP_LINK_NAME is not set");
-  return v;
-};
+import { OWNER, APP } from "../config.js";
 
 export interface GetRecordsParams {
   reportLinkName: string;
@@ -23,7 +12,8 @@ export interface GetRecordsParams {
  * Reads records from a report, with optional criteria filtering and pagination.
  */
 export async function getRecords(params: GetRecordsParams): Promise<unknown> {
-  const { reportLinkName, criteria, page = 1, pageSize = 50 } = params;
+  const { reportLinkName, criteria, page = 1 } = params;
+  const pageSize = Math.min(params.pageSize ?? 50, 200); // Zoho hard cap: 200
 
   const query: Record<string, string | number> = {
     from: (page - 1) * pageSize + 1,

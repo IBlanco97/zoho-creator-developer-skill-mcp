@@ -1,22 +1,19 @@
 import { zohoClient } from "../zoho-client.js";
-
-const OWNER = () => {
-  const v = process.env.ZOHO_OWNER_ID;
-  if (!v) throw new Error("ZOHO_OWNER_ID is not set");
-  return v;
-};
-
-const APP = () => {
-  const v = process.env.ZOHO_APP_LINK_NAME;
-  if (!v) throw new Error("ZOHO_APP_LINK_NAME is not set");
-  return v;
-};
+import { OWNER, APP } from "../config.js";
 
 /**
  * Lists all forms in the Zoho Creator application.
  */
 export async function listForms(): Promise<unknown> {
   const res = await zohoClient.get(`/meta/${OWNER()}/${APP()}/forms`);
+  return res.data;
+}
+
+/**
+ * Lists all reports in the Zoho Creator application.
+ */
+export async function listReports(): Promise<unknown> {
+  const res = await zohoClient.get(`/meta/${OWNER()}/${APP()}/reports`);
   return res.data;
 }
 

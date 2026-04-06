@@ -1,0 +1,170 @@
+// ============================================================
+// Calendario52HTML.DevolverHTMLEncuestasAdmin()
+// Vista supervisor: gestión de encuestas con KPIs y filtros
+// Page: Encuestas_EI_Admin
+// Roles: SUPERVISOR, RESPONSABLE CAE, OPERARIO CAE, SUPER ADM
+// ============================================================
+
+// --- Datos ---
+cntTotal = 0;
+cntActivas = 0;
+cntBorrador = 0;
+cntCerradas = 0;
+cntResp = 0;
+
+// Pre-contar respuestas por encuesta
+respMap = Map();
+for each r in Respuesta_EI[ID != 0]
+{
+	rEnc = r.Encuesta_EI_Resp;
+	if(rEnc != null && rEnc != 0)
+	{
+		key = rEnc.toString();
+		cur = if(respMap.containsKey(key), respMap.get(key).toLong(), 0);
+		respMap.put(key, cur + 1);
+		cntResp = cntResp + 1;
+	}
+}
+
+cardsH = "";
+for each enc in Encuesta_Interna[ID != 0] sort by ID desc
+{
+	cntTotal = cntTotal + 1;
+	eId = enc.ID;
+	eTit = ifnull(enc.Titulo, "Sin titulo");
+	eDesc = ifnull(enc.Descripcion, "");
+	eEst = ifnull(enc.Estado_EI, "Borrador");
+	eNum = ifnull(enc.Num_Preguntas, 0);
+	eFecha = ifnull(enc.Fecha_Creacion_EI, "");
+	nResp = if(respMap.containsKey(eId.toString()), respMap.get(eId.toString()).toLong(), 0);
+
+	if(eEst == "Activa")
+	{
+		cntActivas = cntActivas + 1;
+		bc = "ba";
+		bl = "st-g";
+	}
+	else if(eEst == "Cerrada")
+	{
+		cntCerradas = cntCerradas + 1;
+		bc = "bc";
+		bl = "st-r";
+	}
+	else
+	{
+		cntBorrador = cntBorrador + 1;
+		bc = "bb";
+		bl = "st-y";
+	}
+
+	cardsH = cardsH + "<div class='cd " + bc + "'>";
+	cardsH = cardsH + "<div class='ct'>";
+	cardsH = cardsH + "<div class='cn'>" + eTit + "</div>";
+	cardsH = cardsH + "<span class='" + bl + "'>" + eEst + "</span>";
+	cardsH = cardsH + "</div>";
+	if(eDesc != "")
+	{
+		cardsH = cardsH + "<div class='ds'>" + eDesc + "</div>";
+	}
+	cardsH = cardsH + "<div class='mt'>";
+	cardsH = cardsH + "<span>" + eNum + " preguntas</span>";
+	cardsH = cardsH + "<span>" + nResp + " respuestas</span>";
+	if(eFecha != "")
+	{
+		cardsH = cardsH + "<span>Creada: " + eFecha + "</span>";
+	}
+	cardsH = cardsH + "</div>";
+	cardsH = cardsH + "<div class='ac'>";
+	cardsH = cardsH + "<a class='ab' href='#Form:Encuesta_Interna?recLinkID=" + eId + "&viewLinkName=Encuesta_Interna_Report'>Editar</a>";
+	cardsH = cardsH + "<a class='ab' href='#Report:Pregunta_EI_Report?Encuesta_EI=" + eId + "'>Preguntas</a>";
+	if(nResp > 0)
+	{
+		cardsH = cardsH + "<a class='ab ap' href='#Page:Resultados_EI?EncuestaNo=" + eId + "'>Ver Resultados</a>";
+	}
+	cardsH = cardsH + "</div>";
+	cardsH = cardsH + "</div>";
+}
+
+// --- CSS ---
+css = "<style>*{box-sizing:border-box;margin:0;padding:0}";
+css = css + ".ea{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;min-height:100vh}";
+css = css + ".hd{background:linear-gradient(135deg,#1C3A5E 0%,#2d5a8e 100%);color:#fff;padding:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}";
+css = css + ".hl{display:flex;align-items:center;gap:14px}";
+css = css + ".hi{width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center}";
+css = css + ".hi svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:2}";
+css = css + ".ht{font-size:20px;font-weight:700}.hs{font-size:13px;opacity:.8;margin-top:2px}";
+css = css + ".nb{display:inline-block;padding:10px 20px;background:#38a169;color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:background .15s}";
+css = css + ".nb:hover{background:#2f855a}";
+css = css + ".kr{display:flex;gap:12px;padding:16px 24px;flex-wrap:wrap}";
+css = css + ".kc{flex:1;min-width:110px;background:#fff;border-radius:10px;padding:14px 16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.08)}";
+css = css + ".kc b{font-size:28px;display:block}.kc span{font-size:11px;text-transform:uppercase;color:#666;letter-spacing:.5px}";
+css = css + ".k-t b{color:#2d3748}.k-g b{color:#38a169}.k-o b{color:#dd6b20}.k-r b{color:#e53e3e}.k-b b{color:#3182ce}";
+// Filtros CSS-only
+css = css + ".fl{display:flex;gap:8px;padding:0 24px;flex-wrap:wrap}";
+css = css + ".fl input{display:none}.fl label{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;background:#e2e8f0;color:#4a5568;transition:all .15s}";
+css = css + ".fl input:checked+label{background:#1C3A5E;color:#fff}";
+css = css + "#fa:checked~.cnt .cd{display:block}";
+css = css + "#fb:checked~.cnt .cd{display:none}#fb:checked~.cnt .cd.ba{display:block}";
+css = css + "#fc:checked~.cnt .cd{display:none}#fc:checked~.cnt .cd.bb{display:block}";
+css = css + "#fd:checked~.cnt .cd{display:none}#fd:checked~.cnt .cd.bc{display:block}";
+// Cards
+css = css + ".cnt{padding:16px 24px}";
+css = css + ".cd{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:4px solid #a0aec0;transition:transform .15s}";
+css = css + ".cd:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,0,0,.1)}";
+css = css + ".cd.ba{border-left-color:#38a169}.cd.bb{border-left-color:#dd6b20}.cd.bc{border-left-color:#e53e3e}";
+css = css + ".ct{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}";
+css = css + ".cn{font-size:15px;font-weight:600;color:#2d3748}";
+css = css + ".st-g{font-size:11px;padding:3px 10px;border-radius:12px;font-weight:600;background:#f0fff4;color:#276749}";
+css = css + ".st-y{font-size:11px;padding:3px 10px;border-radius:12px;font-weight:600;background:#fffff0;color:#975a16}";
+css = css + ".st-r{font-size:11px;padding:3px 10px;border-radius:12px;font-weight:600;background:#fff5f5;color:#c53030}";
+css = css + ".ds{font-size:13px;color:#718096;margin-top:6px;line-height:1.4}";
+css = css + ".mt{display:flex;gap:16px;font-size:12px;color:#a0aec0;margin-top:8px;flex-wrap:wrap}";
+css = css + ".ac{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}";
+css = css + ".ab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;color:#3182ce;background:#ebf8ff;transition:background .15s}";
+css = css + ".ab:hover{background:#bee3f8}";
+css = css + ".ap{color:#fff;background:#3182ce}.ap:hover{background:#2b6cb0}";
+css = css + ".em{text-align:center;padding:40px;color:#a0aec0;font-size:14px}";
+css = css + "</style>";
+
+// --- HTML ---
+h = css + "<div class='ea'>";
+
+// Header
+h = h + "<div class='hd'>";
+h = h + "<div class='hl'>";
+h = h + "<div class='hi'><svg viewBox='0 0 24 24'><path d='M9 11l3 3L22 4'/><path d='M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11'/></svg></div>";
+h = h + "<div><div class='ht'>Gestionar Encuestas</div><div class='hs'>Crea, edita y revisa los resultados de las encuestas internas</div></div>";
+h = h + "</div>";
+h = h + "<a class='nb' href='#Form:Encuesta_Interna'>+ Nueva Encuesta</a>";
+h = h + "</div>";
+
+// KPIs
+h = h + "<div class='kr'>";
+h = h + "<div class='kc k-t'><b>" + cntTotal + "</b><span>Total</span></div>";
+h = h + "<div class='kc k-g'><b>" + cntActivas + "</b><span>Activas</span></div>";
+h = h + "<div class='kc k-o'><b>" + cntBorrador + "</b><span>Borradores</span></div>";
+h = h + "<div class='kc k-b'><b>" + cntResp + "</b><span>Respuestas</span></div>";
+h = h + "</div>";
+
+// Filters
+h = h + "<input type='radio' id='fa' name='f' checked>";
+h = h + "<label for='fa'>Todas</label>";
+h = h + "<input type='radio' id='fb' name='f'>";
+h = h + "<label for='fb'>Activas</label>";
+h = h + "<input type='radio' id='fc' name='f'>";
+h = h + "<label for='fc'>Borradores</label>";
+h = h + "<input type='radio' id='fd' name='f'>";
+h = h + "<label for='fd'>Cerradas</label>";
+
+// Cards
+h = h + "<div class='cnt'>";
+if(cntTotal == 0)
+{
+	h = h + "<div class='em'>No hay encuestas creadas. Haz click en '+ Nueva Encuesta' para comenzar.</div>";
+}
+else
+{
+	h = h + cardsH;
+}
+h = h + "</div></div>";
+return h;

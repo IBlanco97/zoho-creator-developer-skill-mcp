@@ -1,0 +1,338 @@
+<zml isPdfEnabled='true' isPrintEnabled='true'>
+<layout>
+<row>
+<column width='100%'>
+<panel elementName='Panel 2'>
+<pr width='fill' height='fill'>
+<pc padding='20px' bgColor='#FFFFFF' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='24px' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Portal del Empleado'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+</row>
+<row>
+<column width='100%'>
+<row>
+<column width='29%'>
+<panel elementName='Panel 3'>
+<pr width='fill' height='fill'>
+<pc padding='20px' bgColor='#FFFFFF' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='24px' type='variable' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='${EmpleadoNombre}'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+<column width='27%'>
+<panel elementName='Panel 4'>
+<pr width='fill' height='fill'>
+<pc padding='20px' bgColor='#FFFFFF' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='20px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Área:'> </text>
+</pc>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='20px' type='variable' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='${EmpleadoArea}'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+<column width='27%'>
+<panel elementName='Panel 5'>
+<pr width='fill' height='fill'>
+<pc padding='20px' bgColor='#FFFFFF' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='20px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Clientes Actuales:'> </text>
+</pc>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='20px' type='variable' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='${EmpleadoClientes}'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+<column width='17%'>
+<panel elementName='Panel'>
+<pr width='fill' height='fill'>
+<pc padding='20px' bgColor='#FFFFFF' action='OpenReport' componentLinkName='Encuestas_Zoho_Survey' target='same-window' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc padding='5px'>
+<pr>
+<pc>
+<image margin='0px' color='#FFFFFF' bgColor='#0ABB51' width='51.9886px' height='51.9886px' type='icon' value='text-list-bullet' size='32px' cornerRadius='25.9872px' iconType='solid'/>
+</pc>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='3px' color='#0ABB51' size='36px' bold='true' type='Form Data' bgColor='transparent' bgColorType='noFill' displayType='actual' thousandsSeperator='LOCALE' decimalSeperator='DOT' numberScale='none' criteria='Estado_de_Encuesta == &quot;Activa&quot;' value='thisapp.Encuesta_Survey.ID.count'> </text>
+</pc>
+</pr>
+<pr>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='3px' color='#333333' size='16px' type='Text' bgColor='transparent' bgColorType='noFill' value='Encuestas Activas'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+</row>
+<row>
+<column width='33%'>
+<panel elementName='Panel Puesto'>
+<pr width='fill' height='fill'>
+<pc padding='20px' bgColor='#FFFFFF' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='20px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Puesto:'> </text>
+</pc>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='20px' type='variable' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='${EmpleadoPuesto}'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+<column width='33%'>
+<panel elementName='Panel Contrato'>
+<pr width='fill' height='fill'>
+<pc padding='20px' bgColor='#FFFFFF' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='20px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Contrato:'> </text>
+</pc>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='20px' type='variable' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='${EmpleadoContrato}'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+<column width='34%'>
+<panel elementName='Panel Delegacion'>
+<pr width='fill' height='fill'>
+<pc padding='20px' bgColor='#FFFFFF' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='20px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Delegación:'> </text>
+</pc>
+<pc>
+<text marginLeft='0px' marginRight='10px' marginBottom='0px' marginTop='0px' padding='0px' color='#000000' size='20px' type='variable' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='${EmpleadoDelegacion}'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+</row>
+<row>
+<column width='50%'>
+<panel elementName='Panel Permisos KPI'>
+<pr width='fill' height='fill'>
+<pc padding='20px' bgColor='#FFFFFF' action='OpenReport' componentLinkName='Ver_Solicitud' target='same-window' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc padding='5px'>
+<pr>
+<pc>
+<image margin='0px' color='#FFFFFF' bgColor='#FF9800' width='51.9886px' height='51.9886px' type='icon' value='calendar-clock' size='32px' cornerRadius='25.9872px' iconType='solid'/>
+</pc>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='3px' color='#FF9800' size='36px' bold='true' type='Form Data' bgColor='transparent' bgColorType='noFill' displayType='actual' thousandsSeperator='LOCALE' decimalSeperator='DOT' numberScale='none' criteria='Trabajador_Solicitante.Mail_Portal_Empleado == &quot;${LoginEmail}&quot; &amp;&amp; Aprobado == &quot;Sin Respuesta&quot;' value='thisapp.Solicitud.ID.count'> </text>
+</pc>
+</pr>
+<pr>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='3px' color='#333333' size='16px' type='Text' bgColor='transparent' bgColorType='noFill' value='Permisos Pendientes'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+<column width='50%'>
+<panel elementName='Panel EPIs KPI'>
+<pr width='fill' height='fill'>
+<pc padding='20px' bgColor='#FFFFFF' action='OpenReport' componentLinkName='Ver_Solicitud_de_EPIs_Herramientas' target='same-window' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc padding='5px'>
+<pr>
+<pc>
+<image margin='0px' color='#FFFFFF' bgColor='#2196F3' width='51.9886px' height='51.9886px' type='icon' value='shield-check' size='32px' cornerRadius='25.9872px' iconType='solid'/>
+</pc>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='3px' color='#2196F3' size='36px' bold='true' type='Form Data' bgColor='transparent' bgColorType='noFill' displayType='actual' thousandsSeperator='LOCALE' decimalSeperator='DOT' numberScale='none' criteria='Trabajador_Solicitante.Mail_Portal_Empleado == &quot;${LoginEmail}&quot; &amp;&amp; Aprobado == &quot;Sin Respuesta&quot;' value='thisapp.Solicitud_de_EPIs_Herramientas.ID.count'> </text>
+</pc>
+</pr>
+<pr>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='3px' color='#333333' size='16px' type='Text' bgColor='transparent' bgColorType='noFill' value='EPIs / Herramientas Pendientes'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+</row>
+<row>
+<column width='33%'>
+<panel elementName='Panel Btn Permiso'>
+<pr width='fill' height='fill'>
+<pc padding='15px' bgColor='#FF9800' action='OpenForm' componentLinkName='Solicitud' target='same-window' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='0px' padding='0px' color='#FFFFFF' size='16px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Nueva Solicitud Permiso'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+<column width='33%'>
+<panel elementName='Panel Btn EPI'>
+<pr width='fill' height='fill'>
+<pc padding='15px' bgColor='#2196F3' action='OpenForm' componentLinkName='Solicitud_de_EPIs_Herramientas' target='same-window' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='0px' padding='0px' color='#FFFFFF' size='16px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Nueva Solicitud EPI'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+<column width='34%'>
+<panel elementName='Panel Btn Mensaje'>
+<pr width='fill' height='fill'>
+<pc padding='15px' bgColor='#9E9E9E' action='OpenForm' componentLinkName='Mensaje' target='same-window' width='100%' hAlign='center' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='0px' padding='0px' color='#FFFFFF' size='16px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Mensaje a RRHH'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+</row>
+<row>
+<column width='100%'>
+<panel elementName='Panel Anuncios Title'>
+<pr width='fill' height='fill'>
+<pc padding='15px' bgColor='#F5F5F5' width='100%' hAlign='left' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='0px' padding='0px' color='#333333' size='18px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Anuncios'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+</row>
+<row>
+<column width='100%'>
+<report elementName='Report Anuncios' appLinkName='thisapp' linkName='Announcements' iszreport='false' heightType='auto' heightValue='700'/>
+</column>
+</row>
+<row>
+<column width='100%'>
+<panel elementName='Panel Ausencias Title'>
+<pr width='fill' height='fill'>
+<pc padding='15px' bgColor='#F5F5F5' width='100%' hAlign='left' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='0px' padding='0px' color='#333333' size='18px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Próximas Ausencias Aprobadas'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+</row>
+<row>
+<column width='100%'>
+<report elementName='Report Ausencias' appLinkName='thisapp' linkName='Ver_Solicitud' criteriaString='Trabajador_Solicitante.Mail_Portal_Empleado == zoho.loginuserid &amp;&amp; Aprobado == &quot;Aprobado&quot; &amp;&amp; Fecha_de_comienzo &gt;= zoho.currentdate' iszreport='false' heightType='auto' heightValue='700'/>
+</column>
+</row>
+<row>
+<column width='100%'>
+<panel elementName='Panel Mensajes Title'>
+<pr width='fill' height='fill'>
+<pc padding='15px' bgColor='#F5F5F5' width='100%' hAlign='left' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='0px' padding='0px' color='#333333' size='18px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Mensajes de RRHH'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+</row>
+<row>
+<column width='100%'>
+<report elementName='Report Mensajes' appLinkName='thisapp' linkName='Mensaje_Report' iszreport='false' heightType='auto' heightValue='700'/>
+</column>
+</row>
+<row>
+<column width='100%'>
+<panel elementName='Panel Confirmaciones Title'>
+<pr width='fill' height='fill'>
+<pc padding='15px' bgColor='#F5F5F5' width='100%' hAlign='left' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='0px' padding='0px' color='#333333' size='18px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Confirmaciones de Entrega Pendientes'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+</row>
+<row>
+<column width='100%'>
+<report elementName='Report 2' appLinkName='thisapp' linkName='Confirmaciones_de_Entrega_Report' criteriaString='Empleado.Official_Email == zoho.loginuserid &amp;&amp; Estado == &quot;Sin Respuesta&quot; || Empleado.Correo_Electr_nico == zoho.loginuserid &amp;&amp; Estado == &quot;Sin Respuesta&quot; || Empleado.Mail_Portal_Empleado == zoho.loginuserid &amp;&amp; Estado == &quot;Sin Respuesta&quot;' iszreport='false' heightType='auto' heightValue='700'/>
+</column>
+</row>
+<row>
+<column width='100%'>
+<panel elementName='Panel Clientes Doc Title'>
+<pr width='fill' height='fill'>
+<pc padding='15px' bgColor='#F5F5F5' width='100%' hAlign='left' vAlign='middle'>
+<pr width='auto' height='auto'>
+<pc>
+<text marginLeft='0px' marginRight='0px' marginBottom='0px' marginTop='0px' padding='0px' color='#333333' size='18px' bold='true' type='Text' bgColor='transparent' bgColorType='noFill' cornerRadius='0px' borderColor='#000000' borderWidth='0px' value='Documentación con Clientes'> </text>
+</pc>
+</pr>
+</pc>
+</pr>
+</panel>
+</column>
+</row>
+<row>
+<column width='100%'>
+<report elementName='Report Clientes' appLinkName='thisapp' linkName='Copy_of_Cliente_Empleado' iszreport='false' heightType='auto' heightValue='700'/>
+</column>
+</row>
+</column>
+</row>
+</layout>
+</zml>

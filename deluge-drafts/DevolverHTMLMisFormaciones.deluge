@@ -1,0 +1,103 @@
+string Calendario52HTML.DevolverHTMLMisFormaciones()
+{
+	// ── 1. Fetch employee ──
+	uid = zoho.loginuserid;
+	empFound = 0;
+	empRec = null;
+	for each e in Nuevo_Empleado[Official_Email == uid || Mail_Portal_Empleado == uid || Correo_Electr_nico == uid]
+	{
+		empRec = e;
+		empFound = 1;
+		break;
+	}
+	if(empFound == 0)
+	{
+		return "<div style='padding:40px;text-align:center;font-family:sans-serif;color:#718096'><h2>No se encontr&oacute; tu perfil</h2><p>Contacta con RRHH para resolver este problema.</p></div>";
+	}
+	empId = empRec.ID;
+	empNom = ifnull(empRec.Nombre.first_name, "") + " " + ifnull(empRec.Nombre.last_name, "");
+	empArea = ifnull(empRec.Area_Profesional, "");
+	fn_ = ifnull(empRec.Nombre.first_name, "");
+	ln_ = ifnull(empRec.Nombre.last_name, "");
+	ini_ = if(fn_ != "", fn_.subString(0, 1).toUpperCase(), "?");
+	if(ln_ != "")
+	{
+		ini_ = ini_ + ln_.subString(0, 1).toUpperCase();
+	}
+	// ── 2. Próximas formaciones ──
+	hoy = zoho.currentdate;
+	proxH = "";
+	cntProx = 0;
+	for each f in Formaci_n[Fecha_de_Comienzo >= hoy]
+	{
+		isConv_ = 0;
+		for each tid in f.T_cnicos_a_convocar
+		{
+			if(tid == empId) { isConv_ = 1; break; }
+		}
+		if(isConv_ == 1)
+		{
+			cntProx = cntProx + 1;
+			fTit = ifnull(f.T_tulo, "Sin t&iacute;tulo");
+			fIni = f.Fecha_de_Comienzo;
+			fFin = f.Fecha_de_Fin;
+			fDur = ifnull(f.Duraci_n, 0);
+			cenId_ = ifnull(f.Centro_Formativo, 0);
+			cen_ = if(cenId_ != 0, ifnull(f.Centro_Formativo.Nombre_del_Centro,""), "");
+			sedId_ = ifnull(f.Sede_Centro_Formativo, 0);
+			sed_ = if(sedId_ != 0, ifnull(f.Sede_Centro_Formativo.Nombre_del_Centro,""), "");
+			locStr = if(cen_ != "", cen_, "Sin sede");
+			if(sed_ != "" && sed_ != cen_)
+			{
+				locStr = locStr + " &middot; " + sed_;
+			}
+			durStr = if(fDur > 0, fDur.toString() + " h", "&mdash;");
+			finiStr = ifnull(fIni.toString("dd/MM/yyyy HH:mm"), "");
+			ffinStr = if(fFin != null, " &rarr; " + fFin.toString("dd/MM/yyyy"), "");
+			proxH = proxH + "<div class='fc'><div class='fh'><span class='badge bb'>Pr&oacute;xima</span><div class='ft'>" + fTit + "</div></div><div class='fm'><div class='fi'><svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><rect x='3' y='4' width='18' height='18' rx='2'/><line x1='16' y1='2' x2='16' y2='6'/><line x1='8' y1='2' x2='8' y2='6'/><line x1='3' y1='10' x2='21' y2='10'/></svg><span>" + finiStr + ffinStr + "</span></div><div class='fi'><svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/></svg><span>" + durStr + "</span></div><div class='fi'><svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg><span>" + locStr + "</span></div></div></div>";
+		}
+	}
+	if(cntProx == 0)
+	{
+		proxH = "<div class='es'><svg width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'><rect x='3' y='4' width='18' height='18' rx='2'/><line x1='16' y1='2' x2='16' y2='6'/><line x1='8' y1='2' x2='8' y2='6'/><line x1='3' y1='10' x2='21' y2='10'/></svg><div>No tienes pr&oacute;ximas formaciones convocadas</div></div>";
+	}
+	// ── 3. Historial (max 10) ──
+	histH = "";
+	cntHist = 0;
+	cntHistTotal = 0;
+	for each f in Formaci_n[Fecha_de_Comienzo < hoy]
+	{
+		isConv_ = 0;
+		for each tid in f.T_cnicos_a_convocar
+		{
+			if(tid == empId) { isConv_ = 1; break; }
+		}
+		if(isConv_ == 1)
+		{
+			cntHistTotal = cntHistTotal + 1;
+			if(cntHist < 10)
+			{
+				cntHist = cntHist + 1;
+				fTit = ifnull(f.T_tulo, "Sin t&iacute;tulo");
+				fIni = f.Fecha_de_Comienzo;
+				fDur = ifnull(f.Duraci_n, 0);
+				cen_ = ifnull(f.Centro_Formativo, "");
+				durStr = if(fDur > 0, fDur.toString() + " h", "&mdash;");
+				finiStr = ifnull(fIni.toString("dd/MM/yyyy"), "");
+				histH = histH + "<tr><td><span class='badge bx'>Finalizada</span></td><td class='tt'>" + fTit + "</td><td>" + finiStr + "</td><td>" + durStr + "</td><td>" + cen_ + "</td></tr>";
+			}
+		}
+	}
+	if(cntHistTotal == 0)
+	{
+		histH = "<tr><td colspan='5'><div class='es'><div>No hay historial de formaciones</div></div></td></tr>";
+	}
+	histTitle = "Historial (" + cntHistTotal.toString() + ")";
+	// ── 4. CSS ──
+	css = "<style>*{box-sizing:border-box;margin:0;padding:0}.mf{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;min-height:100vh}.hdr{background:linear-gradient(135deg,#1C3A5E 0%,#2d5a8e 100%);padding:20px 24px;display:flex;align-items:center;gap:14px;color:#fff}.ava{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}.hn{font-size:18px;font-weight:700}.ha{font-size:12px;opacity:.7;margin-top:2px}.cnt{padding:20px 24px}.sc{background:#fff;border-radius:10px;border:1px solid #e2e8f0;margin-bottom:16px;overflow:hidden}.sh{padding:14px 16px;border-bottom:1px solid #f0f2f5;display:flex;align-items:center;gap:8px}.sh svg{opacity:.6;flex-shrink:0}.st{font-size:14px;font-weight:700;color:#2d3748}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;padding:14px 16px}.fc{background:#f7fafc;border-radius:8px;border:1px solid #e2e8f0;overflow:hidden}.fh{padding:10px 12px;border-bottom:1px solid #edf2f7}.ft{font-size:13px;font-weight:600;color:#2d3748;margin-top:5px;line-height:1.3}.fm{padding:10px 12px}.fi{display:flex;align-items:center;gap:5px;font-size:12px;color:#718096;margin-bottom:5px}.fi svg{opacity:.5;flex-shrink:0}.badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;white-space:nowrap}.bb{background:#ebf8ff;color:#2b6cb0}.bx{background:#f7fafc;color:#718096}.es{text-align:center;padding:28px;color:#a0aec0;font-size:12px}.es svg{display:block;margin:0 auto 8px;opacity:.3}.ht{width:100%;border-collapse:collapse}.ht td{padding:10px 14px;border-bottom:1px solid #f0f2f5;font-size:13px;color:#4a5568;vertical-align:middle}.ht tr:last-child td{border-bottom:none}.ht tr:hover td{background:#f7fafc}.tt{font-weight:600;color:#2d3748;max-width:200px}@media(max-width:768px){.hdr{padding:14px 16px}.cnt{padding:12px 14px}.cards{grid-template-columns:1fr}.ht td:nth-child(4),.ht td:nth-child(5){display:none}}</style>";
+	// ── 5. Assemble ──
+	h1 = "<div class='mf'><div class='hdr'><div class='ava'>" + ini_ + "</div><div><div class='hn'>" + empNom + "</div><div class='ha'>" + empArea + "</div></div></div><div class='cnt'>";
+	h2 = "<div class='sc'><div class='sh'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='#3182ce' stroke-width='2'><rect x='3' y='4' width='18' height='18' rx='2'/><line x1='16' y1='2' x2='16' y2='6'/><line x1='8' y1='2' x2='8' y2='6'/><line x1='3' y1='10' x2='21' y2='10'/></svg><div class='st'>Pr&oacute;ximas Formaciones</div></div><div class='cards'>" + proxH + "</div></div>";
+	h3 = "<div class='sc'><div class='sh'><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='#718096' stroke-width='2'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg><div class='st'>" + histTitle + "</div></div><div style='overflow-x:auto'><table class='ht'><thead><tr style='background:#f7fafc'><th style='padding:8px 14px;text-align:left;font-size:11px;color:#718096;font-weight:600;border-bottom:2px solid #e2e8f0'>Estado</th><th style='padding:8px 14px;text-align:left;font-size:11px;color:#718096;font-weight:600;border-bottom:2px solid #e2e8f0'>Formaci&oacute;n</th><th style='padding:8px 14px;text-align:left;font-size:11px;color:#718096;font-weight:600;border-bottom:2px solid #e2e8f0'>Fecha</th><th style='padding:8px 14px;text-align:left;font-size:11px;color:#718096;font-weight:600;border-bottom:2px solid #e2e8f0'>Dur.</th><th style='padding:8px 14px;text-align:left;font-size:11px;color:#718096;font-weight:600;border-bottom:2px solid #e2e8f0'>Centro</th></tr></thead><tbody>" + histH + "</tbody></table></div></div></div></div>";
+	return css + h1 + h2 + h3;
+}

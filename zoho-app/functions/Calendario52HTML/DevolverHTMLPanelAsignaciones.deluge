@@ -1,0 +1,232 @@
+string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string cliFilter)
+{
+	// Normalise filter params (may arrive as "null" string from snippet)
+	tecF = if(tecFilter == null || tecFilter == "null" || tecFilter == "", "", tecFilter);
+	cliF = if(cliFilter == null || cliFilter == "null" || cliFilter == "", "", cliFilter.toUpperCase());
+
+	// Phase A: Pre-aggregate assignments into a Map keyed by client ID
+	aMap = Map();
+	aCntMap = Map();
+	tSet = Map();
+	tNamMap = Map();
+	// tList: list of unique tech names (for chip bar)
+	tNameSet = Map();
+	nAct = 0;
+	for each a in Asignacion_T_cnico_Cliente[Estado != "Finalizada" && Tipo_de_Asignacion == "Cliente"]
+	{
+		nAct = nAct + 1;
+		cId = a.Cliente.toString();
+		tId = a.Tecnico.toString();
+		tSet.put(tId, 1);
+		tNom = ifnull(a.Tecnico.Nombre.first_name, "");
+		tApe = ifnull(a.Tecnico.Nombre.last_name, "");
+		fullNam = tNom + " " + tApe;
+		// Accumulate unique tech names for chip bar
+		if(!tNameSet.containKey(tId))
+		{
+			tNameSet.put(tId, fullNam);
+		}
+		ini = if(tNom != "", tNom.subString(0, 1).toUpperCase(), "?") + if(tApe != "", tApe.subString(0, 1).toUpperCase(), "");
+		// Avatar color deterministic by first char
+		fc = if(ini != "", ini.subString(0, 1), "A");
+		bgCol = if(fc == "A" || fc == "F" || fc == "K" || fc == "P" || fc == "U" || fc == "Z", "#3182ce", if(fc == "B" || fc == "G" || fc == "L" || fc == "Q" || fc == "V", "#38a169", if(fc == "C" || fc == "H" || fc == "M" || fc == "R" || fc == "W", "#805ad5", if(fc == "D" || fc == "I" || fc == "N" || fc == "S" || fc == "X", "#dd6b20", "#319795"))));
+		// Estado badge
+		eBadge = if(a.Estado == "Iniciada", "st-green", "st-blue");
+		eLabel = ifnull(a.Estado, "Programada");
+		// Days abbreviation
+		dias = ifnull(a.Dias_Laborales, "");
+		dAbr = if(dias.contains("Lunes"), "L", "") + if(dias.contains("Martes"), "M", "") + if(dias.contains("Mi"), "X", "") + if(dias.contains("Jueves"), "J", "") + if(dias.contains("Viernes"), "V", "") + if(dias.contains("bado"), "S", "") + if(dias.contains("Domingo"), "D", "");
+		// First turno only (save statements)
+		tInfo = "";
+		tCnt = 0;
+		for each t in a.Turnos
+		{
+			if(tCnt == 0)
+			{
+				tTurno = ifnull(t.Turno, "");
+				tInfo = if(tTurno == "Ma" || tTurno.contains("ana"), "M", if(tTurno == "Tarde", "T", if(tTurno == "Noche", "N", if(tTurno != "", tTurno.subString(0, 1), ""))));
+			}
+			tCnt = tCnt + 1;
+		}
+		tInfoH = if(tInfo != "", "<span class='tt'>" + tInfo + if(tCnt > 1, " +" + (tCnt - 1), "") + "</span>", "");
+		// Build tech card HTML
+		tH = "<div class='tc'><div class='av' style='background:" + bgCol + "'>" + ini + "</div><div class='ti'><span class='tn'>" + tNom + " " + tApe + "</span><div class='tm'><span class='badge " + eBadge + "'>" + eLabel + "</span>" + if(dAbr != "", "<span class='td'>" + dAbr + "</span>", "") + tInfoH + "</div></div><a class='tv' href='#Page:Ficha_Empleado?EmpNo=" + a.Tecnico + "'>Ver</a></div>";
+		// Append to map
+		prev = if(aMap.containKey(cId), aMap.get(cId), "");
+		aMap.put(cId, prev + tH);
+		prevC = if(aCntMap.containKey(cId), aCntMap.get(cId).toLong(), 0);
+		aCntMap.put(cId, (prevC + 1).toString());
+		prevN = if(tNamMap.containKey(cId), tNamMap.get(cId) + ",", "");
+		tNamMap.put(cId, prevN + fullNam);
+	}
+	nTec = tSet.size();
+	// Phase B: Client loop — build KPIs + cards (server-side filtered)
+	nC = 0;
+	nCAll = 0;
+	nConTec = 0;
+	nSinTec = 0;
+	nProb = 0;
+	nOk = 0;
+	cH = "";
+	for each c in Nuevo_Cliente[Estado_Activo == "Activo"]
+	{
+		nCAll = nCAll + 1;
+		cId = c.ID.toString();
+		hasTec = aCntMap.containKey(cId);
+		tecCount = if(hasTec, aCntMap.get(cId).toLong(), 0);
+		nConTec = nConTec + if(tecCount > 0, 1, 0);
+		nSinTec = nSinTec + if(tecCount == 0, 1, 0);
+
+		// --- Server-side filter by technician ---
+		showByTec = true;
+		if(tecF != "")
+		{
+			tecNames = if(tNamMap.containKey(cId), tNamMap.get(cId).toLowerCase(), "");
+			showByTec = tecNames.contains(tecF.toLowerCase());
+		}
+		// --- Server-side filter by first letter of client name ---
+		showByCli = true;
+		if(cliF != "")
+		{
+			cliFirst = c.Nombre_de_Cuenta.subString(0, 1).toUpperCase();
+			showByCli = (cliFirst == cliF);
+		}
+		if(!showByTec || !showByCli)
+		{
+			continue;
+		}
+		nC = nC + 1;
+		// Doc status flags
+		cTotal = ifnull(c.ContadorTotal, 0);
+		cCad = ifnull(c.ContadorCaducados, 0);
+		cPS = ifnull(c.ContadorPendietesSubir, 0);
+		cNE = ifnull(c.ContadorNoEnviados, 0);
+		cNA = ifnull(c.ContadorEnviadosNoAprobados, 0);
+		cAc = ifnull(c.ContadorActualizados, 0);
+		cCC = ifnull(c.ContadorCercaCaducar, 0);
+		cVA = ifnull(c.ContadorEnviadosAprobados, 0);
+		hp = cCad > 0 || cPS > 0 || cNE > 0;
+		io = cTotal > 0 && !hp && cNA == 0;
+		nProb = nProb + if(hp, 1, 0);
+		nOk = nOk + if(io, 1, 0);
+		// CSS filter + border classes
+		fCls = if(tecCount > 0, " has-tec", " no-tec") + if(hp, " is-prob", "") + if(io, " is-ok", "");
+		bCls = if(hp, "st-r", if(cNA > 0, "st-o", if(io, "st-g", "st-x")));
+		// Badge label
+		bd = if(hp, if(cCad > 0, "Caducados", "Pendiente"), if(cNA > 0, "En revisi&#243;n", if(io, "Validado", "Sin docs")));
+		bc = if(hp, "br", if(cNA > 0, "bo", if(io, "bg", "bx")));
+		// Metadata
+		city = ifnull(c.Localizacion.district_city, "");
+		tel = ifnull(c.Tel_fono, "");
+		cif = ifnull(c.CIF, "");
+		metaH = if(cif != "" || city != "" || tel != "", "<div class='cm'>" + cif + if(city != "", if(cif != "", " &#183; ", "") + city, "") + if(tel != "", if(cif != "" || city != "", " &#183; ", "") + tel, "") + "</div>", "");
+		// Gestor PRL
+		gH = "";
+		if(c.Gestor_PRL != null)
+		{
+			gN = ifnull(c.Gestor_PRL.Nombre.first_name, "");
+			gA = ifnull(c.Gestor_PRL.Nombre.last_name, "");
+			if(gN != "" || gA != "")
+			{
+				gH = "<div class='cg'><span class='cg-l'>PRL:</span> " + gN + " " + gA + "</div>";
+			}
+		}
+		// Doc mini-bar (proportional)
+		mbH = "";
+		if(cTotal > 0)
+		{
+			wG = (cAc * 100) / cTotal;
+			wO = (cCC * 100) / cTotal;
+			wR = ((cCad + cPS) * 100) / cTotal;
+			wX = 100 - wG - wO - wR;
+			mbH = "<div class='mb'><div class='ms mg' style='width:" + wG + "%'></div><div class='ms mo' style='width:" + wO + "%'></div><div class='ms mr' style='width:" + wR + "%'></div><div class='ms mx' style='width:" + wX + "%'></div></div>";
+		}
+		// Technicians section
+		tecH = if(hasTec, aMap.get(cId), "<span class='ntm'>Sin t&#233;cnicos asignados</span>");
+		// Build card
+		cH = cH + "<div class='cd " + bCls + fCls + "'>";
+		cH = cH + "<div class='ch'><span class='cn'>" + c.Nombre_de_Cuenta + " <span class='ct-n'>(" + tecCount + ")</span></span><span class='db " + bc + "'>" + bd + "</span></div>";
+		cH = cH + metaH + gH + mbH;
+		cH = cH + "<div class='tl'>" + tecH + "</div>";
+		cH = cH + "<div class='ca'><a class='btn bv' href='#Page:Documentaci_n_del_Cliente?ClienteID=" + c.ID + "'>Ver Docs</a><a class='btn ba' href='#Form:Elegir_Trabajador?Cliente=" + c.ID + "'>+ Asignar</a></div>";
+		cH = cH + "</div>";
+	}
+	// Phase C: Assemble HTML
+	// CSS
+	css = "<style>*{box-sizing:border-box;margin:0;padding:0}.pa{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;min-height:100vh}";
+	// Header
+	css = css + ".hdr{background:linear-gradient(135deg,#1C3A5E 0%,#2d5a8e 100%);color:#fff;padding:28px 28px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}.hdr h1{font-size:24px;font-weight:800;letter-spacing:-.4px}.hdr p{font-size:12px;opacity:.65;margin-top:3px}";
+	// Header stats
+	css = css + ".hs{display:flex;gap:20px}.hs>div{text-align:center;background:rgba(255,255,255,.12);border-radius:10px;padding:10px 18px;min-width:80px}.hs b{font-size:26px;display:block;font-weight:800;line-height:1}.hs span{font-size:9px;opacity:.7;text-transform:uppercase;letter-spacing:.8px;margin-top:3px;display:block}";
+	// Content area
+	css = css + ".cnt{padding:20px 24px}";
+	// KPI grid
+	css = css + ".kg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.kc{background:#fff;border-radius:12px;padding:18px 16px;box-shadow:0 1px 4px rgba(0,0,0,.06);border-left:4px solid #cbd5e0;text-align:center;transition:transform .15s,box-shadow .15s}.kc:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}.kc b{font-size:34px;font-weight:800;display:block;line-height:1;letter-spacing:-1px}.kc span{font-size:10px;color:#718096;text-transform:uppercase;letter-spacing:.6px;margin-top:5px;display:block}";
+	css = css + ".k-b{border-left-color:#3182ce}.k-b b{color:#3182ce}.k-g{border-left-color:#38a169}.k-g b{color:#38a169}.k-r{border-left-color:#e53e3e}.k-r b{color:#e53e3e}.k-n{border-left-color:#1C3A5E}.k-n b{color:#1C3A5E}";
+	// Filter bar
+	css = css + "input[type=radio]{display:none}.fb{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}.fb label{cursor:pointer;padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;background:#fff;color:#718096;border:1.5px solid #e2e8f0;transition:all .2s;user-select:none}.fb label:hover{border-color:#1C3A5E;color:#1C3A5E;background:#f7fafc}";
+	css = css + "#f0:checked~.cnt .fb label[for=f0],#f1:checked~.cnt .fb label[for=f1],#f2:checked~.cnt .fb label[for=f2],#f3:checked~.cnt .fb label[for=f3]{background:#1C3A5E;color:#fff;border-color:#1C3A5E}";
+	// Cards grid
+	css = css + ".cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}";
+	// Card base
+	css = css + ".cd{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-left:4px solid #cbd5e0;display:flex;flex-direction:column;transition:box-shadow .15s}.cd:hover{box-shadow:0 3px 10px rgba(0,0,0,.1)}";
+	css = css + ".st-r{border-left-color:#e53e3e}.st-o{border-left-color:#dd6b20}.st-g{border-left-color:#38a169}.st-x{border-left-color:#a0aec0}";
+	// Card header
+	css = css + ".ch{padding:10px 12px 5px;display:flex;align-items:flex-start;gap:8px}.cn{font-size:12px;font-weight:700;color:#1a202c;line-height:1.3;flex:1}.ct-n{font-weight:400;color:#a0aec0;font-size:11px}";
+	// Badge
+	css = css + ".db{font-size:9px;font-weight:700;padding:2px 8px;border-radius:12px;white-space:nowrap;flex-shrink:0;margin-top:1px}.br{background:#fff5f5;color:#c53030}.bo{background:#fffaf0;color:#c05621}.bg{background:#f0fff4;color:#276749}.bx{background:#f7fafc;color:#718096}";
+	// Metadata + Gestor PRL
+	css = css + ".cm{padding:0 12px 4px;font-size:9.5px;color:#a0aec0}.cg{padding:0 12px 6px;font-size:10px;color:#4a5568}.cg-l{font-weight:600;color:#718096}";
+	// Doc mini-bar
+	css = css + ".mb{height:4px;display:flex;border-radius:2px;overflow:hidden;margin:0 12px 6px}.ms{height:100%}.mg{background:#38a169}.mo{background:#dd6b20}.mr{background:#e53e3e}.mx{background:#cbd5e0}";
+	// Technicians list
+	css = css + ".tl{padding:4px 10px 6px;display:flex;flex-direction:column;gap:5px}";
+	// Tech card
+	css = css + ".tc{display:flex;align-items:center;gap:8px;padding:6px 8px;background:#f7fafc;border-radius:8px;transition:background .15s}.tc:hover{background:#edf2f7}";
+	// Avatar
+	css = css + ".av{width:30px;height:30px;border-radius:50%;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}";
+	// Tech info
+	css = css + ".ti{flex:1;min-width:0}.tn{font-size:11px;font-weight:600;color:#1a202c;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tm{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-top:2px}";
+	// Status badges inside tech card
+	css = css + ".badge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:9px;font-weight:600;white-space:nowrap}.st-green{background:#f0fff4;color:#276749}.st-blue{background:#ebf8ff;color:#2b6cb0}";
+	// Days pill + turno
+	css = css + ".td{font-size:9px;color:#718096;background:#edf2f7;padding:1px 6px;border-radius:8px;letter-spacing:.5px}.tt{font-size:9px;color:#4a5568;background:#fefcbf;padding:1px 6px;border-radius:8px;font-weight:600}";
+	// Tech link
+	css = css + ".tv{font-size:10px;color:#3182ce;text-decoration:none;font-weight:600;flex-shrink:0;padding:4px 8px;border-radius:6px;transition:background .15s}.tv:hover{background:#ebf8ff}";
+	// No techs message
+	css = css + ".ntm{font-size:11px;color:#a0aec0;font-style:italic;padding:8px 0}";
+	// Card actions
+	css = css + ".ca{padding:7px 10px;display:flex;gap:5px;flex-wrap:wrap;border-top:1px solid #edf2f7}.btn{font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;text-decoration:none;display:inline-block;transition:opacity .15s}.btn:hover{opacity:.8}.bv{background:#ebf8ff;color:#2b6cb0}.ba{background:#f0fff4;color:#276749}";
+	// Filter chips (tech + letter)
+	css = css + ".fchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}.fchips span{font-size:10px;color:#718096;font-weight:600;white-space:nowrap}.fc-a{display:inline-block;padding:4px 11px;border-radius:16px;font-size:11px;font-weight:600;text-decoration:none;border:1.5px solid #e2e8f0;background:#fff;color:#718096;transition:all .2s}.fc-a:hover{border-color:#1C3A5E;color:#1C3A5E;background:#f7fafc}.fc-on{background:#1C3A5E;color:#fff;border-color:#1C3A5E}.fc-clear{background:#fff5f5;color:#c53030;border-color:#fed7d7}.fc-clear:hover{background:#c53030;color:#fff;border-color:#c53030}";
+	// Filter rules
+	css = css + "#f1:checked~.cnt .cards .cd{display:none}#f1:checked~.cnt .cards .is-prob{display:flex}";
+	css = css + "#f2:checked~.cnt .cards .cd{display:none}#f2:checked~.cnt .cards .is-ok{display:flex}";
+	css = css + "#f3:checked~.cnt .cards .cd{display:none}#f3:checked~.cnt .cards .no-tec{display:flex}";
+	// Responsive
+	css = css + "@media(max-width:768px){.hdr{padding:20px 16px}.hs{gap:10px}.hs>div{padding:8px 12px;min-width:60px}.hs b{font-size:20px}.cnt{padding:16px}.kg{grid-template-columns:repeat(2,1fr)}.kc b{font-size:26px}.cards{grid-template-columns:1fr}}";
+	css = css + "</style>";
+	// Header
+	h1 = "<div class='pa'><input type='radio' id='f0' name='f' checked><input type='radio' id='f1' name='f'><input type='radio' id='f2' name='f'><input type='radio' id='f3' name='f'>";
+	h1 = h1 + "<div class='hdr'><div><h1>Panel de Asignaciones</h1><p>Asignaciones T&#233;cnico &#8212; Cliente</p></div>";
+	h1 = h1 + "<div class='hs'><div><b>" + nAct + "</b><span>Asignaciones</span></div><div><b>" + nTec + "</b><span>T&#233;cnicos</span></div><div><b>" + nCAll + "</b><span>Clientes</span></div></div></div>";
+	// KPI row
+	h2 = "<div class='cnt'><div class='kg'><div class='kc k-b'><b>" + nAct + "</b><span>Asignaciones Activas</span></div><div class='kc k-g'><b>" + nConTec + "</b><span>Clientes con T&#233;cnico</span></div><div class='kc k-r'><b>" + nSinTec + "</b><span>Clientes sin T&#233;cnico</span></div><div class='kc k-n'><b>" + nTec + "</b><span>T&#233;cnicos &#218;nicos</span></div></div>";
+	// Filter bar (CSS-only status)
+	h3 = "<div class='fb'><label for='f0'>Todos (" + nC + ")</label><label for='f1'>Con Problemas (" + nProb + ")</label><label for='f2'>Todo OK (" + nOk + ")</label><label for='f3'>Sin T&#233;cnicos (" + nSinTec + ")</label></div>";
+
+	// Letter filter bar
+	letters = list("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+	letterChips = "<div class='fchips'><span>Inicial:</span><a class='fc-a" + if(cliF == "", " fc-on", "") + "' href='#Page:Panel_de_Asignaciones?Tecnico=" + tecF + "&ClienteLetra='>Todos</a>";
+	for each lt in letters
+	{
+		isOn = (lt == cliF);
+		letterChips = letterChips + "<a class='fc-a" + if(isOn, " fc-on", "") + "' href='#Page:Panel_de_Asignaciones?Tecnico=" + tecF + "&ClienteLetra=" + lt + "'>" + lt + "</a>";
+	}
+	letterChips = letterChips + "</div>";
+
+	// Cards + close wrapper
+	h4 = "<div class='cards'>" + cH + "</div></div></div>";
+	html = css + h1 + h2 + h3 + letterChips + h4;
+	return html;
+}

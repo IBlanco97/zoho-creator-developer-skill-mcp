@@ -1,0 +1,147 @@
+// Función: Calendario52HTML.DevolverHTMLTableroFlota
+// Página: Tablero_Flota (Gestión de Flota)
+// KPIs: Total, Asignados, Sin Chofer, Archivados
+// Filtros CSS-only: Todos / Asignados / Sin Chofer / Archivados
+// Tarjetas por vehículo + tabla asignaciones activas
+
+string Calendario52HTML.DevolverHTMLTableroFlota()
+{
+    // --- CSS (estático, construir primero) ---
+    css = "<style>" +
+        "*{box-sizing:border-box;margin:0;padding:0}" +
+        "body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}" +
+        ".wrap{max-width:1400px;margin:0 auto;padding:20px}" +
+        ".hdr{background:#1C3A5E;color:#fff;padding:18px 24px;border-radius:12px;margin-bottom:20px}" +
+        ".hdr h1{font-size:20px;font-weight:700;margin-bottom:2px}" +
+        ".hdr p{font-size:13px;opacity:.7}" +
+        ".kg{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}" +
+        ".kc{background:#fff;border-radius:12px;padding:18px 16px;border-left:4px solid #cbd5e0}" +
+        ".kc b{display:block;font-size:34px;font-weight:800;line-height:1;margin-bottom:6px}" +
+        ".kc span{font-size:10px;color:#718096;text-transform:uppercase;letter-spacing:.6px}" +
+        ".k-blue{border-left-color:#3182ce}.k-blue b{color:#3182ce}" +
+        ".k-green{border-left-color:#38a169}.k-green b{color:#38a169}" +
+        ".k-orange{border-left-color:#dd6b20}.k-orange b{color:#dd6b20}" +
+        ".k-gray{border-left-color:#718096}.k-gray b{color:#718096}" +
+        "input[type=radio]{display:none}" +
+        ".flt{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}" +
+        ".flt label{padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #e2e8f0;color:#4a5568;background:#fff}" +
+        ".flt label:hover{border-color:#3182ce;color:#3182ce}" +
+        "#f0:checked~.wrap .flt label[for=f0],#f1:checked~.wrap .flt label[for=f1],#f2:checked~.wrap .flt label[for=f2],#f3:checked~.wrap .flt label[for=f3]{background:#1C3A5E;color:#fff;border-color:#1C3A5E}" +
+        "#f1:checked~.wrap .cards .cd:not(.is-asig){display:none}" +
+        "#f2:checked~.wrap .cards .cd:not(.is-sin){display:none}" +
+        "#f3:checked~.wrap .cards .cd:not(.is-arch){display:none}" +
+        ".cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:28px}" +
+        ".cd{background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e2e8f0;transition:box-shadow .2s}" +
+        ".cd:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}" +
+        ".ct{padding:14px 16px 10px;border-bottom:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}" +
+        ".cn{font-size:15px;font-weight:700;color:#1a202c}" +
+        ".cm{padding:4px 16px 10px;font-size:12px;color:#718096}" +
+        ".cb{padding:12px 16px}" +
+        ".cr{display:flex;justify-content:space-between;padding:3px 0;font-size:13px}" +
+        ".cr span:first-child{color:#718096;font-size:12px}" +
+        ".cr span:last-child{color:#2d3748;font-weight:500}" +
+        ".cch{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0;font-size:13px;font-weight:500;color:#2d3748}" +
+        ".cch.ns{color:#dd6b20;font-size:12px}" +
+        ".av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}" +
+        ".cf{padding:10px 16px;background:#f8fafc;border-top:1px solid #f0f0f0}" +
+        ".btn{display:inline-block;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;background:#ebf8ff;color:#2b6cb0}" +
+        ".btn:hover{background:#bee3f8}" +
+        ".bd{padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;white-space:nowrap}" +
+        ".bd-g{background:#c6f6d5;color:#276749}" +
+        ".bd-gray{background:#e2e8f0;color:#4a5568}" +
+        ".sth{font-size:15px;font-weight:700;color:#1C3A5E;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #1C3A5E}" +
+        ".tbl{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0}" +
+        ".tbl th{background:#1C3A5E;color:#fff;padding:10px 14px;font-size:12px;text-align:left;font-weight:600}" +
+        ".tbl td{padding:10px 14px;font-size:13px;color:#2d3748;border-bottom:1px solid #f0f0f0}" +
+        ".tbl tr:last-child td{border-bottom:none}" +
+        ".tbl tr:hover td{background:#f8fafc}" +
+        ".empty{text-align:center;padding:40px;color:#a0aec0;font-size:14px;background:#fff;border-radius:12px;border:2px dashed #e2e8f0}" +
+        "@media(max-width:768px){.kg{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}}" +
+        "</style>";
+
+    // --- Loop único: KPIs + tarjetas ---
+    nTot = 0; nAsig = 0; nSin = 0; nArch = 0;
+    cds = "";
+    for each v in Add_Vehicle[ID != 0]
+    {
+        nTot = nTot + 1;
+        est = ifnull(v.Estado_del_Vehiculo, "Activo");
+        isArch = if(est == "Archivado", 1, 0);
+        hasChofer = if(v.Chofer != 0 && isArch == 0, 1, 0);
+
+        if(isArch == 1) { nArch = nArch + 1; }
+        else if(hasChofer == 1) { nAsig = nAsig + 1; }
+        else { nSin = nSin + 1; }
+
+        stCls = if(isArch == 1, "is-arch", if(hasChofer == 1, "is-asig", "is-sin"));
+        bdCls = if(isArch == 1, "bd-gray", "bd-g");
+
+        choHtml = "";
+        if(hasChofer == 1)
+        {
+            fn = ifnull(v.Chofer.Nombre.first_name, "");
+            ln = ifnull(v.Chofer.Nombre.last_name, "");
+            ini = fn.subString(0, 1) + ln.subString(0, 1);
+            c = (v.Chofer % 8).toLong();
+            av = if(c == 0, "#3182ce", if(c == 1, "#38a169", if(c == 2, "#dd6b20", if(c == 3, "#805ad5", if(c == 4, "#e53e3e", if(c == 5, "#319795", if(c == 6, "#d69e2e", "#718096")))))));
+            choHtml = "<div class='cch'><div class='av' style='background:" + av + "'>" + ini + "</div><span>" + fn + " " + ln + "</span></div>";
+        }
+        else if(isArch == 0)
+        {
+            choHtml = "<div class='cch ns'>&#9888; Sin chofer asignado</div>";
+        }
+
+        cds = cds + "<div class='cd " + stCls + "'>" +
+            "<div class='ct'><div class='cn'>" + v.Nombre_de_Vehiculo + "</div><span class='bd " + bdCls + "'>" + est + "</span></div>" +
+            "<div class='cm'>" + ifnull(v.Numero_de_Registro, "—") + "</div>" +
+            "<div class='cb'>" +
+            "<div class='cr'><span>Marca / Modelo</span><span>" + ifnull(v.Marca_Modelo, "—") + "</span></div>" +
+            "<div class='cr'><span>Combustible</span><span>" + ifnull(v.Tipo_de_Combustible, "—") + "</span></div>" +
+            "<div class='cr'><span>A&#241;o</span><span>" + if(v.Anno_de_Fabricacion != 0, v.Anno_de_Fabricacion.toString(), "—") + "</span></div>" +
+            choHtml +
+            "</div>" +
+            "<div class='cf'><a class='btn' href='#Report:Historial_de_Asignaciones'>Ver historial</a></div>" +
+            "</div>";
+    }
+    if(cds == "") { cds = "<div class='empty'>No hay veh&#237;culos registrados</div>"; }
+
+    // --- Asignaciones activas ---
+    trs = ""; nAct = 0;
+    for each a in Assign_Driver[Estado_de_la_Asignaci_n == "Activa"]
+    {
+        vn = ifnull(a.Vehiculo.Nombre_de_Vehiculo, "—");
+        fn = ifnull(a.Chofer.Nombre.first_name, "") + " " + ifnull(a.Chofer.Nombre.last_name, "");
+        fd = if(a.Fecha_de_Comienzo != null, a.Fecha_de_Comienzo.toString("dd/MM/yyyy"), "—");
+        od = if(a.Odometro_Inicial != 0, a.Odometro_Inicial.toString(), "—");
+        trs = trs + "<tr><td>" + vn + "</td><td>" + fn + "</td><td>" + fd + "</td><td>" + od + "</td></tr>";
+        nAct = nAct + 1;
+    }
+    if(trs == "") { trs = "<tr><td colspan='4' style='text-align:center;color:#a0aec0;padding:20px'>No hay asignaciones activas</td></tr>"; }
+
+    // --- Ensamblaje final ---
+    html = css +
+        "<input type='radio' id='f0' name='f' checked>" +
+        "<input type='radio' id='f1' name='f'>" +
+        "<input type='radio' id='f2' name='f'>" +
+        "<input type='radio' id='f3' name='f'>" +
+        "<div class='wrap'>" +
+        "<div class='hdr'><h1>&#128663; Gesti&#243;n de Flota</h1><p>" + nTot + " veh&#237;culos registrados</p></div>" +
+        "<div class='kg'>" +
+        "<div class='kc k-blue'><b>" + nTot + "</b><span>Total</span></div>" +
+        "<div class='kc k-green'><b>" + nAsig + "</b><span>Asignados</span></div>" +
+        "<div class='kc k-orange'><b>" + nSin + "</b><span>Sin Chofer</span></div>" +
+        "<div class='kc k-gray'><b>" + nArch + "</b><span>Archivados</span></div>" +
+        "</div>" +
+        "<div class='flt'>" +
+        "<label for='f0'>Todos</label>" +
+        "<label for='f1'>Asignados</label>" +
+        "<label for='f2'>Sin Chofer</label>" +
+        "<label for='f3'>Archivados</label>" +
+        "</div>" +
+        "<div class='cards'>" + cds + "</div>" +
+        "<div class='sth'>Asignaciones Activas (" + nAct + ")</div>" +
+        "<table class='tbl'><thead><tr><th>Veh&#237;culo</th><th>Chofer</th><th>Desde</th><th>Od&#243;metro Inicial</th></tr></thead><tbody>" + trs + "</tbody></table>" +
+        "</div>";
+
+    return html;
+}

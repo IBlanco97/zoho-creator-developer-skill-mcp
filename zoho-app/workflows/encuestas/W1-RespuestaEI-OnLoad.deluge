@@ -1,0 +1,21 @@
+// ============================================================
+// W1: Respuesta_EI — On Load (poblar subform con preguntas)
+// Form: Respuesta_EI
+// Trigger: Creado → Validaciones al enviar formularios (on load)
+// ============================================================
+
+encuestaId = input.Encuesta_EI_Resp;
+if(encuestaId != null && encuestaId != 0)
+{
+	preguntas = Pregunta_EI[Encuesta_EI == encuestaId] sort by Orden asc;
+	for each p in preguntas
+	{
+		row = Detalle_Respuesta_EI();
+		row.Pregunta_ID_DR = p.ID;
+		row.Texto_Pregunta_DR = p.Texto_Pregunta;
+		row.Tipo_DR = p.Tipo_Pregunta;
+		row.Respuesta_Texto_DR = "";
+		row.Respuesta_Escala_DR = 0;
+		input.Detalle_Respuesta_EI.insert(row);
+	}
+}

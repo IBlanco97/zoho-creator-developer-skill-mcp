@@ -1,0 +1,102 @@
+// SolicitudPermiso.NotificarAEmpleado(Nuevo_Empleado Trabajador_Solicitante, date Fecha_de_comienzo, date Fecha_de_Fin, int solicitudID)
+// Version mejorada: distingue aprobado/denegado, usa template HTML, WhatsApp mejorado
+
+configuracion_general = Configuraci_n_General[ID != 0];
+cuenta = configuracion_general.Cuenta_de_Whatsapp;
+portalUrl = "https://domo21.zohocreatorportal.com";
+
+if(configuracion_general.Notificar_respuesta_a_Empleados == "Activado")
+{
+	solicitud = Solicitud[ID == solicitudID];
+	estado = solicitud.Aprobado;
+	nombreTrab = Trabajador_Solicitante.Nombre;
+	tipo = solicitud.Tipo;
+	fechaIni = Fecha_de_comienzo.toString("dd/MM/yyyy");
+	fechaFin = Fecha_de_Fin.toString("dd/MM/yyyy");
+
+	// Determinar titulo y emoji segun estado
+	if(estado == "SI")
+	{
+		tittle = "Solicitud de permiso aprobada";
+		emojiEstado = "&#9989;";
+		emojiWA = "✅";
+		colorEstado = "#16a34a";
+		textoEstado = "Aprobada";
+	}
+	else
+	{
+		tittle = "Solicitud de permiso denegada";
+		emojiEstado = "&#10060;";
+		emojiWA = "❌";
+		colorEstado = "#dc2626";
+		textoEstado = "Denegada";
+	}
+
+	// Cuerpo HTML
+	cuerpoHTML = "<p>Hola <b>" + nombreTrab + "</b>,</p>";
+	cuerpoHTML = cuerpoHTML + "<p>Su solicitud de permiso ha sido procesada:</p>";
+	cuerpoHTML = cuerpoHTML + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:12px 0;'>";
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Estado", "<span style='color:" + colorEstado + ";font-weight:700;'>" + emojiEstado + " " + textoEstado + "</span>");
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Tipo de permiso", tipo);
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Fecha inicio", fechaIni);
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Fecha fin", fechaFin);
+	cuerpoHTML = cuerpoHTML + "</table>";
+
+	htmlEmail = thisapp.NotificacionesMail.GenerarHTMLEmail(tittle, cuerpoHTML, "Ver mi solicitud", portalUrl, "");
+
+	// Mensaje WhatsApp
+	msgWA = emojiWA + " *" + tittle + "*\n\n";
+	msgWA = msgWA + "Hola " + nombreTrab + ",\n\n";
+	msgWA = msgWA + "Tipo: " + tipo + "\n";
+	msgWA = msgWA + "Desde: " + fechaIni + "\n";
+	msgWA = msgWA + "Hasta: " + fechaFin + "\n\n";
+	msgWA = msgWA + "_Domo21 | Sicma21 - RRHH_";
+
+	// Push notification
+	mailsList = {Trabajador_Solicitante.Correo_Electr_nico, Trabajador_Solicitante.Official_Email, Trabajador_Solicitante.Mail_Portal_Empleado};
+	zoho.pushNotification(mailsList, tittle, tittle + " del " + fechaIni + " al " + fechaFin, "Ver_Solicitud", solicitudID);
+
+	// WhatsApp
+	whatsapp = configuracion_general.Notificaciones_Permisos.contains("WhatsApp");
+	correo = configuracion_general.Notificaciones_Permisos.contains("Correo");
+
+	if(whatsapp)
+	{
+		if(Trabajador_Solicitante.Tel_fono != null)
+		{
+			thisapp.NuevoEmpleado.whatsapp(cuenta, Trabajador_Solicitante.Tel_fono, msgWA);
+		}
+		if(Trabajador_Solicitante.M_vil != null)
+		{
+			thisapp.NuevoEmpleado.whatsapp(cuenta, Trabajador_Solicitante.M_vil, msgWA);
+		}
+	}
+
+	// Email con template HTML
+	if(correo)
+	{
+		mailsEnviar = List();
+		if(Trabajador_Solicitante.Official_Email != null)
+		{
+			mailsEnviar.add(Trabajador_Solicitante.Official_Email);
+		}
+		if(Trabajador_Solicitante.Correo_Electr_nico != null && !mailsEnviar.contains(Trabajador_Solicitante.Correo_Electr_nico))
+		{
+			mailsEnviar.add(Trabajador_Solicitante.Correo_Electr_nico);
+		}
+		if(Trabajador_Solicitante.Mail_Portal_Empleado != null && !mailsEnviar.contains(Trabajador_Solicitante.Mail_Portal_Empleado))
+		{
+			mailsEnviar.add(Trabajador_Solicitante.Mail_Portal_Empleado);
+		}
+		for each mail in mailsEnviar
+		{
+			sendmail
+			[
+				from :zoho.adminuserid
+				to :mail
+				subject :tittle
+				message :htmlEmail
+			]
+		}
+	}
+}

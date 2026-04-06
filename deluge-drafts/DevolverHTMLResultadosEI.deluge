@@ -1,0 +1,187 @@
+// ============================================================
+// Calendario52HTML.DevolverHTMLResultadosEI(int encuestaId)
+// Vista supervisor: resultados anonimos agregados por pregunta
+// Page: Resultados_EI (variable pagina: EncuestaNo)
+// Roles: SUPERVISOR, RESPONSABLE CAE, OPERARIO CAE, SUPER ADM
+// ============================================================
+
+// --- Datos de la encuesta ---
+encFound = 0;
+encTit = "Encuesta";
+encDesc = "";
+for each e in Encuesta_Interna[ID == encuestaId]
+{
+	encTit = ifnull(e.Titulo, "Encuesta");
+	encDesc = ifnull(e.Descripcion, "");
+	encFound = 1;
+}
+if(encFound == 0)
+{
+	return "<div style='padding:40px;text-align:center;color:#e53e3e;font-size:16px'>Encuesta no encontrada (ID: " + encuestaId + ")</div>";
+}
+
+// --- Preguntas ---
+preguntas = List();
+pregMap = Map();
+for each p in Pregunta_EI[Encuesta_EI == encuestaId] sort by Orden asc
+{
+	pData = Map();
+	pData.put("id", p.ID);
+	pData.put("texto", ifnull(p.Texto_Pregunta, ""));
+	pData.put("tipo", ifnull(p.Tipo_Pregunta, "Texto"));
+	pData.put("respuestas", List());
+	pData.put("escalas", Map());
+	pData.put("escalaTotal", 0);
+	pData.put("escalaCnt", 0);
+	pregMap.put(p.ID.toString(), pData);
+	preguntas.add(pData);
+}
+
+// --- Respuestas ---
+cntRespuestas = 0;
+tokens = Map();
+for each resp in Respuesta_EI[Encuesta_EI_Resp == encuestaId]
+{
+	cntRespuestas = cntRespuestas + 1;
+	for each det in resp.Detalle_Respuesta_EI
+	{
+		pId = ifnull(det.Pregunta_ID_DR, 0);
+		if(pId != 0 && pregMap.containsKey(pId.toString()))
+		{
+			pData = pregMap.get(pId.toString());
+			tipo = pData.get("tipo");
+			if(tipo == "Texto")
+			{
+				txt = ifnull(det.Respuesta_Texto_DR, "");
+				if(txt != "")
+				{
+					rList = pData.get("respuestas");
+					rList.add(txt);
+				}
+			}
+			else if(tipo == "Escala 1-5")
+			{
+				esc = ifnull(det.Respuesta_Escala_DR, 0);
+				if(esc >= 1 && esc <= 5)
+				{
+					escMap = pData.get("escalas");
+					key = esc.toString();
+					cur = if(escMap.containsKey(key), escMap.get(key).toLong(), 0);
+					escMap.put(key, cur + 1);
+					pData.put("escalaTotal", pData.get("escalaTotal").toLong() + esc);
+					pData.put("escalaCnt", pData.get("escalaCnt").toLong() + 1);
+				}
+			}
+		}
+	}
+}
+
+// --- CSS ---
+css = "<style>*{box-sizing:border-box;margin:0;padding:0}";
+css = css + ".re{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;min-height:100vh}";
+css = css + ".hd{background:linear-gradient(135deg,#1C3A5E 0%,#2d5a8e 100%);color:#fff;padding:24px}";
+css = css + ".hl{display:flex;align-items:center;gap:14px;margin-bottom:8px}";
+css = css + ".hi{width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center}";
+css = css + ".hi svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:2}";
+css = css + ".ht{font-size:20px;font-weight:700}.hs{font-size:13px;opacity:.8}";
+css = css + ".hb{display:inline-block;margin-top:6px;padding:4px 14px;background:rgba(255,255,255,.2);border-radius:20px;font-size:13px;font-weight:600}";
+css = css + ".bk{display:inline-block;margin-top:12px;padding:8px 16px;background:rgba(255,255,255,.15);color:#fff;border-radius:8px;font-size:13px;text-decoration:none;transition:background .15s}";
+css = css + ".bk:hover{background:rgba(255,255,255,.25)}";
+css = css + ".cnt{padding:16px 24px}";
+css = css + ".qc{background:#fff;border-radius:10px;padding:18px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:4px solid #3182ce}";
+css = css + ".qn{font-size:10px;text-transform:uppercase;color:#a0aec0;font-weight:700;letter-spacing:1px;margin-bottom:4px}";
+css = css + ".qt{font-size:15px;font-weight:600;color:#2d3748;margin-bottom:10px}";
+css = css + ".qtp{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:#ebf8ff;color:#2b6cb0;font-weight:600;margin-bottom:8px}";
+// Escala bars
+css = css + ".sb{margin-top:6px}.sr{display:flex;align-items:center;gap:8px;margin-bottom:4px}";
+css = css + ".sl{width:16px;font-size:13px;font-weight:600;color:#4a5568;text-align:right}";
+css = css + ".sw{flex:1;height:22px;background:#edf2f7;border-radius:4px;overflow:hidden}";
+css = css + ".sf{height:100%;border-radius:4px;min-width:2px;transition:width .3s}";
+css = css + ".s1{background:#e53e3e}.s2{background:#dd6b20}.s3{background:#d69e2e}.s4{background:#38a169}.s5{background:#276749}";
+css = css + ".sc{font-size:12px;color:#718096;min-width:30px}";
+css = css + ".av{margin-top:8px;font-size:14px;font-weight:700;color:#2d3748}";
+css = css + ".av span{font-size:22px;color:#3182ce}";
+// Text responses
+css = css + ".rl{margin-top:6px}.ri{padding:8px 12px;background:#f7fafc;border-radius:6px;margin-bottom:4px;font-size:13px;color:#4a5568;border-left:3px solid #e2e8f0;line-height:1.4}";
+css = css + ".em{text-align:center;padding:30px;color:#a0aec0;font-size:13px}";
+css = css + "</style>";
+
+// --- HTML ---
+h = css + "<div class='re'>";
+
+// Header
+h = h + "<div class='hd'>";
+h = h + "<div class='hl'>";
+h = h + "<div class='hi'><svg viewBox='0 0 24 24'><path d='M9 11l3 3L22 4'/><path d='M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11'/></svg></div>";
+h = h + "<div><div class='ht'>" + encTit + "</div><div class='hs'>" + encDesc + "</div></div>";
+h = h + "</div>";
+h = h + "<div class='hb'>" + cntRespuestas + " respuestas anonimas</div>";
+h = h + "<br><a class='bk' href='#Page:Encuestas_EI_Admin'>&larr; Volver a Encuestas</a>";
+h = h + "</div>";
+
+// Questions + Results
+h = h + "<div class='cnt'>";
+
+if(preguntas.size() == 0)
+{
+	h = h + "<div class='em'>Esta encuesta no tiene preguntas configuradas</div>";
+}
+else
+{
+	qNum = 0;
+	for each pData in preguntas
+	{
+		qNum = qNum + 1;
+		pTexto = pData.get("texto");
+		pTipo = pData.get("tipo");
+
+		h = h + "<div class='qc'>";
+		h = h + "<div class='qn'>Pregunta " + qNum + "</div>";
+		h = h + "<div class='qt'>" + pTexto + "</div>";
+		h = h + "<div class='qtp'>" + pTipo + "</div>";
+
+		if(pTipo == "Escala 1-5")
+		{
+			escMap = pData.get("escalas");
+			escCnt = pData.get("escalaCnt").toLong();
+			escTotal = pData.get("escalaTotal").toLong();
+			avg = if(escCnt > 0, (escTotal * 10 / escCnt).toDecimal() / 10, 0);
+
+			h = h + "<div class='sb'>";
+			for each val in {5, 4, 3, 2, 1}
+			{
+				cnt = if(escMap.containsKey(val.toString()), escMap.get(val.toString()).toLong(), 0);
+				pct = if(escCnt > 0, cnt * 100 / escCnt, 0);
+				h = h + "<div class='sr'>";
+				h = h + "<div class='sl'>" + val + "</div>";
+				h = h + "<div class='sw'><div class='sf s" + val + "' style='width:" + pct + "%'></div></div>";
+				h = h + "<div class='sc'>" + cnt + "</div>";
+				h = h + "</div>";
+			}
+			h = h + "<div class='av'>Promedio: <span>" + avg + "</span> / 5</div>";
+			h = h + "</div>";
+		}
+		else
+		{
+			rList = pData.get("respuestas");
+			if(rList.size() == 0)
+			{
+				h = h + "<div class='em'>Sin respuestas todavia</div>";
+			}
+			else
+			{
+				h = h + "<div class='rl'>";
+				for each txt in rList
+				{
+					h = h + "<div class='ri'>" + txt + "</div>";
+				}
+				h = h + "</div>";
+			}
+		}
+
+		h = h + "</div>";
+	}
+}
+
+h = h + "</div></div>";
+return h;

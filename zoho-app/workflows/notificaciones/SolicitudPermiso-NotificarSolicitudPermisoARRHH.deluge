@@ -1,0 +1,99 @@
+// SolicitudPermiso.NotificarSolicitudPermisoARRHH(Solicitud solicitud)
+// NUEVA FUNCION: Notifica al personal RRHH cuando un empleado crea una solicitud de permiso
+// Se debe invocar desde el workflow on add del form Solicitud
+
+config = Configuraci_n_General[ID != 0];
+if(config.Notificar_nuevas_solicitudes_a_personal_correspondiente == "Activado")
+{
+	trabajador = Nuevo_Empleado[ID == solicitud.Trabajador_Solicitante];
+	nombreTrab = trabajador.Nombre;
+	tipo = solicitud.Tipo;
+	fechaIni = solicitud.Fecha_de_comienzo.toString("dd/MM/yyyy");
+	fechaFin = solicitud.Fecha_de_Fin.toString("dd/MM/yyyy");
+	fechaSolicitud = solicitud.Added_Time.toString("dd/MM/yyyy HH:mm");
+	observaciones = solicitud.Observaciones;
+
+	titulo = "Solicitud de permiso recibida";
+
+	// Cuerpo HTML
+	cuerpoHTML = "<p>Se ha recibido una nueva solicitud de permiso:</p>";
+	cuerpoHTML = cuerpoHTML + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:12px 0;'>";
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Trabajador", "<b>" + nombreTrab + "</b>");
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Tipo de permiso", tipo);
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Desde", fechaIni);
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Hasta", fechaFin);
+	if(observaciones != null && observaciones != "")
+	{
+		cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Observaciones", observaciones);
+	}
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Fecha solicitud", fechaSolicitud);
+	cuerpoHTML = cuerpoHTML + "</table>";
+	cuerpoHTML = cuerpoHTML + "<p style='margin-top:12px;color:#64748b;font-size:13px;'>Puede aprobar o denegar esta solicitud desde el panel de RRHH.</p>";
+
+	// Mensaje WhatsApp
+	msgWA = "📋 *Solicitud de permiso recibida*\n\n";
+	msgWA = msgWA + "👤 " + nombreTrab + "\n";
+	msgWA = msgWA + "📌 " + tipo + "\n";
+	msgWA = msgWA + "📅 " + fechaIni + " — " + fechaFin + "\n";
+	if(observaciones != null && observaciones != "")
+	{
+		msgWA = msgWA + "📝 " + observaciones + "\n";
+	}
+	msgWA = msgWA + "\n_Domo21 | Sicma21 - RRHH_";
+
+	personalAAvisar = config.Personal_a_Notificar_Solicitudes_de_Permisos;
+	usarWhatsapp = config.V_as_de_Notificaci_n1.contains("WhatsApp");
+	usarMail = config.V_as_de_Notificaci_n1.contains("Correo");
+
+	// Push + WhatsApp + Email
+	mails = List();
+	for each personaID in personalAAvisar
+	{
+		persona = Nuevo_Empleado[ID == personaID];
+		if(persona.Official_Email != null)
+		{
+			mails.add(persona.Official_Email);
+			zoho.pushNotification(persona.Official_Email, titulo, titulo + " de " + nombreTrab + " (" + tipo + ")", "Solicitud_Report1", solicitud.ID);
+		}
+		if(persona.Correo_Electr_nico != null && !mails.contains(persona.Correo_Electr_nico))
+		{
+			mails.add(persona.Correo_Electr_nico);
+		}
+		if(persona.Mail_Portal_Empleado != null && !mails.contains(persona.Mail_Portal_Empleado))
+		{
+			mails.add(persona.Mail_Portal_Empleado);
+		}
+	}
+
+	if(usarWhatsapp)
+	{
+		cuenta = config.Cuenta_de_Whatsapp;
+		for each personaID in personalAAvisar
+		{
+			persona = Nuevo_Empleado[ID == personaID];
+			if(persona.M_vil != null)
+			{
+				thisapp.NuevoEmpleado.whatsapp(cuenta, persona.M_vil, msgWA);
+			}
+			if(persona.Tel_fono != null)
+			{
+				thisapp.NuevoEmpleado.whatsapp(cuenta, persona.Tel_fono, msgWA);
+			}
+		}
+	}
+
+	if(usarMail)
+	{
+		htmlEmail = thisapp.NotificacionesMail.GenerarHTMLEmail(titulo, cuerpoHTML, "Ver solicitudes pendientes", "https://creatorapp.zoho.com/formacion11/human-resource-management/#Report:Solicitud_Report1", "");
+		for each mail in mails
+		{
+			sendmail
+			[
+				from :zoho.adminuserid
+				to :mail
+				subject :"Solicitud de permiso — " + nombreTrab + " (" + tipo + ")"
+				message :htmlEmail
+			]
+		}
+	}
+}

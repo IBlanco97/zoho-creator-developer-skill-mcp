@@ -1,0 +1,297 @@
+string Calendario52HTML.DevolverHTMLDocCliente(int clienteId)
+{
+	// Get client info
+	cliRec = Nuevo_Cliente[ID == clienteId.toLong()];
+	cliFound = 0;
+	cliNombre = "";
+	cliCIF = "";
+	cliTel = "";
+	for each cr in cliRec
+	{
+		cliNombre = cr.Nombre_de_Cuenta;
+		cliCIF = ifnull(cr.CIF, "");
+		cliTel = ifnull(cr.Tel_fono, "");
+		cliFound = 1;
+		break;
+	}
+	if(cliFound == 0)
+	{
+		return "<div style='padding:40px;text-align:center;color:#999;font-family:sans-serif'>Cliente no encontrado (ID: " + clienteId + ")</div>";
+	}
+	// Count employees assigned to this client
+	numEmp = 0;
+	for each at in Asignacion_T_cnico_Cliente[Cliente == clienteId.toLong()]
+	{
+		numEmp = numEmp + 1;
+	}
+	// Get all docs for this client
+	allDocs = Nuevo_Requisitos_Doc[Cliente1 == clienteId.toLong()];
+	// KPI counters
+	nTotal = 0;
+	nActualizado = 0;
+	nCercaCad = 0;
+	nCaducado = 0;
+	nPendSubir = 0;
+	nPendEnviar = 0;
+	nPendAprob = 0;
+	nEnvAprobado = 0;
+	nEnvNoAprob = 0;
+	nNoEnviado = 0;
+	// Model type counters
+	nModEmp = 0;
+	nModAut = 0;
+	nModEmpresa = 0;
+	nModCliente = 0;
+	// Build doc rows HTML
+	empRows = "";
+	trabRows = "";
+	lastTrabId = 0;
+	lastTrabName = "";
+	trabGroup = "";
+	trabCount = 0;
+	empCount = 0;
+	for each d in allDocs
+	{
+		nTotal = nTotal + 1;
+		est = ifnull(d.Estado, "");
+		env = ifnull(d.Enviado, "");
+		apr = ifnull(d.Aprobado_Cliente, "");
+		tipo = ifnull(d.Con_Empresa_o_Con_Trabajador, "");
+		// KPI counting
+		if(est == "Actualizado")
+		{
+			nActualizado = nActualizado + 1;
+		}
+		else if(est == "Cerca de Caducar")
+		{
+			nCercaCad = nCercaCad + 1;
+		}
+		else if(est == "Caducado")
+		{
+			nCaducado = nCaducado + 1;
+		}
+		else if(est == "Pendiente Subir")
+		{
+			nPendSubir = nPendSubir + 1;
+		}
+		else if(est == "Pendiente Enviar")
+		{
+			nPendEnviar = nPendEnviar + 1;
+		}
+		else if(est == "Pendiente Aprobación")
+		{
+			nPendAprob = nPendAprob + 1;
+		}
+		// Envio status
+		if(env == "SI" && apr == "SI")
+		{
+			nEnvAprobado = nEnvAprobado + 1;
+		}
+		else if(env == "SI" && apr != "SI")
+		{
+			nEnvNoAprob = nEnvNoAprob + 1;
+		}
+		else
+		{
+			nNoEnviado = nNoEnviado + 1;
+		}
+		// Status badge
+		badgeCls = "st-grey";
+		if(est == "Actualizado")
+		{
+			badgeCls = "st-green";
+		}
+		else if(est == "Cerca de Caducar")
+		{
+			badgeCls = "st-orange";
+		}
+		else if(est == "Caducado")
+		{
+			badgeCls = "st-red";
+		}
+		else if(est == "Pendiente Enviar")
+		{
+			badgeCls = "st-blue";
+		}
+		else if(est == "Pendiente Aprobación")
+		{
+			badgeCls = "st-purple";
+		}
+		// Envio badge
+		envBadge = "";
+		if(env == "SI" && apr == "SI")
+		{
+			envBadge = "<span class='env-ok'>Validado</span>";
+		}
+		else if(env == "SI")
+		{
+			envBadge = "<span class='env-pend'>Enviado</span>";
+		}
+		else
+		{
+			envBadge = "<span class='env-no'>No enviado</span>";
+		}
+		// Dates
+		cadStr = "";
+		if(d.Caducidad_Tolerancia != null)
+		{
+			cadStr = d.Caducidad_Tolerancia.toString("dd/MM/yyyy");
+		}
+		plantNom = "";
+		if(d.Plantilla != null)
+		{
+			plantNom = ifnull(d.Plantilla.Nombre_de_la_plantilla, "");
+		}
+		hasDoc = 0;
+		if(d.Documento != null)
+		{
+			hasDoc = 1;
+		}
+		// Build the table row
+		rowH = "<tr><td class='td-name'>" + plantNom + "</td><td class='td-center'><span class='badge " + badgeCls + "'>" + est + "</span></td><td class='td-center'>" + envBadge + "</td><td class='td-center'>" + if(cadStr != "", cadStr, "<span class='na'>—</span>") + "</td><td class='td-center'>" + if(hasDoc == 1, "<span class='has-doc'>Sí</span>", "<span class='no-doc'>No</span>") + "</td></tr>";
+		if(tipo == "Requisitos de Empresa")
+		{
+			empRows = empRows + rowH;
+			empCount = empCount + 1;
+		}
+		else
+		{
+			// Group by worker
+			wId = ifnull(d.Trabajador, 0).toLong();
+			wName = "";
+			if(wId != 0)
+			{
+				wName = ifnull(d.Trabajador.Nombre, "");
+			}
+			if(wId != lastTrabId && lastTrabId != 0)
+			{
+				trabRows = trabRows + "<tr class='trab-header'><td colspan='5'><span class='trab-icon'>&#128100;</span> " + lastTrabName + " <span class='trab-count'>(" + trabCount + " docs)</span></td></tr>" + trabGroup;
+				trabGroup = "";
+				trabCount = 0;
+			}
+			trabGroup = trabGroup + rowH;
+			trabCount = trabCount + 1;
+			lastTrabId = wId;
+			lastTrabName = wName;
+		}
+	}
+	// Flush last worker group
+	if(lastTrabId != 0)
+	{
+		trabRows = trabRows + "<tr class='trab-header'><td colspan='5'><span class='trab-icon'>&#128100;</span> " + lastTrabName + " <span class='trab-count'>(" + trabCount + " docs)</span></td></tr>" + trabGroup;
+	}
+	// Progress percentage
+	pctOk = if(nTotal > 0, (nActualizado + nEnvAprobado) * 100 / nTotal, 0);
+	pctW = if(nTotal > 0, pctOk, 0);
+	// CSS
+	css = "<style>
+.dc-wrap{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;padding:20px;min-height:100vh}
+.dc-kpis{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.kpi-card{background:#fff;border-radius:10px;padding:16px 20px;flex:1;min-width:140px;box-shadow:0 1px 4px rgba(0,0,0,.07);text-align:center;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card.kc-blue::before{background:#3182ce}
+.kpi-card.kc-green::before{background:#38a169}
+.kpi-card.kc-red::before{background:#e53e3e}
+.kpi-card.kc-orange::before{background:#dd6b20}
+.kpi-card.kc-purple::before{background:#805ad5}
+.kpi-card.kc-teal::before{background:#319795}
+.kpi-val{font-size:32px;font-weight:800;line-height:1;margin-bottom:4px}
+.kpi-label{font-size:11px;color:#718096;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.kc-blue .kpi-val{color:#2b6cb0}
+.kc-green .kpi-val{color:#276749}
+.kc-red .kpi-val{color:#c53030}
+.kc-orange .kpi-val{color:#c05621}
+.kc-purple .kpi-val{color:#6b46c1}
+.kc-teal .kpi-val{color:#285e61}
+.dc-sem{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sem-card{background:#fff;border-radius:10px;padding:16px 20px;flex:1;min-width:200px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.sem-title{font-size:12px;font-weight:700;color:#1C3A5E;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.sem-items{display:flex;gap:8px;flex-wrap:wrap}
+.sem-item{display:flex;align-items:center;gap:6px;font-size:13px;color:#4a5568}
+.sem-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.sem-item b{font-size:18px;font-weight:700;margin-right:2px}
+.dc-progress{background:#fff;border-radius:10px;padding:16px 20px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.prog-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prog-title{font-size:13px;font-weight:700;color:#1C3A5E}
+.prog-pct{font-size:22px;font-weight:800;color:#276749}
+.prog-bar{height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#38a169,#68d391);transition:width .3s}
+.dc-section{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:16px;overflow:hidden}
+.sec-header{padding:14px 20px;background:#1C3A5E;color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.sec-header .sec-count{background:rgba(255,255,255,.2);padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.dc-table{width:100%;border-collapse:collapse;font-size:13px}
+.dc-table th{padding:10px 14px;text-align:left;background:#f7fafc;color:#4a5568;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.3px;border-bottom:2px solid #e2e8f0}
+.dc-table td{padding:10px 14px;border-bottom:1px solid #edf2f7;color:#2d3748;vertical-align:middle}
+.dc-table tr:hover{background:#f7fafc}
+.td-name{font-weight:500;max-width:320px}
+.td-center{text-align:center}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;white-space:nowrap}
+.st-green{background:#f0fff4;color:#276749}
+.st-orange{background:#fffaf0;color:#c05621}
+.st-red{background:#fff5f5;color:#c53030}
+.st-blue{background:#ebf8ff;color:#2b6cb0}
+.st-purple{background:#faf5ff;color:#6b46c1}
+.st-grey{background:#f7fafc;color:#718096}
+.env-ok{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;background:#c6f6d5;color:#276749}
+.env-pend{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;background:#fefcbf;color:#975a16}
+.env-no{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;background:#fed7d7;color:#9b2c2c}
+.has-doc{color:#38a169;font-weight:600}
+.no-doc{color:#e53e3e;font-weight:600}
+.na{color:#cbd5e0}
+.trab-header td{background:#edf2f7;font-weight:700;color:#1C3A5E;font-size:13px;padding:8px 14px;border-bottom:1px solid #e2e8f0}
+.trab-icon{font-size:14px}
+.trab-count{font-weight:400;color:#718096;font-size:12px}
+.dc-models{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.mod-card{background:#fff;border-radius:10px;padding:14px 18px;flex:1;min-width:120px;box-shadow:0 1px 4px rgba(0,0,0,.07);display:flex;align-items:center;gap:12px}
+.mod-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.mod-icon.mi-emp{background:#ebf8ff;color:#2b6cb0}
+.mod-icon.mi-aut{background:#faf5ff;color:#6b46c1}
+.mod-icon.mi-com{background:#f0fff4;color:#276749}
+.mod-icon.mi-cli{background:#fffaf0;color:#c05621}
+.mod-info b{font-size:20px;font-weight:700;color:#1a202c;display:block;line-height:1}
+.mod-info span{font-size:10px;color:#718096;text-transform:uppercase;letter-spacing:.3px}
+</style>";
+	// Build HTML
+	html = css + "<div class='dc-wrap'>";
+	// KPI row
+	html = html + "<div class='dc-kpis'>";
+	html = html + "<div class='kpi-card kc-blue'><div class='kpi-val'>" + nTotal + "</div><div class='kpi-label'>Total Requisitos</div></div>";
+	html = html + "<div class='kpi-card kc-teal'><div class='kpi-val'>" + numEmp + "</div><div class='kpi-label'>Empleados</div></div>";
+	html = html + "<div class='kpi-card kc-green'><div class='kpi-val'>" + nActualizado + "</div><div class='kpi-label'>Actualizados</div></div>";
+	html = html + "<div class='kpi-card kc-orange'><div class='kpi-val'>" + nCercaCad + "</div><div class='kpi-label'>Cerca Caducar</div></div>";
+	html = html + "<div class='kpi-card kc-red'><div class='kpi-val'>" + (nCaducado + nPendSubir) + "</div><div class='kpi-label'>Caducado / P.Subir</div></div>";
+	html = html + "<div class='kpi-card kc-purple'><div class='kpi-val'>" + nPendAprob + "</div><div class='kpi-label'>Pend. Aprobación</div></div>";
+	html = html + "</div>";
+	// Semaphore cards
+	html = html + "<div class='dc-sem'>";
+	// Caducidad semaphore
+	html = html + "<div class='sem-card'><div class='sem-title'>Caducidad</div><div class='sem-items'>";
+	html = html + "<div class='sem-item'><span class='sem-dot' style='background:#38a169'></span><b>" + nActualizado + "</b> Actualizado</div>";
+	html = html + "<div class='sem-item'><span class='sem-dot' style='background:#dd6b20'></span><b>" + nCercaCad + "</b> Cerca</div>";
+	html = html + "<div class='sem-item'><span class='sem-dot' style='background:#e53e3e'></span><b>" + (nCaducado + nPendSubir) + "</b> Cad./P.Subir</div>";
+	html = html + "</div></div>";
+	// Estado envío semaphore
+	html = html + "<div class='sem-card'><div class='sem-title'>Estado de Envío</div><div class='sem-items'>";
+	html = html + "<div class='sem-item'><span class='sem-dot' style='background:#38a169'></span><b>" + nEnvAprobado + "</b> Validado</div>";
+	html = html + "<div class='sem-item'><span class='sem-dot' style='background:#dd6b20'></span><b>" + nEnvNoAprob + "</b> Enviado</div>";
+	html = html + "<div class='sem-item'><span class='sem-dot' style='background:#e53e3e'></span><b>" + nNoEnviado + "</b> No enviado</div>";
+	html = html + "</div></div>";
+	html = html + "</div>";
+	// Progress bar
+	html = html + "<div class='dc-progress'><div class='prog-header'><span class='prog-title'>Progreso General de Documentación</span><span class='prog-pct'>" + pctW + "%</span></div><div class='prog-bar'><div class='prog-fill' style='width:" + pctW + "%'></div></div></div>";
+	// Table header
+	thRow = "<thead><tr><th style='width:38%'>Documento</th><th style='width:17%'>Estado</th><th style='width:15%'>Envío</th><th style='width:17%'>Caducidad</th><th style='width:13%'>Archivo</th></tr></thead>";
+	// Empresa section
+	if(empCount > 0)
+	{
+		html = html + "<div class='dc-section'><div class='sec-header'><span>&#127970;</span> Requisitos de Empresa <span class='sec-count'>" + empCount + "</span></div><table class='dc-table'>" + thRow + "<tbody>" + empRows + "</tbody></table></div>";
+	}
+	// Trabajador section
+	if(trabRows != "")
+	{
+		trabTotal = nTotal - empCount;
+		html = html + "<div class='dc-section'><div class='sec-header'><span>&#128101;</span> Requisitos de Trabajador <span class='sec-count'>" + trabTotal + "</span></div><table class='dc-table'>" + thRow + "<tbody>" + trabRows + "</tbody></table></div>";
+	}
+	html = html + "</div>";
+	return html;
+}

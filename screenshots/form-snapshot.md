@@ -1,0 +1,378 @@
+- generic [ref=e1]:
+  - generic [ref=e6]:
+    - generic [ref=e7]:
+      - text:         
+      - generic:
+        - text:     󯄩   
+        - generic [ref=e75]:
+          - link "" [ref=e77] [cursor=pointer]:
+            - /url: javascript:;
+            - generic [ref=e78]: 
+          - list [ref=e80]:
+            - listitem [ref=e81]:
+              - link " Constructor" [ref=e82] [cursor=pointer]:
+                - /url: /appbuilder/formacion11/human-resource-management/edit
+                - generic [ref=e83]: 
+                - generic [ref=e84]: Constructor
+            - listitem [ref=e85]:
+              - link "Flujo de trabajo" [ref=e86] [cursor=pointer]:
+                - /url: /appbuilder/formacion11/human-resource-management/workflow/edit
+                - generic [ref=e87]: 
+                - generic [ref=e88]: Flujo de trabajo
+            - listitem [ref=e89]:
+              - link "Configuración" [ref=e90] [cursor=pointer]:
+                - /url: /appbuilder/formacion11/human-resource-management/settings/edit
+                - generic [ref=e91]: 
+                - generic [ref=e92]: Configuración
+        - list [ref=e25]:
+          - listitem
+          - listitem [ref=e27]:
+            - generic "Notificaciones" [ref=e94] [cursor=pointer]:
+              - generic [ref=e95]: 
+          - listitem [ref=e28]:
+            - link "Compartir" [ref=e29] [cursor=pointer]:
+              - /url: javascript:;
+              - generic [ref=e96]: 
+              - text: Compartir
+          - listitem [ref=e30]:
+            - link "Acceder a esta aplicación" [ref=e31] [cursor=pointer]:
+              - /url: https://creatorapp.zoho.com/formacion11/human-resource-management/
+              - generic [ref=e97]: 
+              - text: Acceder a esta aplicación
+      - generic [ref=e32]:
+        - img [ref=e99]
+        - paragraph [ref=e33]: Eva Cama
+        - paragraph [ref=e34]: ecama@sicma21.com
+        - generic [ref=e35]: "User ID: 31923584"
+        - generic [ref=e36]:
+          - link "Cerrar sesión" [ref=e100] [cursor=pointer]:
+            - /url: /logoutpage.jsp?sharedBy=675420877
+            - generic [ref=e101]: 
+            - text: Cerrar sesión
+          - link " Mi cuenta" [ref=e102] [cursor=pointer]:
+            - /url: https://accounts.zoho.com/u/h#profile/personal
+            - generic [ref=e103]: 
+            - text: Mi cuenta
+      - generic [ref=e43] [cursor=pointer]:
+        - generic [ref=e110]: Gestión de Recursos Humanos
+        - generic [ref=e111]: Flujo de trabajo
+      - generic:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+      - generic [ref=e48]:
+        - generic [ref=e50]:
+          - generic [ref=e116]: Mis aplicaciones
+          - list [ref=e118]:
+            - listitem [ref=e119]: No hay más aplicaciones para mostrar
+        - generic [ref=e52]:
+          - link [ref=e122] [cursor=pointer]:
+            - /url: https://accounts.zoho.com/u/h#profile/personal
+            - img [ref=e123]
+          - generic [ref=e124]: Eva Cama
+          - generic [ref=e125]: ecama@sicma21.com
+          - generic [ref=e53]:
+            - link "Inicio" [ref=e55] [cursor=pointer]:
+              - /url: /userhome/dashboard
+            - link "Suscripción" [ref=e57] [cursor=pointer]:
+              - /url: javascript:void(0);
+            - link "Configuración" [ref=e59] [cursor=pointer]:
+              - /url: /userhome/formacion11/dashboard/setup
+          - link "Cerrar sesión" [ref=e126] [cursor=pointer]:
+            - /url: /logoutpage.jsp?sharedBy=675420877
+            - generic [ref=e127]: 
+            - text: Cerrar sesión
+      - text: 
+    - generic:     
+    - generic [ref=e131]:
+      - generic [ref=e132]:
+        - generic [ref=e133]:
+          - list:
+            - listitem [ref=e134]:
+              - generic [ref=e135] [cursor=pointer]: Flujos de trabajo de formulario
+            - listitem [ref=e136]:
+              - generic [ref=e137] [cursor=pointer]: Programas
+            - listitem [ref=e138]:
+              - generic [ref=e139] [cursor=pointer]: Aprobaciones
+            - listitem [ref=e140]:
+              - generic [ref=e141] [cursor=pointer]: Pagos
+            - listitem [ref=e142]:
+              - generic [ref=e143] [cursor=pointer]: Planos
+            - listitem [ref=e144]:
+              - generic [ref=e145] [cursor=pointer]: Flujos de trabajo por lotes
+            - listitem [ref=e146]:
+              - generic [ref=e147] [cursor=pointer]: Flujos de trabajo de informe
+            - listitem [ref=e148]:
+              - generic [ref=e149] [cursor=pointer]: Funciones
+        - generic [ref=e150]:
+          - text:  
+          - generic [ref=e582]:
+            - textbox "Buscar funciones o tipos de devolución" [ref=e2421]
+            - text: 
+            - generic [ref=e584]: 
+          - button "Nueva función" [ref=e585] [cursor=pointer]
+      - text: 
+      - generic [ref=e156]:
+        - text:                                                                                                                                     
+        - generic [ref=e587]:
+          - heading "Espacio de nombres" [level=4] [ref=e588]
+          - list [ref=e593]:
+            - listitem [ref=e594] [cursor=pointer]:
+              - generic [ref=e595]:
+                - generic [ref=e596]: 
+                - text: All Functions
+            - listitem [ref=e597] [cursor=pointer]:
+              - generic [ref=e598]:
+                - generic [ref=e599]: 
+                - text: ActivosEmpleados
+            - listitem [ref=e600] [cursor=pointer]:
+              - generic [ref=e601]:
+                - generic [ref=e602]: 
+                - text: AsignacionTecnico
+            - listitem [ref=e603] [cursor=pointer]:
+              - generic [ref=e604]:
+                - generic [ref=e605]: 
+                - text: Calendario52HTML
+            - listitem [ref=e606] [cursor=pointer]:
+              - generic [ref=e607]:
+                - generic [ref=e608]: 
+                - text: CustomAction
+            - listitem [ref=e609] [cursor=pointer]:
+              - generic [ref=e610]:
+                - generic [ref=e611]: 
+                - text: Default
+            - listitem [ref=e612] [cursor=pointer]:
+              - generic [ref=e613]:
+                - generic [ref=e614]: 
+                - text: DejarMensaje
+            - listitem [ref=e615] [cursor=pointer]:
+              - generic [ref=e616]:
+                - generic [ref=e617]: 
+                - text: DropdownList
+            - listitem [ref=e618] [cursor=pointer]:
+              - generic [ref=e619]:
+                - generic [ref=e620]: 
+                - text: Empresa
+            - listitem [ref=e621] [cursor=pointer]:
+              - generic [ref=e622]:
+                - generic [ref=e623]: 
+                - text: EnvioDeDocumentos
+            - listitem [ref=e624] [cursor=pointer]:
+              - generic [ref=e625]:
+                - generic [ref=e626]: 
+                - text: FuncionesEstaticas
+            - listitem [ref=e627] [cursor=pointer]:
+              - generic [ref=e628]:
+                - generic [ref=e629]: 
+                - text: GestionDeBajaEmpleado
+            - listitem [ref=e630] [cursor=pointer]:
+              - generic [ref=e631]:
+                - generic [ref=e632]: 
+                - text: JornadaCalendario
+            - listitem [ref=e633] [cursor=pointer]:
+              - generic [ref=e634]:
+                - generic [ref=e635]: 
+                - text: mails
+            - listitem [ref=e636] [cursor=pointer]:
+              - generic [ref=e637]:
+                - generic [ref=e638]: 
+                - text: Mensaje
+            - listitem [ref=e639] [cursor=pointer]:
+              - generic [ref=e640]:
+                - generic [ref=e641]: 
+                - text: NotificacionesMail
+            - listitem [ref=e642] [cursor=pointer]:
+              - generic [ref=e643]:
+                - generic [ref=e644]: 
+                - text: NuevaListaDeRequisitos
+            - listitem [ref=e645] [cursor=pointer]:
+              - generic [ref=e646]:
+                - generic [ref=e647]: 
+                - text: NuevoCliente
+            - listitem [ref=e648] [cursor=pointer]:
+              - generic [ref=e649]:
+                - generic [ref=e650]: 
+                - text: NuevoEmpleado
+            - listitem [ref=e651] [cursor=pointer]:
+              - generic [ref=e652]:
+                - generic [ref=e653]: 
+                - text: NuevoEPIRopaHerramienta
+            - listitem [ref=e654] [cursor=pointer]:
+              - generic [ref=e655]:
+                - generic [ref=e656]: 
+                - text: NuevoRequisitoDoc
+            - listitem [ref=e657] [cursor=pointer]:
+              - generic [ref=e658]:
+                - generic [ref=e659]: 
+                - text: PaginaImportacionRecruit
+            - listitem [ref=e660] [cursor=pointer]:
+              - generic [ref=e661]:
+                - generic [ref=e662]: 
+                - text: ProgramaAnualActividadTecnico
+            - listitem [ref=e663] [cursor=pointer]:
+              - generic [ref=e664]:
+                - generic [ref=e665]: 
+                - text: RequisitoDoc
+            - listitem [ref=e666] [cursor=pointer]:
+              - generic [ref=e667]:
+                - generic [ref=e668]: 
+                - text: RolEmpleado
+            - listitem [ref=e669] [cursor=pointer]:
+              - generic [ref=e670]:
+                - generic [ref=e671]: 
+                - text: Schedule
+            - listitem [ref=e672] [cursor=pointer]:
+              - generic [ref=e673]:
+                - generic [ref=e674]: 
+                - text: Semanas52
+            - listitem [ref=e675] [cursor=pointer]:
+              - generic [ref=e676]:
+                - generic [ref=e677]: 
+                - text: SolicitudEPI
+            - listitem [ref=e678] [cursor=pointer]:
+              - generic [ref=e679]:
+                - generic [ref=e680]: 
+                - text: SolicitudPermiso
+            - listitem [ref=e681] [cursor=pointer]:
+              - generic [ref=e682]:
+                - generic [ref=e683]: 
+                - text: SubirDocumento
+            - listitem [ref=e684] [cursor=pointer]:
+              - generic [ref=e685]:
+                - generic [ref=e686]: 
+                - text: Time
+            - listitem [ref=e687] [cursor=pointer]:
+              - generic [ref=e688]:
+                - generic [ref=e689]: 
+                - text: TimeCalc
+            - listitem [ref=e690] [cursor=pointer]:
+              - generic [ref=e691]:
+                - generic [ref=e692]: 
+                - text: TrabajadorExcel
+        - text:                                                
+        - generic [ref=e695]:
+          - table [ref=e697]:
+            - rowgroup [ref=e698]:
+              - row "Nombre de la función Idioma Tipo de valor devuelto Sintaxis" [ref=e699]:
+                - columnheader "Nombre de la función" [ref=e700]
+                - columnheader "Idioma" [ref=e701]
+                - columnheader "Tipo de valor devuelto" [ref=e702]
+                - columnheader "Sintaxis" [ref=e703]
+          - generic [ref=e708]:
+            - text: 
+            - table [ref=e709]:
+              - rowgroup [ref=e710]:
+                - row " DevolverHTMLCalendario52Semanas Deluge string Calendario52HTML.DevolverHTMLCalendario52Semanas(int anio)" [ref=e741]:
+                  - cell " DevolverHTMLCalendario52Semanas" [ref=e742]:
+                    - generic [ref=e743]: 
+                    - paragraph [ref=e744] [cursor=pointer]: DevolverHTMLCalendario52Semanas
+                  - cell "Deluge" [ref=e745]
+                  - cell "string" [ref=e746]
+                  - cell "Calendario52HTML.DevolverHTMLCalendario52Semanas(int anio)" [ref=e747]:
+                    - generic [ref=e748]: Calendario52HTML.DevolverHTMLCalendario52Semanas(int anio)
+        - text:       
+      - text:       
+    - generic:
+      - generic:        
+      - text:     
+    - generic [ref=e2065]:
+      - generic:
+        - link "Atrás" [ref=e2347] [cursor=pointer]:
+          - /url: javascript:;
+          - text: Atrás
+        - link [ref=e2349] [cursor=pointer]:
+          - /url: javascript:;
+      - generic [ref=e2352]:
+        - generic [ref=e2354]: ¿Cuándo desea ejecutar su acción?
+        - generic [ref=e2355]:
+          - generic [ref=e2358] [cursor=pointer]: En un evento de formulario
+          - generic [ref=e2361] [cursor=pointer]: En una fecha programada
+          - generic [ref=e2364] [cursor=pointer]: En una llamada de función
+          - generic [ref=e2367] [cursor=pointer]: En lotes de registros
+        - generic [ref=e2370] [cursor=pointer]: En una actividad de aprobación
+        - generic [ref=e2373] [cursor=pointer]: En una actividad de pago
+        - generic [ref=e2376] [cursor=pointer]: En un proceso empresarial
+      - generic [ref=e2377]:
+        - text:        
+        - generic [ref=e2378]:
+          - text:                                                            
+          - generic [ref=e2381]:
+            - generic [ref=e2382]: Ejecutar una función cuando se llama
+            - generic [ref=e2383]:
+              - generic [ref=e2384]: Dé nombre a la función
+              - 'textbox "Ejemplo: cancelOrder, getRecordDetails" [ref=e2385]': DevolverHTMLDetalleSemana
+            - generic [ref=e2386]:
+              - generic [ref=e2387]: Seleccione el idioma
+              - generic [ref=e2389]:
+                - link "Deluge " [ref=e2390] [cursor=pointer]:
+                  - /url: javascript:void(0)
+                  - generic [ref=e2391]: Deluge
+                  - text: 
+                - button "Deluge" [ref=e2393]
+                - text: 
+            - generic [ref=e2394]:
+              - generic [ref=e2395]: Seleccionar espacio de nombres
+              - generic [ref=e2397]:
+                - link "-Seleccionar- " [ref=e2398] [cursor=pointer]:
+                  - /url: javascript:void(0)
+                  - generic [ref=e2399]: "-Seleccionar-"
+                  - text: 
+                - button "-Seleccionar-" [ref=e2401]
+              - link "" [ref=e2403] [cursor=pointer]:
+                - /url: javascript:;
+                - generic [ref=e2404]: 
+            - generic [ref=e2405]:
+              - generic [ref=e2406]: Seleccione el tipo de devolución
+              - generic [ref=e2408]:
+                - link "void " [ref=e2409] [cursor=pointer]:
+                  - /url: javascript:void(0)
+                  - generic [ref=e2410]: void
+                  - text: 
+                - button "void" [ref=e2412]
+            - generic [ref=e2413]:
+              - generic [ref=e2414]: Especificar argumentos
+              - link " Agregar argumentos" [ref=e2416] [cursor=pointer]:
+                - /url: javascript:;
+                - generic [ref=e2417]: 
+                - text: Agregar argumentos
+            - button "Crear función" [ref=e2419] [cursor=pointer]
+          - text:          
+      - generic [ref=e2420]:     
+  - img
+  - img
+  - generic [ref=e563]:
+    - generic [ref=e564]:
+      - text:               
+      - generic [ref=e565]:
+        - generic "Chats" [ref=e566] [cursor=pointer]:  Chats
+        - generic "Channels" [ref=e567] [cursor=pointer]:  Channels
+        - generic "Contacts" [ref=e568] [cursor=pointer]:  Contacts
+    - generic [ref=e569]: Here is your Smart Chat (Ctrl+Space)
+    - text: 
+    - generic [ref=e572]:
+      - text: 
+      - link "Suscripción" [ref=e574] [cursor=pointer]:
+        - /url: javascript:void(0);
+        - generic [ref=e575]: Suscripción
+      - generic "Métodos abreviados del teclado" [ref=e576] [cursor=pointer]:
+        - generic [ref=e577]: 
+      - text:   
+      - generic [ref=e578] [cursor=pointer]:
+        - generic [ref=e579]: 
+        - generic [ref=e580]: Ayuda
+    - text: 
+    - generic [ref=e581] [cursor=pointer]:  
+  - iframe
+  - text:     Search across Apps       
+  - text: 
+  - generic [ref=e2332]:
+    - combobox [active] [ref=e2334]:
+      - listbox [ref=e2335]:
+        - option "void" [ref=e2336] [cursor=pointer]: void
+        - option "int" [ref=e2337] [cursor=pointer]: int
+        - option "float" [ref=e2338] [cursor=pointer]: float
+        - option "string" [ref=e2339] [cursor=pointer]: string
+        - option "bool" [ref=e2340] [cursor=pointer]: bool
+        - option "date" [ref=e2341] [cursor=pointer]: date
+        - option "map" [ref=e2342] [cursor=pointer]: map
+        - option "list" [ref=e2343] [cursor=pointer]: list
+        - option "collection" [ref=e2344] [cursor=pointer]: collection
+    - text: 
+  - text:  

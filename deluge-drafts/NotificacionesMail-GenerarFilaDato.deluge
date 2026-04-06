@@ -1,0 +1,7 @@
+// NotificacionesMail.GenerarFilaDato(string etiqueta, string valor)
+// Genera una fila de tabla HTML para datos clave-valor en emails
+// etiqueta: nombre del campo (ej: "Trabajador")
+// valor: valor del campo (ej: "Juan Garcia")
+
+fila = "<tr><td style='padding:8px 12px;font-weight:600;color:#475569;font-size:13px;width:160px;background-color:#f8fafc;border:1px solid #e2e8f0;'>" + etiqueta + "</td><td style='padding:8px 12px;color:#1e293b;font-size:13px;border:1px solid #e2e8f0;'>" + valor + "</td></tr>";
+return fila;

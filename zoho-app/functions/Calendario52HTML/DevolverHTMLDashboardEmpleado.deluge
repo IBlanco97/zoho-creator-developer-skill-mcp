@@ -1,0 +1,337 @@
+string Calendario52HTML.DevolverHTMLDashboardEmpleado()
+{
+	// ── 1. Fetch employee record ──
+	uid = zoho.loginuserid;
+	empFound = 0;
+	empRec = null;
+	for each e in Nuevo_Empleado[Official_Email == uid || Mail_Portal_Empleado == uid || Correo_Electr_nico == uid]
+	{
+		empRec = e;
+		empFound = 1;
+		break;
+	}
+	if(empFound == 0)
+	{
+		return "<div style='padding:40px;text-align:center;font-family:sans-serif;color:#718096'><h2>No se encontró tu perfil de empleado</h2><p>Contacta con RRHH para resolver este problema.</p></div>";
+	}
+	empId = empRec.ID;
+	empNom = ifnull(empRec.Nombre.first_name,"") + " " + ifnull(empRec.Nombre.last_name,"");
+	empArea = ifnull(empRec.Area_Profesional,"—");
+	empPuesto = ifnull(empRec.Puesto_laboral_actual,"—");
+	empContrato = ifnull(empRec.Tipo_de_Contrato1,"—");
+	empDeleg = ifnull(empRec.Delegacion,"—");
+	// Initials for avatar
+	ini = empNom.subString(0,1).toUpperCase();
+	ln = ifnull(empRec.Nombre.last_name,"");
+	if(ln != "")
+	{
+		ini = ini + ln.subString(0,1).toUpperCase();
+	}
+	// Clients list
+	clList = "";
+	clCnt = 0;
+	for each cid in empRec.Clientes_Habituales
+	{
+		clRec = Nuevo_Cliente[ID == cid];
+		if(clCnt > 0)
+		{
+			clList = clList + ", ";
+		}
+		clList = clList + clRec.Nombre_de_Cuenta;
+		clCnt = clCnt + 1;
+	}
+	if(clCnt == 0)
+	{
+		clList = "Sin asignar";
+	}
+	// ── 2. KPI counts ──
+	// Confirmaciones pendientes
+	cntConf = 0;
+	confH = "";
+	for each cf in Confirmaciones_de_Entrega[Empleado == empId && Estado == "Sin Respuesta"]
+	{
+		cntConf = cntConf + 1;
+		confH = confH + "<div class='cr'><div class='ci'><svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='#dd6b20' stroke-width='2'><path d='M9 11l3 3L22 4'/><path d='M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11'/></svg></div><div class='ct'><div class='cm'>" + ifnull(cf.Mensaje,"Confirmación pendiente") + "</div><div class='cp'>" + ifnull(cf.Tipo,"") + "</div></div><a class='ab' href='#Report:Confirmaciones_de_Entrega_Report'>Confirmar</a></div>";
+	}
+	// Permisos pendientes
+	cntPerm = 0;
+	for each sp in Solicitud[Trabajador_Solicitante == empId && Aprobado == "Sin Respuesta"]
+	{
+		cntPerm = cntPerm + 1;
+	}
+	// EPIs pendientes
+	cntEpi = 0;
+	for each se in Solicitud_de_EPIs_Herramientas[Trabajador_Solicitante == empId && Aprobado == "Sin Respuesta"]
+	{
+		cntEpi = cntEpi + 1;
+	}
+	// Próximas ausencias aprobadas
+	hoy = zoho.currentdate;
+	cntAus = 0;
+	ausH = "";
+	for each sa in Solicitud[Trabajador_Solicitante == empId && Aprobado == "Aprobado" && Fecha_de_comienzo >= hoy]
+	{
+		cntAus = cntAus + 1;
+		fi = ifnull(sa.Fecha_de_comienzo,"");
+		ff = ifnull(sa.Fecha_de_Fin,"");
+		tp = ifnull(sa.Tipo,"Permiso");
+		ausH = ausH + "<div class='ar'><span class='at'>" + tp + "</span><span class='ad'>" + fi + " — " + ff + "</span></div>";
+		if(cntAus >= 5)
+		{
+			break;
+		}
+	}
+	// Encuestas activas
+	cntEnc = 0;
+	encH = "";
+	for each enc in Encuesta_Survey[Estado_de_Encuesta == "Activa"]
+	{
+		cntEnc = cntEnc + 1;
+		eUrl = ifnull(enc.Enlace_a_la_encuesta_Zoho_Survey1,"#");
+		eNom = ifnull(enc.Nombre,"Encuesta");
+		encH = encH + "<a class='er' href='" + eUrl + "' target='_blank'><span class='en'>" + eNom + "</span><span class='el'>Responder &rarr;</span></a>";
+	}
+	// Mensajes recientes (últimos 5)
+	cntMsg = 0;
+	msgH = "";
+	for each m in Mensaje[Tecnico == empId]
+	{
+		cntMsg = cntMsg + 1;
+		esResp = ifnull(m.Es_Respuesta,"NO");
+		mCont = ifnull(m.Contenido,"");
+		if(mCont.length() > 80)
+		{
+			mCont = mCont.subString(0,80) + "...";
+		}
+		mc = if(esResp == "SI","mr","ms");
+		ml = if(esResp == "SI","RRHH","Tú");
+		msgH = msgH + "<div class='" + mc + "'><span class='ma'>" + ml + "</span><span class='mx'>" + mCont + "</span></div>";
+		if(cntMsg >= 5)
+		{
+			break;
+		}
+	}
+	// Anuncios vigentes
+	cntAnn = 0;
+	annH = "";
+	for each an in Add_Announcement[Expires_On >= hoy || Expires_On is null]
+	{
+		cntAnn = cntAnn + 1;
+		annH = annH + "<div class='nr'><div class='nt'>" + ifnull(an.Title,"Sin título") + "</div><div class='nm'>" + ifnull(an.Message,"") + "</div></div>";
+		if(cntAnn >= 5)
+		{
+			break;
+		}
+	}
+	// Documentación con clientes
+	cntDoc = 0;
+	docOk = 0;
+	docCad = 0;
+	docPend = 0;
+	docH = "";
+	prevCli = "";
+	for each d in Nueva_Lista_de_Requisitos[Trabajador == empId]
+	{
+		cntDoc = cntDoc + 1;
+		est = ifnull(d.Estado,"Pendiente");
+		if(est == "Actualizado" || est == "Aprobado" || est == "Enviado y Aprobado")
+		{
+			docOk = docOk + 1;
+		}
+		else
+		{
+			if(est == "Caducado")
+			{
+				docCad = docCad + 1;
+			}
+			else
+			{
+				docPend = docPend + 1;
+			}
+		}
+		cliNom = ifnull(d.Cliente1.Nombre_de_Cuenta,"Sin cliente");
+		pltNom = ifnull(d.Nombre,"Documento");
+		dc = if(est == "Actualizado" || est == "Aprobado" || est == "Enviado y Aprobado","dg",if(est == "Caducado","dd","dy"));
+		dl = if(est == "Actualizado" || est == "Aprobado" || est == "Enviado y Aprobado","Al día",if(est == "Caducado","Caducado","Pendiente"));
+		// Group header by client
+		gh = "";
+		if(cliNom != prevCli)
+		{
+			if(prevCli != "")
+			{
+				gh = "</div>";
+			}
+			gh = gh + "<div class='dg2'><div class='dgh'>" + cliNom + "</div>";
+			prevCli = cliNom;
+		}
+		docH = docH + gh + "<div class='dr'><span class='dn2'>" + pltNom + "</span><span class='db2 " + dc + "'>" + dl + "</span></div>";
+	}
+	if(prevCli != "")
+	{
+		docH = docH + "</div>";
+	}
+	// ── 3. Build CSS ──
+	css = "<style>*{box-sizing:border-box;margin:0;padding:0}";
+	css = css + ".de{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;min-height:100vh}";
+	// Header
+	css = css + ".hd{background:linear-gradient(135deg,#1C3A5E 0%,#2d5a8e 100%);color:#fff;padding:28px 24px 22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}";
+	css = css + ".av{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;letter-spacing:1px;flex-shrink:0}";
+	css = css + ".hi{flex:1;min-width:200px}.hi h1{font-size:22px;font-weight:700;letter-spacing:-.3px}.hi p{font-size:12px;opacity:.7;margin-top:2px}";
+	// Info pills row
+	css = css + ".ip{display:flex;gap:10px;flex-wrap:wrap;padding:16px 24px;background:#fff;border-bottom:1px solid #e2e8f0}";
+	css = css + ".il{flex:1;min-width:120px;padding:10px 14px;background:#f7fafc;border-radius:10px;border-left:3px solid #cbd5e0}";
+	css = css + ".il .ll{font-size:9px;color:#a0aec0;text-transform:uppercase;letter-spacing:.6px;font-weight:600}.il .lv{font-size:13px;font-weight:600;color:#2d3748;margin-top:2px}";
+	// KPI row
+	css = css + ".bd{padding:20px 24px}";
+	css = css + ".kr{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}";
+	css = css + ".kc{background:#fff;border-radius:10px;padding:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:4px solid #cbd5e0;text-align:center;cursor:pointer;text-decoration:none;display:block;transition:transform .15s,box-shadow .15s}";
+	css = css + ".kc:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}";
+	css = css + ".kc b{font-size:28px;font-weight:800;display:block;line-height:1;letter-spacing:-1px}.kc span{font-size:9px;color:#718096;text-transform:uppercase;letter-spacing:.5px;margin-top:4px;display:block}";
+	css = css + ".k-o{border-left-color:#dd6b20}.k-o b{color:#dd6b20}";
+	css = css + ".k-b{border-left-color:#3182ce}.k-b b{color:#3182ce}";
+	css = css + ".k-g{border-left-color:#38a169}.k-g b{color:#38a169}";
+	css = css + ".k-t{border-left-color:#319795}.k-t b{color:#319795}";
+	// Action buttons
+	css = css + ".acts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}";
+	css = css + ".ac{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);text-decoration:none;color:#2d3748;font-size:13px;font-weight:600;transition:transform .15s,box-shadow .15s}";
+	css = css + ".ac:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}";
+	css = css + ".ac .ai{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}";
+	css = css + ".a-o .ai{background:#fffaf0;color:#dd6b20}.a-b .ai{background:#ebf8ff;color:#3182ce}.a-g .ai{background:#f0fff4;color:#38a169}";
+	// Section titles
+	css = css + ".st{font-size:11px;font-weight:700;color:#a0aec0;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;padding-left:2px}";
+	// Grid layout
+	css = css + ".gr{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}";
+	css = css + ".sc{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:16px;display:flex;flex-direction:column}";
+	// Confirmaciones
+	css = css + ".cr{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0f2f5}.cr:last-child{border-bottom:none}";
+	css = css + ".ci{flex-shrink:0}.ct{flex:1;min-width:0}.cm{font-size:12px;font-weight:600;color:#2d3748}.cp{font-size:10px;color:#a0aec0;margin-top:1px}";
+	css = css + ".ab{font-size:10px;font-weight:600;padding:5px 12px;border-radius:6px;background:#fffaf0;color:#dd6b20;text-decoration:none;white-space:nowrap;transition:background .15s}.ab:hover{background:#feebc8}";
+	// Ausencias
+	css = css + ".ar{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f0f2f5}.ar:last-child{border-bottom:none}";
+	css = css + ".at{font-size:11px;font-weight:600;color:#2d3748;background:#ebf8ff;padding:3px 10px;border-radius:12px}";
+	css = css + ".ad{font-size:11px;color:#718096}";
+	// Encuestas
+	css = css + ".er{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f2f5;text-decoration:none}.er:last-child{border-bottom:none}";
+	css = css + ".en{font-size:12px;font-weight:600;color:#2d3748}.el{font-size:11px;color:#319795;font-weight:600}";
+	// Mensajes
+	css = css + ".ms,.mr{padding:8px 12px;border-radius:10px;margin-bottom:6px;max-width:85%}";
+	css = css + ".ms{background:#dcf8c6;align-self:flex-end;margin-left:auto}.mr{background:#fff;border:1px solid #e2e8f0}";
+	css = css + ".ma{font-size:9px;font-weight:700;color:#a0aec0;text-transform:uppercase;display:block;margin-bottom:2px}.mx{font-size:12px;color:#2d3748;line-height:1.4}";
+	css = css + ".mc{display:flex;flex-direction:column;gap:4px}";
+	// Anuncios
+	css = css + ".nr{padding:10px 0;border-bottom:1px solid #f0f2f5}.nr:last-child{border-bottom:none}";
+	css = css + ".nt{font-size:12px;font-weight:700;color:#2d3748}.nm{font-size:11px;color:#718096;margin-top:3px;line-height:1.4}";
+	// Documentación
+	css = css + ".dg2{margin-bottom:12px}.dgh{font-size:11px;font-weight:700;color:#1C3A5E;padding:6px 0;border-bottom:2px solid #1C3A5E;margin-bottom:6px}";
+	css = css + ".dr{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f7fafc}.dr:last-child{border-bottom:none}";
+	css = css + ".dn2{font-size:11px;color:#4a5568}";
+	css = css + ".db2{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;white-space:nowrap}";
+	css = css + ".dg{background:#f0fff4;color:#276749}.dd{background:#fff5f5;color:#c53030}.dy{background:#fffaf0;color:#c05621}";
+	// Empty state
+	css = css + ".es{text-align:center;padding:20px;color:#a0aec0;font-size:12px}";
+	css = css + ".es svg{margin-bottom:8px;opacity:.4}";
+	// See more link
+	css = css + ".sm{display:block;text-align:center;padding:8px;font-size:11px;font-weight:600;color:#3182ce;text-decoration:none;margin-top:8px;border-top:1px solid #f0f2f5}.sm:hover{color:#2c5282}";
+	// Responsive
+	css = css + "@media(max-width:768px){.kr{grid-template-columns:repeat(2,1fr)}.acts{grid-template-columns:1fr}.gr{grid-template-columns:1fr}.ip{flex-direction:column}}";
+	css = css + "</style>";
+	// ── 4. Build HTML ──
+	// Header
+	h1 = "<div class='de'><div class='hd'><div class='av'>" + ini + "</div><div class='hi'><h1>" + empNom + "</h1><p>" + empArea + " · " + empDeleg + "</p></div></div>";
+	// Info pills
+	h2 = "<div class='ip'><div class='il'><div class='ll'>Puesto</div><div class='lv'>" + empPuesto + "</div></div><div class='il'><div class='ll'>Contrato</div><div class='lv'>" + empContrato + "</div></div><div class='il'><div class='ll'>Clientes</div><div class='lv'>" + clList + "</div></div></div>";
+	// KPIs
+	h3 = "<div class='bd'><div class='kr'>";
+	h3 = h3 + "<a class='kc k-o' href='#Report:Confirmaciones_de_Entrega_Report'><b>" + cntConf + "</b><span>Confirmaciones</span></a>";
+	h3 = h3 + "<a class='kc k-b' href='#Report:Ver_Solicitud'><b>" + cntPerm + "</b><span>Permisos Pend.</span></a>";
+	h3 = h3 + "<a class='kc k-g' href='#Report:Ver_Solicitud_de_EPIs_Herramientas'><b>" + cntEpi + "</b><span>EPIs Pend.</span></a>";
+	h3 = h3 + "<a class='kc k-t' href='#Report:Encuestas_Zoho_Survey'><b>" + cntEnc + "</b><span>Encuestas</span></a>";
+	h3 = h3 + "</div>";
+	// Action buttons
+	h4 = "<div class='acts'>";
+	h4 = h4 + "<a class='ac a-o' href='#Form:Solicitud'><div class='ai'><svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><rect x='3' y='4' width='18' height='18' rx='2'/><line x1='16' y1='2' x2='16' y2='6'/><line x1='8' y1='2' x2='8' y2='6'/><line x1='3' y1='10' x2='21' y2='10'/></svg></div>Solicitar Permiso</a>";
+	h4 = h4 + "<a class='ac a-b' href='#Form:Solicitud_de_EPIs_Herramientas'><div class='ai'><svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z'/></svg></div>Solicitar EPI</a>";
+	h4 = h4 + "<a class='ac a-g' href='#Page:Mis_Mensajes2'><div class='ai'><svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z'/></svg></div>Mis Mensajes</a>";
+	h4 = h4 + "</div>";
+	// Empty state helper
+	esSvg = "<svg width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'><circle cx='12' cy='12' r='10'/><path d='M8 15h8M9 9h.01M15 9h.01'/></svg>";
+	// ── 5. Grid sections ──
+	// Row 1: Confirmaciones + Ausencias
+	g1a = "<div class='sc'><div class='st'>Confirmaciones Pendientes</div>";
+	if(cntConf > 0)
+	{
+		g1a = g1a + confH;
+	}
+	else
+	{
+		g1a = g1a + "<div class='es'>" + esSvg + "<div>No tienes confirmaciones pendientes</div></div>";
+	}
+	g1a = g1a + "</div>";
+	g1b = "<div class='sc'><div class='st'>Próximas Ausencias</div>";
+	if(cntAus > 0)
+	{
+		g1b = g1b + ausH + "<a class='sm' href='#Report:Ver_Solicitud'>Ver todas &rarr;</a>";
+	}
+	else
+	{
+		g1b = g1b + "<div class='es'>" + esSvg + "<div>No tienes ausencias programadas</div></div>";
+	}
+	g1b = g1b + "</div>";
+	// Row 2: Mensajes + Encuestas
+	g2a = "<div class='sc'><div class='st'>Mensajes Recientes</div>";
+	if(cntMsg > 0)
+	{
+		g2a = g2a + "<div class='mc'>" + msgH + "</div><a class='sm' href='#Page:Mis_Mensajes2'>Ver conversación completa &rarr;</a>";
+	}
+	else
+	{
+		g2a = g2a + "<div class='es'>" + esSvg + "<div>No tienes mensajes</div></div>";
+	}
+	g2a = g2a + "</div>";
+	g2b = "<div class='sc'><div class='st'>Encuestas Activas</div>";
+	if(cntEnc > 0)
+	{
+		g2b = g2b + encH;
+	}
+	else
+	{
+		g2b = g2b + "<div class='es'>" + esSvg + "<div>No hay encuestas activas</div></div>";
+	}
+	g2b = g2b + "</div>";
+	// Row 3: Anuncios (full width)
+	g3 = "<div class='sc' style='margin-bottom:20px'><div class='st'>Anuncios</div>";
+	if(cntAnn > 0)
+	{
+		g3 = g3 + annH;
+	}
+	else
+	{
+		g3 = g3 + "<div class='es'>" + esSvg + "<div>No hay anuncios</div></div>";
+	}
+	g3 = g3 + "</div>";
+	// Row 4: Documentación con clientes (full width)
+	g4 = "<div class='sc'><div class='st'>Documentación con Clientes</div>";
+	if(cntDoc > 0)
+	{
+		pDoc = if(cntDoc > 0,((docOk * 100) / cntDoc).round(0),0);
+		g4 = g4 + "<div style='display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap'>";
+		g4 = g4 + "<span style='font-size:11px;color:#38a169;font-weight:600'>Al día: " + docOk + "</span>";
+		g4 = g4 + "<span style='font-size:11px;color:#c53030;font-weight:600'>Caducados: " + docCad + "</span>";
+		g4 = g4 + "<span style='font-size:11px;color:#dd6b20;font-weight:600'>Pendientes: " + docPend + "</span>";
+		g4 = g4 + "<span style='font-size:11px;color:#718096'>(" + pDoc + "% al día)</span>";
+		g4 = g4 + "</div>";
+		g4 = g4 + docH;
+	}
+	else
+	{
+		g4 = g4 + "<div class='es'>" + esSvg + "<div>No tienes documentación asignada</div></div>";
+	}
+	g4 = g4 + "</div>";
+	// ── 6. Assemble ──
+	html = css + h1 + h2 + h3 + h4;
+	html = html + "<div class='gr'>" + g1a + g1b + "</div>";
+	html = html + "<div class='gr'>" + g2a + g2b + "</div>";
+	html = html + g3 + g4;
+	html = html + "</div></div>";
+	return html;
+}

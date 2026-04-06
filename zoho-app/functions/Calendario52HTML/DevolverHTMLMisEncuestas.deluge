@@ -1,0 +1,137 @@
+// ============================================================
+// Calendario52HTML.DevolverHTMLMisEncuestas()
+// Vista empleado: lista de encuestas pendientes / completadas
+// Page: Mis_Encuestas (USUARIO TRABAJADOR + todos)
+// ============================================================
+
+// --- Datos ---
+completadas = Map();
+for each c in Completada_EI[Email_Empleado_CE == zoho.loginuserid]
+{
+	cId = c.Encuesta_EI_CE;
+	if(cId != null && cId != 0)
+	{
+		completadas.put(cId.toString(), true);
+	}
+}
+
+cntPend = 0;
+cntComp = 0;
+cntTotal = 0;
+cardsH = "";
+
+for each enc in Encuesta_Interna[Estado_EI == "Activa"]
+{
+	cntTotal = cntTotal + 1;
+	eId = enc.ID;
+	eTit = ifnull(enc.Titulo, "Encuesta");
+	eDesc = ifnull(enc.Descripcion, "");
+	eNum = ifnull(enc.Num_Preguntas, 0);
+	done = completadas.containsKey(eId.toString());
+
+	if(done)
+	{
+		cntComp = cntComp + 1;
+		badge = "<span class='bg bd'> Completada</span>";
+		btn = "";
+	}
+	else
+	{
+		cntPend = cntPend + 1;
+		badge = "<span class='bg bp'> Pendiente</span>";
+		btn = "<a class='bt' href='#Form:Respuesta_EI?Encuesta_EI_Resp=" + eId + "'>Responder</a>";
+	}
+
+	cardsH = cardsH + "<div class='cd" + if(done, " dn", "") + "'>";
+	cardsH = cardsH + "<div class='ct'><div class='cn'>" + eTit + "</div>" + badge + "</div>";
+	if(eDesc != "")
+	{
+		cardsH = cardsH + "<div class='ds'>" + eDesc + "</div>";
+	}
+	cardsH = cardsH + "<div class='mt'><span>" + eNum + " preguntas</span></div>";
+	cardsH = cardsH + btn;
+	cardsH = cardsH + "</div>";
+}
+
+// --- Encuestas externas (Zoho Survey, compatibilidad) ---
+extH = "";
+cntExt = 0;
+for each es in Encuesta_Survey[Estado_de_Encuesta == "Activa"]
+{
+	cntExt = cntExt + 1;
+	esNom = ifnull(es.Nombre, "Encuesta");
+	esUrl = ifnull(es.Enlace_a_la_encuesta_Zoho_Survey1, "#");
+	extH = extH + "<div class='cd'>";
+	extH = extH + "<div class='ct'><div class='cn'>" + esNom + "</div><span class='bg be'> Externa</span></div>";
+	extH = extH + "<a class='bt bx' href='" + esUrl + "' target='_blank'>Abrir encuesta</a>";
+	extH = extH + "</div>";
+}
+
+// --- CSS ---
+css = "<style>*{box-sizing:border-box;margin:0;padding:0}";
+css = css + ".me{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;min-height:100vh}";
+css = css + ".hd{background:linear-gradient(135deg,#1C3A5E 0%,#2d5a8e 100%);color:#fff;padding:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}";
+css = css + ".hi{width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center}";
+css = css + ".hi svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:2}";
+css = css + ".ht{font-size:20px;font-weight:700}.hs{font-size:13px;opacity:.8;margin-top:2px}";
+css = css + ".kr{display:flex;gap:12px;padding:16px 24px;flex-wrap:wrap}";
+css = css + ".kc{flex:1;min-width:120px;background:#fff;border-radius:10px;padding:14px 16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.08)}";
+css = css + ".kc b{font-size:28px;display:block}.kc span{font-size:11px;text-transform:uppercase;color:#666;letter-spacing:.5px}";
+css = css + ".k-g b{color:#38a169}.k-o b{color:#dd6b20}.k-b b{color:#3182ce}";
+css = css + ".cnt{padding:0 24px 24px}";
+css = css + ".sh{font-size:16px;font-weight:600;color:#1C3A5E;margin:16px 0 10px;padding-bottom:6px;border-bottom:2px solid #e2e8f0}";
+css = css + ".cd{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:4px solid #3182ce;transition:transform .15s}";
+css = css + ".cd:hover{transform:translateY(-1px);box-shadow:0 3px 8px rgba(0,0,0,.1)}";
+css = css + ".cd.dn{border-left-color:#a0aec0;opacity:.7}";
+css = css + ".ct{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}";
+css = css + ".cn{font-size:15px;font-weight:600;color:#2d3748}";
+css = css + ".bg{font-size:11px;padding:3px 10px;border-radius:12px;font-weight:600;white-space:nowrap}";
+css = css + ".bp{background:#ebf8ff;color:#2b6cb0}.bd{background:#f0fff4;color:#276749}.be{background:#faf5ff;color:#6b46c1}";
+css = css + ".ds{font-size:13px;color:#718096;margin-top:6px;line-height:1.4}";
+css = css + ".mt{font-size:12px;color:#a0aec0;margin-top:8px}";
+css = css + ".bt{display:inline-block;margin-top:10px;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;color:#fff;background:#38a169;transition:background .15s}";
+css = css + ".bt:hover{background:#2f855a}";
+css = css + ".bx{background:#6b46c1}.bx:hover{background:#553c9a}";
+css = css + ".em{text-align:center;padding:40px;color:#a0aec0;font-size:14px}";
+css = css + "</style>";
+
+// --- HTML ---
+h = css + "<div class='me'>";
+
+// Header
+h = h + "<div class='hd'>";
+h = h + "<div class='hi'><svg viewBox='0 0 24 24'><path d='M9 11l3 3L22 4'/><path d='M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11'/></svg></div>";
+h = h + "<div><div class='ht'>Mis Encuestas</div><div class='hs'>Responde las encuestas activas de forma anonima</div></div>";
+h = h + "</div>";
+
+// KPIs
+h = h + "<div class='kr'>";
+h = h + "<div class='kc k-o'><b>" + cntPend + "</b><span>Pendientes</span></div>";
+h = h + "<div class='kc k-g'><b>" + cntComp + "</b><span>Completadas</span></div>";
+if(cntExt > 0)
+{
+	h = h + "<div class='kc k-b'><b>" + cntExt + "</b><span>Externas</span></div>";
+}
+h = h + "</div>";
+
+// Cards
+h = h + "<div class='cnt'>";
+if(cntTotal == 0 && cntExt == 0)
+{
+	h = h + "<div class='em'>No hay encuestas activas en este momento</div>";
+}
+else
+{
+	if(cntTotal > 0)
+	{
+		h = h + "<div class='sh'>Encuestas Internas</div>";
+		h = h + cardsH;
+	}
+	if(cntExt > 0)
+	{
+		h = h + "<div class='sh'>Encuestas Externas (Zoho Survey)</div>";
+		h = h + extH;
+	}
+}
+h = h + "</div></div>";
+return h;

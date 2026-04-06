@@ -1,0 +1,17 @@
+input.LoginEmail = zoho.loginuserid;
+input.Confirmaciones = Confirmaciones_de_Entrega[Empleado.Official_Email == zoho.loginuserid];
+empleado = Nuevo_Empleado[Official_Email == zoho.loginuserid || Mail_Portal_Empleado == zoho.loginuserid || Correo_Electr_nico == zoho.loginuserid];
+input.EmpleadoNombre = empleado.Nombre;
+input.EmpleadoArea = empleado.Area_Profesional;
+input.EmpleadoPuesto = empleado.Puesto_laboral_actual;
+input.EmpleadoContrato = empleado.Tipo_de_Contrato1;
+input.EmpleadoDelegacion = empleado.Delegacion;
+input.EmpleadoClientes = "";
+first = true;
+for each  clienteID in empleado.Clientes_Habituales
+{
+	cliente = Nuevo_Cliente[ID == clienteID];
+	if(!first) { input.EmpleadoClientes = input.EmpleadoClientes + ", "; }
+	else { first = false; }
+	input.EmpleadoClientes = input.EmpleadoClientes + cliente.Nombre_de_Cuenta;
+}

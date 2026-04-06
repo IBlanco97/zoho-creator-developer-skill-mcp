@@ -1,0 +1,19 @@
+// ============================================================
+// W4: Pregunta_EI — On Add or Delete (actualizar Num_Preguntas)
+// Form: Pregunta_EI
+// Trigger: Creado o Eliminado → Envio de formulario correcto
+// ============================================================
+
+encuestaId = input.Encuesta_EI;
+if(encuestaId != null && encuestaId != 0)
+{
+	cnt = 0;
+	for each p in Pregunta_EI[Encuesta_EI == encuestaId]
+	{
+		cnt = cnt + 1;
+	}
+	for each enc in Encuesta_Interna[ID == encuestaId]
+	{
+		enc.Num_Preguntas = cnt;
+	}
+}

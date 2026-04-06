@@ -1,0 +1,134 @@
+// NuevoEPIRopaHerramienta.NotificarCambioSolicitudEPI(Solicitud_de_EPIs_Herramientas solicitud, string registroEstadoPrevio)
+// Version mejorada: email HTML + WhatsApp ademas de push notification
+
+if(registroEstadoPrevio != null && registroEstadoPrevio != solicitud.Aprobado)
+{
+	trabajador = Nuevo_Empleado[ID == solicitud.Trabajador_Solicitante];
+	nombreTrab = trabajador.Nombre;
+	nuevoEstado = solicitud.Aprobado;
+	tipoEquipo = solicitud.Tipo_de_equipo_solicitado;
+	equipo = solicitud.Equipo_Solicitado;
+	nota = solicitud.Nota_Sobre_Respuesta_a_la_Soilicitud;
+
+	// Determinar color y emoji segun estado
+	colorEstado = "#64748b";
+	emojiEstado = "&#128221;";
+	emojiWA = "📋";
+	if(nuevoEstado == "Aprobado" || nuevoEstado == "Entregado" || nuevoEstado == "Confirmado")
+	{
+		colorEstado = "#16a34a";
+		emojiEstado = "&#9989;";
+		emojiWA = "✅";
+	}
+	else if(nuevoEstado == "Rechazado")
+	{
+		colorEstado = "#dc2626";
+		emojiEstado = "&#10060;";
+		emojiWA = "❌";
+	}
+	else if(nuevoEstado == "Gestionándose")
+	{
+		colorEstado = "#d97706";
+		emojiEstado = "&#9203;";
+		emojiWA = "⏳";
+	}
+
+	titulo = "Solicitud de " + tipoEquipo + " — " + nuevoEstado;
+
+	// Cuerpo HTML
+	cuerpoHTML = "<p>Hola <b>" + nombreTrab + "</b>,</p>";
+	cuerpoHTML = cuerpoHTML + "<p>Su solicitud de <b>" + tipoEquipo + "</b> ha cambiado de estado:</p>";
+	cuerpoHTML = cuerpoHTML + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:12px 0;'>";
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Nuevo estado", "<span style='color:" + colorEstado + ";font-weight:700;'>" + emojiEstado + " " + nuevoEstado + "</span>");
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Estado anterior", registroEstadoPrevio);
+	if(equipo != null && equipo != "")
+	{
+		cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Equipo", equipo);
+	}
+	if(nota != null && nota != "")
+	{
+		cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Nota", nota);
+	}
+	cuerpoHTML = cuerpoHTML + "</table>";
+
+	htmlEmail = thisapp.NotificacionesMail.GenerarHTMLEmail(titulo, cuerpoHTML, "Ver mi solicitud", "https://domo21.zohocreatorportal.com", "");
+
+	// Push notification
+	mail = trabajador.Correo_Electr_nico;
+	mail2 = trabajador.Official_Email;
+	titlePush = titulo;
+	msgPush = "Su solicitud de " + tipoEquipo + " pasa a: " + nuevoEstado;
+	if(nota != null && nota != "")
+	{
+		msgPush = msgPush + ". " + nota;
+	}
+
+	if(mail != null && mail != "")
+	{
+		zoho.pushNotification(mail, titlePush, msgPush, "Ver_Solicitud_de_EPIs_Herramientas", solicitud.ID);
+	}
+	if(mail2 != null && mail2 != "")
+	{
+		zoho.pushNotification(mail2, titlePush, msgPush, "Ver_Solicitud_de_EPIs_Herramientas", solicitud.ID);
+	}
+
+	// Email HTML
+	config = Configuraci_n_General[ID != 0];
+	usarMail = config.V_as_de_Notificaci_n_Solicitudes_EPI.contains("Correo");
+	if(usarMail)
+	{
+		mailsEnviar = List();
+		if(mail != null && mail != "")
+		{
+			mailsEnviar.add(mail);
+		}
+		if(mail2 != null && mail2 != "" && !mailsEnviar.contains(mail2))
+		{
+			mailsEnviar.add(mail2);
+		}
+		mailPortal = trabajador.Mail_Portal_Empleado;
+		if(mailPortal != null && mailPortal != "" && !mailsEnviar.contains(mailPortal))
+		{
+			mailsEnviar.add(mailPortal);
+		}
+		for each mailEnvio in mailsEnviar
+		{
+			sendmail
+			[
+				from :zoho.adminuserid
+				to :mailEnvio
+				subject :titulo
+				message :htmlEmail
+			]
+		}
+	}
+
+	// WhatsApp
+	usarWA = config.V_as_de_Notificaci_n_Solicitudes_EPI.contains("WhatsApp");
+	if(usarWA)
+	{
+		cuenta = config.Cuenta_de_Whatsapp;
+		msgWA = emojiWA + " *" + titulo + "*\n\n";
+		msgWA = msgWA + "Hola " + nombreTrab + ",\n\n";
+		msgWA = msgWA + "Estado anterior: " + registroEstadoPrevio + "\n";
+		msgWA = msgWA + "Nuevo estado: *" + nuevoEstado + "*\n";
+		if(equipo != null && equipo != "")
+		{
+			msgWA = msgWA + "Equipo: " + equipo + "\n";
+		}
+		if(nota != null && nota != "")
+		{
+			msgWA = msgWA + "Nota: " + nota + "\n";
+		}
+		msgWA = msgWA + "\n_Domo21 | Sicma21 - RRHH_";
+
+		if(trabajador.M_vil != null)
+		{
+			thisapp.NuevoEmpleado.whatsapp(cuenta, trabajador.M_vil, msgWA);
+		}
+		if(trabajador.Tel_fono != null)
+		{
+			thisapp.NuevoEmpleado.whatsapp(cuenta, trabajador.Tel_fono, msgWA);
+		}
+	}
+}

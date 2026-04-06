@@ -1,16 +1,5 @@
 import { zohoClient } from "../zoho-client.js";
-
-const OWNER = () => {
-  const v = process.env.ZOHO_OWNER_ID;
-  if (!v) throw new Error("ZOHO_OWNER_ID is not set");
-  return v;
-};
-
-const APP = () => {
-  const v = process.env.ZOHO_APP_LINK_NAME;
-  if (!v) throw new Error("ZOHO_APP_LINK_NAME is not set");
-  return v;
-};
+import { OWNER, APP } from "../config.js";
 
 /**
  * Invokes a Deluge function that has been exposed as a REST endpoint in Zoho Creator.

@@ -4,8 +4,9 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { getAccessToken } from "./auth.js";
+import { API_DOMAIN } from "./config.js";
 
-export const BASE_URL = "https://www.zohoapis.com/creator/v2.1";
+export const BASE_URL = `https://${API_DOMAIN}/creator/v2.1`;
 
 /**
  * Creates an axios instance pre-configured for Zoho Creator API v2.1.
@@ -39,15 +40,25 @@ function createZohoClient(): AxiosInstance {
       }
       return response;
     },
-    (error: AxiosError) => {
+    async (error: AxiosError) => {
       if (error.response) {
         const status = error.response.status;
         const body = JSON.stringify(error.response.data);
+
         if (status === 429) {
+          // Retry up to 3 times with linear backoff: 1s → 2s → 3s
+          const cfg = error.config as InternalAxiosRequestConfig & { __retries?: number };
+          const retries = cfg.__retries ?? 0;
+          if (retries < 3) {
+            cfg.__retries = retries + 1;
+            await new Promise((r) => setTimeout(r, 1_000 * (retries + 1)));
+            return client.request(cfg);
+          }
           throw new Error(
-            "Zoho API rate limit reached (429). Wait a moment and retry."
+            "Zoho API rate limit reached (429). Retried 3 times — wait and try again."
           );
         }
+
         if (status === 401) {
           throw new Error(
             "Zoho API authentication failed (401). Check your OAuth credentials."

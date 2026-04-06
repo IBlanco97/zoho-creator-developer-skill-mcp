@@ -1,0 +1,126 @@
+// NuevoRequisitoDoc.ActualizarEstadosRequisitos()
+// Version mejorada: fix bug loop caducados, template HTML, emails desde config
+
+cercaDeCaducar = List();
+caducados = List();
+for each r in Nuevo_Requisitos_Doc[ID != 0]
+{
+	if(r.Documento != null)
+	{
+		indiceEstado = thisapp.FuncionesEstaticas.GetIndiceEstadoRequisito(thisapp.NuevoRequisitoDoc.GetEstado(r.ID));
+		huboCambio = thisapp.NuevoRequisitoDoc.SetEstado(r.ID, indiceEstado);
+		if(huboCambio && indiceEstado == 4)
+		{
+			cercaDeCaducar.add(r);
+		}
+		else if(huboCambio && indiceEstado == 3)
+		{
+			caducados.add(r);
+		}
+	}
+}
+
+// Obtener lista de emails desde configuracion
+config = Configuraci_n_General[ID != 0];
+mailList = List();
+personalNotif = config.Personal_que_recibe_notificaciones_de_solicitudes_de_herramientas;
+for each pID in personalNotif
+{
+	emp = Nuevo_Empleado[ID == pID];
+	if(emp.Official_Email != null)
+	{
+		mailList.add(emp.Official_Email);
+	}
+}
+if(mailList.isEmpty())
+{
+	mailList.add(zoho.adminuserid);
+}
+
+// Documentos cerca de caducar
+if(!cercaDeCaducar.isEmpty())
+{
+	filasHTML = "";
+	cnt = 0;
+	for each requisitoID in cercaDeCaducar
+	{
+		requisito = Nuevo_Requisitos_Doc[ID == requisitoID];
+		fechacaducidad = Subir_Documento[ID == requisito.Documento].Fecha_caducidad_documento;
+		listaReq = Nueva_Lista_de_Requisitos[ID == requisito.Lista_Requisitos_Pertenece];
+		trabajadorNombre = "";
+		clienteNombre = "";
+		if(listaReq.Trabajador != null)
+		{
+			trabajadorNombre = Nuevo_Empleado[ID == listaReq.Trabajador].Nombre;
+		}
+		if(listaReq.Cliente1 != null)
+		{
+			clienteNombre = Nuevo_Cliente[ID == listaReq.Cliente1].Nombre;
+		}
+		filasHTML = filasHTML + "<tr><td style='padding:6px 10px;border:1px solid #e2e8f0;font-size:13px;'>" + requisito.Nombre + "</td><td style='padding:6px 10px;border:1px solid #e2e8f0;font-size:13px;'>" + trabajadorNombre + "</td><td style='padding:6px 10px;border:1px solid #e2e8f0;font-size:13px;'>" + clienteNombre + "</td><td style='padding:6px 10px;border:1px solid #e2e8f0;font-size:13px;color:#d97706;font-weight:600;'>" + fechacaducidad + "</td></tr>";
+		cnt = cnt + 1;
+	}
+
+	cuerpoHTML = "<p>Se han detectado <b>" + cnt + " documento(s)</b> que caducan en los pr&oacute;ximos 15 d&iacute;as:</p>";
+	cuerpoHTML = cuerpoHTML + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:12px 0;'>";
+	cuerpoHTML = cuerpoHTML + "<tr style='background-color:#fef3c7;'><th style='padding:8px 10px;border:1px solid #e2e8f0;font-size:12px;text-align:left;'>Documento</th><th style='padding:8px 10px;border:1px solid #e2e8f0;font-size:12px;text-align:left;'>Trabajador</th><th style='padding:8px 10px;border:1px solid #e2e8f0;font-size:12px;text-align:left;'>Cliente</th><th style='padding:8px 10px;border:1px solid #e2e8f0;font-size:12px;text-align:left;'>Caducidad</th></tr>";
+	cuerpoHTML = cuerpoHTML + filasHTML + "</table>";
+
+	titulo = "&#9888;&#65039; " + cnt + " documento(s) cerca de caducar";
+	htmlEmail = thisapp.NotificacionesMail.GenerarHTMLEmail(titulo, cuerpoHTML, "Ver documentos", "https://domo21.zohocreatorportal.com", "Revisi&oacute;n autom&aacute;tica diaria de caducidades.");
+
+	for each mail in mailList
+	{
+		sendmail
+		[
+			from :zoho.adminuserid
+			to :mail
+			subject :cnt + " documento(s) cerca de caducar"
+			message :htmlEmail
+		]
+	}
+}
+
+// Documentos caducados — FIX: ahora itera sobre `caducados` (antes era `cercaDeCaducar` por error)
+if(!caducados.isEmpty())
+{
+	filasHTML = "";
+	cnt = 0;
+	for each requisitoID in caducados
+	{
+		requisito = Nuevo_Requisitos_Doc[ID == requisitoID];
+		fechacaducidad = Subir_Documento[ID == requisito.Documento].Fecha_caducidad_documento;
+		listaReq = Nueva_Lista_de_Requisitos[ID == requisito.Lista_Requisitos_Pertenece];
+		trabajadorNombre = "";
+		clienteNombre = "";
+		if(listaReq.Trabajador != null)
+		{
+			trabajadorNombre = Nuevo_Empleado[ID == listaReq.Trabajador].Nombre;
+		}
+		if(listaReq.Cliente1 != null)
+		{
+			clienteNombre = Nuevo_Cliente[ID == listaReq.Cliente1].Nombre;
+		}
+		filasHTML = filasHTML + "<tr><td style='padding:6px 10px;border:1px solid #e2e8f0;font-size:13px;'>" + requisito.Nombre + "</td><td style='padding:6px 10px;border:1px solid #e2e8f0;font-size:13px;'>" + trabajadorNombre + "</td><td style='padding:6px 10px;border:1px solid #e2e8f0;font-size:13px;'>" + clienteNombre + "</td><td style='padding:6px 10px;border:1px solid #e2e8f0;font-size:13px;color:#dc2626;font-weight:600;'>" + fechacaducidad + "</td></tr>";
+		cnt = cnt + 1;
+	}
+
+	cuerpoHTML = "<p>Se han detectado <b>" + cnt + " documento(s)</b> que ya est&aacute;n <b style='color:#dc2626;'>CADUCADOS</b>:</p>";
+	cuerpoHTML = cuerpoHTML + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:12px 0;'>";
+	cuerpoHTML = cuerpoHTML + "<tr style='background-color:#fee2e2;'><th style='padding:8px 10px;border:1px solid #e2e8f0;font-size:12px;text-align:left;'>Documento</th><th style='padding:8px 10px;border:1px solid #e2e8f0;font-size:12px;text-align:left;'>Trabajador</th><th style='padding:8px 10px;border:1px solid #e2e8f0;font-size:12px;text-align:left;'>Cliente</th><th style='padding:8px 10px;border:1px solid #e2e8f0;font-size:12px;text-align:left;'>Caducidad</th></tr>";
+	cuerpoHTML = cuerpoHTML + filasHTML + "</table>";
+
+	titulo = "&#128308; " + cnt + " documento(s) CADUCADOS";
+	htmlEmail = thisapp.NotificacionesMail.GenerarHTMLEmail(titulo, cuerpoHTML, "Ver documentos", "https://domo21.zohocreatorportal.com", "Revisi&oacute;n autom&aacute;tica diaria de caducidades.");
+
+	for each mail in mailList
+	{
+		sendmail
+		[
+			from :zoho.adminuserid
+			to :mail
+			subject :cnt + " documento(s) CADUCADOS"
+			message :htmlEmail
+		]
+	}
+}

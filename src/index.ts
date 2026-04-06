@@ -8,7 +8,7 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
-import { listForms, getFormFields } from "./tools/metadata.js";
+import { listForms, listReports, getFormFields } from "./tools/metadata.js";
 import {
   getRecords,
   getRecord,
@@ -27,6 +27,16 @@ const TOOLS = [
     name: "list_forms",
     description:
       "Lists all forms defined in the Zoho Creator application. Useful for discovering available forms and their link names.",
+    inputSchema: {
+      type: "object",
+      properties: {},
+      required: [],
+    },
+  },
+  {
+    name: "list_reports",
+    description:
+      "Lists all reports defined in the Zoho Creator application. Use this to discover report link names before calling get_records.",
     inputSchema: {
       type: "object",
       properties: {},
@@ -201,6 +211,10 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     switch (name) {
       case "list_forms":
         result = await listForms();
+        break;
+
+      case "list_reports":
+        result = await listReports();
         break;
 
       case "get_form_fields":

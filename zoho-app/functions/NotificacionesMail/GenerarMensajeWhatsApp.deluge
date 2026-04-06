@@ -1,0 +1,16 @@
+// NotificacionesMail.GenerarMensajeWhatsApp(string titulo, string cuerpo, string linkUrl)
+// Genera mensaje WhatsApp con formato enriquecido (negritas, emojis, estructura)
+// titulo: encabezado (se pone en negrita)
+// cuerpo: contenido del mensaje (puede incluir \n para saltos de linea)
+// linkUrl: enlace opcional al registro. Si es "" no se incluye.
+
+msg = "*" + titulo + "*\n\n" + cuerpo;
+
+if(linkUrl != null && linkUrl != "")
+{
+	msg = msg + "\n\n" + zoho.encryption.urlEncode("🔗") + " " + linkUrl;
+}
+
+msg = msg + "\n\n---\n_Domo21 | Sicma21 - RRHH_";
+
+return msg;

@@ -1,0 +1,50 @@
+// Función: Calendario52HTML.DevolverHTMLSemaforoCaducidades
+// Descripción: Tabla semáforo de caducidades EPI para todos los técnicos (vista RRHH)
+// Namespace: Calendario52HTML
+// Argumentos: ninguno
+// Returns: HTML string
+
+css = "<style>.sc-wrap{font-family:Arial,sans-serif;padding:14px;max-width:100%}.sc-title{color:#1C3A5E;font-size:19px;font-weight:700;margin:0 0 12px}.sc-table{border-collapse:collapse;width:100%;font-size:13px}.sc-table th{background:#1C3A5E;color:#fff;padding:8px 12px;text-align:left;font-weight:600}.sc-table td{padding:7px 12px;vertical-align:top;border-bottom:1px solid #E0E0E0}.sc-tr-odd{background:#FFFFFF}.sc-tr-even{background:#F5F7FA}.sc-pill{display:inline-block;padding:3px 9px;border-radius:12px;margin:2px 3px 2px 0;font-size:11px;font-weight:600;color:#fff;cursor:default}.sc-legend{margin-top:12px;font-size:11px;color:#555}.sc-leg{display:inline-block;padding:2px 9px;border-radius:10px;color:#fff;font-size:11px;margin-right:6px;font-weight:600}</style>";
+
+html = css + "<div class='sc-wrap'>";
+html += "<div class='sc-title'>Semáforo de Caducidades EPI / Documentación</div>";
+html += "<table class='sc-table'><thead><tr><th style='width:180px'>Técnico</th><th>Documentos</th></tr></thead><tbody>";
+
+allDocs = Nuevo_Requisitos_Doc[Con_Empresa_o_Con_Trabajador == "Requisitos de Trabajador"].sortBy(Trabajador, asc);
+
+lastId = 0;
+rowClass = "sc-tr-odd";
+for each doc in allDocs
+{
+    wId = doc.Trabajador;
+    if(wId != lastId)
+    {
+        if(lastId != 0) { html += "</td></tr>"; }
+        rowClass = if(rowClass == "sc-tr-odd", "sc-tr-even", "sc-tr-odd");
+        wName = doc.Trabajador.Nombre.last_name + ", " + doc.Trabajador.Nombre.first_name;
+        html += "<tr class='" + rowClass + "'><td style='font-weight:600;white-space:nowrap'>" + wName + "</td><td>";
+        lastId = wId;
+    }
+    est = doc.Estado;
+    bg = "#9E9E9E";
+    if(est == "Caducado") { bg = "#EF5350"; }
+    if(est == "Cerca de Caducar") { bg = "#FF9800"; }
+    if(est == "Actualizado") { bg = "#4CAF50"; }
+    if(est == "Pendiente Aprobación") { bg = "#2196F3"; }
+    nom = doc.Plantilla.Nombre_de_la_plantilla;
+    cad = doc.Caducidad_Tolerancia;
+    tip = if(cad != null && cad != "", nom + " · " + cad, nom);
+    html += "<span class='sc-pill' style='background:" + bg + "' title='" + tip + "'>" + nom + "</span>";
+}
+if(lastId != 0) { html += "</td></tr>"; }
+
+html += "</tbody></table>";
+html += "<div class='sc-legend'><strong>Estado:</strong>&nbsp;";
+html += "<span class='sc-leg' style='background:#EF5350'>Caducado</span>";
+html += "<span class='sc-leg' style='background:#FF9800'>Cerca de Caducar</span>";
+html += "<span class='sc-leg' style='background:#4CAF50'>Actualizado</span>";
+html += "<span class='sc-leg' style='background:#2196F3'>Pendiente Aprobación</span>";
+html += "<span class='sc-leg' style='background:#9E9E9E'>Pendiente Subir</span>";
+html += "</div></div>";
+
+return html;

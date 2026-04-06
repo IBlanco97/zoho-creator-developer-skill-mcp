@@ -1,5 +1,10 @@
 {
   "mcpServers": {
+    "playwright": {
+      "type": "stdio",
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": ["D:\\Sicma21\\2026\\zoho-mcp\\node_modules\\@playwright\\mcp\\cli.js", "--isolated", "--user-data-dir", "C:\\Users\\Platón\\AppData\\Local\\ms-playwright\\mcp-chrome-zoho-mcp"]
+    },
     "zoho-creator": {
       "type": "stdio",
       "command": "npx",

@@ -1,0 +1,67 @@
+// NotificacionesMail.NotificarSolicitudDeEPIaEncargado(Solicitud_de_EPIs_Herramientas solicitud)
+// Version mejorada: emails desde config (no hardcodeados), template HTML, mas info
+
+config = Configuraci_n_General[ID != 0];
+nombreTrabajador = Nuevo_Empleado[ID == solicitud.Trabajador_Solicitante].Nombre;
+fechaSolicitud = solicitud.Added_Time.toString("dd/MM/yyyy HH:mm");
+
+// Cuerpo HTML con tabla de datos
+cuerpoHTML = "<p>Se ha recibido una nueva solicitud:</p>";
+cuerpoHTML = cuerpoHTML + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:12px 0;'>";
+cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Trabajador", "<b>" + nombreTrabajador + "</b>");
+cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Tipo", solicitud.Tipo_de_equipo_solicitado);
+if(solicitud.Equipo_Solicitado != null && solicitud.Equipo_Solicitado != "")
+{
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Equipo solicitado", solicitud.Equipo_Solicitado);
+}
+if(solicitud.Motivo_de_la_Solucitud != null && solicitud.Motivo_de_la_Solucitud != "")
+{
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Motivo", solicitud.Motivo_de_la_Solucitud);
+}
+cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Fecha", fechaSolicitud);
+cuerpoHTML = cuerpoHTML + "</table>";
+
+subjects = List();
+if(solicitud.Tipo_de_equipo_solicitado.contains("EPI"))
+{
+	subjects.add("Solicitud de EPI");
+}
+if(solicitud.Tipo_de_equipo_solicitado.contains("Ropa"))
+{
+	subjects.add("Solicitud de Ropa");
+}
+if(solicitud.Tipo_de_equipo_solicitado.contains("Herramienta"))
+{
+	subjects.add("Solicitud de Herramienta");
+}
+
+subjectFinal = subjects.toString(", ");
+
+htmlEmail = thisapp.NotificacionesMail.GenerarHTMLEmail(subjectFinal + " recibida", cuerpoHTML, "Ver solicitud", "https://creatorapp.zoho.com/formacion11/human-resource-management/#Report:Solicitudes_de_EPIs_Herramientas_Report", "");
+
+// Obtener emails desde configuracion (no hardcodeados)
+mails = List();
+personalNotif = config.Personal_que_recibe_notificaciones_de_solicitudes_de_herramientas;
+for each pID in personalNotif
+{
+	emp = Nuevo_Empleado[ID == pID];
+	if(emp.Official_Email != null && !mails.contains(emp.Official_Email))
+	{
+		mails.add(emp.Official_Email);
+	}
+	if(emp.Correo_Electr_nico != null && !mails.contains(emp.Correo_Electr_nico))
+	{
+		mails.add(emp.Correo_Electr_nico);
+	}
+}
+
+for each mail in mails
+{
+	sendmail
+	[
+		from :zoho.adminuserid
+		to :mail
+		subject :subjectFinal + " — " + nombreTrabajador
+		message :htmlEmail
+	]
+}

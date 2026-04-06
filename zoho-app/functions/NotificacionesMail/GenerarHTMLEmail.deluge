@@ -1,0 +1,52 @@
+// NotificacionesMail.GenerarHTMLEmail(string titulo, string cuerpo, string linkTexto, string linkUrl, string piePagina)
+// Template HTML corporativo para todos los emails del sistema
+// titulo: encabezado del email (ej: "Solicitud de EPI recibida")
+// cuerpo: contenido HTML del email (puede incluir <table>, <p>, <b>, etc.)
+// linkTexto: texto del boton CTA (ej: "Ver solicitud"). Si es "" no se muestra boton.
+// linkUrl: URL del boton CTA. Si es "" no se muestra boton.
+// piePagina: texto adicional en el pie (ej: "Este es un mensaje automatico"). Si es "" se usa default.
+
+pie = piePagina;
+if(pie == null || pie == "")
+{
+	pie = "Este es un mensaje autom&aacute;tico del sistema de gesti&oacute;n RRHH. No responda a este correo.";
+}
+
+botonHTML = "";
+if(linkTexto != null && linkTexto != "" && linkUrl != null && linkUrl != "")
+{
+	botonHTML = "<tr><td style='padding:20px 30px 10px 30px;text-align:center;'><a href='" + linkUrl + "' style='display:inline-block;padding:12px 32px;background-color:#2563EB;color:#ffffff;text-decoration:none;border-radius:6px;font-size:14px;font-weight:600;letter-spacing:0.3px;'>" + linkTexto + "</a></td></tr>";
+}
+
+html = "<div style='margin:0;padding:0;background-color:#f4f5f7;font-family:Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;'>";
+html = html + "<table width='100%' cellpadding='0' cellspacing='0' style='background-color:#f4f5f7;padding:24px 0;'><tr><td align='center'>";
+html = html + "<table width='600' cellpadding='0' cellspacing='0' style='background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);'>";
+
+// Header
+html = html + "<tr><td style='background-color:#1C3A5E;padding:24px 30px;'>";
+html = html + "<table width='100%' cellpadding='0' cellspacing='0'><tr>";
+html = html + "<td style='color:#ffffff;font-size:20px;font-weight:700;letter-spacing:0.5px;'>Domo21 | Sicma21</td>";
+html = html + "<td style='color:#94a3b8;font-size:12px;text-align:right;vertical-align:middle;'>RRHH &bull; PRL &bull; CAE</td>";
+html = html + "</tr></table>";
+html = html + "</td></tr>";
+
+// Titulo
+html = html + "<tr><td style='padding:28px 30px 8px 30px;'>";
+html = html + "<h1 style='margin:0;font-size:18px;font-weight:600;color:#1e293b;border-bottom:2px solid #e2e8f0;padding-bottom:12px;'>" + titulo + "</h1>";
+html = html + "</td></tr>";
+
+// Cuerpo
+html = html + "<tr><td style='padding:16px 30px;color:#334155;font-size:14px;line-height:1.7;'>" + cuerpo + "</td></tr>";
+
+// Boton CTA
+html = html + botonHTML;
+
+// Footer
+html = html + "<tr><td style='padding:24px 30px;border-top:1px solid #e2e8f0;margin-top:16px;'>";
+html = html + "<p style='margin:0;font-size:11px;color:#94a3b8;text-align:center;line-height:1.5;'>" + pie + "</p>";
+html = html + "<p style='margin:8px 0 0 0;font-size:11px;color:#cbd5e1;text-align:center;'>Domo21 S.L. &mdash; Sicma21 S.L.</p>";
+html = html + "</td></tr>";
+
+html = html + "</table></td></tr></table></div>";
+
+return html;

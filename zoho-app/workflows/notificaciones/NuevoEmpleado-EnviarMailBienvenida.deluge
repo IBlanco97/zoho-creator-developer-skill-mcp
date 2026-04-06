@@ -1,0 +1,37 @@
+// NuevoEmpleado.EnviarMailBienvenida(Nuevo_Empleado empleado)
+// Version mejorada: wrapper HTML corporativo sobre el template configurable
+
+conf = Configuraci_n_General[ID != 0];
+subject_ = conf.Asunto_Mail_Bienvenida_Trabajadores;
+message_ = conf.Plantilla_Mail_Bienvenida_Trabajadores;
+
+// Sustituir placeholders
+x = message_.toList("{nombre}");
+if(x.size() > 1)
+{
+	newMessage = x.get(0) + empleado.Nombre + x.get(1);
+}
+else
+{
+	newMessage = message_;
+}
+x2 = newMessage.toList("{enlace}");
+if(x2.size() > 1)
+{
+	newMessage = x2.get(0) + "<a href='https://domo21.zohocreatorportal.com' style='color:#2563EB;font-weight:600;'>Portal del Empleado</a>" + x2.get(1);
+}
+
+// Envolver en template HTML
+cuerpoHTML = "<p>Hola <b>" + empleado.Nombre + "</b>,</p>";
+cuerpoHTML = cuerpoHTML + "<div style='line-height:1.7;'>" + newMessage + "</div>";
+
+htmlEmail = thisapp.NotificacionesMail.GenerarHTMLEmail(subject_, cuerpoHTML, "Acceder al Portal del Empleado", "https://domo21.zohocreatorportal.com", "Bienvenido/a al equipo. Si tiene dudas, contacte con RRHH.");
+
+sendmail
+[
+	from :zoho.loginuserid
+	to :empleado.Official_Email
+	subject :subject_
+	message :htmlEmail
+	Attachments :file:conf.Documentos_Bienvenida_Trabajador
+]

@@ -1,0 +1,63 @@
+// FuncionesEstaticas.Notificacion(string titulo, string mensaje, list personalAAvisar, string reportToRedirectPush, int registroID, bool whatsapp, bool sendMails)
+// Version mejorada: usa templates HTML para email y formato WhatsApp
+// NOTA: `mensaje` ahora se usa como cuerpo HTML (puede contener tags)
+
+configuracionGeneral = Configuraci_n_General[ID != 0];
+mails = List();
+portalUrl = "https://domo21.zohocreatorportal.com";
+
+// Push notifications (in-app)
+for each personaID in personalAAvisar
+{
+	persona = Nuevo_Empleado[ID == personaID];
+	if(persona.Official_Email != null)
+	{
+		mails.add(persona.Official_Email);
+		zoho.pushNotification(persona.Official_Email, titulo, mensaje.replaceAll("<[^>]*>","",true), reportToRedirectPush, registroID);
+	}
+	if(persona.Correo_Electr_nico != null)
+	{
+		mails.add(persona.Correo_Electr_nico);
+		zoho.pushNotification(persona.Correo_Electr_nico, titulo, mensaje.replaceAll("<[^>]*>","",true), reportToRedirectPush, registroID);
+	}
+	if(persona.Mail_Portal_Empleado != null)
+	{
+		mails.add(persona.Mail_Portal_Empleado);
+		zoho.pushNotification(persona.Mail_Portal_Empleado, titulo, mensaje.replaceAll("<[^>]*>","",true), reportToRedirectPush, registroID);
+	}
+}
+
+// Notificaciones por WhatsApp
+if(whatsapp)
+{
+	cuenta = configuracionGeneral.Cuenta_de_Whatsapp;
+	msgWA = thisapp.NotificacionesMail.GenerarMensajeWhatsApp(titulo, mensaje.replaceAll("<[^>]*>","",true), "");
+	for each personaID in personalAAvisar
+	{
+		persona = Nuevo_Empleado[ID == personaID];
+		if(persona.M_vil != null)
+		{
+			thisapp.NuevoEmpleado.whatsapp(cuenta, persona.M_vil, msgWA);
+		}
+		if(persona.Tel_fono != null)
+		{
+			thisapp.NuevoEmpleado.whatsapp(cuenta, persona.Tel_fono, msgWA);
+		}
+	}
+}
+
+// Notificaciones por Mail con template HTML
+if(sendMails)
+{
+	htmlEmail = thisapp.NotificacionesMail.GenerarHTMLEmail(titulo, mensaje, "", "", "");
+	for each mail in mails
+	{
+		sendmail
+		[
+			from :zoho.adminuserid
+			to :mail
+			subject :titulo
+			message :htmlEmail
+		]
+	}
+}

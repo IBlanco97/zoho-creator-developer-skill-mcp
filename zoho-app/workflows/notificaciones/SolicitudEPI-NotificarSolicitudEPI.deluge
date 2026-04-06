@@ -1,0 +1,104 @@
+// SolicitudEPI.NotificarSolicitudEPI(Solicitud_de_EPIs_Herramientas solicitud)
+// Version mejorada: mensajes con mas contexto, formato mejorado
+
+trabajador = Nuevo_Empleado[ID == solicitud.Trabajador_Solicitante];
+config = Configuraci_n_General[ID != 0];
+
+if(config.Notificar_nuevas_solicitudes_de_Herramientas == "Activado")
+{
+	titulo = "Solicitud de " + solicitud.Tipo_de_equipo_solicitado + " recibida";
+	fechaSolicitud = solicitud.Added_Time.toString("dd/MM/yyyy HH:mm");
+
+	// Cuerpo HTML
+	cuerpoHTML = "<p>Se ha recibido una nueva solicitud de <b>" + solicitud.Tipo_de_equipo_solicitado + "</b>:</p>";
+	cuerpoHTML = cuerpoHTML + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:12px 0;'>";
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Trabajador", "<b>" + trabajador.Nombre + "</b>");
+	if(solicitud.Equipo_Solicitado != "" && solicitud.Equipo_Solicitado != null)
+	{
+		cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Equipo", solicitud.Equipo_Solicitado);
+	}
+	if(solicitud.Motivo_de_la_Solucitud != null && solicitud.Motivo_de_la_Solucitud != "")
+	{
+		cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Motivo", solicitud.Motivo_de_la_Solucitud);
+	}
+	cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Fecha", fechaSolicitud);
+	cuerpoHTML = cuerpoHTML + "</table>";
+
+	// Mensaje plano para WhatsApp y push
+	mensaje = "📋 *" + titulo + "*\n\n";
+	mensaje = mensaje + "👤 Trabajador: " + trabajador.Nombre + "\n";
+	if(solicitud.Equipo_Solicitado != "" && solicitud.Equipo_Solicitado != null)
+	{
+		mensaje = mensaje + "🔧 Equipo: " + solicitud.Equipo_Solicitado + "\n";
+	}
+	if(solicitud.Motivo_de_la_Solucitud != null && solicitud.Motivo_de_la_Solucitud != "")
+	{
+		mensaje = mensaje + "📝 Motivo: " + solicitud.Motivo_de_la_Solucitud + "\n";
+	}
+	mensaje = mensaje + "📅 Fecha: " + fechaSolicitud + "\n\n";
+	mensaje = mensaje + "_Domo21 | Sicma21 - RRHH_";
+
+	personalAAvisar = config.Personal_que_recibe_notificaciones_de_solicitudes_de_herramientas;
+	reportToRedirectPush = "Solicitudes_de_EPIs_Herramientas_Report";
+	registroID = solicitud.ID;
+	usarWhatsapp = config.V_as_de_Notificaci_n_Solicitudes_EPI.contains("WhatsApp");
+	usarMail = config.V_as_de_Notificaci_n_Solicitudes_EPI.contains("Correo Electr");
+
+	// Push + WhatsApp via funcion centralizada (usa mensaje plano)
+	// Mail lo enviamos aparte con HTML
+	configuracionGeneral = Configuraci_n_General[ID != 0];
+	mails = List();
+
+	// Push notifications
+	for each personaID in personalAAvisar
+	{
+		persona = Nuevo_Empleado[ID == personaID];
+		if(persona.Official_Email != null)
+		{
+			mails.add(persona.Official_Email);
+			zoho.pushNotification(persona.Official_Email, titulo, titulo + " de " + trabajador.Nombre, reportToRedirectPush, registroID);
+		}
+		if(persona.Correo_Electr_nico != null)
+		{
+			mails.add(persona.Correo_Electr_nico);
+		}
+		if(persona.Mail_Portal_Empleado != null)
+		{
+			mails.add(persona.Mail_Portal_Empleado);
+		}
+	}
+
+	// WhatsApp
+	if(usarWhatsapp)
+	{
+		cuenta = configuracionGeneral.Cuenta_de_Whatsapp;
+		for each personaID in personalAAvisar
+		{
+			persona = Nuevo_Empleado[ID == personaID];
+			if(persona.M_vil != null)
+			{
+				thisapp.NuevoEmpleado.whatsapp(cuenta, persona.M_vil, mensaje);
+			}
+			if(persona.Tel_fono != null)
+			{
+				thisapp.NuevoEmpleado.whatsapp(cuenta, persona.Tel_fono, mensaje);
+			}
+		}
+	}
+
+	// Email HTML
+	if(usarMail)
+	{
+		htmlEmail = thisapp.NotificacionesMail.GenerarHTMLEmail(titulo, cuerpoHTML, "Ver solicitud", "https://creatorapp.zoho.com/formacion11/human-resource-management/#Report:Solicitudes_de_EPIs_Herramientas_Report", "");
+		for each mail in mails
+		{
+			sendmail
+			[
+				from :zoho.adminuserid
+				to :mail
+				subject :titulo + " — " + trabajador.Nombre
+				message :htmlEmail
+			]
+		}
+	}
+}

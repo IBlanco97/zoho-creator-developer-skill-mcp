@@ -1,0 +1,15 @@
+// ============================================================
+// W2: Respuesta_EI — On Submit (crear registro Completada_EI)
+// Form: Respuesta_EI
+// Trigger: Creado → Envio de formulario correcto
+// ============================================================
+
+encuestaId = input.Encuesta_EI_Resp;
+if(encuestaId != null && encuestaId != 0)
+{
+	insert into Completada_EI
+	[
+		Email_Empleado_CE = zoho.loginuserid
+		Encuesta_EI_CE = encuestaId
+	];
+}
