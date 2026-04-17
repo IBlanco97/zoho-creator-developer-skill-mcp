@@ -1,39 +1,32 @@
 string Calendario52HTML.DevolverHTMLTableroFormaciones()
 {
-	// ── 1. KPI aggregation ──
+	// ── 1. KPI aggregation (cheap counts, no loops) ──
 	hoy = zoho.currentdate;
 	anioStr = hoy.getYear().toString();
 	inicioAnio = toDate("01-Jan-" + anioStr);
+	finAnio = toDate("31-Dec-" + anioStr);
 	d30 = hoy.addDay(30);
-	totalAnio = 0;
-	proximas30 = 0;
+	totalAnio = Formaci_n[Fecha_de_Comienzo >= inicioAnio && Fecha_de_Comienzo <= finAnio].count();
+	proximas30 = Formaci_n[Fecha_de_Comienzo > hoy && Fecha_de_Comienzo <= d30].count();
 	tecConv = 0;
 	inversionAnio = 0.0;
 
-	// ── 2. Cards HTML (single pass) ──
+	// ── 2. Cards HTML (single pass, max 100) ──
 	cardsH = "";
+	cardCount = 0;
 	for each f in Formaci_n[ID != 0]
 	{
+		cardCount = cardCount + 1;
+		if(cardCount > 100) { break; }
 		fIni = f.Fecha_de_Comienzo;
 		fFin = f.Fecha_de_Fin;
 		fPre = ifnull(f.Precio, 0);
 		fDur = ifnull(f.Duraci_n, 0);
 		fTit = ifnull(f.T_tulo, "Sin t&iacute;tulo");
-		// KPI counters
-		if(fIni >= inicioAnio)
+		// Inversion acumulada (solo año en curso)
+		if(fIni >= inicioAnio && fPre > 0)
 		{
-			totalAnio = totalAnio + 1;
 			inversionAnio = inversionAnio + fPre.toDecimal();
-			tc_ = 0;
-			for each tid in f.T_cnicos_a_convocar
-			{
-				tc_ = tc_ + 1;
-			}
-			tecConv = tecConv + tc_;
-		}
-		if(fIni > hoy && fIni <= d30)
-		{
-			proximas30 = proximas30 + 1;
 		}
 		// Estado badge
 		est = "pasada";
@@ -51,13 +44,14 @@ string Calendario52HTML.DevolverHTMLTableroFormaciones()
 			el = "En Curso";
 			ec = "bg";
 		}
-		// Tech avatars (max 5 + extra)
+		// Tech avatars — single loop (KPI + HTML merged)
 		avH = "";
 		ac_ = 0;
 		ax_ = 0;
 		for each tid in f.T_cnicos_a_convocar
 		{
 			ac_ = ac_ + 1;
+			tecConv = tecConv + 1;
 			if(ac_ <= 5)
 			{
 				ti_ = "?";

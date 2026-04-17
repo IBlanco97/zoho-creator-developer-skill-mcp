@@ -447,9 +447,7 @@ Cada formación aparece como una tarjeta (tres columnas) que muestra:
 - **Nombre** de la formación
 - **Rango de fechas**, duración y coste
 - **Sede / ubicación**
-- **Avatares de los técnicos** convocados (círculos con iniciales y color único por persona)
-
-Al hacer clic en el avatar de un técnico se abre su **Ficha Empleado**.
+- **Número de técnicos** convocados (indicador "N técnico/s")
 
 ### Cómo registrar una nueva formación
 
