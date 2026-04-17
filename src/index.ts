@@ -17,6 +17,7 @@ import {
   deleteRecord,
 } from "./tools/records.js";
 import { invokeFunction } from "./tools/functions.js";
+import { bulkRead, backupApp } from "./tools/bulk.js";
 
 // ---------------------------------------------------------------------------
 // Tool definitions
@@ -186,6 +187,42 @@ const TOOLS = [
       required: ["function_link_name"],
     },
   },
+  {
+    name: "bulk_read",
+    description:
+      "Downloads ALL records from a Zoho Creator report using the Bulk Read API. Use this before any mass data modification, insertion, or deletion as a safety backup. Returns the data as CSV text.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        report_link_name: {
+          type: "string",
+          description: "Link name of the report to bulk-read",
+        },
+        criteria: {
+          type: "string",
+          description:
+            'Optional Zoho criteria expression to filter records, e.g. Status == "Active"',
+        },
+      },
+      required: ["report_link_name"],
+    },
+  },
+  {
+    name: "backup_app",
+    description:
+      "Creates a full backup of ALL forms in the Zoho Creator application. Iterates every form, downloads all records via Bulk Read API, and saves them as CSV/JSON files in the specified directory.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        output_dir: {
+          type: "string",
+          description:
+            "Local directory path where backup files will be saved (e.g. ./backups/2024-01-15)",
+        },
+      },
+      required: ["output_dir"],
+    },
+  },
 ] as const;
 
 // ---------------------------------------------------------------------------
@@ -264,6 +301,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           input.function_link_name as string,
           (input.params as Record<string, unknown>) ?? {}
         );
+        break;
+
+      case "bulk_read":
+        result = await bulkRead(
+          input.report_link_name as string,
+          input.criteria as string | undefined
+        );
+        break;
+
+      case "backup_app":
+        result = await backupApp(input.output_dir as string);
         break;
 
       default:
