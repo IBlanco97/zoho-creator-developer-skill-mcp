@@ -2,7 +2,7 @@
 
 **Perfiles:** Administrador, Gestor RRHH, Gestor PRL (según sección)
 **Acceso:** [https://creatorapp.zoho.com/formacion11/human-resource-management/](https://creatorapp.zoho.com/formacion11/human-resource-management/) — contexto **RRHH**
-**Versión:** 1.0 — Marzo 2026
+**Versión:** 1.1 — Abril 2026
 
 ---
 

@@ -1,0 +1,160 @@
+string Calendario52HTML.DevolverHTMLMisSTOP2()
+{
+	// ── 1. Fetch employee ──
+	uid = zoho.loginuserid;
+	empFound = 0;
+	empRec = null;
+	for each e in Nuevo_Empleado[Official_Email == uid || Mail_Portal_Empleado == uid || Correo_Electr_nico == uid]
+	{
+		empRec = e;
+		empFound = 1;
+		break;
+	}
+	if(empFound == 0)
+	{
+		return "<div style='padding:40px;text-align:center;font-family:sans-serif;color:#718096'><h2>No se encontr&oacute; tu perfil</h2><p>Contacta con RRHH.</p></div>";
+	}
+	empId = empRec.ID;
+	empNom = ifnull(empRec.Nombre.first_name, "") + " " + ifnull(empRec.Nombre.last_name, "");
+	fn_ = ifnull(empRec.Nombre.first_name, "");
+	ln_ = ifnull(empRec.Nombre.last_name, "");
+	ini_ = if(fn_ != "", fn_.subString(0, 1).toUpperCase(), "?");
+	if(ln_ != "")
+	{
+		ini_ = ini_ + ln_.subString(0, 1).toUpperCase();
+	}
+	// ── 2. Query STOP2 records ──
+	hoy = zoho.currentdate;
+	mesIni = hoy.toString("yyyy-MM") + "-01";
+	cntTotal = 0;
+	cntMes = 0;
+	cntCrit = 0;
+	cardsH = "";
+	for each s in STOP2_Analisis_Previo[Empleado == empId] sort by Fecha_Checklist desc
+	{
+		cntTotal = cntTotal + 1;
+		fch = ifnull(s.Fecha_Checklist, null);
+		fchStr = if(fch != null, fch.toString("dd/MM/yyyy HH:mm"), "&mdash;");
+		if(fch != null && fch >= mesIni.toDate())
+		{
+			cntMes = cntMes + 1;
+		}
+		cliId_ = ifnull(s.Cliente, 0);
+		cliNom = if(cliId_ != 0, ifnull(s.Cliente.Nombre_de_Cuenta, "&mdash;"), "&mdash;");
+		ot = ifnull(s.Orden_de_Trabajo, "");
+		obs = ifnull(s.Observaciones, "");
+		// Count critical NOs: A4(*),A5(*),A6(*/**),A7(*/**) unchecked
+		cr = 0;
+		if(s.A4_Trab_Electricos == false) { cr = cr + 1; }
+		if(s.A5_ATEX == false) { cr = cr + 1; }
+		if(s.A6_Alturas == false) { cr = cr + 1; }
+		if(s.A7_Espacios_Confinados == false) { cr = cr + 1; }
+		if(cr > 0)
+		{
+			cntCrit = cntCrit + 1;
+		}
+		// Count SIs per section
+		sa = 0;
+		if(s.A1_Control_Accesos == true) { sa = sa + 1; }
+		if(s.A2_Permiso_Trabajo == true) { sa = sa + 1; }
+		if(s.A3_Trabajos_Caliente == true) { sa = sa + 1; }
+		if(s.A4_Trab_Electricos == true) { sa = sa + 1; }
+		if(s.A5_ATEX == true) { sa = sa + 1; }
+		if(s.A6_Alturas == true) { sa = sa + 1; }
+		if(s.A7_Espacios_Confinados == true) { sa = sa + 1; }
+		se = 0;
+		if(s.E1_Zona_Obra == true) { se = se + 1; }
+		if(s.E2_Zona_Vehiculos == true) { se = se + 1; }
+		if(s.E3_Senalizacion == true) { se = se + 1; }
+		if(s.E4_Intemperie == true) { se = se + 1; }
+		sp = 0;
+		if(s.P1_EPIs == true) { sp = sp + 1; }
+		if(s.P2_Trabajo_Solitario == true) { sp = sp + 1; }
+		if(s.P3_Herramientas == true) { sp = sp + 1; }
+		if(s.P4_Medios_Auxiliares == true) { sp = sp + 1; }
+		sm = 0;
+		if(s.M1_Acceso_Seguro == true) { sm = sm + 1; }
+		if(s.M2_Limpieza == true) { sm = sm + 1; }
+		if(s.M3_Material_Riesgos == true) { sm = sm + 1; }
+		if(s.M4_Consignar == true) { sm = sm + 1; }
+		sf = 0;
+		if(s.F1_Protecciones == true) { sf = sf + 1; }
+		if(s.F2_Candado_Amarillo == true) { sf = sf + 1; }
+		if(s.F3_Salida_Accesos1 == true) { sf = sf + 1; }
+		// Badge
+		bdg = if(cr > 0, "<span class='badge bw'>" + cr + " alerta" + if(cr > 1, "s", "") + "</span>", "<span class='badge bg'>OK</span>");
+		// Card
+		crCls = if(cr > 0, " cw", "");
+		cardsH = cardsH + "<div class='cd" + crCls + "'>";
+		cardsH = cardsH + "<div class='ch'><div class='cn'>" + cliNom + "</div>" + bdg + "</div>";
+		cardsH = cardsH + "<div class='cm'><span class='ci'>" + fchStr + "</span>";
+		if(ot != "")
+		{
+			cardsH = cardsH + "<span class='ci'>OT: " + ot + "</span>";
+		}
+		cardsH = cardsH + "</div>";
+		// Section summary bars
+		cardsH = cardsH + "<div class='sb'>";
+		cardsH = cardsH + "<div class='sr'><span class='sl'>Acceso</span><span class='sv'>" + sa + "/7</span></div>";
+		cardsH = cardsH + "<div class='sr'><span class='sl'>Entorno</span><span class='sv'>" + se + "/4</span></div>";
+		cardsH = cardsH + "<div class='sr'><span class='sl'>Personal</span><span class='sv'>" + sp + "/4</span></div>";
+		cardsH = cardsH + "<div class='sr'><span class='sl'>Materiales</span><span class='sv'>" + sm + "/4</span></div>";
+		cardsH = cardsH + "<div class='sr'><span class='sl'>Final</span><span class='sv'>" + sf + "/3</span></div>";
+		cardsH = cardsH + "</div>";
+		if(obs != "")
+		{
+			cardsH = cardsH + "<div class='co'>" + obs + "</div>";
+		}
+		cardsH = cardsH + "</div>";
+	}
+	if(cntTotal == 0)
+	{
+		cardsH = "<div class='es'><svg width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'><path d='M9 12l2 2 4-4'/><circle cx='12' cy='12' r='10'/></svg><div>No has realizado ning&uacute;n checklist STOP2 a&uacute;n</div></div>";
+	}
+	// ── 3. CSS ──
+	css = "<style>*{box-sizing:border-box;margin:0;padding:0}";
+	css = css + ".ms{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;min-height:100vh}";
+	css = css + ".hd{background:linear-gradient(135deg,#1C3A5E 0%,#2d5a8e 100%);padding:20px 24px;display:flex;align-items:center;gap:14px;color:#fff}";
+	css = css + ".av{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}";
+	css = css + ".hn{font-size:18px;font-weight:700}.hs{font-size:12px;opacity:.7;margin-top:2px}";
+	css = css + ".kr{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 24px}";
+	css = css + ".kc{background:#fff;border-radius:10px;border:1px solid #e2e8f0;padding:16px;text-align:center}";
+	css = css + ".kv{font-size:28px;font-weight:800;color:#2d3748}.kl{font-size:11px;color:#718096;margin-top:4px}";
+	css = css + ".kc.kw .kv{color:#e53e3e}";
+	css = css + ".tb{padding:0 24px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}";
+	css = css + ".nb{display:inline-flex;align-items:center;gap:6px;background:#2563EB;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:background .15s}";
+	css = css + ".nb:hover{background:#1d4ed8}";
+	css = css + ".ct{padding:0 24px 20px}";
+	css = css + ".cd{background:#fff;border-radius:10px;border:1px solid #e2e8f0;margin-bottom:12px;overflow:hidden;transition:box-shadow .15s}";
+	css = css + ".cd:hover{box-shadow:0 2px 8px rgba(0,0,0,.06)}";
+	css = css + ".cd.cw{border-left:4px solid #e53e3e}";
+	css = css + ".ch{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f0f2f5}";
+	css = css + ".cn{font-size:14px;font-weight:700;color:#2d3748}";
+	css = css + ".cm{padding:8px 16px;display:flex;gap:12px;flex-wrap:wrap}";
+	css = css + ".ci{font-size:12px;color:#718096}";
+	css = css + ".sb{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:8px 16px}";
+	css = css + ".sr{background:#f7fafc;border-radius:6px;padding:6px 8px;text-align:center}";
+	css = css + ".sl{font-size:10px;color:#718096;display:block}.sv{font-size:13px;font-weight:700;color:#2d3748}";
+	css = css + ".co{padding:8px 16px 12px;font-size:12px;color:#718096;font-style:italic;border-top:1px solid #f0f2f5}";
+	css = css + ".badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;white-space:nowrap}";
+	css = css + ".bg{background:#f0fff4;color:#276749}.bw{background:#fed7d7;color:#c53030}";
+	css = css + ".es{text-align:center;padding:28px;color:#a0aec0;font-size:12px}";
+	css = css + ".es svg{display:block;margin:0 auto 8px;opacity:.3}";
+	css = css + "@media(max-width:768px){.kr{grid-template-columns:1fr}.sb{grid-template-columns:repeat(3,1fr)}.hd{padding:14px 16px}.kr,.tb,.ct{padding-left:14px;padding-right:14px}}";
+	css = css + "</style>";
+	// ── 4. Assemble ──
+	h = "<div class='ms'>";
+	h = h + "<div class='hd'><div class='av'>" + ini_ + "</div><div><div class='hn'>Mis Checklists STOP2</div><div class='hs'>" + empNom + "</div></div></div>";
+	// KPIs
+	h = h + "<div class='kr'>";
+	h = h + "<div class='kc'><div class='kv'>" + cntTotal + "</div><div class='kl'>Total realizados</div></div>";
+	h = h + "<div class='kc'><div class='kv'>" + cntMes + "</div><div class='kl'>Este mes</div></div>";
+	h = h + "<div class='kc" + if(cntCrit > 0, " kw", "") + "'><div class='kv'>" + cntCrit + "</div><div class='kl'>Con alertas cr&iacute;ticas</div></div>";
+	h = h + "</div>";
+	// Button
+	h = h + "<div class='tb'><a class='nb' href='#Form:STOP2_Analisis_Previo'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5'><line x1='12' y1='5' x2='12' y2='19'/><line x1='5' y1='12' x2='19' y2='12'/></svg>Nuevo STOP2</a></div>";
+	// Cards
+	h = h + "<div class='ct'>" + cardsH + "</div>";
+	h = h + "</div>";
+	return css + h;
+}

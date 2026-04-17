@@ -1,0 +1,125 @@
+// Programa Scheduled: Enviar_Reporte_STOP2_Semanal
+// Schedule: Every Monday 09:00 Europe/Madrid
+// Envia resumen semanal de checklists STOP2 a los contactos de cada cliente
+
+// 1. Date range: last Monday to last Sunday
+hoy = zoho.currentdate;
+lunesPas = hoy.addDay(-7);
+domPas = hoy.addDay(-1);
+lunesStr = lunesPas.toString("dd/MM/yyyy");
+domStr = domPas.toString("dd/MM/yyyy");
+
+// 2. Fetch all STOP2 records from last week, group by client
+cliMap = Map();
+cliNomMap = Map();
+
+for each r in STOP2_Analisis_Previo[Fecha_Checklist >= lunesPas && Fecha_Checklist <= domPas]
+{
+	cId = ifnull(r.Cliente, 0);
+	if(cId != 0)
+	{
+		ck = cId.toString();
+		// Build table row for this record
+		tecNom = ifnull(r.Empleado.Nombre.first_name, "") + " " + ifnull(r.Empleado.Nombre.last_name, "");
+		fchStr = ifnull(r.Fecha_Checklist.toString("dd/MM/yyyy HH:mm"), "");
+		ot = ifnull(r.Orden_de_Trabajo, "&mdash;");
+		// Count critical NOs
+		cr = 0;
+		if(r.A4_Trab_Electricos == false) { cr = cr + 1; }
+		if(r.A5_ATEX == false) { cr = cr + 1; }
+		if(r.A6_Alturas == false) { cr = cr + 1; }
+		if(r.A7_Espacios_Confinados == false) { cr = cr + 1; }
+		// Count total SIs
+		totalSi = 0;
+		if(r.A1_Control_Accesos == true) { totalSi = totalSi + 1; }
+		if(r.A2_Permiso_Trabajo == true) { totalSi = totalSi + 1; }
+		if(r.A3_Trabajos_Caliente == true) { totalSi = totalSi + 1; }
+		if(r.A4_Trab_Electricos == true) { totalSi = totalSi + 1; }
+		if(r.A5_ATEX == true) { totalSi = totalSi + 1; }
+		if(r.A6_Alturas == true) { totalSi = totalSi + 1; }
+		if(r.A7_Espacios_Confinados == true) { totalSi = totalSi + 1; }
+		if(r.E1_Zona_Obra == true) { totalSi = totalSi + 1; }
+		if(r.E2_Zona_Vehiculos == true) { totalSi = totalSi + 1; }
+		if(r.E3_Senalizacion == true) { totalSi = totalSi + 1; }
+		if(r.E4_Intemperie == true) { totalSi = totalSi + 1; }
+		if(r.P1_EPIs == true) { totalSi = totalSi + 1; }
+		if(r.P2_Trabajo_Solitario == true) { totalSi = totalSi + 1; }
+		if(r.P3_Herramientas == true) { totalSi = totalSi + 1; }
+		if(r.P4_Medios_Auxiliares == true) { totalSi = totalSi + 1; }
+		if(r.M1_Acceso_Seguro == true) { totalSi = totalSi + 1; }
+		if(r.M2_Limpieza == true) { totalSi = totalSi + 1; }
+		if(r.M3_Material_Riesgos == true) { totalSi = totalSi + 1; }
+		if(r.M4_Consignar == true) { totalSi = totalSi + 1; }
+		if(r.F1_Protecciones == true) { totalSi = totalSi + 1; }
+		if(r.F2_Candado_Amarillo == true) { totalSi = totalSi + 1; }
+		if(r.F3_Salida_Accesos1 == true) { totalSi = totalSi + 1; }
+		resColor = if(cr > 0, "#e53e3e", "#38a169");
+		resText = if(cr > 0, cr + " alerta(s) cr&iacute;tica(s)", "OK");
+		rowH = "<tr>";
+		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;'>" + fchStr + "</td>";
+		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;'>" + tecNom + "</td>";
+		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;'>" + ot + "</td>";
+		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;text-align:center;'>" + totalSi + "/22</td>";
+		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;font-weight:600;color:" + resColor + ";'>" + resText + "</td>";
+		rowH = rowH + "</tr>";
+		// Append to map
+		prev = if(cliMap.containKey(ck), cliMap.get(ck), "");
+		cliMap.put(ck, prev + rowH);
+		// Store client name
+		if(!cliNomMap.containKey(ck))
+		{
+			cliNomMap.put(ck, ifnull(r.Cliente.Nombre_de_Cuenta, "Cliente"));
+		}
+	}
+}
+
+// 3. For each client, build email and send to contacts
+thStyle = "padding:8px 12px;border:1px solid #e2e8f0;font-size:11px;color:#475569;font-weight:600;background:#f8fafc;text-align:left;";
+for each ck in cliMap.keys()
+{
+	cliNombre = cliNomMap.get(ck);
+	rowsH = cliMap.get(ck);
+	cuerpo = "<p>Estimado/a,</p>";
+	cuerpo = cuerpo + "<p>Le remitimos el resumen semanal de checklists de seguridad <b>STOP2</b> realizados por personal de <b>Domo21 / Sicma21</b> en sus instalaciones durante la semana del <b>" + lunesStr + "</b> al <b>" + domStr + "</b>.</p>";
+	cuerpo = cuerpo + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:16px 0;'>";
+	cuerpo = cuerpo + "<tr><th style='" + thStyle + "'>Fecha</th><th style='" + thStyle + "'>T&eacute;cnico</th><th style='" + thStyle + "'>OT</th><th style='" + thStyle + "text-align:center;'>Cumplimiento</th><th style='" + thStyle + "'>Estado</th></tr>";
+	cuerpo = cuerpo + rowsH;
+	cuerpo = cuerpo + "</table>";
+	cuerpo = cuerpo + "<p style='font-size:12px;color:#718096;margin-top:12px;'>(*) Las alertas cr&iacute;ticas corresponden a &iacute;tems de seguridad marcados con (*) o (**) en el checklist STOP2 que no fueron verificados.</p>";
+	titulo_ = "Informe Semanal STOP2 &mdash; " + cliNombre;
+	footer_ = "Este informe se genera autom&aacute;ticamente cada lunes. Para consultas contacte con su gestor PRL.";
+	htmlEmail = "<div style='max-width:680px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;'>";
+	htmlEmail = htmlEmail + "<div style='background:#1C3A5E;padding:20px 24px;border-radius:8px 8px 0 0;'><h1 style='color:#fff;font-size:18px;margin:0;'>" + titulo_ + "</h1></div>";
+	htmlEmail = htmlEmail + "<div style='padding:24px;background:#fff;border:1px solid #e2e8f0;border-top:none;'>" + cuerpo + "</div>";
+	htmlEmail = htmlEmail + "<div style='padding:16px 24px;background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;font-size:11px;color:#718096;'>" + footer_ + "</div>";
+	htmlEmail = htmlEmail + "</div>";
+	subject_ = "Informe Semanal STOP2 - " + cliNombre + " (" + lunesStr + " - " + domStr + ")";
+	// Get client contacts
+	cliIdLong = ck.toLong();
+	cliFound = 0;
+	cliRec = null;
+	for each c in Nuevo_Cliente[ID == cliIdLong]
+	{
+		cliRec = c;
+		cliFound = 1;
+		break;
+	}
+	if(cliFound == 1)
+	{
+		// Send to Personas_Contacto_en_Planta
+		for each contacto in cliRec.Personas_Contacto_en_Planta
+		{
+			mailC = ifnull(contacto.Email, "");
+			if(mailC != "")
+			{
+				sendmail
+				[
+					from : zoho.adminuserid
+					to : mailC
+					subject : subject_
+					message : htmlEmail
+				]
+			}
+		}
+	}
+}

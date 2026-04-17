@@ -2,7 +2,7 @@
 
 **Perfil:** Responsable CAE, Super Administrador, Gestor RRHH, Operario CAE
 **Acceso:** [https://creatorapp.zoho.com/formacion11/human-resource-management/](https://creatorapp.zoho.com/formacion11/human-resource-management/) → selector **PRL**
-**Versión:** 1.0 — Marzo 2026
+**Versión:** 1.1 — Abril 2026
 
 ---
 

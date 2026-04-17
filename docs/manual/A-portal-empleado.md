@@ -2,7 +2,7 @@
 
 **Perfil:** Usuario Trabajador
 **Acceso:** [https://domo21.zohocreatorportal.com](https://domo21.zohocreatorportal.com)
-**Versión:** 1.0 — Marzo 2026
+**Versión:** 1.1 — Abril 2026
 
 ---
 
@@ -18,10 +18,12 @@
    - 4.1 [Mis EPIs](#41-mis-epis)
    - 4.2 [Historial de solicitudes EPI](#42-historial-de-solicitudes-epi)
    - 4.3 [Nueva solicitud de EPI o herramienta](#43-nueva-solicitud-de-epi-o-herramienta)
-5. [Mis Mensajes](#5-mis-mensajes)
-6. [Datos del Empleado](#6-datos-del-empleado)
-7. [Confirmaciones de Entrega](#7-confirmaciones-de-entrega)
-8. [Encuestas](#8-encuestas)
+5. [Mis Activos](#5-mis-activos)
+6. [Mis Mensajes](#6-mis-mensajes)
+7. [Datos del Empleado](#7-datos-del-empleado)
+8. [Confirmaciones de Entrega](#8-confirmaciones-de-entrega)
+9. [Encuestas](#9-encuestas)
+10. [Mis Formaciones](#10-mis-formaciones)
 
 ---
 
@@ -181,7 +183,31 @@ Pulsa **Enviar**. RRHH recibirá la solicitud y la gestionará. Sigue el estado 
 
 ---
 
-## 5. Mis Mensajes
+## 5. Mis Activos
+
+![Mis Activos](img/A-empleado/A6-mis-activos.png)
+
+**Ruta de menú:** Portal del Empleado → Mis Activos
+**URL directa:** `#Page:Mis_Activos`
+
+La sección **Mis Activos** muestra todos los equipos, herramientas y prendas de trabajo que tienes asignados actualmente en estado **activo**, es decir, que sigues teniendo en tu poder.
+
+**Columnas de la tabla:**
+
+| Columna | Descripción |
+|---------|-------------|
+| **Tipo** | Badge de color: EPI (azul), ROPA (morado), HERR. (verde) |
+| **Elemento** | Nombre del activo asignado (ej. "Gato hidráulico") |
+| **Serie** | Número de serie del equipo (ej. GH00002) |
+| **Unidades** | Cantidad asignada |
+
+> Si la tabla aparece vacía, significa que no tienes activos registrados a tu nombre en este momento.
+
+Pulsa **+ Solicitar EPI / Herramienta** para solicitar un nuevo equipo o herramienta si lo necesitas.
+
+---
+
+## 6. Mis Mensajes
 
 ![Mis Mensajes](img/A-empleado/A4-mis-mensajes.png)
 
@@ -201,7 +227,7 @@ Pulsa el botón **✉ Enviar nuevo mensaje** en la parte inferior del chat. Se a
 
 ---
 
-## 6. Datos del Empleado
+## 7. Datos del Empleado
 
 ![Datos del Empleado](img/A-empleado/A5-datos-empleado.png)
 
@@ -252,7 +278,7 @@ Cuando termines de editar, pulsa **Enviar** para guardar los cambios.
 
 ---
 
-## 7. Confirmaciones de Entrega
+## 8. Confirmaciones de Entrega
 
 ![Confirmaciones de Entrega](img/A-empleado/A6-confirmaciones-entrega.png)
 
@@ -278,7 +304,7 @@ La sección **Confirmaciones de Entrega** muestra las tareas de confirmación qu
 
 ---
 
-## 8. Encuestas
+## 9. Encuestas
 
 ![Encuestas](img/A-empleado/A7-encuestas.png)
 
@@ -299,6 +325,39 @@ El número de encuestas pendientes también aparece como un **badge verde** en l
 
 ---
 
+---
+
+## 10. Mis Formaciones
+
+![Mis Formaciones](img/A-empleado/A10-mis-formaciones.png)
+
+**Ruta de menú:** Portal del Empleado → Mis Formaciones
+**URL directa:** `#Page:Mis_Formaciones`
+
+La sección **Mis Formaciones** muestra las formaciones a las que estás convocado o en las que has participado.
+
+En la parte superior aparece una tarjeta con tu nombre, apellidos y área profesional.
+
+**Sección "Próximas Formaciones":**
+
+Cursos y jornadas formativas pendientes a los que has sido convocado. Si no tienes ninguna próxima, aparece el mensaje *"No tienes próximas formaciones convocadas"*.
+
+**Sección "Historial":**
+
+Muestra tus formaciones pasadas (ya finalizadas), con el número total entre paréntesis. Las columnas son:
+
+| Columna | Descripción |
+|---------|-------------|
+| **Estado** | Estado de la formación (ej. Finalizada) |
+| **Formación** | Nombre o descripción del curso |
+| **Fecha** | Fecha de celebración |
+| **Dur.** | Duración en horas |
+| **Centro** | Centro formativo donde se impartió |
+
+> Si la sección aparece vacía, el departamento aún no ha registrado formaciones en el sistema o no has sido convocado a ninguna.
+
+---
+
 ## Resumen de funcionalidades
 
 | Sección | Qué puedes hacer |
@@ -310,11 +369,13 @@ El número de encuestas pendientes también aparece como un **badge verde** en l
 | Mis EPIs | Ver todos tus equipos/herramientas solicitados con sus estados |
 | Solicitudes EPI | Historial detallado, confirmar entregas |
 | Nueva Solicitud EPI | Solicitar EPI, ropa de trabajo o herramientas |
+| **Mis Activos** | Ver equipos y herramientas actualmente asignados a tu nombre |
 | Mis Mensajes | Chat directo con RRHH |
 | Datos del Empleado | Ver y actualizar tu información personal y profesional |
 | Confirmaciones de Entrega | Confirmar recepción de documentos o equipos |
 | Encuestas | Responder encuestas de la empresa |
+| **Mis Formaciones** | Consultar próximas formaciones y tu historial de cursos |
 
 ---
 
-*Manual generado el 26/03/2026 — Gestión de Recursos Humanos v2026*
+*Manual actualizado el 07/04/2026 — Gestión de Recursos Humanos v2026*

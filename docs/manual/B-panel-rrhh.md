@@ -2,7 +2,7 @@
 
 **Perfil:** Gestor RRHH, Responsable CAE, Supervisor, Operario CAE, Super Administrador
 **Acceso:** [https://creatorapp.zoho.com/formacion11/human-resource-management/](https://creatorapp.zoho.com/formacion11/human-resource-management/)
-**Versión:** 1.0 — Marzo 2026
+**Versión:** 1.1 — Abril 2026
 
 ---
 
@@ -27,7 +27,8 @@
 8. [Dashboards y Analíticas](#8-dashboards-y-analíticas)
    - 8.1 [Semáforo Caducidades EPI](#81-semáforo-caducidades-epi)
    - 8.2 [Timeline de Permisos](#82-timeline-de-permisos)
-9. [Configuración General](#9-configuración-general)
+9. [Formaciones](#9-formaciones)
+10. [Configuración General](#10-configuración-general)
 
 ---
 
@@ -402,7 +403,64 @@ Permite planificar la cobertura de clientes detectando solapamientos de ausencia
 
 ---
 
-## 9. Configuración General
+## 9. Formaciones
+
+![Tablero Formaciones](img/B-rrhh/B13-tablero-formaciones.png)
+
+**Ruta de menú:** Formaciones → Tablero Formaciones
+**URL directa:** `#Page:Tablero_Formaciones`
+**Perfiles:** Gestor RRHH, Supervisor, Super Administrador
+
+El **Tablero Formaciones** centraliza la gestión de todas las formaciones programadas para el personal. Permite ver de un vistazo el estado general de la formación de la plantilla.
+
+### KPIs superiores
+
+| KPI | Qué mide |
+|-----|----------|
+| **Este año** | Formaciones realizadas o programadas en el año en curso |
+| **Próximas 30D** | Formaciones que comienzan en los próximos 30 días |
+| **Convocatorias** | Total de inscripciones de técnicos en formaciones |
+| **Inversión** | Coste total acumulado de formaciones (cuando está registrado) |
+
+### Botones de acción rápida
+
+| Botón | Acción |
+|-------|--------|
+| **+ Nueva Formación** | Abre el formulario para registrar una nueva formación |
+| **Ver Calendario** | Vista de calendario con las fechas de todas las formaciones |
+| **Ver Lista** | Vista tabular del listado completo |
+
+### Filtros de vista
+
+Sin necesidad de recargar la página, puedes cambiar qué formaciones se muestran:
+
+| Filtro | Qué muestra |
+|--------|-------------|
+| **Todas** | El listado completo |
+| **Próximas** | Solo formaciones con fecha futura |
+| **Pasadas** | Solo formaciones ya finalizadas |
+
+### Tarjetas de formación
+
+Cada formación aparece como una tarjeta (tres columnas) que muestra:
+- **Badge de estado** (Finalizada / Próxima / En curso)
+- **Nombre** de la formación
+- **Rango de fechas**, duración y coste
+- **Sede / ubicación**
+- **Avatares de los técnicos** convocados (círculos con iniciales y color único por persona)
+
+Al hacer clic en el avatar de un técnico se abre su **Ficha Empleado**.
+
+### Cómo registrar una nueva formación
+
+1. Haz clic en **+ Nueva Formación**.
+2. Rellena los campos: nombre, centro formativo, sede, fechas de inicio y fin, duración y coste.
+3. En el campo **Técnicos a convocar**, selecciona los trabajadores participantes.
+4. Pulsa **Enviar** — la formación aparece automáticamente en el tablero y en la sección **Mis Formaciones** del portal de los técnicos convocados.
+
+---
+
+## 10. Configuración General
 
 ![Configuración General](img/B-rrhh/B10-configuracion-general.png)
 
@@ -496,8 +554,9 @@ Parámetros de conexión con el servidor WhatsApp para el envío de notificacion
 | Chat RRHH | Responder mensajes de un empleado en vista tipo chat |
 | Semáforo Caducidades | Ver de un vistazo qué documentos EPI están caducados por técnico |
 | Timeline Permisos | Ver todos los permisos aprobados del equipo en vista anual |
+| **Tablero Formaciones** | Gestionar formaciones del personal: próximas, en curso y pasadas |
 | Configuración General | Configurar notificaciones WhatsApp/email y parámetros del sistema |
 
 ---
 
-*Manual generado el 26/03/2026 — Gestión de Recursos Humanos v2026*
+*Manual actualizado el 07/04/2026 — Gestión de Recursos Humanos v2026*

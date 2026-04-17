@@ -309,7 +309,7 @@ const fullHtml = `<!DOCTYPE html>
   <div class="subtitle">Plataforma Zoho Creator</div>
   <div class="org">DOMO21 / Sicma21</div>
   <div class="url">https://domo21.zohocreatorportal.com</div>
-  <div class="version">Versión 1.0 — Marzo 2026</div>
+  <div class="version">Versión 1.1 — Abril 2026</div>
   <div class="logo-bar">
     Módulo A: Portal del Empleado &nbsp;|&nbsp;
     Módulo B: Panel RRHH &nbsp;|&nbsp;

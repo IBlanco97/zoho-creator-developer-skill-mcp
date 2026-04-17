@@ -44,10 +44,12 @@ Localiza tu perfil para saber qué secciones te corresponden y qué puedes hacer
 | **Mis EPIs** | Ver el estado de tus equipos y herramientas | [A §4.1](A-portal-empleado.md#41-mis-epis) |
 | **Solicitudes EPI** | Historial de EPIs y confirmar entregas | [A §4.2](A-portal-empleado.md#42-historial-de-solicitudes-epi) |
 | **Nueva Solicitud EPI** | Solicitar EPI, ropa de trabajo o herramientas | [A §4.3](A-portal-empleado.md#43-nueva-solicitud-de-epi-o-herramienta) |
-| **Mis Mensajes** | Chat directo con RRHH | [A §5](A-portal-empleado.md#5-mis-mensajes) |
-| **Datos del Empleado** | Ver y actualizar tu perfil personal y profesional | [A §6](A-portal-empleado.md#6-datos-del-empleado) |
-| **Confirmaciones de Entrega** | Confirmar recepción de documentos o equipos | [A §7](A-portal-empleado.md#7-confirmaciones-de-entrega) |
-| **Encuestas** | Responder encuestas activas de la empresa | [A §8](A-portal-empleado.md#8-encuestas) |
+| **Mis Activos** | Ver equipos y herramientas actualmente asignados a tu nombre | [A §5](A-portal-empleado.md#5-mis-activos) |
+| **Mis Mensajes** | Chat directo con RRHH | [A §6](A-portal-empleado.md#6-mis-mensajes) |
+| **Datos del Empleado** | Ver y actualizar tu perfil personal y profesional | [A §7](A-portal-empleado.md#7-datos-del-empleado) |
+| **Confirmaciones de Entrega** | Confirmar recepción de documentos o equipos | [A §8](A-portal-empleado.md#8-confirmaciones-de-entrega) |
+| **Encuestas** | Responder encuestas activas de la empresa | [A §9](A-portal-empleado.md#9-encuestas) |
+| **Mis Formaciones** | Consultar próximas formaciones y tu historial de cursos | [A §10](A-portal-empleado.md#10-mis-formaciones) |
 
 ---
 
@@ -68,12 +70,13 @@ Localiza tu perfil para saber qué secciones te corresponden y qué puedes hacer
 | **52 Semanas** | Visualizar el calendario de 52 semanas con turno por empleado/cliente | [B §6](B-panel-rrhh.md#6-52-semanas) |
 | **Asignacion Técnico Cliente** | Gestionar qué técnicos están asignados a qué clientes | [B §7](B-panel-rrhh.md#7-asignacion-técnico-cliente) |
 | **Solicitud de EPI - Herramienta** | Ver y gestionar solicitudes de EPIs y herramientas | [B §8](B-panel-rrhh.md#8-solicitud-de-epi--herramienta) |
-| **Solicitudes de Permisos** | Ver y aprobar/rechazar solicitudes de permisos | [B §9](B-panel-rrhh.md#9-solicitudes-de-permisos) |
-| **Mensajes Recibidos** | Ver conversaciones con empleados | [B §10](B-panel-rrhh.md#10-mensajes) |
-| **Chat RRHH** | Responder mensajes de un empleado concreto | [B §10](B-panel-rrhh.md#10-mensajes) |
-| **Semáforo Caducidades EPI** | Ver estado de caducidades de EPIs por empleado | [B §11](B-panel-rrhh.md#11-semáforo-caducidades-epi) |
-| **Timeline Permisos** | Ver permisos aprobados por mes y empleado | [B §12](B-panel-rrhh.md#12-timeline-permisos) |
-| **Panel de Asignaciones** | Vista visual de asignaciones técnico-cliente con KPIs | [B §13](B-panel-rrhh.md#13-panel-de-asignaciones) |
+| **Solicitudes de Permisos** | Ver y aprobar/rechazar solicitudes de permisos | [B §6](B-panel-rrhh.md#6-solicitudes-de-permisos) |
+| **Mensajes Recibidos** | Ver conversaciones con empleados | [B §7.1](B-panel-rrhh.md#71-lista-de-conversaciones) |
+| **Chat RRHH** | Responder mensajes de un empleado concreto | [B §7.2](B-panel-rrhh.md#72-chat-rrhh) |
+| **Semáforo Caducidades EPI** | Ver estado de caducidades de EPIs por empleado | [B §8.1](B-panel-rrhh.md#81-semáforo-caducidades-epi) |
+| **Timeline Permisos** | Ver permisos aprobados por mes y empleado | [B §8.2](B-panel-rrhh.md#82-timeline-de-permisos) |
+| **Panel de Asignaciones** | Vista visual de asignaciones técnico-cliente con KPIs | [B §4.2](B-panel-rrhh.md#42-panel-de-asignaciones) |
+| **Tablero Formaciones** | Ver y gestionar formaciones del personal | [B §9](B-panel-rrhh.md#9-formaciones) |
 
 #### Módulo D — Administración
 
@@ -117,8 +120,8 @@ Localiza tu perfil para saber qué secciones te corresponden y qué puedes hacer
 |---------|-----------------|-----------------|
 | **Solicitudes de Permisos** | Ver y aprobar/rechazar solicitudes de permisos | [B §9](B-panel-rrhh.md#9-solicitudes-de-permisos) |
 | **Semáforo Caducidades EPI** | Consultar caducidades de EPIs | [B §11](B-panel-rrhh.md#11-semáforo-caducidades-epi) |
-| **Timeline Permisos** | Ver calendario de permisos aprobados | [B §12](B-panel-rrhh.md#12-timeline-permisos) |
-| **Panel de Asignaciones** | Consultar asignaciones técnico-cliente | [B §13](B-panel-rrhh.md#13-panel-de-asignaciones) |
+| **Timeline Permisos** | Ver calendario de permisos aprobados | [B §8.2](B-panel-rrhh.md#82-timeline-de-permisos) |
+| **Panel de Asignaciones** | Consultar asignaciones técnico-cliente | [B §4.2](B-panel-rrhh.md#42-panel-de-asignaciones) |
 
 ---
 
@@ -212,4 +215,4 @@ Gestor RRHH / Administrador
 
 ---
 
-*Manual generado el 26/03/2026 — Gestión de Recursos Humanos v2026*
+*Manual actualizado el 07/04/2026 — Gestión de Recursos Humanos v2026*

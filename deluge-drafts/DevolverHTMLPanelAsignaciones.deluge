@@ -60,7 +60,7 @@ string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string c
 		tNamMap.put(cId, prevN + fullNam);
 	}
 	nTec = tSet.size();
-	// Phase B: Client loop — build KPIs + cards (server-side filtered)
+	// Phase B: Client loop - build KPIs + cards (server-side filtered)
 	nC = 0;
 	nCAll = 0;
 	nConTec = 0;

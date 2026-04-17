@@ -1,0 +1,180 @@
+// Función: Calendario52HTML.DevolverHTMLDocVehiculo(int docId)
+// Página: Documento_Vehiculo (visualización formal del documento de responsabilidad)
+// Variable de página: DocNo (Number)
+// Snippet: <%{ docId_ = input.DocNo; html_ = thisapp.Calendario52HTML.DevolverHTMLDocVehiculo(docId_); %><%=html_%><%}%>
+
+string Calendario52HTML.DevolverHTMLDocVehiculo(int docId)
+{
+    // --- Guard: buscar documento ---
+    docFound = 0;
+    docRec = null;
+    docIdL = docId.toLong();
+    for each d in Documento_Responsabilidad_Vehiculo[ID == docIdL]
+    {
+        docRec = d;
+        docFound = 1;
+        break;
+    }
+    if(docFound == 0)
+    {
+        return "<div style='text-align:center;padding:60px;font-family:Arial,sans-serif;color:#a0aec0;'><h2>Documento no encontrado</h2><p>El documento solicitado no existe o no tienes acceso.</p></div>";
+    }
+
+    // --- Extraer campos ---
+    vehNombre = ifnull(docRec.Nombre_Vehiculo, "—");
+    vehMarca = ifnull(docRec.Marca_Modelo, "—");
+    vehMatricula = ifnull(docRec.Numero_Registro, "—");
+    trabDNI = ifnull(docRec.DNI_Trabajador, "—");
+    estadoFirma = ifnull(docRec.Estado_Firma, "Pendiente de Firma");
+    modoFirma = ifnull(docRec.Modo_Firma, "—");
+
+    // Nombre del trabajador
+    trabNombre = "—";
+    trabId = ifnull(docRec.Trabajador, 0).toLong();
+    if(trabId != 0)
+    {
+        for each t in Nuevo_Empleado[ID == trabId]
+        {
+            fn = ifnull(t.Nombre.first_name, "");
+            ln = ifnull(t.Nombre.last_name, "");
+            trabNombre = fn + " " + ln;
+            break;
+        }
+    }
+
+    // Nombre del supervisor
+    supNombre = "—";
+    supId = ifnull(docRec.Supervisor, 0).toLong();
+    if(supId != 0)
+    {
+        for each s in Nuevo_Empleado[ID == supId]
+        {
+            fn = ifnull(s.Nombre.first_name, "");
+            ln = ifnull(s.Nombre.last_name, "");
+            supNombre = fn + " " + ln;
+            break;
+        }
+    }
+
+    // Fechas
+    fechaDoc = "—";
+    if(docRec.Fecha_Documento != null)
+    {
+        fechaDoc = docRec.Fecha_Documento.toString("dd/MM/yyyy");
+    }
+    fechaFirma = "—";
+    if(docRec.Fecha_Firma != null)
+    {
+        fechaFirma = docRec.Fecha_Firma.toString("dd/MM/yyyy HH:mm");
+    }
+
+    // Estado: badge color
+    bdColor = if(estadoFirma == "Firmado", "#38a169", "#dd6b20");
+    bdBg = if(estadoFirma == "Firmado", "#c6f6d5", "#feebc8");
+
+    // --- CSS ---
+    css = "<style>" +
+        "*{box-sizing:border-box;margin:0;padding:0}" +
+        "body{font-family:Arial,sans-serif;background:#f7fafc}" +
+        ".doc-wrap{max-width:800px;margin:20px auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}" +
+        ".doc-hdr{background:#1C3A5E;color:#fff;padding:24px 32px;text-align:center}" +
+        ".doc-hdr h1{font-size:18px;font-weight:700;letter-spacing:.5px;margin-bottom:4px}" +
+        ".doc-hdr p{font-size:12px;opacity:.7}" +
+        ".doc-body{padding:32px}" +
+        ".doc-badge{display:inline-block;padding:4px 14px;border-radius:12px;font-size:12px;font-weight:700}" +
+        ".doc-row{display:flex;justify-content:space-between;margin-bottom:20px;gap:20px}" +
+        ".doc-col{flex:1}" +
+        ".doc-label{font-size:10px;color:#718096;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}" +
+        ".doc-val{font-size:15px;font-weight:600;color:#1a202c;padding:10px 14px;background:#f7fafc;border-radius:8px;border:1px solid #e2e8f0}" +
+        ".doc-sep{border:none;border-top:2px solid #e2e8f0;margin:24px 0}" +
+        ".doc-txt{font-size:14px;color:#2d3748;line-height:1.7;white-space:pre-wrap;background:#f7fafc;padding:20px;border-radius:8px;border:1px solid #e2e8f0;margin-bottom:24px}" +
+        ".doc-firma{text-align:center;padding:20px;border:2px dashed #e2e8f0;border-radius:12px;margin-bottom:20px;min-height:120px;display:flex;align-items:center;justify-content:center;flex-direction:column}" +
+        ".doc-firma img{max-width:300px;max-height:150px}" +
+        ".doc-firma .pending{color:#dd6b20;font-size:14px;font-weight:600}" +
+        ".doc-footer{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;background:#f7fafc;border-top:1px solid #e2e8f0;font-size:12px;color:#718096}" +
+        ".doc-actions{text-align:center;margin-top:16px}" +
+        ".doc-btn{display:inline-block;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;color:#fff;background:#3182ce}" +
+        ".doc-btn:hover{background:#2b6cb0}" +
+        "@media(max-width:600px){.doc-row{flex-direction:column}.doc-body{padding:20px}}" +
+        "</style>";
+
+    // --- HTML ---
+    html = css;
+    html = html + "<div class='doc-wrap'>";
+
+    // Header
+    html = html + "<div class='doc-hdr'>";
+    html = html + "<h1>DOCUMENTO DE RESPONSABILIDAD DE VEH&#205;CULO</h1>";
+    html = html + "<p>Gesti&#243;n de Flota &#8212; " + fechaDoc + "</p>";
+    html = html + "</div>";
+
+    // Body
+    html = html + "<div class='doc-body'>";
+
+    // Estado badge
+    html = html + "<div style='text-align:right;margin-bottom:16px;'>";
+    html = html + "<span class='doc-badge' style='background:" + bdBg + ";color:" + bdColor + ";'>" + estadoFirma + "</span>";
+    html = html + "</div>";
+
+    // Fila: Supervisor + Trabajador
+    html = html + "<div class='doc-row'>";
+    html = html + "<div class='doc-col'><div class='doc-label'>Supervisor / Responsable</div><div class='doc-val'>" + supNombre + "</div></div>";
+    html = html + "<div class='doc-col'><div class='doc-label'>Trabajador/a</div><div class='doc-val'>" + trabNombre + "</div></div>";
+    html = html + "</div>";
+
+    // Fila: Vehículo + Matrícula
+    html = html + "<div class='doc-row'>";
+    html = html + "<div class='doc-col'><div class='doc-label'>Veh&#237;culo</div><div class='doc-val'>" + vehNombre + " (" + vehMarca + ")</div></div>";
+    html = html + "<div class='doc-col'><div class='doc-label'>Matr&#237;cula</div><div class='doc-val'>" + vehMatricula + "</div></div>";
+    html = html + "</div>";
+
+    // Fila: DNI + Fecha
+    html = html + "<div class='doc-row'>";
+    html = html + "<div class='doc-col'><div class='doc-label'>DNI / NIE Trabajador</div><div class='doc-val'>" + trabDNI + "</div></div>";
+    html = html + "<div class='doc-col'><div class='doc-label'>Fecha del Documento</div><div class='doc-val'>" + fechaDoc + "</div></div>";
+    html = html + "</div>";
+
+    // Separador
+    html = html + "<hr class='doc-sep'>";
+
+    // Texto legal
+    textoLegal = ifnull(docRec.Texto_Legal, "");
+    // Escapar caracteres HTML básicos
+    textoLegal = textoLegal.replaceAll("&", "&amp;");
+    textoLegal = textoLegal.replaceAll("<", "&lt;");
+    textoLegal = textoLegal.replaceAll(">", "&gt;");
+    html = html + "<div class='doc-txt'>" + textoLegal + "</div>";
+
+    // Firma
+    html = html + "<div class='doc-label' style='margin-bottom:8px;'>Firma del Trabajador/a</div>";
+    html = html + "<div class='doc-firma'>";
+    if(estadoFirma == "Firmado" && docRec.Firma_Trabajador != null)
+    {
+        // Renderizar imagen de firma
+        // Nota: El campo Signature en Zoho almacena una URL de imagen
+        // Si no funciona como URL directa, probar con getPermalink o getDownloadURL
+        html = html + "<img src='" + docRec.Firma_Trabajador + "' alt='Firma del trabajador'>";
+        html = html + "<div style='margin-top:8px;font-size:12px;color:#718096;'>Firmado el " + fechaFirma + "</div>";
+    }
+    else
+    {
+        html = html + "<div class='pending'>&#9888; Pendiente de firma</div>";
+        // Botón para firmar (lleva al form en modo edición)
+        html = html + "<div class='doc-actions'>";
+        html = html + "<a class='doc-btn' href='#Form:Documento_Responsabilidad_Vehiculo?recLinkID=" + docRec.ID + "&viewLinkName=Documentos_Responsabilidad_Report'>Firmar ahora</a>";
+        html = html + "</div>";
+    }
+    html = html + "</div>";
+
+    html = html + "</div>"; // fin doc-body
+
+    // Footer
+    html = html + "<div class='doc-footer'>";
+    html = html + "<span>Modo: " + modoFirma + "</span>";
+    html = html + "<span>ID: " + docRec.ID + "</span>";
+    html = html + "</div>";
+
+    html = html + "</div>"; // fin doc-wrap
+
+    return html;
+}

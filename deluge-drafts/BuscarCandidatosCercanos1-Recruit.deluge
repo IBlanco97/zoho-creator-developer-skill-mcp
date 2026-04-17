@@ -1,0 +1,274 @@
+// Zoho Recruit — Buscar Candidatos Cercanos
+// Función: BuscarCandidatosCercanos1(String jobId)
+// Tipo: Associated | Retorno: String
+// Descripción: Busca candidatos dentro de un radio por CP y envia email con resultados
+
+RADIO_KM = 80;
+jobRec = zoho.recruit.getRecordById("JobOpenings",jobId.toLong());
+jobTitle = ifnull(jobRec.get("Job_Opening_Name"),"Sin título").toString();
+rawZip = ifnull(jobRec.get("Zip_Code"),"").toString().trim();
+destEmail = zoho.loginuserid;
+jobZip = rawZip.replaceAll(" ","");
+jobZip = jobZip.replaceAll("o","0");
+jobZip = jobZip.replaceAll("O","0");
+if(jobZip == "" || jobZip.length() < 2)
+{
+	sendmail
+	[
+		from :destEmail
+		to :destEmail
+		subject :"Candidatos Cercanos — CP no definido en " + jobTitle
+		message :"<p>El Job Opening <b>" + jobTitle + "</b> no tiene Código Postal rellenado. Rellena el campo <i>Zip Code</i> antes de buscar.</p>"
+	]
+	return "";
+}
+refPrefix = jobZip.subString(0,2);
+prov = Map();
+prov.put("01","42.85,-2.68");
+prov.put("02","38.99,-1.86");
+prov.put("03","38.35,-0.48");
+prov.put("04","36.84,-2.47");
+prov.put("05","40.66,-4.70");
+prov.put("06","38.88,-6.97");
+prov.put("07","39.57,2.65");
+prov.put("08","41.39,2.15");
+prov.put("09","42.34,-3.70");
+prov.put("10","39.47,-6.37");
+prov.put("11","36.52,-6.29");
+prov.put("12","39.99,-0.05");
+prov.put("13","38.99,-3.93");
+prov.put("14","37.89,-4.78");
+prov.put("15","43.37,-8.40");
+prov.put("16","40.07,-2.13");
+prov.put("17","41.98,2.82");
+prov.put("18","37.18,-3.60");
+prov.put("19","40.63,-3.16");
+prov.put("20","43.32,-1.98");
+prov.put("21","37.26,-6.95");
+prov.put("22","42.14,-0.41");
+prov.put("23","37.77,-3.79");
+prov.put("24","42.60,-5.57");
+prov.put("25","41.62,0.62");
+prov.put("26","42.47,-2.45");
+prov.put("27","43.01,-7.55");
+prov.put("28","40.42,-3.70");
+prov.put("29","36.72,-4.42");
+prov.put("30","37.98,-1.13");
+prov.put("31","42.82,-1.65");
+prov.put("32","42.34,-7.86");
+prov.put("33","43.36,-5.85");
+prov.put("34","42.01,-4.53");
+prov.put("35","28.09,-15.41");
+prov.put("36","42.43,-8.64");
+prov.put("37","40.97,-5.66");
+prov.put("38","28.46,-16.25");
+prov.put("39","43.46,-3.80");
+prov.put("40","40.95,-4.12");
+prov.put("41","37.39,-5.99");
+prov.put("42","41.76,-2.46");
+prov.put("43","41.12,1.24");
+prov.put("44","40.35,-1.11");
+prov.put("45","39.86,-4.02");
+prov.put("46","39.47,-0.38");
+prov.put("47","41.65,-4.72");
+prov.put("48","43.26,-2.93");
+prov.put("49","41.50,-5.74");
+prov.put("50","41.65,-0.89");
+prov.put("51","35.89,-5.32");
+prov.put("52","35.29,-2.94");
+provNom = Map();
+provNom.put("01","Álava");
+provNom.put("02","Albacete");
+provNom.put("03","Alicante");
+provNom.put("04","Almería");
+provNom.put("05","Ávila");
+provNom.put("06","Badajoz");
+provNom.put("07","Baleares");
+provNom.put("08","Barcelona");
+provNom.put("09","Burgos");
+provNom.put("10","Cáceres");
+provNom.put("11","Cádiz");
+provNom.put("12","Castellón");
+provNom.put("13","Ciudad Real");
+provNom.put("14","Córdoba");
+provNom.put("15","A Coruña");
+provNom.put("16","Cuenca");
+provNom.put("17","Girona");
+provNom.put("18","Granada");
+provNom.put("19","Guadalajara");
+provNom.put("20","Gipuzkoa");
+provNom.put("21","Huelva");
+provNom.put("22","Huesca");
+provNom.put("23","Jaén");
+provNom.put("24","León");
+provNom.put("25","Lleida");
+provNom.put("26","La Rioja");
+provNom.put("27","Lugo");
+provNom.put("28","Madrid");
+provNom.put("29","Málaga");
+provNom.put("30","Murcia");
+provNom.put("31","Navarra");
+provNom.put("32","Ourense");
+provNom.put("33","Asturias");
+provNom.put("34","Palencia");
+provNom.put("35","Las Palmas");
+provNom.put("36","Pontevedra");
+provNom.put("37","Salamanca");
+provNom.put("38","Tenerife");
+provNom.put("39","Cantabria");
+provNom.put("40","Segovia");
+provNom.put("41","Sevilla");
+provNom.put("42","Soria");
+provNom.put("43","Tarragona");
+provNom.put("44","Teruel");
+provNom.put("45","Toledo");
+provNom.put("46","Valencia");
+provNom.put("47","Valladolid");
+provNom.put("48","Bizkaia");
+provNom.put("49","Zamora");
+provNom.put("50","Zaragoza");
+provNom.put("51","Ceuta");
+provNom.put("52","Melilla");
+if(!prov.containsKey(refPrefix))
+{
+	sendmail
+	[
+		from :destEmail
+		to :destEmail
+		subject :"Candidatos Cercanos — CP no reconocido: " + rawZip
+		message :"<p>El prefijo <b>" + refPrefix + "</b> (CP original: " + rawZip + ") no coincide con ninguna provincia española.</p>"
+	]
+	return "";
+}
+refCoords = prov.get(refPrefix).toList(",");
+refLat = refCoords.get(0).toDecimal();
+refLng = refCoords.get(1).toDecimal();
+refProvNom = provNom.get(refPrefix);
+LAT_KM = 111.0.toDecimal();
+LNG_KM = 85.0.toDecimal();
+radioSq = (RADIO_KM * RADIO_KM).toDecimal();
+tableRows = "";
+found = 0;
+skipped = 0;
+keepGoing = 1;
+pages = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+for each  pg in pages
+{
+	if(keepGoing == 1)
+	{
+		batch = zoho.recruit.getRecords("Candidates",pg,200);
+		if(batch == null || batch.size() == 0)
+		{
+			keepGoing = 0;
+		}
+		else
+		{
+			for each  c in batch
+			{
+				cRawZip = ifnull(c.get("Zip Code"),"").toString().trim();
+				if(cRawZip.length() >= 2)
+				{
+					cZip = cRawZip.replaceAll(" ","");
+					cZip = cZip.replaceAll("o","0");
+					cZip = cZip.replaceAll("O","0");
+					if(cZip.length() >= 2)
+					{
+						cPrefix = cZip.subString(0,2);
+						if(prov.containsKey(cPrefix))
+						{
+							cCoords = prov.get(cPrefix).toList(",");
+							cLat = cCoords.get(0).toDecimal();
+							cLng = cCoords.get(1).toDecimal();
+							dLatKm = (cLat - refLat) * LAT_KM;
+							dLngKm = (cLng - refLng) * LNG_KM;
+							distSq = dLatKm * dLatKm + dLngKm * dLngKm;
+							if(distSq <= radioSq)
+							{
+								if(distSq <= 100)
+								{
+									distKm = 5;
+								}
+								else if(distSq <= 400)
+								{
+									distKm = 15;
+								}
+								else if(distSq <= 900)
+								{
+									distKm = 25;
+								}
+								else if(distSq <= 1600)
+								{
+									distKm = 35;
+								}
+								else if(distSq <= 2500)
+								{
+									distKm = 45;
+								}
+								else if(distSq <= 3600)
+								{
+									distKm = 55;
+								}
+								else if(distSq <= 4900)
+								{
+									distKm = 65;
+								}
+								else
+								{
+									distKm = 75;
+								}
+								firstName = ifnull(c.get("First Name"),"").toString();
+								lastName = ifnull(c.get("Last Name"),"").toString();
+								email = ifnull(c.get("Email"),"—").toString();
+								mobile = ifnull(c.get("Mobile"),"").toString();
+								phone = ifnull(c.get("Phone"),"").toString();
+								contacto = if(mobile != "",mobile,if(phone != "",phone,"—"));
+								status = ifnull(c.get("Candidate Status"),"—").toString();
+								espec = ifnull(c.get("ESPECIALIDAD"),"—").toString();
+								profesion = ifnull(c.get("PROFESION"),"—").toString();
+								ciudad = ifnull(c.get("City"),"—").toString();
+								cProvNom = ifnull(provNom.get(cPrefix),"—");
+								expYears = ifnull(c.get("Experience in Years"),"—").toString();
+								bgColor = if(distKm <= 30,"#f0fdf4",if(distKm <= 60,"#fefce8","#fff7ed"));
+								stColor = if(status.contains("Convertido"),"#dcfce7",if(status.contains("Entrevista"),"#dbeafe",if(status.contains("Nuevo"),"#f3f4f6","#fef3c7")));
+								tableRows = tableRows + "<tr style='background:" + bgColor + "'>" + "<td style='padding:7px 10px;border-bottom:1px solid #e5e7eb;font-weight:600'>" + firstName + " " + lastName + "</td>" + "<td style='padding:7px 10px;border-bottom:1px solid #e5e7eb'>" + espec + "</td>" + "<td style='padding:7px 10px;border-bottom:1px solid #e5e7eb'>" + profesion + "</td>" + "<td style='padding:7px 10px;border-bottom:1px solid #e5e7eb;text-align:center'>" + expYears + " a.</td>" + "<td style='padding:7px 10px;border-bottom:1px solid #e5e7eb'>" + ciudad + " (" + cProvNom + ")</td>" + "<td style='padding:7px 10px;border-bottom:1px solid #e5e7eb;text-align:center'>" + cZip + "</td>" + "<td style='padding:7px 10px;border-bottom:1px solid #e5e7eb;text-align:center;font-weight:600'>~" + distKm + " km</td>" + "<td style='padding:7px 10px;border-bottom:1px solid #e5e7eb'>" + contacto + "</td>" + "<td style='padding:7px 10px;border-bottom:1px solid #e5e7eb'>" + email + "</td>" + "<td style='padding:7px 10px;border-bottom:1px solid #e5e7eb'>" + "<span style='background:" + stColor + ";padding:2px 8px;border-radius:10px;font-size:11px'>" + status + "</span></td>" + "</tr>";
+								found = found + 1;
+							}
+						}
+						else
+						{
+							skipped = skipped + 1;
+						}
+					}
+					else
+					{
+						skipped = skipped + 1;
+					}
+				}
+				else
+				{
+					skipped = skipped + 1;
+				}
+			}
+			if(batch.size() < 200)
+			{
+				keepGoing = 0;
+			}
+		}
+	}
+}
+if(found == 0)
+{
+	bodyHtml = "<p style='color:#6b7280;padding:20px 0'>No se encontraron candidatos dentro de <b>" + RADIO_KM + " km</b> de " + jobZip + " (" + refProvNom + ").</p>" + "<p style='color:#9ca3af;font-size:12px'>Candidatos sin CP o con CP no reconocido: " + skipped + " (excluidos de la búsqueda).</p>";
+}
+else
+{
+	bodyHtml = "<table style='border-collapse:collapse;font-size:12px;width:100%;margin-top:12px'>" + "<thead><tr style='background:#1C3A5E;color:white'>" + "<th style='padding:8px 10px;text-align:left'>Nombre</th>" + "<th style='padding:8px 10px;text-align:left'>Especialidad</th>" + "<th style='padding:8px 10px;text-align:left'>Profesión</th>" + "<th style='padding:8px 10px;text-align:center'>Exp.</th>" + "<th style='padding:8px 10px;text-align:left'>Ciudad</th>" + "<th style='padding:8px 10px;text-align:center'>CP</th>" + "<th style='padding:8px 10px;text-align:center'>Dist.</th>" + "<th style='padding:8px 10px;text-align:left'>Teléfono</th>" + "<th style='padding:8px 10px;text-align:left'>Email</th>" + "<th style='padding:8px 10px;text-align:left'>Estado</th>" + "</tr></thead><tbody>" + tableRows + "</tbody></table>" + "<p style='color:#9ca3af;font-size:11px;margin-top:16px'>" + "&#x1F7E2; &le;30 km &nbsp; &#x1F7E1; 31-60 km &nbsp; &#x1F7E0; 61-" + RADIO_KM + " km" + " &nbsp;|&nbsp; " + skipped + " candidatos excluidos (sin CP válido)<br>" + "Distancias aprox. a capital de provincia.</p>";
+}
+sendmail
+[
+	from :destEmail
+	to :destEmail
+	subject :"Candidatos Cercanos — " + jobTitle + " (" + found + " en " + RADIO_KM + "km de " + refProvNom + ")"
+	message :"<div style='font-family:sans-serif;max-width:1000px;padding:20px'>" + "<h2 style='color:#1C3A5E;margin:0 0 12px'>Candidatos Cercanos</h2>" + "<table style='font-size:13px;margin-bottom:16px'><tbody>" + "<tr><td style='color:#6b7280;padding:2px 12px 2px 0'>Oferta:</td>" + "<td><b>" + jobTitle + "</b></td></tr>" + "<tr><td style='color:#6b7280;padding:2px 12px 2px 0'>CP referencia:</td>" + "<td><b>" + jobZip + "</b> — " + refProvNom + "</td></tr>" + "<tr><td style='color:#6b7280;padding:2px 12px 2px 0'>Radio:</td>" + "<td><b>" + RADIO_KM + " km</b></td></tr>" + "<tr><td style='color:#6b7280;padding:2px 12px 2px 0'>Encontrados:</td>" + "<td><b>" + found + " candidatos</b></td></tr>" + "</tbody></table>" + bodyHtml + "</div>"
+]
+return "";

@@ -1,0 +1,96 @@
+string Configuracion.MostrarConfiguracion()
+{
+	cfgFound = 0;
+	for each  cfg in Configuraci_n_General[ID != 0]
+	{
+		rec = cfg;
+		cfgFound = 1;
+		break;
+	}
+	if(cfgFound == 0)
+	{
+		return "<div style='font-family:system-ui;text-align:center;padding:60px;color:#6b7280'>No hay registro de configuración disponible.</div>";
+	}
+	bs = "display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;";
+	bon = bs + "background:#dcfce7;color:#166534;";
+	boff = bs + "background:#fee2e2;color:#991b1b;";
+	bnul = bs + "background:#f3f4f6;color:#6b7280;";
+	sec = "background:#fff;border-radius:8px;border:1px solid #e5e7eb;margin-bottom:16px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,0.04);";
+	hdr = "background:#1C3A5E;padding:12px 20px;";
+	htx = "color:#fff;font-size:14px;font-weight:700;margin:0;";
+	bdy = "padding:0 20px;";
+	row = "display:grid;grid-template-columns:270px 1fr;gap:12px;align-items:start;padding:11px 0;border-bottom:1px solid #f3f4f6;";
+	rowl = "display:grid;grid-template-columns:270px 1fr;gap:12px;align-items:start;padding:11px 0;";
+	lab = "color:#6b7280;font-size:13px;";
+	val = "color:#111827;font-size:13px;";
+	badgeCad = if(rec.Notificaciones_de_Caducidad_de_Documentos == "Activado","<span style='" + bon + "'>&#10003; Activado</span>",if(rec.Notificaciones_de_Caducidad_de_Documentos == "Desactivado","<span style='" + boff + "'>&#10007; Desactivado</span>","<span style='" + bnul + "'>Sin configurar</span>"));
+	badgeAsig = if(rec.Notificaciones_de_Asignaci_n_T_cnico_Cliente == "Activado","<span style='" + bon + "'>&#10003; Activado</span>",if(rec.Notificaciones_de_Asignaci_n_T_cnico_Cliente == "Desactivado","<span style='" + boff + "'>&#10007; Desactivado</span>","<span style='" + bnul + "'>Sin configurar</span>"));
+	badgeEPI = if(rec.Notificar_nuevas_solicitudes_de_Herramientas == "Activado","<span style='" + bon + "'>&#10003; Activado</span>",if(rec.Notificar_nuevas_solicitudes_de_Herramientas == "Desactivado","<span style='" + boff + "'>&#10007; Desactivado</span>","<span style='" + bnul + "'>Sin configurar</span>"));
+	badgePer = if(rec.Notificar_nuevas_solicitudes_a_personal_correspondiente == "Activado" || rec.Notificar_nuevas_solicitudes_a_personal_correspondiente == "true","<span style='" + bon + "'>&#10003; Activado</span>",if(rec.Notificar_nuevas_solicitudes_a_personal_correspondiente == "Desactivado" || rec.Notificar_nuevas_solicitudes_a_personal_correspondiente == "false","<span style='" + boff + "'>&#10007; Desactivado</span>","<span style='" + bnul + "'>Sin configurar</span>"));
+	badgeResp = if(rec.Notificar_respuesta_a_Empleados == "Activado" || rec.Notificar_respuesta_a_Empleados == "true","<span style='" + bon + "'>&#10003; Activado</span>",if(rec.Notificar_respuesta_a_Empleados == "Desactivado" || rec.Notificar_respuesta_a_Empleados == "false","<span style='" + boff + "'>&#10007; Desactivado</span>","<span style='" + bnul + "'>Sin configurar</span>"));
+	badgeMens = if(rec.Notificar_respuesta_RRHH_mensajes == "Activado" || rec.Notificar_respuesta_RRHH_mensajes == "true","<span style='" + bon + "'>&#10003; Activado</span>",if(rec.Notificar_respuesta_RRHH_mensajes == "Desactivado" || rec.Notificar_respuesta_RRHH_mensajes == "false","<span style='" + boff + "'>&#10007; Desactivado</span>","<span style='" + bnul + "'>Sin configurar</span>"));
+	vCad = if(rec.V_as_de_Notificaci_n_Caducidad_de_Documentos != null && rec.V_as_de_Notificaci_n_Caducidad_de_Documentos != "",rec.V_as_de_Notificaci_n_Caducidad_de_Documentos.toString().replaceAll(",",", "),"—");
+	vAsig = if(rec.Vias_de_notificacion_Asignaciones_Tecnicos != null && rec.Vias_de_notificacion_Asignaciones_Tecnicos != "",rec.Vias_de_notificacion_Asignaciones_Tecnicos.toString().replaceAll(",",", "),"—");
+	vEPI = if(rec.V_as_de_Notificaci_n_Solicitudes_EPI != null && rec.V_as_de_Notificaci_n_Solicitudes_EPI != "",rec.V_as_de_Notificaci_n_Solicitudes_EPI.toString().replaceAll(",",", "),"—");
+	vPer = if(rec.V_as_de_Notificaci_n1 != null && rec.V_as_de_Notificaci_n1 != "",rec.V_as_de_Notificaci_n1.toString().replaceAll(",",", "),"—");
+	vMsg = if(rec.Notificaciones_Permisos != null && rec.Notificaciones_Permisos != "",rec.Notificaciones_Permisos.toString().replaceAll(",",", "),"—");
+	fechas = if(rec.Fechas_de_Notificaci_n_Tecnico_Cliente != null && rec.Fechas_de_Notificaci_n_Tecnico_Cliente != "",rec.Fechas_de_Notificaci_n_Tecnico_Cliente.toString().replaceAll(",",", "),"—");
+	pCad = if(rec.Personal_a_Notificar_Caducidad_de_Documentos != null && rec.Personal_a_Notificar_Caducidad_de_Documentos != 0,"<span style='color:#1d4ed8;font-size:13px;'>Configurado</span>","<span style='color:#6b7280;font-size:13px;'>—</span>");
+	pAsig = if(rec.Personal_a_notificar_asignaciones_de_T_cnicos != null && rec.Personal_a_notificar_asignaciones_de_T_cnicos != 0,"<span style='color:#1d4ed8;font-size:13px;'>Configurado</span>","<span style='color:#6b7280;font-size:13px;'>—</span>");
+	pCont = if(rec.Contactos_a_Informar != null && rec.Contactos_a_Informar != 0,"<span style='color:#1d4ed8;font-size:13px;'>Configurado</span>","<span style='color:#6b7280;font-size:13px;'>—</span>");
+	pEPI2 = if(rec.Personal_que_recibe_notificaciones_de_solicitudes_de_herramientas != null && rec.Personal_que_recibe_notificaciones_de_solicitudes_de_herramientas != 0,"<span style='color:#1d4ed8;font-size:13px;'>Configurado</span>","<span style='color:#6b7280;font-size:13px;'>—</span>");
+	pPer = if(rec.Personal_a_Notificar_Solicitudes_de_Permisos != null && rec.Personal_a_Notificar_Solicitudes_de_Permisos != 0,"<span style='color:#1d4ed8;font-size:13px;'>Configurado</span>","<span style='color:#6b7280;font-size:13px;'>—</span>");
+	apiKey = rec.API_Key;
+	apiKeyLen = if(apiKey != null,apiKey.length(),0);
+	apiKeyMask = if(apiKey != null && apiKey != "" && apiKeyLen > 4,"••••••" + apiKey.subString(apiKeyLen - 4,apiKeyLen),if(apiKey != null && apiKey != "","••••••••","—"));
+	urlWA = if(rec.URL != null && rec.URL != "",rec.URL,"—");
+	cuentaWA = if(rec.Cuenta_de_Whatsapp != null && rec.Cuenta_de_Whatsapp != "",rec.Cuenta_de_Whatsapp.replaceAll("_"," "),"—");
+	asunto = if(rec.Asunto_Mail_Bienvenida_Trabajadores != null && rec.Asunto_Mail_Bienvenida_Trabajadores != "",rec.Asunto_Mail_Bienvenida_Trabajadores,"—");
+	plantilla = rec.Plantilla_Mail_Bienvenida_Trabajadores;
+	plantillaLen = if(plantilla != null,plantilla.length(),0);
+	plantillaPrev = if(plantilla != null && plantilla != "" && plantillaLen > 150,plantilla.subString(0,150) + "…",if(plantilla != null && plantilla != "",plantilla,"—"));
+	h = "<div style='font-family:system-ui,-apple-system,sans-serif;max-width:960px;margin:0 auto;padding:24px;'>";
+	h = h + "<div style='background:#1C3A5E;border-radius:10px;padding:20px 24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;'>";
+	h = h + "<div><h1 style='color:#fff;font-size:20px;font-weight:700;margin:0 0 4px;'>Configuracion General</h1>";
+	h = h + "<p style='color:#93c5fd;font-size:12px;margin:0;'>Parametros globales del sistema</p></div>";
+	h = h + "<a href='#Form:Configuraci_n_General?recLinkID=" + rec.ID + "&viewLinkName=Configuraci_n_General_Report' style='background:#fff;color:#1C3A5E;padding:8px 16px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:700;'>Editar</a>";
+	h = h + "</div>";
+	h = h + "<div style='" + sec + "'><div style='" + hdr + "'><h2 style='" + htx + "'>Caducidad de Documentos</h2></div><div style='" + bdy + "'>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Estado</span><span>" + badgeCad + "</span></div>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Vias de notificacion</span><span style='" + val + "'>" + vCad + "</span></div>";
+	h = h + "<div style='" + rowl + "'><span style='" + lab + "'>Personal a notificar</span>" + pCad + "</div>";
+	h = h + "</div></div>";
+	h = h + "<div style='" + sec + "'><div style='" + hdr + "'><h2 style='" + htx + "'>Asignacion Tecnico-Cliente</h2></div><div style='" + bdy + "'>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Estado</span><span>" + badgeAsig + "</span></div>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Vias de notificacion</span><span style='" + val + "'>" + vAsig + "</span></div>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Fechas de antelacion</span><span style='" + val + "'>" + fechas + "</span></div>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Personal a notificar</span>" + pAsig + "</div>";
+	h = h + "<div style='" + rowl + "'><span style='" + lab + "'>Contactos a informar</span>" + pCont + "</div>";
+	h = h + "</div></div>";
+	h = h + "<div style='" + sec + "'><div style='" + hdr + "'><h2 style='" + htx + "'>Solicitudes de Herramientas y EPI</h2></div><div style='" + bdy + "'>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Estado</span><span>" + badgeEPI + "</span></div>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Vias de notificacion</span><span style='" + val + "'>" + vEPI + "</span></div>";
+	h = h + "<div style='" + rowl + "'><span style='" + lab + "'>Personal a notificar</span>" + pEPI2 + "</div>";
+	h = h + "</div></div>";
+	h = h + "<div style='" + sec + "'><div style='" + hdr + "'><h2 style='" + htx + "'>Solicitudes de Permisos</h2></div><div style='" + bdy + "'>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Notif. nuevas solicitudes</span><span>" + badgePer + "</span></div>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Vias de notificacion</span><span style='" + val + "'>" + vPer + "</span></div>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Personal a notificar</span>" + pPer + "</div>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Notif. respuesta a empleados</span><span>" + badgeResp + "</span></div>";
+	h = h + "<div style='" + rowl + "'><span style='" + lab + "'>Vias notif. respuesta</span><span style='" + val + "'>" + vMsg + "</span></div>";
+	h = h + "</div></div>";
+	h = h + "<div style='" + sec + "'><div style='" + hdr + "'><h2 style='" + htx + "'>Mensajes RRHH y Empleados</h2></div><div style='" + bdy + "'>";
+	h = h + "<div style='" + rowl + "'><span style='" + lab + "'>Notif. respuesta RRHH</span><span>" + badgeMens + "</span></div>";
+	h = h + "</div></div>";
+	h = h + "<div style='" + sec + "'><div style='" + hdr + "'><h2 style='" + htx + "'>Bienvenida a Trabajadores</h2></div><div style='" + bdy + "'>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>Asunto del correo</span><span style='" + val + "'>" + asunto + "</span></div>";
+	h = h + "<div style='" + rowl + "'><span style='" + lab + "'>Plantilla (preview)</span><span style='color:#374151;font-size:12px;line-height:1.6;font-style:italic;'>" + plantillaPrev + "</span></div>";
+	h = h + "</div></div>";
+	h = h + "<div style='" + sec + "'><div style='" + hdr + "'><h2 style='" + htx + "'>Integracion WhatsApp</h2></div><div style='" + bdy + "'>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>URL del servidor</span><span style='" + val + "'>" + urlWA + "</span></div>";
+	h = h + "<div style='" + row + "'><span style='" + lab + "'>API Key</span><span style='font-family:monospace;font-size:13px;color:#374151;'>" + apiKeyMask + "</span></div>";
+	h = h + "<div style='" + rowl + "'><span style='" + lab + "'>Cuenta WhatsApp</span><span style='" + val + "'>" + cuentaWA + "</span></div>";
+	h = h + "</div></div>";
+	h = h + "</div>";
+	return h;
+}
