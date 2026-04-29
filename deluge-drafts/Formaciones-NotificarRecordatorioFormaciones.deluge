@@ -1,0 +1,180 @@
+void Formaciones.NotificarRecordatorioFormaciones()
+{
+	config = Configuraci_n_General[ID != 0];
+	usarWhatsapp = config.V_as_de_Notificaci_n1.contains("WhatsApp");
+	cuenta = config.Cuenta_de_Whatsapp;
+	hoy = zoho.currentdate;
+	diasList = list();
+	diasList.add(7);
+	diasList.add(1);
+	for each  diasAntes in diasList
+	{
+		diaObjetivo = hoy.addDay(diasAntes);
+		diaFin = hoy.addDay(diasAntes + 1);
+		for each  f in Formaci_n[Fecha_de_Comienzo >= diaObjetivo && Fecha_de_Comienzo < diaFin]
+		{
+			fTit = ifnull(f.T_tulo,"Formación");
+			fIni = f.Fecha_de_Comienzo;
+			fFin = f.Fecha_de_Fin;
+			fDur = ifnull(f.Duraci_n,0);
+			cenId_ = ifnull(f.Centro_Formativo,0);
+			cen_ = if(cenId_ != 0,ifnull(f.Centro_Formativo.Nombre_del_Centro,""),"");
+			sedId_ = ifnull(f.Sede_Centro_Formativo,0);
+			sed_ = if(sedId_ != 0,ifnull(f.Sede_Centro_Formativo.Nombre_del_Centro,""),"");
+			finiStr = fIni.toString("dd/MM/yyyy HH:mm");
+			ffinStr = if(fFin != null,fFin.toString("dd/MM/yyyy"),"");
+			durStr = if(fDur > 0,fDur.toString() + " h","—");
+			labelDias = if(diasAntes == 1,"MAÑANA","en 7 días");
+			titulo = "Recordatorio de formación: " + fTit + " (" + labelDias + ")";
+			cuerpoHTML = "<p>Tienes una formaci&oacute;n programada <b>" + labelDias + "</b>:</p>";
+			cuerpoHTML = cuerpoHTML + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:12px 0;'>";
+			cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Formaci&oacute;n","<b>" + fTit + "</b>");
+			cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Inicio",finiStr);
+			if(ffinStr != "")
+			{
+				cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Fin",ffinStr);
+			}
+			if(fDur > 0)
+			{
+				cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Duraci&oacute;n",durStr);
+			}
+			if(cen_ != "")
+			{
+				locLabel = cen_;
+				if(sed_ != "" && sed_ != cen_)
+				{
+					locLabel = locLabel + " · " + sed_;
+				}
+				cuerpoHTML = cuerpoHTML + thisapp.NotificacionesMail.GenerarFilaDato("Centro",locLabel);
+			}
+			cuerpoHTML = cuerpoHTML + "</table>";
+			cuerpoHTML = cuerpoHTML + "<p style='margin-top:12px;color:#64748b;font-size:13px;'>Puedes consultar todas tus formaciones en el portal del empleado.</p>";
+			msgWA = "? *Recordatorio de Formación*\n\n";
+			msgWA = msgWA + "? *" + labelDias.toUpperCase() + "*\n\n";
+			msgWA = msgWA + "? " + fTit + "\n";
+			msgWA = msgWA + "? " + finiStr;
+			if(ffinStr != "")
+			{
+				msgWA = msgWA + " → " + ffinStr;
+			}
+			msgWA = msgWA + "\n";
+			if(fDur > 0)
+			{
+				msgWA = msgWA + "⏱ " + durStr + "\n";
+			}
+			if(cen_ != "")
+			{
+				msgWA = msgWA + "? " + cen_ + "\n";
+			}
+			msgWA = msgWA + "\n_Domo21 | Sicma21 - RRHH_";
+			htmlEmail = thisapp.NotificacionesMail.GenerarHTMLEmail(titulo,cuerpoHTML,"Ver mis formaciones","https://creatorapp.zoho.com/formacion11/human-resource-management/#Page:Mis_Formaciones","");
+			tituloRRHH = "Recordatorio RRHH — Formación: " + fTit + " (" + labelDias + ")";
+			cuerpoRRHH = "<p>Recordatorio: la siguiente formaci&oacute;n tiene lugar <b>" + labelDias + "</b>:</p>";
+			cuerpoRRHH = cuerpoRRHH + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:12px 0;'>";
+			cuerpoRRHH = cuerpoRRHH + thisapp.NotificacionesMail.GenerarFilaDato("Formaci&oacute;n","<b>" + fTit + "</b>");
+			cuerpoRRHH = cuerpoRRHH + thisapp.NotificacionesMail.GenerarFilaDato("Inicio",finiStr);
+			if(ffinStr != "")
+			{
+				cuerpoRRHH = cuerpoRRHH + thisapp.NotificacionesMail.GenerarFilaDato("Fin",ffinStr);
+			}
+			if(cen_ != "")
+			{
+				locLabelR = cen_;
+				if(sed_ != "" && sed_ != cen_)
+				{
+					locLabelR = locLabelR + " · " + sed_;
+				}
+				cuerpoRRHH = cuerpoRRHH + thisapp.NotificacionesMail.GenerarFilaDato("Centro",locLabelR);
+			}
+			cuerpoRRHH = cuerpoRRHH + "</table>";
+			htmlEmailRRHH = thisapp.NotificacionesMail.GenerarHTMLEmail(tituloRRHH,cuerpoRRHH,"Ver Tablero Formaciones","https://creatorapp.zoho.com/formacion11/human-resource-management/#Page:Tablero_Formaciones","");
+			for each  tecId in f.T_cnicos_a_convocar
+			{
+				tecFound = 0;
+				tecRec = null;
+				for each  tr in Nuevo_Empleado[ID == tecId]
+				{
+					tecRec = tr;
+					tecFound = 1;
+					break;
+				}
+				if(tecFound == 1)
+				{
+					if(tecRec.Official_Email != null)
+					{
+						zoho.pushNotification(tecRec.Official_Email,titulo,"Tienes formación " + labelDias + ": " + fTit,"Mis_Formaciones",f.ID);
+					}
+					if(usarWhatsapp)
+					{
+						if(tecRec.M_vil != null)
+						{
+							thisapp.NuevoEmpleado.whatsapp(cuenta,tecRec.M_vil,msgWA);
+						}
+					}
+					mails = list();
+					for each  userID in tecRec.Usuario11
+					{
+						user = Usuario1[ID == userID];
+						notif = user.Email_para_notificaciones;
+						if(notif != null && notif != "" && !mails.contains(notif))
+						{
+							mails.add(notif);
+						}
+					}
+					for each  mail in mails
+					{
+						sendmail
+						[
+							from :zoho.adminuserid
+							to :mail
+							subject :titulo
+							message :htmlEmail
+						]
+					}
+				}
+			}
+			// ── Personal RRHH configurado a notificar ──
+			for each  personaId in config.Personal_a_Notificar_Formaciones
+			{
+				rrhhFound = 0;
+				rrhhRec = null;
+				for each  rr in Nuevo_Empleado[ID == personaId]
+				{
+					rrhhRec = rr;
+					rrhhFound = 1;
+					break;
+				}
+				if(rrhhFound == 1)
+				{
+					if(rrhhRec.Official_Email != null)
+					{
+						zoho.pushNotification(rrhhRec.Official_Email,tituloRRHH,"Formación " + labelDias + ": " + fTit,"Tablero_Formaciones",f.ID);
+					}
+					if(usarWhatsapp && rrhhRec.M_vil != null)
+					{
+						thisapp.NuevoEmpleado.whatsapp(cuenta,rrhhRec.M_vil,msgWA);
+					}
+					mailsRRHH = list();
+					if(rrhhRec.Official_Email != null)
+					{
+						mailsRRHH.add(rrhhRec.Official_Email);
+					}
+					if(rrhhRec.Correo_Electr_nico != null && !mailsRRHH.contains(rrhhRec.Correo_Electr_nico))
+					{
+						mailsRRHH.add(rrhhRec.Correo_Electr_nico);
+					}
+					for each  mail in mailsRRHH
+					{
+						sendmail
+						[
+							from :zoho.adminuserid
+							to :mail
+							subject :tituloRRHH
+							message :htmlEmailRRHH
+						]
+					}
+				}
+			}
+		}
+	}
+}
