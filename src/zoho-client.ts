@@ -23,6 +23,7 @@ function createZohoClient(): AxiosInstance {
     async (config: InternalAxiosRequestConfig) => {
       const token = await getAccessToken();
       config.headers["Authorization"] = `Zoho-oauthtoken ${token}`;
+      config.headers["Accept"] = "application/json";
       return config;
     },
     (error: AxiosError) => Promise.reject(error)

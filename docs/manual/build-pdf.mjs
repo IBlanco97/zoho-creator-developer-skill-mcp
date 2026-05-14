@@ -254,7 +254,7 @@ const fullHtml = `<!DOCTYPE html>
   <div class="subtitle">Gestion de Recursos Humanos</div>
   <div class="subtitle">DOMO21 / Sicma21</div>
   <div class="url">https://domo21.zohocreatorportal.com</div>
-  <div class="version">Version 1.0 — Marzo 2026</div>
+  <div class="version">Version 1.1 — Mayo 2026</div>
 </div>
 
 ${bodyHtml}

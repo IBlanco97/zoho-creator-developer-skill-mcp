@@ -2,6 +2,13 @@
 // NUEVA FUNCION: Notifica al personal RRHH cuando un empleado crea una solicitud de permiso
 // Se debe invocar desde el workflow on add del form Solicitud
 
+// Si quien crea el registro es RRHH (no el propio empleado), no notificar
+trab = Nuevo_Empleado[ID == solicitud.Trabajador_Solicitante];
+if(trab.Mail_Portal_Empleado != zoho.loginuserid)
+{
+	return "";
+}
+
 config = Configuraci_n_General[ID != 0];
 if(config.Notificar_nuevas_solicitudes_a_personal_correspondiente == "Activado")
 {

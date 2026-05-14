@@ -29,6 +29,10 @@
    - 8.2 [Timeline de Permisos](#82-timeline-de-permisos)
 9. [Formaciones](#9-formaciones)
 10. [Configuración General](#10-configuración-general)
+11. [Filtros en Reportes](#11-filtros-en-reportes)
+    - 11.1 [Búsqueda y filtros rápidos](#111-búsqueda-y-filtros-rápidos)
+    - 11.2 [Filtros personalizados predefinidos](#112-filtros-personalizados-predefinidos)
+    - 11.3 [Crear filtros predefinidos (Administradores)](#113-crear-filtros-predefinidos-administradores)
 
 ---
 
@@ -535,6 +539,123 @@ Parámetros de conexión con el servidor WhatsApp para el envío de notificacion
 
 ---
 
+## 11. Filtros en Reportes
+
+Los reportes de Zoho Creator ofrecen tres mecanismos de filtrado que se complementan. Entender cuál usar en cada situación permite localizar registros con rapidez y guardar vistas de trabajo reutilizables.
+
+| Mecanismo | Quién lo configura | Se guarda | Cuándo usarlo |
+|-----------|-------------------|-----------|---------------|
+| **Búsqueda** | El usuario directamente | No | Localizar un registro concreto por texto |
+| **Filtros rápidos** | El usuario directamente | Solo en la sesión actual | Exploración puntual (p. ej., filtrar por estado o por mes) |
+| **Filtros personalizados predefinidos** | Un administrador los define; el usuario los selecciona | Sí — permanentes | Vistas de trabajo habituales que se usan repetidamente |
+
+---
+
+### 11.1 Búsqueda y filtros rápidos
+
+![Filtros rápidos en reporte](img/B-rrhh/B14-filtros-rapidos.png)
+
+#### Barra de búsqueda
+
+La mayoría de los reportes muestran una **barra de búsqueda** en la parte superior. Escribe cualquier texto y el reporte muestra solo las filas que contienen ese valor en los campos indexados (nombre, referencia, email…).
+
+> **Nota:** La búsqueda es de texto libre y aplica a todos los campos visibles. No se guarda al abandonar el reporte.
+
+#### Filtros rápidos (ícono de embudo)
+
+Los filtros rápidos permiten acotar los registros por valores de campos concretos (listas desplegables, fechas, casillas de verificación) sin necesidad de intervención de un administrador.
+
+**Pasos para aplicar un filtro rápido:**
+
+1. Abre el reporte que quieres filtrar (p. ej., **Solicitudes Permisos**, **Inventario EPI**…).
+2. Busca el **ícono de embudo** (🔽) en la barra de acciones del reporte, arriba a la derecha.
+3. Haz clic en el embudo — se despliega el panel de filtros con los campos disponibles.
+4. Selecciona los valores que quieres filtrar (p. ej., Estado = "Pendiente").
+5. El reporte se actualiza al instante mostrando solo los registros que coinciden.
+6. Para añadir más condiciones, selecciona valores en otros campos del mismo panel.
+7. Para eliminar el filtro, abre el panel de nuevo y deselecciona los valores, o busca la opción **Limpiar filtros**.
+
+> **Importante:** Los filtros rápidos son **temporales**. Al salir del reporte o recargar la página, la vista vuelve a mostrar todos los registros. Si necesitas una vista filtrada que persista, usa un filtro personalizado predefinido (→ §11.2).
+
+---
+
+### 11.2 Filtros personalizados predefinidos
+
+Los **filtros personalizados predefinidos** son vistas con nombre que un administrador ha configurado de antemano. Permiten cambiar de un vistazo la "lente" con la que se visualiza el reporte: por ejemplo, ver solo permisos de este mes, solo técnicos activos, o solo documentos caducados.
+
+#### Cómo identificarlos
+
+Cuando un reporte tiene filtros predefinidos configurados, aparece una **flecha desplegable (▾) junto al nombre del reporte** en la cabecera. Al hacer clic se muestra la lista de filtros disponibles.
+
+#### Pasos para aplicar un filtro predefinido
+
+1. Abre el reporte (p. ej., **Employee Details**, **Solicitud_Report**, **Inventario EPI**).
+2. Localiza la **flecha ▾** junto al título del reporte en la cabecera.
+3. Haz clic — se despliega el menú con los filtros disponibles (p. ej., "Activos", "Pendientes", "Este mes"…).
+4. Selecciona el filtro que necesitas — el reporte se actualiza mostrando solo los registros de ese criterio.
+5. Para volver a ver todos los registros, selecciona **"Todos los registros"** (primera opción del menú).
+
+> **Consejo:** Si el reporte no muestra la flecha ▾, significa que no tiene filtros predefinidos configurados. Solicita al administrador que los cree siguiendo los pasos del §11.3.
+
+#### Ejemplo de uso habitual
+
+| Escenario | Filtro a seleccionar |
+|-----------|---------------------|
+| Revisar solo permisos pendientes de respuesta | "Pendientes de aprobación" |
+| Ver solo empleados activos en el listado | "Activos" |
+| Documentos PRL caducados esta semana | "Caducados recientes" |
+| Solicitudes de EPI sin atender | "Sin gestionar" |
+
+Los nombres exactos de los filtros disponibles dependen de los que haya configurado el administrador para cada reporte concreto.
+
+---
+
+### 11.3 Crear filtros predefinidos (Administradores)
+
+> **Perfil requerido:** Super Administrador — acceso al **App IDE** de Zoho Creator.
+
+Esta sección explica cómo un administrador crea filtros con nombre que luego aparecen disponibles para todos los usuarios del reporte.
+
+#### Pasos en el App IDE
+
+1. Accede al **App IDE** de Zoho Creator:
+   `https://creator.zoho.com/appbuilder/formacion11/human-resource-management/`
+
+2. En el panel izquierdo, localiza el **reporte** al que quieres añadir filtros (sección **Reports**).
+
+3. Haz clic sobre el nombre del reporte para abrirlo en el editor.
+
+4. En el panel de propiedades del reporte (lado derecho o pestaña **Properties**), busca la sección **Custom Filters** (Filtros personalizados).
+
+5. Haz clic en **+ Add Filter** (o el equivalente en la interfaz actual).
+
+6. Rellena los campos del nuevo filtro:
+
+   | Campo | Descripción |
+   |-------|-------------|
+   | **Filter Name** | Nombre que verán los usuarios en el menú desplegable (p. ej., "Pendientes de aprobación") |
+   | **Field** | Campo del formulario por el que se filtra (p. ej., `Estado`) |
+   | **Operator** | Condición: `igual a`, `contiene`, `es anterior a`, `está vacío`… |
+   | **Value** | Valor concreto (p. ej., `Pendiente`) |
+
+7. Para añadir más condiciones al mismo filtro (lógica AND/OR), haz clic en **+ Condition** y repite.
+
+8. Haz clic en **Save** (o **Done**) para guardar el filtro.
+
+9. Repite los pasos 5–8 para crear tantos filtros con nombre como necesites.
+
+10. **Publica los cambios** del reporte para que estén disponibles en el portal.
+
+> **Resultado:** A partir de ese momento, el reporte mostrará la flecha ▾ junto a su nombre en el portal, y los usuarios podrán seleccionar cualquiera de los filtros que acabas de definir.
+
+#### Recomendaciones de nomenclatura
+
+- Usa nombres cortos y orientados a la tarea del usuario: **"Pendientes"**, **"Este mes"**, **"Caducados"**.
+- Evita nombres técnicos con nombres de campo (p. ej., "Estado = Pendiente") — el usuario no necesita saber qué criterio se aplica, solo el resultado que ve.
+- Incluye siempre una opción que muestre todos los registros (Zoho la añade automáticamente como "All Records" / "Todos").
+
+---
+
 ## Resumen de funcionalidades por sección
 
 | Sección | Qué puedes hacer |
@@ -554,7 +675,8 @@ Parámetros de conexión con el servidor WhatsApp para el envío de notificacion
 | Timeline Permisos | Ver todos los permisos aprobados del equipo en vista anual |
 | **Tablero Formaciones** | Gestionar formaciones del personal: próximas, en curso y pasadas |
 | Configuración General | Configurar notificaciones WhatsApp/email y parámetros del sistema |
+| **Filtros en Reportes** | Aplicar filtros rápidos temporales o seleccionar vistas predefinidas con nombre; crear nuevos filtros (admins) |
 
 ---
 
-*Manual actualizado el 07/04/2026 — Gestión de Recursos Humanos v2026*
+*Manual actualizado el 19/04/2026 — Gestión de Recursos Humanos v2026*

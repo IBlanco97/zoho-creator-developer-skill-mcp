@@ -37,19 +37,17 @@ Localiza tu perfil para saber qué secciones te corresponden y qué puedes hacer
 
 | Sección | Qué puedes hacer | Módulo / Sección |
 |---------|-----------------|-----------------|
-| **Tablero Inicio** | Ver tu información, confirmaciones pendientes y documentación con clientes | [A §2](A-portal-empleado.md#2-tablero-inicio) |
-| **Mis Permisos** | Ver el estado de tus solicitudes de vacaciones y permisos | [A §3.1](A-portal-empleado.md#31-mis-permisos) |
-| **Solicitudes Permisos** | Historial detallado de todas tus solicitudes | [A §3.2](A-portal-empleado.md#32-historial-de-solicitudes) |
-| **Nueva Solicitud Permiso** | Solicitar vacaciones o permisos (mín. 15 días de antelación) | [A §3.3](A-portal-empleado.md#33-nueva-solicitud-de-permiso) |
-| **Mis EPIs** | Ver el estado de tus equipos y herramientas | [A §4.1](A-portal-empleado.md#41-mis-epis) |
-| **Solicitudes EPI** | Historial de EPIs y confirmar entregas | [A §4.2](A-portal-empleado.md#42-historial-de-solicitudes-epi) |
-| **Nueva Solicitud EPI** | Solicitar EPI, ropa de trabajo o herramientas | [A §4.3](A-portal-empleado.md#43-nueva-solicitud-de-epi-o-herramienta) |
-| **Mis Activos** | Ver equipos y herramientas actualmente asignados a tu nombre | [A §5](A-portal-empleado.md#5-mis-activos) |
-| **Mis Mensajes** | Chat directo con RRHH | [A §6](A-portal-empleado.md#6-mis-mensajes) |
-| **Datos del Empleado** | Ver y actualizar tu perfil personal y profesional | [A §7](A-portal-empleado.md#7-datos-del-empleado) |
-| **Confirmaciones de Entrega** | Confirmar recepción de documentos o equipos | [A §8](A-portal-empleado.md#8-confirmaciones-de-entrega) |
-| **Encuestas** | Responder encuestas activas de la empresa | [A §9](A-portal-empleado.md#9-encuestas) |
-| **Mis Formaciones** | Consultar próximas formaciones y tu historial de cursos | [A §10](A-portal-empleado.md#10-mis-formaciones) |
+| **Tablero Inicio** | Ver tu información, pendientes, mensajes recientes y documentación con clientes | [A §2](A-portal-empleado.md#2-tablero-inicio) |
+| **Mis STOP2** | Consultar tus análisis de seguridad previos realizados | [A §3.1](A-portal-empleado.md#31-mis-stop2) |
+| **Nuevo STOP2** | Registrar el análisis de seguridad previo a una intervención en cliente | [A §3.2](A-portal-empleado.md#32-nuevo-stop2) |
+| **Mis Permisos** | Ver y solicitar vacaciones y permisos (mín. 15 días de antelación) | [A §4](A-portal-empleado.md#4-mis-permisos) |
+| **Mis EPIs** | Ver y solicitar EPIs, ropa de trabajo o herramientas | [A §5](A-portal-empleado.md#5-mis-epis-ropa-y-herramientas) |
+| **Mis Activos** | Ver equipos y herramientas actualmente asignados a tu nombre | [A §6](A-portal-empleado.md#6-mis-activos) |
+| **Mis Mensajes** | Chat directo con RRHH | [A §7](A-portal-empleado.md#7-mis-mensajes) |
+| **Mis Formaciones** | Consultar próximas formaciones y tu historial de cursos | [A §8](A-portal-empleado.md#8-mis-formaciones) |
+| **Datos del Empleado** | Ver y actualizar tu perfil personal y profesional | [A §9](A-portal-empleado.md#9-datos-del-empleado) |
+| **Confirmaciones de Entrega** | Confirmar recepción de documentos o equipos asignados | [A §10](A-portal-empleado.md#10-confirmaciones-de-entrega) |
+| **Encuestas** | Responder encuestas activas de la empresa | [A §11](A-portal-empleado.md#11-encuestas) |
 
 ---
 
@@ -77,12 +75,14 @@ Localiza tu perfil para saber qué secciones te corresponden y qué puedes hacer
 | **Timeline Permisos** | Ver permisos aprobados por mes y empleado | [B §8.2](B-panel-rrhh.md#82-timeline-de-permisos) |
 | **Panel de Asignaciones** | Vista visual de asignaciones técnico-cliente con KPIs | [B §4.2](B-panel-rrhh.md#42-panel-de-asignaciones) |
 | **Tablero Formaciones** | Ver y gestionar formaciones del personal | [B §9](B-panel-rrhh.md#9-formaciones) |
+| **Filtros en Reportes** | Aplicar filtros rápidos y seleccionar vistas predefinidas en cualquier reporte | [B §11](B-panel-rrhh.md#11-filtros-en-reportes) |
 
 #### Módulo D — Administración
 
 | Sección | Qué puedes hacer | Módulo / Sección |
 |---------|-----------------|-----------------|
 | **Listado Empleados** | Ver y gestionar registro maestro de empleados | [D §1](D-administracion.md#1-listado-de-empleados) |
+| **Alta de Empleado** | Crear nuevo empleado con datos profesionales en cascada (área → profesión/especialidad/categoría/puesto) | [D §1](D-administracion.md#alta-de-un-empleado) |
 | **Gestión de Bajas** | Registrar y programar bajas de personal | [D §2](D-administracion.md#2-gestión-de-bajas) |
 | **Mapa Empleados** | Ver distribución geográfica del personal | [D §3](D-administracion.md#3-mapa-de-empleados) |
 | **Candidatos Cercanos** | Buscar candidatos en Zoho Recruit por proximidad geográfica | [D §6](D-administracion.md#6-candidatos-cercanos) |
@@ -215,4 +215,4 @@ Gestor RRHH / Administrador
 
 ---
 
-*Manual actualizado el 07/04/2026 — Gestión de Recursos Humanos v2026*
+*Manual actualizado el 14/05/2026 — Gestión de Recursos Humanos v2026*

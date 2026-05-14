@@ -48,6 +48,20 @@ El **Listado Empleados** es el registro maestro de todos los trabajadores de la 
 - Click en un registro → abre la **Ficha del Empleado** completa
 - **Listado Empleados (Salarios)** — vista complementaria que incluye la columna de salario (acceso restringido según rol)
 
+### Alta de un empleado
+
+1. Haz clic en **Agregar** (botón azul `+` en la esquina superior derecha).
+2. Completa los datos personales (nombre, DNI, email, teléfono, dirección…).
+3. En la sección **Datos Profesionales**, sigue este orden:
+   - Selecciona primero el **Área Profesional** (p. ej. OPERACIONES, INDUSTRIAL, INFORMATICA…).
+   - Una vez seleccionada el área, los campos **Profesión**, **Especialidad**, **Categoría** y **Puesto** se filtran automáticamente mostrando solo las opciones correspondientes a ese área.
+   - Selecciona el valor deseado en cada uno de esos cuatro campos.
+
+   > **Importante:** Si cambias el Área Profesional después de haber seleccionado una Profesión u otros campos, estos se restablecen. Selecciona siempre el área primero.
+
+4. Completa el resto de secciones (contrato, salario, EPIs iniciales, etc.).
+5. Haz clic en **Enviar** para guardar el registro.
+
 ### Ficha del Empleado
 
 Al hacer clic en un registro, se abre el detalle completo con:
@@ -156,6 +170,10 @@ La sección **Usuarios** gestiona las cuentas de acceso al sistema. Accede desde
 5. Introduce el WhatsApp y el email para notificaciones.
 
 > **Importante:** El email debe ser una cuenta Zoho válida. Si la persona no tiene cuenta Zoho, recibirá una invitación para crear una.
+
+> **User Email vs Email para notificaciones:** El **User Email** es la cuenta de login en Zoho. El **Email para notificaciones** es la dirección a la que se envían avisos del sistema (solicitudes, formaciones, etc.). Pueden ser distintos: el primero es el de empresa/login, el segundo puede ser un correo personal. Si el campo de notificaciones queda vacío, las notificaciones no llegan; si no tienes uno alternativo, repite el User Email.
+
+> **Múltiples usuarios por empleado:** Un mismo empleado puede tener varios registros aquí, cada uno con un **Rol** distinto. Esto permite a un trabajador administrativo cambiar de rol según la tarea sin compartir credenciales. Todos los usuarios del mismo empleado deben apuntar al mismo **Registro de Empleado**.
 
 ---
 

@@ -1,8 +1,9 @@
-string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string cliFilter)
+string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string cliFilter, string cliSearch)
 {
 	// Normalise filter params (may arrive as "null" string from snippet)
 	tecF = if(tecFilter == null || tecFilter == "null" || tecFilter == "", "", tecFilter);
 	cliF = if(cliFilter == null || cliFilter == "null" || cliFilter == "", "", cliFilter.toUpperCase());
+	cliS = if(cliSearch == null || cliSearch == "null" || cliSearch == "", "", cliSearch);
 
 	// Phase A: Pre-aggregate assignments into a Map keyed by client ID
 	aMap = Map();
@@ -91,7 +92,13 @@ string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string c
 			cliFirst = c.Nombre_de_Cuenta.subString(0, 1).toUpperCase();
 			showByCli = (cliFirst == cliF);
 		}
-		if(!showByTec || !showByCli)
+		// --- Server-side filter by client name substring ---
+		showBySearch = true;
+		if(cliS != "")
+		{
+			showBySearch = c.Nombre_de_Cuenta.toLowerCase().contains(cliS.toLowerCase());
+		}
+		if(!showByTec || !showByCli || !showBySearch)
 		{
 			continue;
 		}
@@ -199,6 +206,8 @@ string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string c
 	css = css + ".ca{padding:7px 10px;display:flex;gap:5px;flex-wrap:wrap;border-top:1px solid #edf2f7}.btn{font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;text-decoration:none;display:inline-block;transition:opacity .15s}.btn:hover{opacity:.8}.bv{background:#ebf8ff;color:#2b6cb0}.ba{background:#f0fff4;color:#276749}";
 	// Filter chips (tech + letter)
 	css = css + ".fchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}.fchips span{font-size:10px;color:#718096;font-weight:600;white-space:nowrap}.fc-a{display:inline-block;padding:4px 11px;border-radius:16px;font-size:11px;font-weight:600;text-decoration:none;border:1.5px solid #e2e8f0;background:#fff;color:#718096;transition:all .2s}.fc-a:hover{border-color:#1C3A5E;color:#1C3A5E;background:#f7fafc}.fc-on{background:#1C3A5E;color:#fff;border-color:#1C3A5E}.fc-clear{background:#fff5f5;color:#c53030;border-color:#fed7d7}.fc-clear:hover{background:#c53030;color:#fff;border-color:#c53030}";
+	// Search bar
+	css = css + ".sb{display:flex;gap:8px;align-items:center;margin-bottom:10px}.si{flex:1;max-width:280px;padding:7px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;color:#1a202c;outline:none;transition:border-color .2s}.si:focus{border-color:#1C3A5E}.sbtn{padding:7px 16px;background:#1C3A5E;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s}.sbtn:hover{opacity:.85}.sc{font-size:18px;color:#c53030;text-decoration:none;line-height:1;padding:2px 6px;border-radius:6px;transition:background .15s;cursor:pointer}.sc:hover{background:#fff5f5}.cd.sh{display:none!important}";
 	// Filter rules
 	css = css + "#f1:checked~.cnt .cards .cd{display:none}#f1:checked~.cnt .cards .is-prob{display:flex}";
 	css = css + "#f2:checked~.cnt .cards .cd{display:none}#f2:checked~.cnt .cards .is-ok{display:flex}";
@@ -215,8 +224,12 @@ string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string c
 	// Filter bar (CSS-only status)
 	h3 = "<div class='fb'><label for='f0'>Todos (" + nC + ")</label><label for='f1'>Con Problemas (" + nProb + ")</label><label for='f2'>Todo OK (" + nOk + ")</label><label for='f3'>Sin T&#233;cnicos (" + nSinTec + ")</label></div>";
 
+	// Search bar - server-side filter via ClienteBuscar URL param
+	scHref = "#Page:Panel_de_Asignaciones?Tecnico=" + tecF + "&ClienteLetra=" + cliF + "&ClienteBuscar=";
+	searchBar = "<div class='sb'>" + if(cliS != "", "<span class='si-f'>Buscando: <b>" + cliS + "</b> <a class='sc' href='" + scHref + "'>&#215;</a></span>", "<span class='si-hint'>Filtro por nombre: edita URL con &amp;ClienteBuscar=texto</span>") + "</div>";
+
 	// Letter filter bar
-	letters = list("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+	letters = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z".toList(",");
 	letterChips = "<div class='fchips'><span>Inicial:</span><a class='fc-a" + if(cliF == "", " fc-on", "") + "' href='#Page:Panel_de_Asignaciones?Tecnico=" + tecF + "&ClienteLetra='>Todos</a>";
 	for each lt in letters
 	{
@@ -227,6 +240,6 @@ string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string c
 
 	// Cards + close wrapper
 	h4 = "<div class='cards'>" + cH + "</div></div></div>";
-	html = css + h1 + h2 + h3 + letterChips + h4;
+	html = css + h1 + h2 + h3 + searchBar + letterChips + h4;
 	return html;
 }

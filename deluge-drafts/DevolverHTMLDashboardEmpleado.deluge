@@ -4,7 +4,7 @@ string Calendario52HTML.DevolverHTMLDashboardEmpleado()
 	uid = zoho.loginuserid;
 	empFound = 0;
 	empRec = null;
-	for each e in Nuevo_Empleado[Official_Email == uid || Mail_Portal_Empleado == uid || Correo_Electr_nico == uid]
+	for each e in Nuevo_Empleado[Official_Email == uid || Correo_Electr_nico == uid]
 	{
 		empRec = e;
 		empFound = 1;
@@ -16,8 +16,8 @@ string Calendario52HTML.DevolverHTMLDashboardEmpleado()
 	}
 	empId = empRec.ID;
 	empNom = ifnull(empRec.Nombre.first_name,"") + " " + ifnull(empRec.Nombre.last_name,"");
-	empArea = ifnull(empRec.Area_Profesional,"—");
-	empPuesto = ifnull(empRec.Puesto_laboral_actual,"—");
+	empArea = ifnull(empRec.Empresa_que_Contrata1.Nombre,"—");
+	empPuesto = ifnull(empRec.Jornada_Laboral1,"—");
 	empContrato = ifnull(empRec.Tipo_de_Contrato1,"—");
 	empDeleg = ifnull(empRec.Delegacion,"—");
 	// Initials for avatar
@@ -234,12 +234,16 @@ string Calendario52HTML.DevolverHTMLDashboardEmpleado()
 	css = css + ".sm{display:block;text-align:center;padding:8px;font-size:11px;font-weight:600;color:#3182ce;text-decoration:none;margin-top:8px;border-top:1px solid #f0f2f5}.sm:hover{color:#2c5282}";
 	// Responsive
 	css = css + "@media(max-width:768px){.kr{grid-template-columns:repeat(2,1fr)}.acts{grid-template-columns:1fr}.gr{grid-template-columns:1fr}.ip{flex-direction:column}}";
+	css = css + ".mnl{display:flex;align-items:center;gap:10px;padding:12px 20px;background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);text-decoration:none;color:#2d3748;font-size:13px;font-weight:600;transition:transform .15s,box-shadow .15s;margin-bottom:24px;border:1px dashed #d6bcfa}";
+	css = css + ".mnl:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.1);background:#faf5ff}";
+	css = css + ".mnl-i{width:36px;height:36px;border-radius:8px;background:#faf5ff;color:#6b46c1;display:flex;align-items:center;justify-content:center;flex-shrink:0}";
+	css = css + ".mnl span{flex:1}";
 	css = css + "</style>";
 	// ── 4. Build HTML ──
 	// Header
 	h1 = "<div class='de'><div class='hd'><div class='av'>" + ini + "</div><div class='hi'><h1>" + empNom + "</h1><p>" + empArea + " &middot; " + empDeleg + "</p></div></div>";
 	// Info pills
-	h2 = "<div class='ip'><div class='il'><div class='ll'>Puesto</div><div class='lv'>" + empPuesto + "</div></div><div class='il'><div class='ll'>Contrato</div><div class='lv'>" + empContrato + "</div></div><div class='il'><div class='ll'>Clientes</div><div class='lv'>" + clList + "</div></div></div>";
+	h2 = "<div class='ip'><div class='il'><div class='ll'>Jornada</div><div class='lv'>" + empPuesto + "</div></div><div class='il'><div class='ll'>Contrato</div><div class='lv'>" + empContrato + "</div></div><div class='il'><div class='ll'>Clientes</div><div class='lv'>" + clList + "</div></div></div>";
 	// KPIs
 	h3 = "<div class='bd'><div class='kr'>";
 	h3 = h3 + "<a class='kc k-o' href='#Report:Confirmaciones_de_Entrega_Report'><b>" + cntConf + "</b><span>Confirmaciones</span></a>";
@@ -253,6 +257,8 @@ string Calendario52HTML.DevolverHTMLDashboardEmpleado()
 	h4 = h4 + "<a class='ac a-b' href='#Form:Solicitud_de_EPIs_Herramientas'><div class='ai'><svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z'/></svg></div>Solicitar EPI</a>";
 	h4 = h4 + "<a class='ac a-g' href='#Page:Mis_Mensajes2'><div class='ai'><svg width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z'/></svg></div>Mis Mensajes</a>";
 	h4 = h4 + "</div>";
+	pdfUrl = "https://raw.githubusercontent.com/IBlanco97/zoho-creator-developer-skill-mcp/master/docs/manual/manual-empleado.pdf";
+	h4 = h4 + "<a class='mnl' href='" + pdfUrl + "' target='_blank'><div class='mnl-i'><svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z'/><polyline points='14 2 14 8 20 8'/><line x1='16' y1='13' x2='8' y2='13'/><line x1='16' y1='17' x2='8' y2='17'/><polyline points='10 9 9 9 8 9'/></svg></div><span>Manual del Portal del Empleado &mdash; PDF</span><svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='#6b46c1' stroke-width='2'><path d='M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4'/><polyline points='7 10 12 15 17 10'/><line x1='12' y1='15' x2='12' y2='3'/></svg></a>";
 	// Empty state helper
 	esSvg = "<svg width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5'><circle cx='12' cy='12' r='10'/><path d='M8 15h8M9 9h.01M15 9h.01'/></svg>";
 	// ── 5. Grid sections ──
