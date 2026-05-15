@@ -1,0 +1,39 @@
+string Calendario52HTML.EnviarManualEmpleadoPorCorreo()
+{
+	uid = zoho.loginuserid;
+	empFound = 0;
+	empRec = null;
+	for each e in Nuevo_Empleado[Official_Email == uid || Correo_Electr_nico == uid]
+	{
+		empRec = e;
+		empFound = 1;
+		break;
+	}
+	css = "<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f7fafc;padding:20px}.wrap{max-width:420px;margin:60px auto;background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:40px;text-align:center}.ic{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px}.ok{background:#f0fff4;color:#38a169}.er{background:#fff5f5;color:#c53030}h2{font-size:20px;font-weight:700;color:#2d3748;margin-bottom:10px}p{font-size:14px;color:#718096;line-height:1.6;margin-bottom:24px}b{color:#4a5568}.btn{display:inline-block;padding:10px 28px;background:#6b46c1;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:600;transition:background .15s}.btn:hover{background:#553c9a}</style>";
+	if(empFound == 0)
+	{
+		html = css + "<div class='wrap'><div class='ic er'><svg width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><circle cx='12' cy='12' r='10'/><line x1='15' y1='9' x2='9' y2='15'/><line x1='9' y1='9' x2='15' y2='15'/></svg></div><h2>Perfil no encontrado</h2><p>Contacta con RRHH para resolver este problema.</p><a class='btn' href='#Page:Inicio'>Volver al inicio</a></div>";
+		return html;
+	}
+	empNom = ifnull(empRec.Nombre.first_name,"") + " " + ifnull(empRec.Nombre.last_name,"");
+	empEmail = uid;
+	pdfUrl = "https://raw.githubusercontent.com/IBlanco97/zoho-creator-developer-skill-mcp/master/docs/manual/manual-empleado.pdf";
+	mailBody = "<html><body style='font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#f7fafc;padding:32px 16px'>";
+	mailBody = mailBody + "<div style='max-width:520px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);padding:36px'>";
+	mailBody = mailBody + "<div style='text-align:center;margin-bottom:24px'><div style='width:56px;height:56px;border-radius:50%;background:#faf5ff;color:#6b46c1;display:inline-flex;align-items:center;justify-content:center'><svg width='26' height='26' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z'/><polyline points='14 2 14 8 20 8'/></svg></div></div>";
+	mailBody = mailBody + "<h2 style='text-align:center;color:#2d3748;font-size:20px;margin-bottom:8px'>Manual del Portal del Empleado</h2>";
+	mailBody = mailBody + "<p style='color:#718096;font-size:14px;text-align:center;line-height:1.6;margin-bottom:28px'>Hola <b style='color:#4a5568'>" + empNom + "</b>, a continuaci&oacute;n encontrar&aacute;s el enlace para descargar el Manual del Portal del Empleado.</p>";
+	mailBody = mailBody + "<div style='text-align:center;margin-bottom:28px'><a href='" + pdfUrl + "' style='display:inline-block;padding:13px 32px;background:#6b46c1;color:#fff;border-radius:8px;text-decoration:none;font-size:14px;font-weight:600'>Descargar Manual (PDF)</a></div>";
+	mailBody = mailBody + "<hr style='border:none;border-top:1px solid #e2e8f0;margin-bottom:20px'/>";
+	mailBody = mailBody + "<p style='color:#a0aec0;font-size:12px;text-align:center'>Este correo ha sido generado autom&aacute;ticamente desde el Portal del Empleado.</p>";
+	mailBody = mailBody + "</div></body></html>";
+	sendmail
+	[
+		from: zoho.adminuserid
+		to: empEmail
+		subject: "Manual del Portal del Empleado"
+		message: mailBody
+	];
+	html = css + "<div class='wrap'><div class='ic ok'><svg width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/><polyline points='22,6 12,13 2,6'/></svg></div><h2>&iexcl;Email enviado!</h2><p>Hemos enviado el manual a <b>" + empEmail + "</b>.<br/>Revisa tu bandeja de entrada.</p><a class='btn' href='#Page:Inicio'>Volver al inicio</a></div>";
+	return html;
+}
