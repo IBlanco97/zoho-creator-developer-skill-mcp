@@ -38,6 +38,8 @@ Este manual te guia paso a paso por todas las funciones disponibles en tu portal
 
 ## 1. Tablero de Inicio
 
+![Tablero de Inicio](img/A-empleado/A1-tablero-inicio.png)
+
 El Tablero de Inicio es lo primero que ves al entrar en el portal. Te muestra un resumen de tu situacion actual.
 
 ### Cabecera
@@ -81,6 +83,8 @@ Haz clic en **STOP2 Analisis Previo** en el menu lateral para ver sus dos opcion
 
 ### 2.1 Mis STOP2
 
+![Mis STOP2](img/A-empleado/A-stop2-analisis-previo.png)
+
 Esta pantalla muestra un resumen de todos los checklists STOP2 que has realizado.
 
 **Indicadores superiores:**
@@ -96,6 +100,8 @@ Si no has realizado ninguno aun, aparece el mensaje *"No has realizado ningun ch
 Para iniciar uno nuevo, pulsa el boton **Nuevo STOP2**.
 
 ### 2.2 Rellenar un nuevo STOP2
+
+![Formulario STOP2](img/A-empleado/A-stop2-form.png)
 
 Antes de ir a trabajar a un cliente, ve a **STOP2 Analisis Previo → STOP2 Analisis Previo** en el menu lateral, o pulsa **Nuevo STOP2** desde la pantalla anterior.
 
@@ -151,6 +157,8 @@ Pulsa **Submit** para guardar el analisis. Quedara registrado en tu listado **Mi
 
 ## 3. Solicitar Vacaciones o Permisos
 
+![Mis Permisos](img/A-empleado/A2-mis-permisos.png)
+
 En el menu lateral, haz clic en **Mis Permisos**.
 
 Veras una tabla con todas tus solicitudes y su estado actual.
@@ -202,6 +210,8 @@ Tu solicitud llegara a RRHH automaticamente. Puedes seguir su estado en **Mis Pe
 
 ## 4. EPIs, Ropa de Trabajo y Herramientas
 
+![Mis EPIs](img/A-empleado/A3-mis-epis.png)
+
 En el menu lateral, haz clic en **Mis EPIs**.
 
 Veras una tabla con todos los equipos y herramientas que has solicitado y su estado actual.
@@ -251,6 +261,8 @@ Tu solicitud llegara a RRHH. Sigue su estado en **Mis EPIs**.
 
 ## 5. Mis Activos
 
+![Mis Activos](img/A-empleado/A6-mis-activos.png)
+
 En el menu lateral, haz clic en **Mis Activos**.
 
 Esta seccion te muestra los equipos y materiales de la empresa que tienes asignados actualmente.
@@ -269,6 +281,8 @@ Si la lista aparece vacia, no tienes activos asignados actualmente.
 ---
 
 ## 6. Mensajes con RRHH
+
+![Mis Mensajes](img/A-empleado/A4-mis-mensajes.png)
 
 En el menu lateral, haz clic en **Mis Mensajes**.
 
@@ -293,6 +307,8 @@ Esta seccion es tu canal de comunicacion directa con el equipo de RRHH. Funciona
 
 ## 7. Mis Formaciones
 
+![Mis Formaciones](img/A-empleado/A10-mis-formaciones.png)
+
 En el menu lateral, haz clic en **Mis Formaciones**.
 
 Esta seccion muestra las formaciones a las que has sido convocado o en las que has participado.
@@ -314,6 +330,8 @@ Esta seccion muestra las formaciones a las que has sido convocado o en las que h
 ---
 
 ## 8. Mis Datos Personales
+
+![Datos del Empleado](img/A-empleado/A5-datos-empleado.png)
 
 En el menu lateral, haz clic en **Datos del Empleado**.
 
@@ -355,6 +373,8 @@ Al final del formulario veras el campo **Leida Documentacion Bienvenida** (SI / 
 
 ## 9. Confirmaciones de Entrega
 
+![Confirmaciones de Entrega](img/A-empleado/A6-confirmaciones-entrega.png)
+
 En el menu lateral, haz clic en **Confirmaciones de Entrega**.
 
 Aqui veras las tareas de confirmacion que RRHH te ha asignado. Cada tarea requiere que confirmes que has recibido o leido algo.
@@ -380,6 +400,8 @@ Aqui veras las tareas de confirmacion que RRHH te ha asignado. Cada tarea requie
 ---
 
 ## 10. Encuestas
+
+![Encuestas](img/A-empleado/A7-encuestas.png)
 
 En el menu lateral, haz clic en **Encuestas**.
 
