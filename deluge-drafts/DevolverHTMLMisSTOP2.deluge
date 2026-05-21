@@ -25,17 +25,17 @@ string Calendario52HTML.DevolverHTMLMisSTOP2()
 	}
 	// ── 2. Query STOP2 records ──
 	hoy = zoho.currentdate;
-	mesIni = hoy.toString("yyyy-MM") + "-01";
+	mesCur = hoy.toString("yyyy-MM");
 	cntTotal = 0;
 	cntMes = 0;
-	cntCrit = 0;
+	cntInvalid = 0;
 	cardsH = "";
 	for each s in STOP2_Analisis_Previo[Empleado == empId] sort by Fecha_Checklist desc
 	{
 		cntTotal = cntTotal + 1;
 		fch = ifnull(s.Fecha_Checklist, null);
 		fchStr = if(fch != null, fch.toString("dd/MM/yyyy HH:mm"), "&mdash;");
-		if(fch != null && fch >= mesIni.toDate())
+		if(fch != null && fch.toString("yyyy-MM") == mesCur)
 		{
 			cntMes = cntMes + 1;
 		}
@@ -43,48 +43,74 @@ string Calendario52HTML.DevolverHTMLMisSTOP2()
 		cliNom = if(cliId_ != 0, ifnull(s.Cliente.Nombre_de_Cuenta, "&mdash;"), "&mdash;");
 		ot = ifnull(s.Orden_de_Trabajo, "");
 		obs = ifnull(s.Observaciones, "");
-		// Count critical NOs: A4(*),A5(*),A6(*/**),A7(*/**) unchecked
-		cr = 0;
-		if(s.A4_Trab_Electricos == false) { cr = cr + 1; }
-		if(s.A5_ATEX == false) { cr = cr + 1; }
-		if(s.A6_Alturas == false) { cr = cr + 1; }
-		if(s.A7_Espacios_Confinados == false) { cr = cr + 1; }
-		if(cr > 0)
-		{
-			cntCrit = cntCrit + 1;
-		}
-		// Count SIs per section
+
+		// ── Determine validity (null = legacy record before field was added) ──
+		valida_ = ifnull(s.Valida_Intervencion, null);
+
+		// ── Count CRITERIA MET per section ──
+		// Positive fields: SÍ (true) = criterion met
+		// -(Inv.) fields: NO (false) = criterion met (no risk present)
+		// Denominators unchanged: 7/4/4/4/3
+
+		// ACCESO (7 criterios — todos positivos, deben marcarse SÍ)
 		sa = 0;
-		if(s.A1_Control_Accesos == true) { sa = sa + 1; }
-		if(s.A2_Permiso_Trabajo == true) { sa = sa + 1; }
-		if(s.A3_Trabajos_Caliente == true) { sa = sa + 1; }
-		if(s.A4_Trab_Electricos == true) { sa = sa + 1; }
-		if(s.A5_ATEX == true) { sa = sa + 1; }
-		if(s.A6_Alturas == true) { sa = sa + 1; }
-		if(s.A7_Espacios_Confinados == true) { sa = sa + 1; }
+		if(s.A1_Control_Accesos == true)      { sa = sa + 1; }
+		if(s.A2_Permiso_Trabajo == true)      { sa = sa + 1; }
+		if(s.A3_Trabajos_Caliente == true)    { sa = sa + 1; }
+		if(s.A4_Trab_Electricos == true)      { sa = sa + 1; }
+		if(s.A5_ATEX == true)                 { sa = sa + 1; }
+		if(s.A6_Alturas == true)              { sa = sa + 1; }
+		if(s.A7_Espacios_Confinados == true)  { sa = sa + 1; }
+
+		// ENTORNO (4 criterios — E1,E2,E4 son -(Inv.): NO marcado = bien)
 		se = 0;
-		if(s.E1_Zona_Obra == true) { se = se + 1; }
-		if(s.E2_Zona_Vehiculos == true) { se = se + 1; }
-		if(s.E3_Senalizacion == true) { se = se + 1; }
-		if(s.E4_Intemperie == true) { se = se + 1; }
+		if(s.E1_Zona_Obra == false)           { se = se + 1; }
+		if(s.E2_Zona_Vehiculos == false)      { se = se + 1; }
+		if(s.E3_Senalizacion == true)         { se = se + 1; }
+		if(s.E4_Intemperie == false)          { se = se + 1; }
+
+		// PERSONAL (4 criterios — todos positivos)
 		sp = 0;
-		if(s.P1_EPIs == true) { sp = sp + 1; }
-		if(s.P2_Trabajo_Solitario == true) { sp = sp + 1; }
-		if(s.P3_Herramientas == true) { sp = sp + 1; }
-		if(s.P4_Medios_Auxiliares == true) { sp = sp + 1; }
+		if(s.P1_EPIs == true)                 { sp = sp + 1; }
+		if(s.P2_Trabajo_Solitario == true)    { sp = sp + 1; }
+		if(s.P3_Herramientas == true)         { sp = sp + 1; }
+		if(s.P4_Medios_Auxiliares == true)    { sp = sp + 1; }
+
+		// MATERIALES (4 criterios — M2 es -(Inv.): NO marcado = bien)
 		sm = 0;
-		if(s.M1_Acceso_Seguro == true) { sm = sm + 1; }
-		if(s.M2_Limpieza == true) { sm = sm + 1; }
-		if(s.M3_Material_Riesgos == true) { sm = sm + 1; }
-		if(s.M4_Consignar == true) { sm = sm + 1; }
+		if(s.M1_Acceso_Seguro == true)        { sm = sm + 1; }
+		if(s.M2_Limpieza == false)            { sm = sm + 1; }
+		if(s.M3_Material_Riesgos == true)     { sm = sm + 1; }
+		if(s.M4_Consignar == true)            { sm = sm + 1; }
+
+		// FINAL (3 criterios — todos positivos)
 		sf = 0;
-		if(s.F1_Protecciones == true) { sf = sf + 1; }
-		if(s.F2_Candado_Amarillo == true) { sf = sf + 1; }
-		if(s.F3_Salida_Accesos1 == true) { sf = sf + 1; }
-		// Badge
-		bdg = if(cr > 0, "<span class='badge bw'>" + cr + " alerta" + if(cr > 1, "s", "") + "</span>", "<span class='badge bg'>OK</span>");
+		if(s.F1_Protecciones == true)         { sf = sf + 1; }
+		if(s.F2_Candado_Amarillo == true)     { sf = sf + 1; }
+		if(s.F3_Salida_Accesos1 == true)      { sf = sf + 1; }
+
+		// Badge + card class by validation state
+		if(valida_ == true)
+		{
+			bdg = "<span class='badge bv'>&#10003; Puede intervenir</span>";
+			crCls = "";
+		}
+		else
+		{
+			if(valida_ == false)
+			{
+				bdg = "<span class='badge bi'>&#10007; NO puede intervenir</span>";
+				crCls = " cw";
+				cntInvalid = cntInvalid + 1;
+			}
+			else
+			{
+				bdg = "<span class='badge bn'>Pendiente</span>";
+				crCls = "";
+			}
+		}
+
 		// Card
-		crCls = if(cr > 0, " cw", "");
 		cardsH = cardsH + "<div class='cd" + crCls + "'>";
 		cardsH = cardsH + "<div class='ch'><div class='cn'>" + cliNom + "</div>" + bdg + "</div>";
 		cardsH = cardsH + "<div class='cm'><span class='ci'>" + fchStr + "</span>";
@@ -93,18 +119,26 @@ string Calendario52HTML.DevolverHTMLMisSTOP2()
 			cardsH = cardsH + "<span class='ci'>OT: " + ot + "</span>";
 		}
 		cardsH = cardsH + "</div>";
+		// Section color class: ok=full, warn=partial, fail=zero
+		saC = if(sa == 7, "ok", if(sa == 0, "fail", "warn"));
+		seC = if(se == 4, "ok", if(se == 0, "fail", "warn"));
+		spC = if(sp == 4, "ok", if(sp == 0, "fail", "warn"));
+		smC = if(sm == 4, "ok", if(sm == 0, "fail", "warn"));
+		sfC = if(sf == 3, "ok", if(sf == 0, "fail", "warn"));
 		// Section summary bars
 		cardsH = cardsH + "<div class='sb'>";
-		cardsH = cardsH + "<div class='sr'><span class='sl'>Acceso</span><span class='sv'>" + sa + "/7</span></div>";
-		cardsH = cardsH + "<div class='sr'><span class='sl'>Entorno</span><span class='sv'>" + se + "/4</span></div>";
-		cardsH = cardsH + "<div class='sr'><span class='sl'>Personal</span><span class='sv'>" + sp + "/4</span></div>";
-		cardsH = cardsH + "<div class='sr'><span class='sl'>Materiales</span><span class='sv'>" + sm + "/4</span></div>";
-		cardsH = cardsH + "<div class='sr'><span class='sl'>Final</span><span class='sv'>" + sf + "/3</span></div>";
+		cardsH = cardsH + "<div class='sr " + saC + "'><span class='sl'>Acceso</span><span class='sv'>" + sa + "/7</span></div>";
+		cardsH = cardsH + "<div class='sr " + seC + "'><span class='sl'>Entorno</span><span class='sv'>" + se + "/4</span></div>";
+		cardsH = cardsH + "<div class='sr " + spC + "'><span class='sl'>Personal</span><span class='sv'>" + sp + "/4</span></div>";
+		cardsH = cardsH + "<div class='sr " + smC + "'><span class='sl'>Materiales</span><span class='sv'>" + sm + "/4</span></div>";
+		cardsH = cardsH + "<div class='sr " + sfC + "'><span class='sl'>Final</span><span class='sv'>" + sf + "/3</span></div>";
 		cardsH = cardsH + "</div>";
 		if(obs != "")
 		{
 			cardsH = cardsH + "<div class='co'>" + obs + "</div>";
 		}
+		recId_ = s.ID;
+		cardsH = cardsH + "<div class='cf'><a class='vb' href='#Report:Mis_STOP2_Reporte?Orden_de_Trabajo=" + ot + "'>Ver registro &#8594;</a></div>";
 		cardsH = cardsH + "</div>";
 	}
 	if(cntTotal == 0)
@@ -137,7 +171,15 @@ string Calendario52HTML.DevolverHTMLMisSTOP2()
 	css = css + ".sl{font-size:10px;color:#718096;display:block}.sv{font-size:13px;font-weight:700;color:#2d3748}";
 	css = css + ".co{padding:8px 16px 12px;font-size:12px;color:#718096;font-style:italic;border-top:1px solid #f0f2f5}";
 	css = css + ".badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;white-space:nowrap}";
-	css = css + ".bg{background:#f0fff4;color:#276749}.bw{background:#fed7d7;color:#c53030}";
+	css = css + ".bv{background:#f0fff4;color:#276749}";
+	css = css + ".bi{background:#fed7d7;color:#c53030}";
+	css = css + ".bn{background:#edf2f7;color:#718096}";
+	css = css + ".sr.ok{background:#f0fff4}.sr.ok .sv{color:#276749}";
+	css = css + ".sr.warn{background:#ffedd5}.sr.warn .sv{color:#c2410c}";
+	css = css + ".sr.fail{background:#fff5f5}.sr.fail .sv{color:#c53030}";
+	css = css + ".cf{padding:8px 16px 12px;border-top:1px solid #f0f2f5;text-align:right}";
+	css = css + ".vb{font-size:12px;color:#2563EB;text-decoration:none;font-weight:600}";
+	css = css + ".vb:hover{text-decoration:underline}";
 	css = css + ".es{text-align:center;padding:28px;color:#a0aec0;font-size:12px}";
 	css = css + ".es svg{display:block;margin:0 auto 8px;opacity:.3}";
 	css = css + "@media(max-width:768px){.kr{grid-template-columns:1fr}.sb{grid-template-columns:repeat(3,1fr)}.hd{padding:14px 16px}.kr,.tb,.ct{padding-left:14px;padding-right:14px}}";
@@ -149,7 +191,7 @@ string Calendario52HTML.DevolverHTMLMisSTOP2()
 	h = h + "<div class='kr'>";
 	h = h + "<div class='kc'><div class='kv'>" + cntTotal + "</div><div class='kl'>Total realizados</div></div>";
 	h = h + "<div class='kc'><div class='kv'>" + cntMes + "</div><div class='kl'>Este mes</div></div>";
-	h = h + "<div class='kc" + if(cntCrit > 0, " kw", "") + "'><div class='kv'>" + cntCrit + "</div><div class='kl'>Con alertas cr&iacute;ticas</div></div>";
+	h = h + "<div class='kc" + if(cntInvalid > 0, " kw", "") + "'><div class='kv'>" + cntInvalid + "</div><div class='kl'>Bloquean intervenci&oacute;n</div></div>";
 	h = h + "</div>";
 	// Button
 	h = h + "<div class='tb'><a class='nb' href='#Form:STOP2_Analisis_Previo'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5'><line x1='12' y1='5' x2='12' y2='19'/><line x1='5' y1='12' x2='19' y2='12'/></svg>Nuevo STOP2</a></div>";
