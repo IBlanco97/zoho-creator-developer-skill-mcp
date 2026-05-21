@@ -1,0 +1,53 @@
+// Workflow: Calcular_Valida_Intervencion
+// Form: STOP2_Analisis_Previo
+// Trigger: On Add → Envío del formulario correcto
+//
+// Criterio de invalidación:
+//   - Algún campo positivo sin marcar (false) = revisión incompleta
+//   - Algún campo -(Inv.) marcado (true) = desviación detectada
+//
+// Campos -(Inv.) confirmados: E1, E2, E4, M2
+
+// ── Campos -(Inv.): marcado (SÍ) = INVALIDA ──
+invBad = false;
+if(input.E1_Zona_Obra == true)             { invBad = true; }
+if(input.E2_Zona_Vehiculos == true)        { invBad = true; }
+if(input.E4_Intemperie == true)            { invBad = true; }
+if(input.M2_Limpieza == true)              { invBad = true; }
+
+// ── Campos positivos: sin marcar (NO) = INVALIDA ──
+posBad = false;
+// ACCESO
+if(input.A1_Control_Accesos == false)      { posBad = true; }
+if(input.A2_Permiso_Trabajo == false)      { posBad = true; }
+if(input.A3_Trabajos_Caliente == false)    { posBad = true; }
+if(input.A4_Trab_Electricos == false)      { posBad = true; }
+if(input.A5_ATEX == false)                 { posBad = true; }
+if(input.A6_Alturas == false)              { posBad = true; }
+if(input.A7_Espacios_Confinados == false)  { posBad = true; }
+// ENTORNO
+if(input.E3_Senalizacion == false)         { posBad = true; }
+// PERSONAL
+if(input.P1_EPIs == false)                 { posBad = true; }
+if(input.P2_Trabajo_Solitario == false)    { posBad = true; }
+if(input.P3_Herramientas == false)         { posBad = true; }
+if(input.P4_Medios_Auxiliares == false)    { posBad = true; }
+// MATERIALES
+if(input.M1_Acceso_Seguro == false)        { posBad = true; }
+if(input.M3_Material_Riesgos == false)     { posBad = true; }
+if(input.M4_Consignar == false)            { posBad = true; }
+// FINAL
+if(input.F1_Protecciones == false)         { posBad = true; }
+if(input.F2_Candado_Amarillo == false)     { posBad = true; }
+if(input.F3_Salida_Accesos1 == false)      { posBad = true; }
+
+// ── Calcular y grabar (for each — batch-update directo falla en inline workflow) ──
+validaRes = true;
+if(invBad == true || posBad == true)
+{
+	validaRes = false;
+}
+for each rec in STOP2_Analisis_Previo[ID == input.ID]
+{
+	rec.Valida_Intervencion = validaRes;
+}
