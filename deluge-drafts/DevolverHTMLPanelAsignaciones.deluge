@@ -1,11 +1,13 @@
-string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string cliFilter, string cliSearch)
+string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string cliFilter, string cliNombreFilter, string tecNombreFilter)
 {
 	// Normalise filter params (may arrive as "null" string from snippet)
-	tecF = if(tecFilter == null || tecFilter == "null" || tecFilter == "", "", tecFilter);
-	cliF = if(cliFilter == null || cliFilter == "null" || cliFilter == "", "", cliFilter.toUpperCase());
-	cliS = if(cliSearch == null || cliSearch == "null" || cliSearch == "", "", cliSearch);
-
-	// Phase A: Pre-aggregate assignments into a Map keyed by client ID
+	tecF = if(tecFilter == null || tecFilter == "null" || tecFilter == "","",tecFilter);
+	cliF = if(cliFilter == null || cliFilter == "null" || cliFilter == "","",cliFilter.toUpperCase());
+	cliNomFil = if(cliNombreFilter == null || cliNombreFilter == "null" || cliNombreFilter == "","",cliNombreFilter.trim().toLowerCase());
+	tecNomFil = if(tecNombreFilter == null || tecNombreFilter == "null" || tecNombreFilter == "","",tecNombreFilter.trim().toLowerCase());
+	// Pagination (3rd arg disabled until PageNo page var is added)
+	pageSize = 20;
+	pageNum = 1;
 	aMap = Map();
 	aCntMap = Map();
 	tSet = Map();
@@ -13,150 +15,146 @@ string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string c
 	// tList: list of unique tech names (for chip bar)
 	tNameSet = Map();
 	nAct = 0;
-	for each a in Asignacion_T_cnico_Cliente[Estado != "Finalizada" && Tipo_de_Asignacion == "Cliente"]
+	for each  a in Asignacion_T_cnico_Cliente[Estado != "Finalizada" && Tipo_de_Asignacion == "Cliente"]
 	{
 		nAct = nAct + 1;
 		cId = a.Cliente.toString();
 		tId = a.Tecnico.toString();
-		tSet.put(tId, 1);
-		tNom = ifnull(a.Tecnico.Nombre.first_name, "");
-		tApe = ifnull(a.Tecnico.Nombre.last_name, "");
+		tSet.put(tId,1);
+		tNom = ifnull(a.Tecnico.Nombre.first_name,"");
+		tApe = ifnull(a.Tecnico.Nombre.last_name,"");
 		fullNam = tNom + " " + tApe;
 		// Accumulate unique tech names for chip bar
 		if(!tNameSet.containKey(tId))
 		{
-			tNameSet.put(tId, fullNam);
+			tNameSet.put(tId,fullNam);
 		}
-		ini = if(tNom != "", tNom.subString(0, 1).toUpperCase(), "?") + if(tApe != "", tApe.subString(0, 1).toUpperCase(), "");
+		ini = if(tNom != "",tNom.subString(0,1).toUpperCase(),"?") + if(tApe != "",tApe.subString(0,1).toUpperCase(),"");
 		// Avatar color deterministic by first char
-		fc = if(ini != "", ini.subString(0, 1), "A");
-		bgCol = if(fc == "A" || fc == "F" || fc == "K" || fc == "P" || fc == "U" || fc == "Z", "#3182ce", if(fc == "B" || fc == "G" || fc == "L" || fc == "Q" || fc == "V", "#38a169", if(fc == "C" || fc == "H" || fc == "M" || fc == "R" || fc == "W", "#805ad5", if(fc == "D" || fc == "I" || fc == "N" || fc == "S" || fc == "X", "#dd6b20", "#319795"))));
+		fc = if(ini != "",ini.subString(0,1),"A");
+		bgCol = if(fc == "A" || fc == "F" || fc == "K" || fc == "P" || fc == "U" || fc == "Z","#3182ce",if(fc == "B" || fc == "G" || fc == "L" || fc == "Q" || fc == "V","#38a169",if(fc == "C" || fc == "H" || fc == "M" || fc == "R" || fc == "W","#805ad5",if(fc == "D" || fc == "I" || fc == "N" || fc == "S" || fc == "X","#dd6b20","#319795"))));
 		// Estado badge
-		eBadge = if(a.Estado == "Iniciada", "st-green", "st-blue");
-		eLabel = ifnull(a.Estado, "Programada");
+		eBadge = if(a.Estado == "Iniciada","st-green","st-blue");
+		eLabel = ifnull(a.Estado,"Programada");
 		// Days abbreviation
-		dias = ifnull(a.Dias_Laborales, "");
-		dAbr = if(dias.contains("Lunes"), "L", "") + if(dias.contains("Martes"), "M", "") + if(dias.contains("Mi"), "X", "") + if(dias.contains("Jueves"), "J", "") + if(dias.contains("Viernes"), "V", "") + if(dias.contains("bado"), "S", "") + if(dias.contains("Domingo"), "D", "");
+		dias = ifnull(a.Dias_Laborales,"");
+		dAbr = if(dias.contains("Lunes"),"L","") + if(dias.contains("Martes"),"M","") + if(dias.contains("Mi"),"X","") + if(dias.contains("Jueves"),"J","") + if(dias.contains("Viernes"),"V","") + if(dias.contains("bado"),"S","") + if(dias.contains("Domingo"),"D","");
 		// First turno only (save statements)
 		tInfo = "";
 		tCnt = 0;
-		for each t in a.Turnos
+		for each  t in a.Turnos
 		{
 			if(tCnt == 0)
 			{
-				tTurno = ifnull(t.Turno, "");
-				tInfo = if(tTurno == "Ma" || tTurno.contains("ana"), "M", if(tTurno == "Tarde", "T", if(tTurno == "Noche", "N", if(tTurno != "", tTurno.subString(0, 1), ""))));
+				tTurno = ifnull(t.Turno,"");
+				tInfo = if(tTurno == "Ma" || tTurno.contains("ana"),"M",if(tTurno == "Tarde","T",if(tTurno == "Noche","N",if(tTurno != "",tTurno.subString(0,1),""))));
 			}
 			tCnt = tCnt + 1;
 		}
-		tInfoH = if(tInfo != "", "<span class='tt'>" + tInfo + if(tCnt > 1, " +" + (tCnt - 1), "") + "</span>", "");
+		tInfoH = if(tInfo != "","<span class='tt'>" + tInfo + if(tCnt > 1," +" + (tCnt - 1),"") + "</span>","");
 		// Build tech card HTML
-		tH = "<div class='tc'><div class='av' style='background:" + bgCol + "'>" + ini + "</div><div class='ti'><span class='tn'>" + tNom + " " + tApe + "</span><div class='tm'><span class='badge " + eBadge + "'>" + eLabel + "</span>" + if(dAbr != "", "<span class='td'>" + dAbr + "</span>", "") + tInfoH + "</div></div><a class='tv' href='#Page:Ficha_Empleado?EmpNo=" + a.Tecnico + "'>Ver</a></div>";
+		tH = "<div class='tc'><div class='av' style='background:" + bgCol + "'>" + ini + "</div><div class='ti'><span class='tn'>" + tNom + " " + tApe + "</span><div class='tm'><span class='badge " + eBadge + "'>" + eLabel + "</span>" + if(dAbr != "","<span class='td'>" + dAbr + "</span>","") + tInfoH + "</div></div><a class='tv' href='#Page:Ficha_Empleado?EmpNo=" + a.Tecnico + "'>Ver</a></div>";
 		// Append to map
-		prev = if(aMap.containKey(cId), aMap.get(cId), "");
-		aMap.put(cId, prev + tH);
-		prevC = if(aCntMap.containKey(cId), aCntMap.get(cId).toLong(), 0);
-		aCntMap.put(cId, (prevC + 1).toString());
-		prevN = if(tNamMap.containKey(cId), tNamMap.get(cId) + ",", "");
-		tNamMap.put(cId, prevN + fullNam);
+		prev = if(aMap.containKey(cId),aMap.get(cId),"");
+		aMap.put(cId,prev + tH);
+		prevC = if(aCntMap.containKey(cId),aCntMap.get(cId).toLong(),0);
+		aCntMap.put(cId,(prevC + 1).toString());
+		prevN = if(tNamMap.containKey(cId),tNamMap.get(cId) + ",","");
+		tNamMap.put(cId,prevN + fullNam);
 	}
 	nTec = tSet.size();
-	// Phase B: Client loop - build KPIs + cards (server-side filtered)
+	// Phase B: Client loop - build KPIs (all matches) + cards (page only)
 	nC = 0;
 	nCAll = 0;
 	nConTec = 0;
 	nSinTec = 0;
 	nProb = 0;
 	nOk = 0;
+	matchCount = 0;
 	cH = "";
-	for each c in Nuevo_Cliente[Estado_Activo == "Activo"]
+	pageStart = (pageNum - 1) * pageSize;
+	pageEnd = pageNum * pageSize;
+	for each  c in Nuevo_Cliente[Estado_Activo == "Activo"]
 	{
 		nCAll = nCAll + 1;
 		cId = c.ID.toString();
 		hasTec = aCntMap.containKey(cId);
-		tecCount = if(hasTec, aCntMap.get(cId).toLong(), 0);
-		nConTec = nConTec + if(tecCount > 0, 1, 0);
-		nSinTec = nSinTec + if(tecCount == 0, 1, 0);
-
+		tecCount = if(hasTec,aCntMap.get(cId).toLong(),0);
+		nConTec = nConTec + if(tecCount > 0,1,0);
+		nSinTec = nSinTec + if(tecCount == 0,1,0);
 		// --- Server-side filter by technician ---
 		showByTec = true;
 		if(tecF != "")
 		{
-			tecNames = if(tNamMap.containKey(cId), tNamMap.get(cId).toLowerCase(), "");
+			tecNames = if(tNamMap.containKey(cId),tNamMap.get(cId).toLowerCase(),"");
 			showByTec = tecNames.contains(tecF.toLowerCase());
 		}
-		// --- Server-side filter by first letter of client name ---
-		showByCli = true;
-		if(cliF != "")
+		showByNombre = true;
+		if(cliNomFil != "")
 		{
-			cliFirst = c.Nombre_de_Cuenta.subString(0, 1).toUpperCase();
-			showByCli = (cliFirst == cliF);
+			showByNombre = c.Nombre_de_Cuenta.toLowerCase().contains(cliNomFil);
 		}
-		// --- Server-side filter by client name substring ---
-		showBySearch = true;
-		if(cliS != "")
+		showByTecNom = true;
+		if(tecNomFil != "")
 		{
-			showBySearch = c.Nombre_de_Cuenta.toLowerCase().contains(cliS.toLowerCase());
+			allTecNoms = if(tNamMap.containKey(cId),tNamMap.get(cId).toLowerCase(),"");
+			showByTecNom = allTecNoms.contains(tecNomFil);
 		}
-		if(!showByTec || !showByCli || !showBySearch)
+		if(!showByTec || (!showByNombre && !showByTecNom))
+		{
+			continue;
+		}
+		matchCount = matchCount + 1;
+		// Cheap counters for KPIs (all matches, not just current page)
+		cTotal = ifnull(c.ContadorTotal,0);
+		cCad = ifnull(c.ContadorCaducados,0);
+		cPS = ifnull(c.ContadorPendietesSubir,0);
+		cNE = ifnull(c.ContadorNoEnviados,0);
+		cNA = ifnull(c.ContadorEnviadosNoAprobados,0);
+		hp = cCad > 0 || cPS > 0 || cNE > 0;
+		io = cTotal > 0 && !hp && cNA == 0;
+		nProb = nProb + if(hp,1,0);
+		nOk = nOk + if(io,1,0);
+		// Skip card construction if not in current page
+		if(matchCount <= pageStart || matchCount > pageEnd)
 		{
 			continue;
 		}
 		nC = nC + 1;
-		// Doc status flags
-		cTotal = ifnull(c.ContadorTotal, 0);
-		cCad = ifnull(c.ContadorCaducados, 0);
-		cPS = ifnull(c.ContadorPendietesSubir, 0);
-		cNE = ifnull(c.ContadorNoEnviados, 0);
-		cNA = ifnull(c.ContadorEnviadosNoAprobados, 0);
-		cAc = ifnull(c.ContadorActualizados, 0);
-		cCC = ifnull(c.ContadorCercaCaducar, 0);
-		cVA = ifnull(c.ContadorEnviadosAprobados, 0);
-		hp = cCad > 0 || cPS > 0 || cNE > 0;
-		io = cTotal > 0 && !hp && cNA == 0;
-		nProb = nProb + if(hp, 1, 0);
-		nOk = nOk + if(io, 1, 0);
+		// Doc status flags (page only â full set for card)
+		cAc = ifnull(c.ContadorActualizados,0);
+		cCC = ifnull(c.ContadorCercaCaducar,0);
 		// CSS filter + border classes
-		fCls = if(tecCount > 0, " has-tec", " no-tec") + if(hp, " is-prob", "") + if(io, " is-ok", "");
-		bCls = if(hp, "st-r", if(cNA > 0, "st-o", if(io, "st-g", "st-x")));
+		fCls = if(tecCount > 0," has-tec"," no-tec") + if(hp," is-prob","") + if(io," is-ok","");
+		bCls = if(hp,"st-r",if(cNA > 0,"st-o",if(io,"st-g","st-x")));
 		// Badge label
-		bd = if(hp, if(cCad > 0, "Caducados", "Pendiente"), if(cNA > 0, "En revisi&#243;n", if(io, "Validado", "Sin docs")));
-		bc = if(hp, "br", if(cNA > 0, "bo", if(io, "bg", "bx")));
+		bd = if(hp,if(cCad > 0,"Caducados","Pendiente"),if(cNA > 0,"En revisi&#243;n",if(io,"Validado","Sin docs")));
+		bc = if(hp,"br",if(cNA > 0,"bo",if(io,"bg","bx")));
 		// Metadata
-		city = ifnull(c.Localizacion.district_city, "");
-		tel = ifnull(c.Tel_fono, "");
-		cif = ifnull(c.CIF, "");
-		metaH = if(cif != "" || city != "" || tel != "", "<div class='cm'>" + cif + if(city != "", if(cif != "", " &#183; ", "") + city, "") + if(tel != "", if(cif != "" || city != "", " &#183; ", "") + tel, "") + "</div>", "");
-		// Gestor PRL
+		city = ifnull(c.Localizacion.district_city,"");
+		tel = ifnull(c.Tel_fono,"");
+		cif = ifnull(c.CIF,"");
+		metaH = if(cif != "" || city != "" || tel != "","<div class='cm'>" + cif + if(city != "",if(cif != ""," &#183; ","") + city,"") + if(tel != "",if(cif != "" || city != ""," &#183; ","") + tel,"") + "</div>","");
+		// Gestor PRL (inline guard)
 		gH = "";
 		if(c.Gestor_PRL != null)
 		{
-			gN = ifnull(c.Gestor_PRL.Nombre.first_name, "");
-			gA = ifnull(c.Gestor_PRL.Nombre.last_name, "");
-			if(gN != "" || gA != "")
-			{
-				gH = "<div class='cg'><span class='cg-l'>PRL:</span> " + gN + " " + gA + "</div>";
-			}
+			gFull = ifnull(c.Gestor_PRL.Nombre.first_name,"") + " " + ifnull(c.Gestor_PRL.Nombre.last_name,"");
+			gH = if(gFull.trim() != "","<div class='cg'><span class='cg-l'>PRL:</span> " + gFull + "</div>","");
 		}
-		// Doc mini-bar (proportional)
+		// Doc mini-bar (proportional) â inline wX in template
 		mbH = "";
 		if(cTotal > 0)
 		{
 			wG = (cAc * 100) / cTotal;
 			wO = (cCC * 100) / cTotal;
 			wR = ((cCad + cPS) * 100) / cTotal;
-			wX = 100 - wG - wO - wR;
-			mbH = "<div class='mb'><div class='ms mg' style='width:" + wG + "%'></div><div class='ms mo' style='width:" + wO + "%'></div><div class='ms mr' style='width:" + wR + "%'></div><div class='ms mx' style='width:" + wX + "%'></div></div>";
+			mbH = "<div class='mb'><div class='ms mg' style='width:" + wG + "%'></div><div class='ms mo' style='width:" + wO + "%'></div><div class='ms mr' style='width:" + wR + "%'></div><div class='ms mx' style='width:" + (100 - wG - wO - wR) + "%'></div></div>";
 		}
 		// Technicians section
-		tecH = if(hasTec, aMap.get(cId), "<span class='ntm'>Sin t&#233;cnicos asignados</span>");
-		// Build card
-		cH = cH + "<div class='cd " + bCls + fCls + "'>";
-		cH = cH + "<div class='ch'><span class='cn'>" + c.Nombre_de_Cuenta + " <span class='ct-n'>(" + tecCount + ")</span></span><span class='db " + bc + "'>" + bd + "</span></div>";
-		cH = cH + metaH + gH + mbH;
-		cH = cH + "<div class='tl'>" + tecH + "</div>";
-		cH = cH + "<div class='ca'><a class='btn bv' href='#Page:Documentaci_n_del_Cliente?ClienteID=" + c.ID + "'>Ver Docs</a><a class='btn ba' href='#Form:Elegir_Trabajador?Cliente=" + c.ID + "'>+ Asignar</a></div>";
-		cH = cH + "</div>";
+		tecH = if(hasTec,aMap.get(cId),"<span class='ntm'>Sin t&#233;cnicos asignados</span>");
+		// Build card (single concatenation to minimize statement count)
+		cH = cH + "<div class='cd " + bCls + fCls + "'><div class='ch'><span class='cn'>" + c.Nombre_de_Cuenta + " <span class='ct-n'>(" + tecCount + ")</span></span><span class='db " + bc + "'>" + bd + "</span></div>" + metaH + gH + mbH + "<div class='tl'>" + tecH + "</div><div class='ca'><a class='btn bv' href='#Page:Documentaci_n_del_Cliente?ClienteID=" + c.ID + "'>Ver Docs</a><a class='btn ba' href='#Form:Elegir_Trabajador?Cliente=" + c.ID + "'>+ Asignar</a></div></div>";
 	}
 	// Phase C: Assemble HTML
 	// CSS
@@ -206,8 +204,6 @@ string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string c
 	css = css + ".ca{padding:7px 10px;display:flex;gap:5px;flex-wrap:wrap;border-top:1px solid #edf2f7}.btn{font-size:10px;font-weight:600;padding:4px 10px;border-radius:6px;text-decoration:none;display:inline-block;transition:opacity .15s}.btn:hover{opacity:.8}.bv{background:#ebf8ff;color:#2b6cb0}.ba{background:#f0fff4;color:#276749}";
 	// Filter chips (tech + letter)
 	css = css + ".fchips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}.fchips span{font-size:10px;color:#718096;font-weight:600;white-space:nowrap}.fc-a{display:inline-block;padding:4px 11px;border-radius:16px;font-size:11px;font-weight:600;text-decoration:none;border:1.5px solid #e2e8f0;background:#fff;color:#718096;transition:all .2s}.fc-a:hover{border-color:#1C3A5E;color:#1C3A5E;background:#f7fafc}.fc-on{background:#1C3A5E;color:#fff;border-color:#1C3A5E}.fc-clear{background:#fff5f5;color:#c53030;border-color:#fed7d7}.fc-clear:hover{background:#c53030;color:#fff;border-color:#c53030}";
-	// Search bar
-	css = css + ".sb{display:flex;gap:8px;align-items:center;margin-bottom:10px}.si{flex:1;max-width:280px;padding:7px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;color:#1a202c;outline:none;transition:border-color .2s}.si:focus{border-color:#1C3A5E}.sbtn{padding:7px 16px;background:#1C3A5E;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:opacity .15s}.sbtn:hover{opacity:.85}.sc{font-size:18px;color:#c53030;text-decoration:none;line-height:1;padding:2px 6px;border-radius:6px;transition:background .15s;cursor:pointer}.sc:hover{background:#fff5f5}.cd.sh{display:none!important}";
 	// Filter rules
 	css = css + "#f1:checked~.cnt .cards .cd{display:none}#f1:checked~.cnt .cards .is-prob{display:flex}";
 	css = css + "#f2:checked~.cnt .cards .cd{display:none}#f2:checked~.cnt .cards .is-ok{display:flex}";
@@ -223,23 +219,32 @@ string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string c
 	h2 = "<div class='cnt'><div class='kg'><div class='kc k-b'><b>" + nAct + "</b><span>Asignaciones Activas</span></div><div class='kc k-g'><b>" + nConTec + "</b><span>Clientes con T&#233;cnico</span></div><div class='kc k-r'><b>" + nSinTec + "</b><span>Clientes sin T&#233;cnico</span></div><div class='kc k-n'><b>" + nTec + "</b><span>T&#233;cnicos &#218;nicos</span></div></div>";
 	// Filter bar (CSS-only status)
 	h3 = "<div class='fb'><label for='f0'>Todos (" + nC + ")</label><label for='f1'>Con Problemas (" + nProb + ")</label><label for='f2'>Todo OK (" + nOk + ")</label><label for='f3'>Sin T&#233;cnicos (" + nSinTec + ")</label></div>";
-
-	// Search bar - server-side filter via ClienteBuscar URL param
-	scHref = "#Page:Panel_de_Asignaciones?Tecnico=" + tecF + "&ClienteLetra=" + cliF + "&ClienteBuscar=";
-	searchBar = "<div class='sb'>" + if(cliS != "", "<span class='si-f'>Buscando: <b>" + cliS + "</b> <a class='sc' href='" + scHref + "'>&#215;</a></span>", "<span class='si-hint'>Filtro por nombre: edita URL con &amp;ClienteBuscar=texto</span>") + "</div>";
-
-	// Letter filter bar
-	letters = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z".toList(",");
-	letterChips = "<div class='fchips'><span>Inicial:</span><a class='fc-a" + if(cliF == "", " fc-on", "") + "' href='#Page:Panel_de_Asignaciones?Tecnico=" + tecF + "&ClienteLetra='>Todos</a>";
-	for each lt in letters
+	// Pagination chips
+	totalPages = if(matchCount == 0,1,(matchCount - 1) / pageSize + 1);
+	pStart = if(pageNum - 3 < 1,1,pageNum - 3);
+	pEnd = if(pageNum + 3 > totalPages,totalPages,pageNum + 3);
+	urlBase = "#Page:Panel_de_Asignaciones?Tecnico=" + tecF + "&BuscarCliente=" + cliNombreFilter + "&BuscarTrabajador=" + tecNombreFilter + "&PageNo=";
+	pagChips = "<div class='fchips'><span>P&aacute;gina " + pageNum + " de " + totalPages + " (" + matchCount + " clientes):</span>";
+	if(pageNum > 1)
 	{
-		isOn = (lt == cliF);
-		letterChips = letterChips + "<a class='fc-a" + if(isOn, " fc-on", "") + "' href='#Page:Panel_de_Asignaciones?Tecnico=" + tecF + "&ClienteLetra=" + lt + "'>" + lt + "</a>";
+		pagChips = pagChips + "<a class='fc-a' href='" + urlBase + (pageNum - 1) + "'>&laquo; Anterior</a>";
 	}
-	letterChips = letterChips + "</div>";
-
+	if(pStart > 1)
+	{
+		pagChips = pagChips + "<a class='fc-a' href='" + urlBase + "1'>1</a>";
+		if(pStart > 2)
+		{
+			pagChips = pagChips + "<span>...</span>";
+		}
+	}
+	pagChips = pagChips + "<span class='fc-on' style='padding:4px 11px;border-radius:16px;font-size:11px;font-weight:600;'>" + pageNum + "</span>";
+	if(pageNum < totalPages)
+	{
+		pagChips = pagChips + "<a class='fc-a' href='" + urlBase + (pageNum + 1) + "'>Siguiente &raquo;</a>";
+	}
+	pagChips = pagChips + "</div>";
 	// Cards + close wrapper
 	h4 = "<div class='cards'>" + cH + "</div></div></div>";
-	html = css + h1 + h2 + h3 + searchBar + letterChips + h4;
+	html = css + h1 + h2 + h3 + pagChips + h4;
 	return html;
 }
