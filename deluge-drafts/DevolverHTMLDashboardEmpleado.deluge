@@ -15,6 +15,11 @@ string Calendario52HTML.DevolverHTMLDashboardEmpleado()
 		return "<div style='padding:40px;text-align:center;font-family:sans-serif;color:#718096'><h2>No se encontr&oacute; tu perfil de empleado</h2><p>Contacta con RRHH para resolver este problema.</p></div>";
 	}
 	empId = empRec.ID;
+	for each empMark in Nuevo_Empleado[ID == empId]
+	{
+		empMark.Accedi_al_Portal_del_Empleado = "SÍ";
+		break;
+	}
 	empNom = ifnull(empRec.Nombre.first_name,"") + " " + ifnull(empRec.Nombre.last_name,"");
 	empArea = ifnull(empRec.Empresa_que_Contrata1.Nombre,"—");
 	empPuesto = ifnull(empRec.Jornada_Laboral1,"—");
