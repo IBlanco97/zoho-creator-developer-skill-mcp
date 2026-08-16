@@ -1,0 +1,40 @@
+// on_validate — Form: Filtro_Planificador
+// Trigger: On Validate (before save)
+
+anioActual = zoho.currentdate.getYear();
+
+// Año: rango razonable 2020–2030
+if(!isNull(input.Anio) && input.Anio != 0)
+{
+	if(input.Anio < 2020 || input.Anio > 2030)
+	{
+		alert "El año debe estar entre 2020 y 2030 (valor introducido: " + input.Anio + ")";
+	}
+}
+
+// Semana Desde: 1–52
+if(!isNull(input.Semana_Desde) && input.Semana_Desde != 0)
+{
+	if(input.Semana_Desde < 1 || input.Semana_Desde > 52)
+	{
+		alert "Semana Desde debe estar entre 1 y 52";
+	}
+}
+
+// Semana Hasta: 1–52
+if(!isNull(input.Semana_Hasta) && input.Semana_Hasta != 0)
+{
+	if(input.Semana_Hasta < 1 || input.Semana_Hasta > 52)
+	{
+		alert "Semana Hasta debe estar entre 1 y 52";
+	}
+}
+
+// Cross-field: Desde <= Hasta
+if(!isNull(input.Semana_Desde) && !isNull(input.Semana_Hasta) && input.Semana_Desde != 0 && input.Semana_Hasta != 0)
+{
+	if(input.Semana_Desde > input.Semana_Hasta)
+	{
+		alert "Semana Desde (" + input.Semana_Desde + ") no puede ser mayor que Semana Hasta (" + input.Semana_Hasta + ")";
+	}
+}

@@ -15,7 +15,7 @@
         "ZOHO_REFRESH_TOKEN": "${ZOHO_REFRESH_TOKEN}",
         "ZOHO_OWNER_ID": "${ZOHO_OWNER_ID}",
         "ZOHO_APP_LINK_NAME": "${ZOHO_APP_LINK_NAME}",
-        "ZOHO_ACCOUNTS_DOMAIN": "${ZOHO_ACCOUNTS_DOMAIN}"
+        "ZOHO_ACCOUNTS_DOMAIN": "accounts.zoho.com"
       }
     }
   }

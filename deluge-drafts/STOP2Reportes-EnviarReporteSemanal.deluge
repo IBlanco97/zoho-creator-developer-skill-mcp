@@ -1,0 +1,187 @@
+string STOP2Reportes.EnviarReporteSemanal(int clienteFiltro)
+{
+	// clienteFiltro = 0  -> procesa TODOS los clientes con checklists STOP2 pendientes de reportar
+	// clienteFiltro > 0  -> procesa SOLO ese cliente (uso: pruebas / envío manual bajo demanda vía "Ejecutar")
+	// Cada checklist procesado se marca Enviado_en_reporte=true, así nunca se reenvía en la siguiente ejecución
+	// (ni programada ni manual), sin depender de rangos de fecha.
+
+	hoy = zoho.currentdate;
+	lunesPas = hoy.addDay(-7);
+	domPas = hoy.addDay(-1);
+	lunesStr = lunesPas.toString("dd/MM/yyyy");
+	domStr = domPas.toString("dd/MM/yyyy");
+
+	// 1. Seleccionar checklists NO enviados aún (todos o de un solo cliente), agrupar por cliente
+	cliMap = Map();
+	cliNomMap = Map();
+
+	if(clienteFiltro == 0)
+	{
+		matched = STOP2_Analisis_Previo[Enviado_en_reporte == false];
+	}
+	else
+	{
+		matched = STOP2_Analisis_Previo[Enviado_en_reporte == false && Cliente == clienteFiltro];
+	}
+
+	for each r in matched
+	{
+		if(r.Cliente != null)
+		{
+			ck = r.Cliente.ID.toString();
+			tecNom = ifnull(r.Empleado.Nombre.first_name, "") + " " + ifnull(r.Empleado.Nombre.last_name, "");
+			fchStr = ifnull(r.Fecha_Hora.toString("dd/MM/yyyy HH:mm"), "");
+			ot = ifnull(r.Orden_de_Trabajo, "&mdash;");
+			cr = 0;
+			if(r.A4_Trab_Electricos == false) { cr = cr + 1; }
+			if(r.A5_ATEX == false) { cr = cr + 1; }
+			if(r.A6_Alturas == false) { cr = cr + 1; }
+			if(r.A7_Espacios_Confinados == false) { cr = cr + 1; }
+			totalSi = 0;
+			if(r.A1_Control_Accesos == true) { totalSi = totalSi + 1; }
+			if(r.A2_Permiso_Trabajo == "Sí") { totalSi = totalSi + 1; }
+			if(r.A3_Trabajos_Caliente == true) { totalSi = totalSi + 1; }
+			if(r.A4_Trab_Electricos == true) { totalSi = totalSi + 1; }
+			if(r.A5_ATEX == true) { totalSi = totalSi + 1; }
+			if(r.A6_Alturas == true) { totalSi = totalSi + 1; }
+			if(r.A7_Espacios_Confinados == true) { totalSi = totalSi + 1; }
+			if(r.E1_Zona_Obra == true) { totalSi = totalSi + 1; }
+			if(r.E2_Zona_Vehiculos == true) { totalSi = totalSi + 1; }
+			if(r.E3_Senalizacion == true) { totalSi = totalSi + 1; }
+			if(r.E4_Intemperie == true) { totalSi = totalSi + 1; }
+			if(r.P1_EPIs == true) { totalSi = totalSi + 1; }
+			if(r.P3_Herramientas == "Sí") { totalSi = totalSi + 1; }
+			if(r.P4_Medios_Auxiliares == true) { totalSi = totalSi + 1; }
+			if(r.M1_Acceso_Seguro == true) { totalSi = totalSi + 1; }
+			if(r.M2_Limpieza == true) { totalSi = totalSi + 1; }
+			if(r.M3_Material_Riesgos == true) { totalSi = totalSi + 1; }
+			if(r.M4_Consignar == "Sí") { totalSi = totalSi + 1; }
+			if(r.F1_Protecciones == true) { totalSi = totalSi + 1; }
+			if(r.F2_Candado_Amarillo == true) { totalSi = totalSi + 1; }
+			if(r.F3_Salida_Accesos1 == true) { totalSi = totalSi + 1; }
+			resColor = if(cr > 0, "#e53e3e", "#38a169");
+			resText = if(cr > 0, cr + " alerta(s) cr&iacute;tica(s)", "OK");
+			rowH = "<tr>";
+			rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;'>" + fchStr + "</td>";
+			rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;'>" + tecNom + "</td>";
+			rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;'>" + ot + "</td>";
+			rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;text-align:center;'>" + totalSi + "/21</td>";
+			rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;font-weight:600;color:" + resColor + ";'>" + resText + "</td>";
+			rowH = rowH + "</tr>";
+			prev = if(cliMap.containKey(ck), cliMap.get(ck), "");
+			cliMap.put(ck, prev + rowH);
+			if(!cliNomMap.containKey(ck))
+			{
+				cliNomMap.put(ck, ifnull(r.Cliente.Nombre_de_Cuenta, "Cliente"));
+			}
+		}
+	}
+
+	// 2. Para cada cliente con checklists pendientes: construir email y enviar
+	fallosMap = Map();
+	thStyle = "padding:8px 12px;border:1px solid #e2e8f0;font-size:11px;color:#475569;font-weight:600;background:#f8fafc;text-align:left;";
+	for each ck in cliMap.keys()
+	{
+		cliNombre = cliNomMap.get(ck);
+		rowsH = cliMap.get(ck);
+		cuerpo = "<p>Estimado/a,</p>";
+		cuerpo = cuerpo + "<p>Le remitimos el resumen de checklists de seguridad <b>STOP2</b> realizados por personal de <b>Domo21 / Sicma21</b> en sus instalaciones (periodo hasta <b>" + domStr + "</b>).</p>";
+		cuerpo = cuerpo + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:16px 0;'>";
+		cuerpo = cuerpo + "<tr><th style='" + thStyle + "'>Fecha</th><th style='" + thStyle + "'>T&eacute;cnico</th><th style='" + thStyle + "'>OT</th><th style='" + thStyle + "text-align:center;'>Cumplimiento</th><th style='" + thStyle + "'>Estado</th></tr>";
+		cuerpo = cuerpo + rowsH;
+		cuerpo = cuerpo + "</table>";
+		cuerpo = cuerpo + "<p style='font-size:12px;color:#718096;margin-top:12px;'>(*) Las alertas cr&iacute;ticas corresponden a &iacute;tems de seguridad marcados con (*) o (**) en el checklist STOP2 que no fueron verificados.</p>";
+		titulo_ = "Informe STOP2 &mdash; " + cliNombre;
+		footer_ = "Este informe se genera autom&aacute;ticamente. Para consultas contacte con su gestor PRL.";
+		htmlEmail = "<div style='max-width:680px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;'>";
+		htmlEmail = htmlEmail + "<div style='background:#1C3A5E;padding:20px 24px;border-radius:8px 8px 0 0;'><h1 style='color:#fff;font-size:18px;margin:0;'>" + titulo_ + "</h1></div>";
+		htmlEmail = htmlEmail + "<div style='padding:24px;background:#fff;border:1px solid #e2e8f0;border-top:none;'>" + cuerpo + "</div>";
+		htmlEmail = htmlEmail + "<div style='padding:16px 24px;background:#f8fafc;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 8px 8px;font-size:11px;color:#718096;'>" + footer_ + "</div>";
+		htmlEmail = htmlEmail + "</div>";
+		subject_ = "Informe STOP2 - " + cliNombre + " (hasta " + domStr + ")";
+
+		cliIdLong = ck.toLong();
+		cliFound = 0;
+		cliRec = null;
+		for each c in Nuevo_Cliente[ID == cliIdLong]
+		{
+			cliRec = c;
+			cliFound = 1;
+			break;
+		}
+
+		enviado = false;
+		if(cliFound == 1)
+		{
+			mailStop2 = ifnull(cliRec.Email_para_enviar_reporte_STOP_2, "");
+			if(mailStop2 != "")
+			{
+				sendmail
+				[
+					from : zoho.adminuserid
+					to : mailStop2
+					subject : subject_
+					message : htmlEmail
+				]
+				enviado = true;
+			}
+			else
+			{
+				for each contacto in cliRec.Personas_Contacto_en_Planta
+				{
+					mailC = ifnull(contacto.Email, "");
+					if(mailC != "")
+					{
+						sendmail
+						[
+							from : zoho.adminuserid
+							to : mailC
+							subject : subject_
+							message : htmlEmail
+						]
+						enviado = true;
+					}
+				}
+			}
+		}
+
+		if(!enviado)
+		{
+			fallosMap.put(ck, cliNombre);
+		}
+
+		// Marcar como procesados (enviados o no) los checklists de este cliente, para no reintentar
+		for each rec in STOP2_Analisis_Previo[Enviado_en_reporte == false && Cliente == cliIdLong]
+		{
+			rec.Enviado_en_reporte = true;
+		}
+	}
+
+	// 3. Avisar a los Gestores PRL (supervisores CAE) de los clientes sin email STOP2 configurado
+	if(fallosMap.size() > 0)
+	{
+		listaFallos = "";
+		for each ck in fallosMap.keys()
+		{
+			listaFallos = listaFallos + "<li>" + fallosMap.get(ck) + "</li>";
+		}
+		htmlFallo = "<p>El reporte STOP2 (periodo hasta <b>" + domStr + "</b>) <b>NO pudo enviarse</b> a los siguientes clientes por falta de email de contacto configurado (campo 'Email para enviar reporte STOP2' en la ficha del cliente, y sin contactos de planta alternativos):</p><ul>" + listaFallos + "</ul><p>Los checklists de estos clientes se han marcado como procesados igualmente. Configure el email de contacto en la ficha del cliente para que el próximo informe se envíe correctamente.</p>";
+		asuntoFallo = "STOP2: reporte sin enviar a " + fallosMap.size() + " cliente(s) por falta de email";
+		for each u in Usuario1[Rol == "Gestor PRL"]
+		{
+			destino = ifnull(u.Email_para_notificaciones, "");
+			if(destino != "")
+			{
+				sendmail
+				[
+					from : zoho.adminuserid
+					to : destino
+					subject : asuntoFallo
+					message : htmlFallo
+				]
+			}
+		}
+	}
+
+	return "Clientes procesados: " + cliMap.keys().size() + ". Sin email configurado: " + fallosMap.size() + ".";
+}

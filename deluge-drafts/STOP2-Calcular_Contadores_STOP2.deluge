@@ -1,0 +1,61 @@
+// Workflow: Calcular_Contadores_STOP2
+// Form: STOP2_Analisis_Previo
+// Trigger: Envío de formulario correcto (On Submit)
+// Lógica Inv.: campos marcados con (Inv.) suman 1 cuando NO están marcados
+
+// === ACCESO (7 criterios, todos no-Inv.) ===
+total_A = 7;
+v_A = 0;
+if(input.A1_Control_Accesos == true)     { v_A = v_A + 1; }
+if(input.A2_Permiso_Trabajo == true)     { v_A = v_A + 1; }
+if(input.A3_Trabajos_Caliente == true)   { v_A = v_A + 1; }
+if(input.A4_Trab_Electricos == true)     { v_A = v_A + 1; }
+if(input.A5_ATEX == true)               { v_A = v_A + 1; }
+if(input.A6_Alturas == true)            { v_A = v_A + 1; }
+if(input.A7_Espacios_Confinados == true) { v_A = v_A + 1; }
+input.Total_A = total_A;
+input.Validos_A = v_A;
+input.Ratio_A = v_A.toString() + "/" + total_A.toString();
+
+// === ENTORNO (4 criterios: E1 Inv, E2 Inv, E3 ok, E4 Inv) ===
+total_E = 4;
+v_E = 0;
+if(input.E1_Zona_Obra != true)      { v_E = v_E + 1; }
+if(input.E2_Zona_Vehiculos != true) { v_E = v_E + 1; }
+if(input.E3_Senalizacion == true)   { v_E = v_E + 1; }
+if(input.E4_Intemperie != true)     { v_E = v_E + 1; }
+input.Total_E = total_E;
+input.Validos_E = v_E;
+input.Ratio_E = v_E.toString() + "/" + total_E.toString();
+
+// === PERSONAL (4 criterios, todos no-Inv.) ===
+total_P = 4;
+v_P = 0;
+if(input.P1_EPIs == true)              { v_P = v_P + 1; }
+if(input.P2_Trabajo_Solitario == true) { v_P = v_P + 1; }
+if(input.P3_Herramientas == true)      { v_P = v_P + 1; }
+if(input.P4_Medios_Auxiliares == true) { v_P = v_P + 1; }
+input.Total_P = total_P;
+input.Validos_P = v_P;
+input.Ratio_P = v_P.toString() + "/" + total_P.toString();
+
+// === MATERIALES (4 criterios: M1 ok, M2 Inv, M3 ok, M4 ok) ===
+total_M = 4;
+v_M = 0;
+if(input.M1_Acceso_Seguro == true)    { v_M = v_M + 1; }
+if(input.M2_Limpieza != true)         { v_M = v_M + 1; }
+if(input.M3_Material_Riesgos == true) { v_M = v_M + 1; }
+if(input.M4_Consignar == true)        { v_M = v_M + 1; }
+input.Total_M = total_M;
+input.Validos_M = v_M;
+input.Ratio_M = v_M.toString() + "/" + total_M.toString();
+
+// === FINAL (3 criterios, todos no-Inv.) ===
+total_F = 3;
+v_F = 0;
+if(input.F1_Protecciones == true)     { v_F = v_F + 1; }
+if(input.F2_Candado_Amarillo == true) { v_F = v_F + 1; }
+if(input.F3_Salida_Accesos1 == true)  { v_F = v_F + 1; }
+input.Total_F = total_F;
+input.Validos_F = v_F;
+input.Ratio_F = v_F.toString() + "/" + total_F.toString();

@@ -1,0 +1,136 @@
+// Función: FlotaPDF.GenerarActaAsignacion(int assignId)
+// Namespace: FlotaPDF
+// Tipo retorno: map
+//
+// BRIDGE entre el formulario Assign_Driver y la función Node.js GenerarActaFlota.
+// Lee los datos de la asignación + vehículo + conductor, los serializa a JSON
+// y los deposita en Plantilla_PDF.Temp_Params con prefijo "ACTA|||".
+// Luego llama a thisapp.GenerarActaFlota() que genera el PDF y lo sube al campo
+// Assign_Driver.Acta_PDF.
+//
+// Invocado desde:
+//   - Workflow "Assign_Driver / Después del envío" → Accion Función personalizada
+//   - Manualmente para regenerar acta de una asignación existente
+
+map FlotaPDF.GenerarActaAsignacion(int assignId)
+{
+    // ── 1. Leer registro Assign_Driver ────────────────────────────────────
+    asgFound = 0;
+    for each a in Assign_Driver[ID == assignId]
+    {
+        asgRec = a;
+        asgFound = 1;
+        break;
+    }
+    if(asgFound == 0)
+    {
+        return {"success":false,"error":"assign_not_found","assignId":assignId};
+    }
+
+    // ── 2. Vehículo ───────────────────────────────────────────────────────
+    vehNombre    = ifnull(asgRec.Vehiculo.Nombre_de_Vehiculo, "—");
+    vehMatricula = ifnull(asgRec.Vehiculo.Numero_de_Registro, "—");
+    vehMarca     = ifnull(asgRec.Vehiculo.Marca_Modelo, "—");
+    vehComb      = ifnull(asgRec.Vehiculo.Tipo_de_Combustible, "—");
+    vehAnio      = if(asgRec.Vehiculo.Anno_de_Fabricacion != 0, asgRec.Vehiculo.Anno_de_Fabricacion.toString(), "—");
+    vehEstado    = ifnull(asgRec.Vehiculo.Estado_del_Vehiculo, "Activo");
+
+    // ── 3. Conductor ──────────────────────────────────────────────────────
+    choferId  = ifnull(asgRec.Chofer, 0).toLong();
+    choferNom = "—";
+    choferDNI = "—";
+    choferPue = "—";
+    choferEmail = "—";
+    if(choferId != 0)
+    {
+        for each emp in Nuevo_Empleado[ID == choferId]
+        {
+            fn = ifnull(emp.Nombre.first_name, "");
+            ln = ifnull(emp.Nombre.last_name, "");
+            choferNom   = fn + " " + ln;
+            choferDNI   = ifnull(emp.DNI, "—");
+            choferPue   = ifnull(emp.Puesto_laboral_actual.toString(), "—");
+            choferEmail = ifnull(emp.Official_Email, "—");
+            break;
+        }
+    }
+
+    // ── 4. Asignación ─────────────────────────────────────────────────────
+    fechaInicio = "—";
+    if(asgRec.Fecha_de_Comienzo != null)
+    {
+        fechaInicio = asgRec.Fecha_de_Comienzo.toString("dd/MM/yyyy");
+    }
+    odometro = if(asgRec.Odometro_Inicial != 0, asgRec.Odometro_Inicial.toString(), "0");
+    estado   = ifnull(asgRec.Estado_de_la_Asignaci_n, "Activa");
+
+    // ── 5. Timestamp de generación ────────────────────────────────────────
+    ahora = zoho.currentdate.toString("dd/MM/yyyy HH:mm");
+
+    // ── 6. Build JSON (sin caracteres de control) ─────────────────────────
+    // Escapar comillas en campos de texto libre
+    vehNombreE  = vehNombre.replaceAll("\"", "'");
+    vehMarcaE   = vehMarca.replaceAll("\"", "'");
+    choferNomE  = choferNom.replaceAll("\"", "'");
+    choferPueE  = choferPue.replaceAll("\"", "'");
+
+    jsonData = "{\"assignId\":" + assignId.toString() +
+               ",\"generadoEn\":\"" + ahora + "\"" +
+               ",\"vehiculo\":{" +
+                   "\"nombre\":\"" + vehNombreE + "\"" +
+                   ",\"matricula\":\"" + vehMatricula + "\"" +
+                   ",\"marcaModelo\":\"" + vehMarcaE + "\"" +
+                   ",\"combustible\":\"" + vehComb + "\"" +
+                   ",\"anio\":\"" + vehAnio + "\"" +
+                   ",\"estado\":\"" + vehEstado + "\"" +
+               "}" +
+               ",\"chofer\":{" +
+                   "\"nombre\":\"" + choferNomE + "\"" +
+                   ",\"dni\":\"" + choferDNI + "\"" +
+                   ",\"puesto\":\"" + choferPueE + "\"" +
+                   ",\"email\":\"" + choferEmail + "\"" +
+               "}" +
+               ",\"asignacion\":{" +
+                   "\"fechaInicio\":\"" + fechaInicio + "\"" +
+                   ",\"odometroInicial\":\"" + odometro + "\"" +
+                   ",\"estado\":\"" + estado + "\"" +
+               "}}";
+
+    // ── 7. OAuth token para PATCH ─────────────────────────────────────────
+    tokenParams = Map();
+    tokenParams.put("refresh_token", zoho.appvariable.ZOHO_REFRESH_TOKEN);
+    tokenParams.put("client_id", zoho.appvariable.ZOHO_CLIENT_ID);
+    tokenParams.put("client_secret", zoho.appvariable.ZOHO_CLIENT_SECRET);
+    tokenParams.put("grant_type", "refresh_token");
+
+    tokenResp   = invokeurl [ url: "https://accounts.zoho.com/oauth/v2/token" type: POST parameters: tokenParams ];
+    accessToken = tokenResp.get("access_token").toString();
+    if(accessToken == null || accessToken == "" || accessToken == "null")
+    {
+        return {"success":false,"error":"token_failed","resp":tokenResp.toString()};
+    }
+
+    // ── 8. PATCH Plantilla_PDF.Temp_Params = "ACTA|||{bridgeRecId}|||{assignId}|||{json}" ──
+    // Usamos el registro fijo reservado para actas (crear una Plantilla_PDF con
+    // Nombre_Archivo = "ACTA_FLOTA_BRIDGE" y anotar su ID aquí):
+    BRIDGE_REC_ID = "4790826000001334002";
+
+    tempParams = "ACTA|||" + BRIDGE_REC_ID + "|||" + assignId.toString() + "|||" + jsonData;
+
+    patchBody    = "{\"data\":{\"Temp_Params\":\"" + tempParams.replaceAll("\"", "\\\"") + "\"}}";
+    patchHeaders = Map();
+    patchHeaders.put("Authorization", "Zoho-oauthtoken " + accessToken);
+    patchHeaders.put("Content-Type", "application/json");
+
+    patchUrl  = "https://www.zohoapis.com/creator/v2.1/data/formacion11/human-resource-management/report/Plantilla_PDF_Report/" + BRIDGE_REC_ID;
+    patchResp = invokeurl [ url: patchUrl type: PATCH body: patchBody headers: patchHeaders ];
+    patchCode = patchResp.get("code").toString();
+    if(patchCode != "3000")
+    {
+        return {"success":false,"error":"patch_failed","code":patchCode,"resp":patchResp.toString()};
+    }
+
+    // ── 9. Llamar Node.js ─────────────────────────────────────────────────
+    response = thisapp.GenerarActaFlota();
+    return response;
+}

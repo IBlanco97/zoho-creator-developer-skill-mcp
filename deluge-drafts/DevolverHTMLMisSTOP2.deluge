@@ -156,8 +156,9 @@ string Calendario52HTML.DevolverHTMLMisSTOP2()
 	css = css + ".kv{font-size:28px;font-weight:800;color:#2d3748}.kl{font-size:11px;color:#718096;margin-top:4px}";
 	css = css + ".kc.kw .kv{color:#e53e3e}";
 	css = css + ".tb{padding:0 24px 16px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}";
-	css = css + ".nb{display:inline-flex;align-items:center;gap:6px;background:#2563EB;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;transition:background .15s}";
+	css = css + ".nb{display:inline-flex;align-items:center;gap:6px;background:#2563EB;color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;text-shadow:none;transition:background .15s}";
 	css = css + ".nb:hover{background:#1d4ed8}";
+	css = css + ".nb.nb2{background:#6b46c1}.nb.nb2:hover{background:#553c9a}";
 	css = css + ".ct{padding:0 24px 20px}";
 	css = css + ".cd{background:#fff;border-radius:10px;border:1px solid #e2e8f0;margin-bottom:12px;overflow:hidden;transition:box-shadow .15s}";
 	css = css + ".cd:hover{box-shadow:0 2px 8px rgba(0,0,0,.06)}";
@@ -194,7 +195,9 @@ string Calendario52HTML.DevolverHTMLMisSTOP2()
 	h = h + "<div class='kc" + if(cntInvalid > 0, " kw", "") + "'><div class='kv'>" + cntInvalid + "</div><div class='kl'>Bloquean intervenci&oacute;n</div></div>";
 	h = h + "</div>";
 	// Button
-	h = h + "<div class='tb'><a class='nb' href='#Form:STOP2_Analisis_Previo'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5'><line x1='12' y1='5' x2='12' y2='19'/><line x1='5' y1='12' x2='19' y2='12'/></svg>Nuevo STOP2</a></div>";
+	h = h + "<div class='tb'><a class='nb' href='#Form:STOP2_Analisis_Previo'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5'><line x1='12' y1='5' x2='12' y2='19'/><line x1='5' y1='12' x2='19' y2='12'/></svg>Nuevo STOP2</a>";
+	h = h + "<a class='nb nb2' href='#Page:Enviar_Manual_STOP2_Tecnicos'><svg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/><polyline points='22,6 12,13 2,6'/></svg>Manual T&eacute;cnicos</a>";
+	h = h + "</div>";
 	// Cards
 	h = h + "<div class='ct'>" + cardsH + "</div>";
 	h = h + "</div>";

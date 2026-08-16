@@ -21,6 +21,9 @@
     "@playwright/mcp": "^0.0.70",
     "@types/node": "^25.3.5",
     "@types/ssh2-sftp-client": "^9.0.6",
+    "browserify": "^17.0.1",
+    "esbuild": "^0.28.1",
+    "pdf-lib": "^1.17.1",
     "ssh2-sftp-client": "^12.1.0",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"

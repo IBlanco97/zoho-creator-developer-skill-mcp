@@ -1,0 +1,108 @@
+/**
+ * Plataforma_Upload_Callback(map payload)
+ * ----------------------------------------
+ * REST endpoint llamado por el worker externo cuando termina (ok|fail) un job.
+ * Inserta un registro en Envio_Plataforma_Log por cada item del result set y
+ * actualiza el seed (status="queued") al status final.
+ *
+ * Marcar como REST endpoint en el IDE (Settings → REST API → Add Function).
+ *
+ * Payload esperado:
+ * {
+ *   "job_id": "uuid",
+ *   "cliente_id": "4790826...",
+ *   "status": "done" | "failed",
+ *   "error": "..." | null,
+ *   "results": [
+ *      {
+ *        "formaEnvioId": "479...",
+ *        "plantillaId": "479...",
+ *        "subirDocumentoId": "479...",
+ *        "status": "ok" | "fail" | "skipped",
+ *        "remoteId": "..."?,
+ *        "message": "..."?
+ *      }, ...
+ *   ]
+ * }
+ */
+map Calendario52HTML.Plataforma_Upload_Callback(map payload)
+{
+    response = Map();
+
+    jobId = ifnull(payload.get("job_id"), "").toString();
+    clienteId = ifnull(payload.get("cliente_id"), "0").toString().toLong();
+    jobStatus = ifnull(payload.get("status"), "unknown").toString();
+    jobError = ifnull(payload.get("error"), "").toString();
+
+    if(jobId == "")
+    {
+        response.put("ok", false);
+        response.put("error", "missing job_id");
+        return response;
+    }
+
+    // 1) Cerrar el seed (Estado="queued" => status final)
+    for each seed in Envio_Plataforma_Log[Job_ID == jobId && Estado == "queued"]
+    {
+        seed.Estado = jobStatus;
+        if(jobError != "")
+        {
+            seed.Mensaje = "Worker error: " + jobError;
+        }
+    }
+
+    // 2) Insertar fila por cada resultado
+    results = ifnull(payload.get("results"), List());
+    inserted = 0;
+    for each r in results
+    {
+        rMap = r.toMap();
+        formaId = ifnull(rMap.get("formaEnvioId"), "0").toString().toLong();
+        plantillaId = ifnull(rMap.get("plantillaId"), "0").toString().toLong();
+        subirDocId = ifnull(rMap.get("subirDocumentoId"), "0").toString().toLong();
+        statusStr = ifnull(rMap.get("status"), "unknown").toString();
+        msg = ifnull(rMap.get("message"), "").toString();
+        remoteId = ifnull(rMap.get("remoteId"), "").toString();
+
+        nuevo = insert into Envio_Plataforma_Log
+        [
+            Cliente             = clienteId
+            Forma_de_Envio      = formaId
+            Modelo_de_Documento = plantillaId
+            Documento           = subirDocId
+            Estado              = statusStr
+            Mensaje             = msg
+            Remote_ID           = remoteId
+            Job_ID              = jobId
+            Fecha               = zoho.currenttime
+            Added_User          = zoho.loginuser
+        ];
+        inserted = inserted + 1;
+    }
+
+    response.put("ok", true);
+    response.put("job_id", jobId);
+    response.put("inserted", inserted);
+    return response;
+}
+
+
+/* ============================================================
+   FORM REQUERIDO: Envio_Plataforma_Log
+   ------------------------------------------------------------
+   Display name: Envío Plataforma — Log
+   Campos:
+     Cliente              Lookup → Nuevo_Cliente
+     Forma_de_Envio       Lookup → Nueva_Plantilla_Env_o_de_Documentaci_n  (nullable)
+     Modelo_de_Documento  Lookup → Plantilla                                (nullable)
+     Documento            Lookup → Subir_Documento                          (nullable)
+     Estado               Picklist  (queued | done | failed | ok | fail | skipped)
+     Mensaje              Multi Line
+     Remote_ID            Single Line  (id devuelto por la plataforma, opcional)
+     Job_ID               Single Line  (unique → indexed)
+     Fecha                DateTime     (default zoho.currenttime)
+     Added_User           system field (zoho.loginuser)
+   Reportes sugeridos:
+     - All_Envio_Plataforma_Log              (vista admin)
+     - Log_por_Cliente filtered by Cliente   (embed en ficha cliente)
+   ============================================================ */

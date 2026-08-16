@@ -1,0 +1,14 @@
+// Formaciones.NotificarRecordatorioFormaciones
+// PARCIALMENTE MIGRADO + BUG:
+//   userEmail = user.User_Email;
+//   notificationEmail = user.Email_para_notificaciones;
+//   if(userEmail != null && !mails.contains(userEmail)) { mails.add(notificationEmail); }
+//
+// El check usa userEmail pero añade notificationEmail → guard incorrecto.
+// CORRECCIÓN PROPUESTA:
+//   if(notificationEmail != null && notificationEmail != "" && !mails.contains(notificationEmail)) {
+//     mails.add(notificationEmail);
+//   }
+// + eliminar variable userEmail (ya no se usa).
+
+// (resto del código sin cambios — push usa Official_Email, WA usa M_vil. Esos están bien.)

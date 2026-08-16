@@ -1,0 +1,72 @@
+// SCRIPT DE USO UNICO - YA EJECUTADO Y ELIMINADO del IDE el 2026-07-08.
+// Funcion: ProgramaAnualActividadTecnico.RepararRegistrosAnio (SIN parametros).
+// Proposito: backfill de la proyeccion Asignacion_Tecnico_Cliente_Anio para
+//            asignaciones que no se mostraban en el planificador.
+//
+// CLAVES APRENDIDAS (ver deluge-drafts/CrearAsignacionEnCalendario52Semanas.deluge):
+//  - En Deluge server-side Form[criteria] devuelve TODOS los registros (no el tope 200 del REST).
+//  - NO existe "offset by / limit" en Deluge de custom function (es sintaxis REST) -> "Improper Statement".
+//  - Usar .count() (no .size()) sobre resultados de query.
+//  - La proyeccion es UNA fila por (Tecnico, Cliente, Anio). CrearAsignacion BORRA por (Tecnico&&Cliente),
+//    asi que el dedup/existencia debe ser por (Tecnico, Cliente), no por el ID de la asignacion padre
+//    (si no, asignaciones que comparten tecnico+cliente se pisan la proyeccion -> churn infinito).
+//  - Filtrar por "Anio > 0": habia ~205 pares con filas basura de Anio-vacio (bug sistemico) que
+//    contaban como "cubiertas" pero no renderizaban. Al materializar, el delete limpia esa basura.
+//
+// RESULTADO 2026-07-08: 314 asignaciones. Todas materializadas. sinResultado=0, errores=0, RESTANTES=0.
+
+string ProgramaAnualActividadTecnico.RepararRegistrosAnio()
+{
+	MAX_BATCH = 5;
+	materializadas = 0;
+	sinResultado = 0;
+	errores = 0;
+	pendientes = 0;
+	yaCubiertas = 0;
+	tope = false;
+	log = "";
+	asignaciones = Asignacion_T_cnico_Cliente[ID != 0];
+	for each  asignacion in asignaciones
+	{
+		existentes = Asignacion_Tecnico_Cliente_Anio[Tecnico == asignacion.Tecnico && Cliente == asignacion.Cliente && Anio > 0];
+		if(existentes.count() == 0)
+		{
+			pendientes = pendientes + 1;
+			if(tope == false)
+			{
+				try
+				{
+					thisapp.ProgramaAnualActividadTecnico.CrearAsignacionEnCalendario52Semanas(asignacion);
+					post = Asignacion_Tecnico_Cliente_Anio[Tecnico == asignacion.Tecnico && Cliente == asignacion.Cliente && Anio > 0];
+					if(post.count() > 0)
+					{
+						materializadas = materializadas + 1;
+						log = log + " | OK " + asignacion.ID;
+					}
+					else
+					{
+						sinResultado = sinResultado + 1;
+						log = log + " | SINDATOS " + asignacion.ID;
+					}
+				}
+				catch (e)
+				{
+					errores = errores + 1;
+					log = log + " | ERROR " + asignacion.ID + ": " + e;
+				}
+				if(materializadas >= MAX_BATCH)
+				{
+					tope = true;
+				}
+			}
+		}
+		else
+		{
+			yaCubiertas = yaCubiertas + 1;
+		}
+	}
+	restantes = pendientes - materializadas;
+	resumen = "RepararRegistrosAnio :: pendientes=" + pendientes + " yaCubiertas=" + yaCubiertas + " materializadas=" + materializadas + " sinResultado=" + sinResultado + " errores=" + errores + " RESTANTES=" + restantes + log;
+	info resumen;
+	return resumen;
+}

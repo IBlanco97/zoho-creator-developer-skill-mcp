@@ -1,0 +1,115 @@
+{
+  "source": "Captured 2026-05-04 from u5.ucae.es using account 4xf7.cae",
+  "platform_owner": "UCAE — Generalitat Valenciana / IVACE / EU funded",
+  "company_constants": {
+    "sicma_cif": "B64648546",
+    "sicma_name": "DOMO21 INGENIERÍA E INSTALACIONES SL",
+    "sicma_user_display": "CAE SICMA"
+  },
+  "login": {
+    "url_landing_redirect": "https://www.ucae.es/UCAE → https://u5.ucae.es/login",
+    "url_post": "https://u5.ucae.es/dologin",
+    "form_id": "flogin",
+    "input_user": "input[name=username]",
+    "input_pass": "input[name=password]",
+    "logout_url": "https://u5.ucae.es/logout"
+  },
+  "url_patterns": {
+    "dashboard": "/empresa/gestion",
+    "trabajadores": "/empresa/trabajador/list",
+    "vehiculos": "/empresa/vehiculo/list",
+    "crear_solicitud_permiso": "/empresa/solicitud/new?idprincipal={idprincipal}",
+    "permisos_por_cliente": "/empresa/consulta/permiso/list?q={idprincipal}",
+    "permiso_detail": "/empresa/consulta/permiso/view?id={idpermiso}",
+    "doc_pendiente_por_cliente": "/empresa/contrata/documentacion/pendiente?q={idprincipal}",
+    "carga_detail": "/empresa/documentacion/carga/view?id={id_carga}",
+    "ver_adjunto": "/empresa/documentacion/cargap/veradjunto?id={id_documento}",
+    "upload_form_perdoc_get": "/empresa/documentacion/docpendiente/carga?clave={clave}",
+    "upload_post_perdoc": "POST /empresa/documentacion/docpendiente/carga?clave={clave}",
+    "upload_post_bulk_ss": "POST /empresa/contrata/documentacion/upload"
+  },
+  "upload_form_perdoc": {
+    "form_id": "fupload",
+    "form_action": "/empresa/documentacion/docpendiente/carga?clave={clave}",
+    "enctype_real": "multipart/form-data",
+    "fields": [
+      { "name": "clave", "type": "hidden", "example": "48313--1151", "description": "composite key idsolicitud--tipodoc" },
+      { "name": "fdoc", "type": "text", "description": "fecha documento dd/mm/yyyy" },
+      { "name": "fichero", "type": "file", "description": "binary file" }
+    ]
+  },
+  "upload_form_bulk_ss": {
+    "form_id": "fupload",
+    "form_action": "/empresa/contrata/documentacion/upload",
+    "fields": [
+      { "name": "fichero", "type": "file", "description": "Original SS PDF/MSG file. Auto-classified as ITA/RNT(TC2)/IDC by content." }
+    ],
+    "accepted_types": [
+      { "doc": "ITA Informe Trabajadores Activos", "formats": [".msg", ".pdf"] },
+      { "doc": "RNT Relación Nominal Trabajadores (TC2)", "formats": [".pdf"] },
+      { "doc": "IDC Informe Datos Cotización", "formats": [".pdf"], "note": "Solo para altas nuevas si no aparece en RNT/ITA" }
+    ],
+    "auto_distribution": "UCAE auto-distributes to all empresas vinculadas requiring this doc"
+  },
+  "row_attributes_listings": {
+    "doc_pendiente_row": ["rechazado", "estado", "clave", "ambito", "tipo"],
+    "permiso_row": ["class=tr-permiso", "fallos", "idpermiso"],
+    "empresa_card_div": ["caja [cjerror|cjok]", "idprincipal", "numpermisos"]
+  },
+  "estados_observados": [
+    { "code": "pv", "label": "Pendiente de Validar", "icon": "fa-xmark cverde", "color": "verde" },
+    { "code": "validado", "label": "Validado/OK", "icon": "fa-check text-success", "color": "verde" },
+    { "code": "caducado", "label": "Caducado (en periodo de gracia)", "icon": "fa-hourglass-half", "color": "rojo" }
+  ],
+  "ambitos": ["Empresa", "Trabajador"],
+  "tipos": ["Laboral", "PRL", "Otros"],
+  "data_observed": {
+    "empresas_vinculadas": [
+      { "name": "AC MARCA", "idprincipal": null, "doc_pendiente": 1, "permisos": 1 },
+      { "name": "BEBIDAS GASEOSAS DEL NORO...", "idprincipal": null, "estado": "sin permisos" },
+      { "name": "COMP.LEVANTINA BEBIDA GAS...", "idprincipal": null, "estado": "sin permisos" },
+      { "name": "CORPORACIÓN ALIMENTARIA G...", "idprincipal": null, "doc_pendiente": 0, "permisos": 4 },
+      { "name": "EUROPEAN PARTNERS (Planta B...)", "idprincipal": null, "estado": "sin permisos" },
+      { "name": "LUCTA S.A*", "idprincipal": 22852, "doc_pendiente": 1, "permisos": 7, "inspected": true }
+    ],
+    "permisos_lucta": [
+      { "idpermiso": 1546886, "trabajador": "DELGADO ORELLANA, ESTUARDO IVANHOE", "dni": "42323190Q", "puesto": "MANTENIMIENTO GENERAL", "riesgos": ["TRABAJO EN ALTURA"], "periodo": "2026-04-20 / 2027-01-05", "lab": "ok", "prl": "ok", "otr": "ok", "docs_count": 34, "inspected": true }
+    ],
+    "doc_codes_observed": [
+      { "codigo": "AG TRIBUT", "nombre": "Cert Agencia Tributaria", "ambito": "Empresa", "tipo": "Laboral" },
+      { "codigo": "CERT SS MENSUAL", "nombre": "Cert SS estar al corriente pagos", "ambito": "Empresa", "tipo": "Laboral" },
+      { "codigo": "CERT GBL CONC", "nombre": "Cert concierto prevención riesgos laborales", "ambito": "Empresa", "tipo": "PRL" },
+      { "codigo": "RLC", "nombre": "Recibo Liquidación Cotizaciones", "ambito": "Empresa", "tipo": "Laboral", "bulk_ss": true },
+      { "codigo": "ITA", "nombre": "Informe trabajadores en activo", "ambito": "Trabajador", "tipo": "Laboral", "bulk_ss": true },
+      { "codigo": "TC2T-ACT", "nombre": "Relación Nominal Trabajadores (RNT)", "ambito": "Trabajador", "tipo": "Laboral", "bulk_ss": true },
+      { "codigo": "ESCANTA2", "nombre": "Doc Alta SS (TA2)/IDC", "ambito": "Trabajador", "tipo": "Laboral", "bulk_ss": true },
+      { "codigo": "L01", "nombre": "Apto médico", "ambito": "Trabajador", "tipo": "PRL" },
+      { "codigo": "F.ALT.5", "nombre": "Formación PRL específica altura", "ambito": "Trabajador", "tipo": "PRL" },
+      { "codigo": "F19MANTENIM", "nombre": "Formación art.19 mantenimiento", "ambito": "Trabajador", "tipo": "PRL" },
+      { "codigo": "EPI", "nombre": "Equipos protección individual", "ambito": "Trabajador", "tipo": "PRL" },
+      { "codigo": "anexo IV", "nombre": "Acceso trabajadores", "ambito": "Trabajador", "tipo": "PRL" },
+      { "codigo": "L02", "nombre": "Listado equipos trabajo", "ambito": "Trabajador", "tipo": "Otros" },
+      { "codigo": "LCT.42", "nombre": "Código de conducta proveedores", "ambito": "Empresa", "tipo": "Otros" },
+      { "codigo": "LCT.40", "nombre": "Decl responsable temperaturas extremas", "ambito": "Empresa", "tipo": "PRL" },
+      { "codigo": "LCT.31.1", "nombre": "Normas seg alimentaria externos", "ambito": "Trabajador", "tipo": "PRL" },
+      { "codigo": "LCT.36", "nombre": "Seg responsabilidad civil límite 1M", "ambito": "Empresa", "tipo": "Otros" },
+      { "codigo": "LCT.37", "nombre": "Pago seg RC límite 1M", "ambito": "Empresa", "tipo": "Otros" },
+      { "codigo": "EVL.LUCT", "nombre": "Evaluación puesto trabajo (LUCTA)", "ambito": "Empresa", "tipo": "PRL" },
+      { "codigo": "P.RC.LUCTA", "nombre": "Pago seg RC LUCTA", "ambito": "Empresa", "tipo": "Otros" },
+      { "codigo": "S.RC.LUCTA", "nombre": "Seg RC LUCTA", "ambito": "Empresa", "tipo": "Otros" },
+      { "codigo": "plan.lucta", "nombre": "Plan emergencia (×4 centros)", "ambito": "Empresa", "tipo": "PRL" },
+      { "codigo": "RIESGOS-NORMAS", "nombre": "Eval riesgos y normas (×4 centros)", "ambito": "Empresa", "tipo": "PRL" },
+      { "codigo": "N.SEG Y SALUD", "nombre": "Normas seguridad subcontratadas", "ambito": "Empresa", "tipo": "PRL" },
+      { "codigo": "ARD11", "nombre": "Recurso preventivo + formación", "ambito": "Empresa", "tipo": "PRL" },
+      { "codigo": "SOSTENIBILIDAD", "nombre": "Política sostenibilidad LUCTA", "ambito": "Empresa", "tipo": "Otros" }
+    ]
+  },
+  "no_blockers": {
+    "captcha": false,
+    "two_factor": false,
+    "oidc": false,
+    "rate_limit_observed": false,
+    "convergence_to_private_consolidator": false,
+    "q1_blocker_applies": false
+  }
+}

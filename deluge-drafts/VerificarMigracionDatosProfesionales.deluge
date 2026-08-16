@@ -1,0 +1,162 @@
+/**
+ * Verifica la migración Datos Profesionales.
+ * Reporta: migrados OK, pendientes, inconsistencias (Area del lookup != Area del empleado).
+ * ELIMINAR tras usar.
+ */
+void Calendario52HTML.VerificarMigracionDatosProfesionales()
+{
+	total = 0;
+	sin_area = 0;
+	campos_ok = 0;
+	campos_pendientes = 0;
+	campos_sin_dato = 0;
+	campos_ya_seteados = 0;
+	inconsistencias_area = 0;
+	inconsistencias_tipo = 0;
+
+	pares = {"Profesion":"Profesion_Cat", "Especialidad1":"Especialidad_Cat", "Categoria_Profesional1":"Categoria_Cat", "Puesto_laboral_actual":"Puesto_Cat"};
+	tipos = {"Profesion_Cat":"Profesion", "Especialidad_Cat":"Especialidad", "Categoria_Cat":"Categoria", "Puesto_Cat":"Puesto"};
+
+	ejemplos_pendientes = list();
+	ejemplos_inc_area = list();
+	ejemplos_inc_tipo = list();
+
+	for each e in Nuevo_Empleado
+	{
+		total = total + 1;
+		if(e.Area_Profesional == null)
+		{
+			sin_area = sin_area + 1;
+			continue;
+		}
+		areaEmp = e.Area_Profesional;
+
+		// Profesion
+		pv = ifnull(e.Profesion, "");
+		if(e.Profesion_Cat != null)
+		{
+			campos_ya_seteados = campos_ya_seteados + 1;
+			cat = Catalogo_Profesional[ID == e.Profesion_Cat];
+			if(cat.count() > 0)
+			{
+				for each c in cat
+				{
+					if(c.Area != areaEmp)
+					{
+						inconsistencias_area = inconsistencias_area + 1;
+						if(ejemplos_inc_area.size() < 5){ ejemplos_inc_area.add(e.ID + " Profesion_Cat"); }
+					}
+					if(c.Tipo != "Profesion")
+					{
+						inconsistencias_tipo = inconsistencias_tipo + 1;
+						if(ejemplos_inc_tipo.size() < 5){ ejemplos_inc_tipo.add(e.ID + " Profesion_Cat->" + c.Tipo); }
+					}
+				}
+			}
+			if(pv != ""){ campos_ok = campos_ok + 1; }
+		}
+		else if(pv != "")
+		{
+			campos_pendientes = campos_pendientes + 1;
+			if(ejemplos_pendientes.size() < 10){ ejemplos_pendientes.add(e.ID + " Profesion='" + pv + "'"); }
+		}
+		else
+		{
+			campos_sin_dato = campos_sin_dato + 1;
+		}
+
+		// Especialidad
+		ev = ifnull(e.Especialidad1, "");
+		if(e.Especialidad_Cat != null)
+		{
+			campos_ya_seteados = campos_ya_seteados + 1;
+			cat = Catalogo_Profesional[ID == e.Especialidad_Cat];
+			for each c in cat
+			{
+				if(c.Area != areaEmp){ inconsistencias_area = inconsistencias_area + 1; }
+				if(c.Tipo != "Especialidad"){ inconsistencias_tipo = inconsistencias_tipo + 1; }
+			}
+			if(ev != ""){ campos_ok = campos_ok + 1; }
+		}
+		else if(ev != "")
+		{
+			campos_pendientes = campos_pendientes + 1;
+			if(ejemplos_pendientes.size() < 10){ ejemplos_pendientes.add(e.ID + " Especialidad1='" + ev + "'"); }
+		}
+		else
+		{
+			campos_sin_dato = campos_sin_dato + 1;
+		}
+
+		// Categoria
+		cv = ifnull(e.Categoria_Profesional1, "");
+		if(e.Categoria_Cat != null)
+		{
+			campos_ya_seteados = campos_ya_seteados + 1;
+			cat = Catalogo_Profesional[ID == e.Categoria_Cat];
+			for each c in cat
+			{
+				if(c.Area != areaEmp){ inconsistencias_area = inconsistencias_area + 1; }
+				if(c.Tipo != "Categoria"){ inconsistencias_tipo = inconsistencias_tipo + 1; }
+			}
+			if(cv != ""){ campos_ok = campos_ok + 1; }
+		}
+		else if(cv != "")
+		{
+			campos_pendientes = campos_pendientes + 1;
+			if(ejemplos_pendientes.size() < 10){ ejemplos_pendientes.add(e.ID + " Categoria='" + cv + "'"); }
+		}
+		else
+		{
+			campos_sin_dato = campos_sin_dato + 1;
+		}
+
+		// Puesto
+		uv = ifnull(e.Puesto_laboral_actual, "");
+		if(e.Puesto_Cat != null)
+		{
+			campos_ya_seteados = campos_ya_seteados + 1;
+			cat = Catalogo_Profesional[ID == e.Puesto_Cat];
+			for each c in cat
+			{
+				if(c.Area != areaEmp){ inconsistencias_area = inconsistencias_area + 1; }
+				if(c.Tipo != "Puesto"){ inconsistencias_tipo = inconsistencias_tipo + 1; }
+			}
+			if(uv != ""){ campos_ok = campos_ok + 1; }
+		}
+		else if(uv != "")
+		{
+			campos_pendientes = campos_pendientes + 1;
+			if(ejemplos_pendientes.size() < 10){ ejemplos_pendientes.add(e.ID + " Puesto='" + uv + "'"); }
+		}
+		else
+		{
+			campos_sin_dato = campos_sin_dato + 1;
+		}
+	}
+
+	info "=== VERIFICACION MIGRACION DATOS PROFESIONALES ===";
+	info "Total empleados: " + total + " | Sin Area_Profesional: " + sin_area;
+	info "Campos nuevo lookup seteado: " + campos_ya_seteados;
+	info "  - con dato viejo coincidente (OK): " + campos_ok;
+	info "Campos PENDIENTES (picklist viejo con valor, lookup nuevo vacio): " + campos_pendientes;
+	info "Campos sin dato (viejo vacio + nuevo vacio): " + campos_sin_dato;
+	info "Inconsistencias Area (lookup apunta a otra Area): " + inconsistencias_area;
+	info "Inconsistencias Tipo (lookup apunta a Tipo incorrecto): " + inconsistencias_tipo;
+
+	if(ejemplos_pendientes.size() > 0)
+	{
+		info "--- Ejemplos pendientes (max 10) ---";
+		for each s in ejemplos_pendientes { info s; }
+	}
+	if(ejemplos_inc_area.size() > 0)
+	{
+		info "--- Ejemplos inconsistencias Area ---";
+		for each s in ejemplos_inc_area { info s; }
+	}
+	if(ejemplos_inc_tipo.size() > 0)
+	{
+		info "--- Ejemplos inconsistencias Tipo ---";
+		for each s in ejemplos_inc_tipo { info s; }
+	}
+}

@@ -116,7 +116,7 @@ Reporte tabular de todos los clientes registrados, con sus trabajadores asignado
 | Columna | Descripción |
 |---------|-------------|
 | **Nombre de Cuenta** | Nombre del cliente (empresa contratante) |
-| **Trabajadores No Habituales** | Técnicos asignados puntualmente o sin contrato fijo |
+| **Trabajadores Puntuales** | Técnicos asignados puntualmente o sin contrato fijo |
 | **Trabajadores Habituales** | Técnicos asignados de forma permanente |
 | **Documentos** | Links directos a los documentos subidos para ese cliente |
 
@@ -126,6 +126,27 @@ Reporte tabular de todos los clientes registrados, con sus trabajadores asignado
 - Clic en el nombre del cliente → abre el registro completo
 
 > El sistema tiene actualmente **122 clientes** registrados.
+
+**Campo "Email para enviar reporte STOP 2":**
+En el registro de cada cliente hay un campo **"Email para enviar reporte STOP 2"** donde se puede especificar la dirección de correo a la que se envía el informe semanal de cumplimiento STOP2 de ese cliente (ver [B §12.2](B-panel-rrhh.md#122-informe-semanal-automático-a-clientes)).
+
+**Días de cierre del cliente ("Fechas cliente no disponible"):**
+Cada registro de cliente incluye un subformulario **"Fechas cliente no disponible"** donde se registran los periodos en los que el cliente no opera (vacaciones de planta, paradas técnicas, festivos locales, etc.). Estos rangos se cruzan automáticamente con el **Calendario de 52 Semanas** ([B §3.1](B-panel-rrhh.md#31-52-semanas)): cualquier semana asignada a un técnico que se solape con uno de estos rangos se marca visualmente como "cliente no disponible" para indicar que el técnico queda libre ese periodo.
+
+Para **agregar** un cierre de cliente:
+1. Abre el registro del cliente (clic en el nombre desde el listado de Clientes)
+2. Busca la sección **"Fechas cliente no disponible"**
+3. Clic en **Agregar fila**
+4. Rellena **Fecha Inicio**, **Fecha Fin** y, opcionalmente, **Observación** (ej. "Parada de producción agosto")
+5. Guarda el registro
+
+Para **quitar** un cierre:
+1. Abre el registro del cliente
+2. En la sección **"Fechas cliente no disponible"**, localiza la fila a eliminar
+3. Clic en el icono de eliminar de esa fila
+4. Guarda el registro
+
+> El marcado en el Planificador se recalcula automáticamente al guardar — no requiere ninguna acción adicional. La comparación es por semana completa: si el rango de cierre toca cualquier día de una semana, esa semana entera se marca.
 
 ---
 

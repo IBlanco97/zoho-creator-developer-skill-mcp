@@ -1,0 +1,81 @@
+// Función: Configuracion.MigrarDatosProfesionales
+//
+// ⚠️ PRE-REQUISITOS antes de ejecutar:
+//   1. Formulario Catalogo_Profesional creado y poblado (ejecutar PoblarCatalogoProfesional primero)
+//   2. Campos Lookup ya añadidos en Nuevo_Empleado:
+//        Profesion_Cat     → Lookup a Catalogo_Profesional.Nombre  (criteria: Area == input.Area_Profesional && Tipo == "Profesion")
+//        Especialidad_Cat  → Lookup a Catalogo_Profesional.Nombre  (criteria: Area == input.Area_Profesional && Tipo == "Especialidad")
+//        Categoria_Cat     → Lookup a Catalogo_Profesional.Nombre  (criteria: Area == input.Area_Profesional && Tipo == "Categoria")
+//        Puesto_Cat        → Lookup a Catalogo_Profesional.Nombre  (criteria: Area == input.Area_Profesional && Tipo == "Puesto")
+//   3. Los campos picklist originales (Profesi_n, Especialidad, Categor_a_Profesional,
+//      Puesto_laboral_actual) deben seguir existiendo con sus datos intactos.
+//
+// ⚠️ POST-MIGRACIÓN: verificar manualmente 2-3 registros antes de borrar campos viejos.
+
+string Configuracion.MigrarDatosProfesionales()
+{
+  procesados = 0;
+  migProf = 0;
+  migEsp = 0;
+  migCat = 0;
+  migPuesto = 0;
+
+  for each emp in Nuevo_Empleado
+  {
+    procesados = procesados + 1;
+
+    // ── Migrar Profesión ────────────────────────────────────────────────
+    profVal = ifnull(emp.Profesion, "");
+    if(profVal != "")
+    {
+      for each cr in Catalogo_Profesional[Nombre == profVal && Tipo == "Profesion"]
+      {
+        Nuevo_Empleado[ID == emp.ID].Profesion_Cat = cr.ID;
+        migProf = migProf + 1;
+        break;
+      }
+    }
+
+    // ── Migrar Especialidad ─────────────────────────────────────────────
+    espVal = ifnull(emp.Especialidad1, "");
+    if(espVal != "")
+    {
+      for each cr in Catalogo_Profesional[Nombre == espVal && Tipo == "Especialidad"]
+      {
+        Nuevo_Empleado[ID == emp.ID].Especialidad_Cat = cr.ID;
+        migEsp = migEsp + 1;
+        break;
+      }
+    }
+
+    // ── Migrar Categoría Profesional ────────────────────────────────────
+    catVal = ifnull(emp.Categoria_Profesional1, "");
+    if(catVal != "")
+    {
+      for each cr in Catalogo_Profesional[Nombre == catVal && Tipo == "Categoria"]
+      {
+        Nuevo_Empleado[ID == emp.ID].Categoria_Cat = cr.ID;
+        migCat = migCat + 1;
+        break;
+      }
+    }
+
+    // ── Migrar Puesto laboral actual ────────────────────────────────────
+    puestoVal = ifnull(emp.Puesto_laboral_actual, "");
+    if(puestoVal != "")
+    {
+      for each cr in Catalogo_Profesional[Nombre == puestoVal && Tipo == "Puesto"]
+      {
+        Nuevo_Empleado[ID == emp.ID].Puesto_Cat = cr.ID;
+        migPuesto = migPuesto + 1;
+        break;
+      }
+    }
+  }
+
+  return "Procesados: " + procesados
+    + " | Profesion: " + migProf
+    + " | Especialidad: " + migEsp
+    + " | Categoria: " + migCat
+    + " | Puesto: " + migPuesto;
+}

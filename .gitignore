@@ -5,3 +5,38 @@ dist/
 *.js.map
 .playwright-auth/
 .claude/worktrees/
+
+# Scratch/debug files dropped in repo root during sessions (should live in scratchpad instead)
+/__*.txt
+/__*.mts
+/__*.js
+/__*.cjs
+/__*.mjs
+/*.png
+/check_*.mts
+/check-fields.ts
+/*_perms_raw.json
+/*_perms_v2.json
+/migration-log.txt
+/snap-editor.md
+/snapshot-schedule-form.yml
+/test-acta-asignacion.pdf
+/prod-*-backup.txt
+/panel_asignaciones_fn.txt
+/panel_fn.txt
+/panel_fn_state*.png
+/planificador-*.txt
+/semanas-nuevo-snippet.txt
+/gen_permisos_excel.cjs
+/generate_permisos_excel.py
+/inject-planificador-*.js
+/__pdflib_*.js
+/__pdflib_*.cjs
+/__pdflib_*.mjs
+/pdf-lib-bundle.js
+
+# Real credentials / sensitive documents — never commit
+docs/app/*.json
+/docs/docs autocompletado/
+/docs/assets/Datos profesionales.pdf
+/graphify-out/

@@ -7,14 +7,15 @@ interface TokenCache {
 
 let cache: TokenCache | null = null;
 
-const ACCOUNTS_DOMAIN =
-  process.env.ZOHO_ACCOUNTS_DOMAIN ?? "accounts.zoho.com";
-
 /**
  * Returns a valid Zoho access token, refreshing automatically when expired.
  * Token is cached in-memory for the duration of the process.
  */
 export async function getAccessToken(): Promise<string> {
+  // Read lazily (not at module load time) so dotenv.config() in index.ts
+  // has already populated process.env before this runs.
+  const ACCOUNTS_DOMAIN =
+    process.env.ZOHO_ACCOUNTS_DOMAIN ?? "accounts.zoho.com";
   const now = Date.now();
 
   // Reuse cached token if it still has >60s of life

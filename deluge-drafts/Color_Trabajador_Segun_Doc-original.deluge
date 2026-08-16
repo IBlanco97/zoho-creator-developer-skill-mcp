@@ -1,0 +1,10 @@
+// Workflow: Color_Trabajador_Segun_Do (Color Trabajador Segun Doc)
+// Form: Nuevo_Cliente
+// Event ANTES del cambio: Creado o editado → Validaciones al enviar formularios
+// Event DESPUÉS del cambio: Creado o editado → Envío de formulario correcto
+// Razón: bloqueaba updates vía REST API con error 3001 cuando un Trabajador tenía datos rotos
+
+for each  Trabajador in input.Trabajadores_Habituales
+{
+	thisapp.NuevaListaDeRequisitos.EstadoDocumentacionClienteTrabajador(Trabajador.ID,input.ID);
+}

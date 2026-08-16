@@ -1,0 +1,52 @@
+string GestionDeBajaEmpleado.FinalizarBaja(int bajaId)
+{
+	bajaFound = 0;
+	for each  b in Dar_de_Baja[ID == bajaId]
+	{
+		baja = b;
+		bajaFound = 1;
+		break;
+	}
+	if(bajaFound == 0)
+	{
+		return "Registro de baja no encontrado.";
+	}
+	pendientes = 0;
+	for each  reqId in baja.Requerimientos
+	{
+		for each  r in Requisito_de_Baja[ID == reqId]
+		{
+			if(r.Estado != "Completado")
+			{
+				pendientes = pendientes + 1;
+			}
+			break;
+		}
+	}
+	if(pendientes > 0)
+	{
+		openUrl("#Script:page.refresh","same window");
+		return "Aun hay " + pendientes + " requisito(s) pendientes de confirmar antes de finalizar la baja.";
+	}
+	empId = baja.Trabajador;
+	empFound = 0;
+	for each  emp in Nuevo_Empleado[ID == empId]
+	{
+		empRec = emp;
+		empFound = 1;
+		break;
+	}
+	if(empFound == 0)
+	{
+		openUrl("#Script:page.refresh","same window");
+		return "Trabajador no encontrado.";
+	}
+	if(empRec.Estado_del_Empleado == "Inactivo-Baja")
+	{
+		openUrl("#Report:Dar_de_Baja_Report","same window");
+		return "Este trabajador ya esta dado de baja.";
+	}
+	empRec.Estado_del_Empleado="Inactivo-Baja";
+	openUrl("#Report:Dar_de_Baja_Report","same window");
+	return "OK";
+}

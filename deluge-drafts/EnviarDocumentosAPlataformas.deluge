@@ -1,0 +1,169 @@
+/**
+ * EnviarDocumentosAPlataformas(int clienteId)
+ * --------------------------------------------
+ * Reúne todos los modelos requeridos por el cliente (3 listas), localiza para
+ * cada uno el último Subir_Documento vigente, recoge las Formas_de_Envio del
+ * cliente y dispara un job al worker externo (POST /jobs).
+ *
+ * Pre-requisitos:
+ *   - Connection "platform_worker" creada en Zoho Creator (apunta al worker).
+ *     Auth: Header "x-worker-secret" = ${WORKER_SHARED_SECRET}.
+ *   - El worker expone POST /jobs y devuelve 202 {job_id, status}.
+ *
+ * Uso desde botón en ficha cliente:
+ *   thisapp.Calendario52HTML.EnviarDocumentosAPlataformas(input.ID);
+ *
+ * Devuelve string con job_id o mensaje de error (para mostrar en alert).
+ */
+string Calendario52HTML.EnviarDocumentosAPlataformas(int clienteId)
+{
+    cli = Nuevo_Cliente[ID == clienteId];
+    if(cli.count() == 0)
+    {
+        return "ERROR: cliente " + clienteId + " no existe";
+    }
+
+    // 1) Formas de envío del cliente -> filtrar solo "Plataforma" (no Email)
+    formasJson = List();
+    for each formaId in cli.Formas_de_Env_o
+    {
+        forma = Nueva_Plantilla_Env_o_de_Documentaci_n[ID == formaId];
+        if(forma.count() > 0 && forma.Forma_de_env_o1 == "Plataforma")
+        {
+            formaMap = Map();
+            formaMap.put("formaEnvioId", forma.ID.toString());
+            formaMap.put("url", ifnull(forma.Link_de_la_plataforma, ""));
+            formaMap.put("usuario", ifnull(forma.Usuario, ""));
+            formaMap.put("password", ifnull(forma.Contrase_a, ""));
+            formaMap.put("mailEnvio", ifnull(forma.Mail_Env_o, ""));
+            // ID del cliente en la plataforma destino (UCAE idprincipal, Dokify client_id...)
+            if(forma.IdPrincipal_UCAE != null && forma.IdPrincipal_UCAE != "")
+            {
+                formaMap.put("remoteClientId", forma.IdPrincipal_UCAE.toString());
+            }
+            formasJson.add(formaMap);
+        }
+    }
+    if(formasJson.size() == 0)
+    {
+        return "AVISO: el cliente no tiene Formas de Envío de tipo Plataforma";
+    }
+
+    // 2) Recolectar plantillas requeridas por scope
+    plantillasMap = Map();   // plantillaId -> scope ("trabajador"|"empresa"|"autonomo")
+    for each pId in cli.Plantillas_Requeridas
+    {
+        plantillasMap.put(pId.toString(), "trabajador");
+    }
+    for each pId in cli.Plantillas_con_Empresa
+    {
+        plantillasMap.put(pId.toString(), "empresa");
+    }
+    for each pId in cli.Documentos_Aut_nomo
+    {
+        plantillasMap.put(pId.toString(), "autonomo");
+    }
+
+    // 3) Para cada plantilla, último Subir_Documento vigente para este cliente
+    docsJson = List();
+    for each plantillaIdStr in plantillasMap.keys()
+    {
+        plantillaId = plantillaIdStr.toLong();
+        scope = plantillasMap.get(plantillaIdStr);
+
+        // Buscar el último doc vigente para esta combinación cliente+plantilla
+        candidatos = Subir_Documento[Plantilla == plantillaId && CLIENTE == clienteId && Estado != "Caducado" && Archivado == false] sort by Fecha_creaci_n_documento desc range from 1 to 1;
+        for each doc in candidatos
+        {
+            docMap = Map();
+            docMap.put("plantillaId", plantillaId.toString());
+            docMap.put("plantillaNombre", ifnull(doc.Plantilla.Nombre_de_la_plantilla, ""));
+            docMap.put("scope", scope);
+            docMap.put("subirDocumentoId", doc.ID.toString());
+            docMap.put("fileFieldName", "Documento");
+            docMap.put("fileReportName", "All_Subir_Documento");
+            if(doc.TRABAJADOR != null)
+            {
+                docMap.put("trabajadorId", doc.TRABAJADOR.toString());
+            }
+            if(doc.EMPRESA != null)
+            {
+                docMap.put("empresaId", doc.EMPRESA.toString());
+            }
+            if(doc.Fecha_caducidad_documento != null)
+            {
+                docMap.put("fechaCaducidad", doc.Fecha_caducidad_documento.toString("yyyy-MM-dd"));
+            }
+            if(doc.Numero_Documento != null)
+            {
+                docMap.put("numeroDocumento", doc.Numero_Documento.toString());
+            }
+            // DNI del trabajador (desempate UCAE cuando hay varias claves para el mismo código)
+            if(doc.TRABAJADOR != null)
+            {
+                trab = Nuevo_Empleado[ID == doc.TRABAJADOR];
+                if(trab.count() > 0 && trab.DNI != null)
+                {
+                    docMap.put("trabajadorDni", trab.DNI.toString());
+                }
+            }
+            // Código del documento en la plataforma destino (UCAE Codigo_UCAE; futuro: Dokify reqtype_id)
+            plant = Plantilla[ID == plantillaId];
+            if(plant.count() > 0)
+            {
+                if(plant.Codigo_UCAE != null && plant.Codigo_UCAE != "")
+                {
+                    docMap.put("remoteCodigo", plant.Codigo_UCAE.toString());
+                }
+                if(plant.Bulk_SS_UCAE == true)
+                {
+                    docMap.put("bulkSsUcae", true);
+                }
+            }
+            docsJson.add(docMap);
+        }
+    }
+
+    if(docsJson.size() == 0)
+    {
+        return "AVISO: no hay documentos vigentes para enviar";
+    }
+
+    // 4) Payload final
+    payload = Map();
+    payload.put("clienteId", clienteId.toString());
+    payload.put("clienteNombre", ifnull(cli.Nombre_de_Cuenta, ""));
+    payload.put("formasEnvio", formasJson);
+    payload.put("documentos", docsJson);
+
+    // 5) POST al worker
+    headers = Map();
+    headers.put("Content-Type", "application/json");
+    // El secret se pasa por la connection "platform_worker"
+    response = invokeurl
+    [
+        url: "http://192.168.70.15:8787/jobs"
+        type: POST
+        parameters: payload.toString()
+        headers: headers
+        connection: "platform_worker"
+    ];
+
+    info "EnviarDocumentosAPlataformas response: " + response.toString();
+
+    if(response.containsKey("job_id"))
+    {
+        // Marcar registro de auditoría inicial (uno por job)
+        seed = insert into Envio_Plataforma_Log
+        [
+            Cliente    = clienteId
+            Job_ID     = response.get("job_id").toString()
+            Estado     = "queued"
+            Mensaje    = "Job enviado al worker. " + docsJson.size() + " docs × " + formasJson.size() + " plataformas"
+            Fecha      = zoho.currenttime
+            Added_User = zoho.loginuser
+        ];
+        return "OK: job " + response.get("job_id").toString() + " encolado (" + docsJson.size() + " docs)";
+    }
+    return "ERROR worker: " + response.toString();
+}

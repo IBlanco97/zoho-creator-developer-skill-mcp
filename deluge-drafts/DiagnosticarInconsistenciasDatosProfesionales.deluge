@@ -1,0 +1,66 @@
+/**
+ * Lista las 5 inconsistencias encontradas con detalle completo
+ * para decidir si se arreglan manualmente o via función.
+ * ELIMINAR tras usar.
+ */
+void Calendario52HTML.DiagnosticarInconsistenciasDatosProfesionales()
+{
+	campos = {"Profesion_Cat":"Profesion", "Especialidad_Cat":"Especialidad", "Categoria_Cat":"Categoria", "Puesto_Cat":"Puesto"};
+	info "=== INCONSISTENCIAS ===";
+	for each e in Nuevo_Empleado
+	{
+		if(e.Area_Profesional == null){ continue; }
+		areaEmp = e.Area_Profesional;
+		areaEmpNom = ifnull(areaEmp.Nombre_del_Area, areaEmp.toString());
+
+		// Profesion
+		if(e.Profesion_Cat != null)
+		{
+			for each c in Catalogo_Profesional[ID == e.Profesion_Cat]
+			{
+				areaCatNom = ifnull(c.Area.Nombre_del_Area, c.Area.toString());
+				if(c.Area != areaEmp || c.Tipo != "Profesion")
+				{
+					info "EMP " + e.ID + " (" + ifnull(e.Nombre.zc_display_value,"") + ") | Area: " + areaEmpNom + " | Profesion_Cat -> " + c.Nombre + " [Area=" + areaCatNom + ", Tipo=" + c.Tipo + "]";
+				}
+			}
+		}
+		// Especialidad
+		if(e.Especialidad_Cat != null)
+		{
+			for each c in Catalogo_Profesional[ID == e.Especialidad_Cat]
+			{
+				areaCatNom = ifnull(c.Area.Nombre_del_Area, c.Area.toString());
+				if(c.Area != areaEmp || c.Tipo != "Especialidad")
+				{
+					info "EMP " + e.ID + " (" + ifnull(e.Nombre.zc_display_value,"") + ") | Area: " + areaEmpNom + " | Especialidad_Cat -> " + c.Nombre + " [Area=" + areaCatNom + ", Tipo=" + c.Tipo + "]";
+				}
+			}
+		}
+		// Categoria
+		if(e.Categoria_Cat != null)
+		{
+			for each c in Catalogo_Profesional[ID == e.Categoria_Cat]
+			{
+				areaCatNom = ifnull(c.Area.Nombre_del_Area, c.Area.toString());
+				if(c.Area != areaEmp || c.Tipo != "Categoria")
+				{
+					info "EMP " + e.ID + " (" + ifnull(e.Nombre.zc_display_value,"") + ") | Area: " + areaEmpNom + " | Categoria_Cat -> " + c.Nombre + " [Area=" + areaCatNom + ", Tipo=" + c.Tipo + "]";
+				}
+			}
+		}
+		// Puesto
+		if(e.Puesto_Cat != null)
+		{
+			for each c in Catalogo_Profesional[ID == e.Puesto_Cat]
+			{
+				areaCatNom = ifnull(c.Area.Nombre_del_Area, c.Area.toString());
+				if(c.Area != areaEmp || c.Tipo != "Puesto")
+				{
+					info "EMP " + e.ID + " (" + ifnull(e.Nombre.zc_display_value,"") + ") | Area: " + areaEmpNom + " | Puesto_Cat -> " + c.Nombre + " [Area=" + areaCatNom + ", Tipo=" + c.Tipo + "]";
+				}
+			}
+		}
+	}
+	info "=== FIN ===";
+}

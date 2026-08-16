@@ -1,0 +1,22 @@
+{
+  "PLANTA":                "{cliente_nombre}",
+  "Text1":                 "{emp_nombre_completo}",
+  "Text2":                 "{emp_dni}",
+  "Text3":                 "{emp_puesto}",
+  "Text4":                 "{emp_empresa}",
+  "Text5":                 "{fecha_hoy}",
+  "Text6":                 "{cliente_nombre}",
+  "Text7":                 "{cliente_cif}",
+  "Descripción de las tareas desarrolladas en SAICA": "{emp_puesto}",
+  "Nivel de contratación": "Nivel 1",
+  "OBSERVACIONESCaída de objetos en manipulación": "",
+  "OBSERVACIONESGolpes por objetos": "",
+  "OBSERVACIONESRiesgo de explosiones por actividades incompatibles trabajos en caliente vs trabajos con sustancias inflamables": "",
+  "OBSERVACIONESCaídas a distinto nivel derivadas de cambiosmodificaciones  en las instalaciones retirada de protecciones colectivas etc": "",
+  "OBSERVACIONESAtropellos con vehículos": "",
+  "OBSERVACIONESRiesgo eléctrico explosiones contacto eléctrico directo etc": "",
+  "OBSERVACIONESIncendio": "",
+  "OBSERVACIONESCaídas al mismo nivel falta de orden y limpieza": "",
+  "OBSERVACIONESAtrapamientos": "",
+  "OBSERVACIONESOtros": ""
+}

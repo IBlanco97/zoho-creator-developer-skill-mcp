@@ -1,0 +1,16 @@
+/**
+ * Botón "Enviar a Plataformas" — ficha del cliente
+ * --------------------------------------------------
+ * Ubicación: form Nuevo_Cliente, sección "Buttons" → New Button.
+ *  - Display Name: "Enviar a Plataformas"
+ *  - Type: Form Button (visible solo en modo Edit/View detail)
+ *  - Position: top toolbar
+ *  - Icon: cloud-upload (opcional)
+ *
+ * Permisos: solo roles `Gestor RRHH`, `RESPONSABLE CAE`, `SUPERVISOR`,
+ * `OPERARIO CAE`, `SUPER ADMINISTRADOR`. NO `USUARIO TRABAJADOR`.
+ *
+ * Acción: ejecuta la función ya existente y muestra el resultado en alerta.
+ */
+resp = thisapp.Calendario52HTML.EnviarDocumentosAPlataformas(input.ID);
+alert resp;

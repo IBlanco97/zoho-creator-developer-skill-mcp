@@ -1,0 +1,83 @@
+map SubirDocumento.GenerarPDFDinamico(int empleadoId, int plantillaId)
+{
+    // 1. Plantilla PDF
+    plantFound = 0;
+    for each pl in Plantilla_PDF[ID == plantillaId]
+    { plantRec = pl; plantFound = 1; break; }
+    if(plantFound == 0)
+    { return {"success":false,"error":"plantilla_not_found"}; }
+    mappingTemplate = plantRec.Mapping_JSON.toString();
+
+    // 2. Empleado
+    empFound = 0;
+    for each emp in Nuevo_Empleado[ID == empleadoId]
+    { empRec = emp; empFound = 1; break; }
+    if(empFound == 0)
+    { return {"success":false,"error":"empleado_not_found"}; }
+
+    // 3. Cliente (primera asignacion activa)
+    clienteNombre = "";
+    clienteCIF = "";
+    for each asig in Asignacion_T_cnico_Cliente[Tecnico == empleadoId && Estado != "Finalizada"]
+    {
+        clienteNombre = asig.Cliente.Nombre_de_Cuenta.toString();
+        clienteCIF = ifnull(asig.Cliente.CIF,"");
+        break;
+    }
+
+    // 4. Resolver tokens
+    fechaHoy = zoho.currentdate.toString("dd/MM/yyyy");
+    resolved = mappingTemplate;
+    resolved = resolved.replaceAll("[{]emp_nombre_completo[}]", empRec.Nombre.first_name + " " + empRec.Nombre.last_name);
+    resolved = resolved.replaceAll("[{]emp_dni[}]", ifnull(empRec.DNI,""));
+    resolved = resolved.replaceAll("[{]emp_fecha_ingreso[}]", ifnull(empRec.Fecha_de_Alta.toString("dd/MM/yyyy"),""));
+    resolved = resolved.replaceAll("[{]emp_cargo[}]", ifnull(empRec.Puesto_laboral_actual.toString(),""));
+    resolved = resolved.replaceAll("[{]emp_puesto[}]", ifnull(empRec.Puesto_laboral_actual.toString(),""));
+    resolved = resolved.replaceAll("[{]emp_empresa[}]", clienteNombre);
+    resolved = resolved.replaceAll("[{]emp_email[}]", ifnull(empRec.Official_Email,""));
+    resolved = resolved.replaceAll("[{]cliente_nombre[}]", clienteNombre);
+    resolved = resolved.replaceAll("[{]cliente_cif[}]", clienteCIF);
+    resolved = resolved.replaceAll("[{]fecha_hoy[}]", fechaHoy);
+
+    // 5. Refresh OAuth token (invokeurl to accounts.zoho.com — allowed from Deluge)
+    tokenParams = Map();
+    tokenParams.put("refresh_token", zoho.appvariable.ZOHO_REFRESH_TOKEN);
+    tokenParams.put("client_id", zoho.appvariable.ZOHO_CLIENT_ID);
+    tokenParams.put("client_secret", zoho.appvariable.ZOHO_CLIENT_SECRET);
+    tokenParams.put("grant_type", "refresh_token");
+    tokenResp = invokeurl
+    [
+        url: "https://accounts.zoho.com/oauth/v2/token"
+        type: POST
+        parameters: tokenParams
+    ];
+    accessToken = tokenResp.get("access_token").toString();
+    if(accessToken == null || accessToken == "" || accessToken == "null")
+    { return {"success":false,"error":"token_failed","resp":tokenResp.toString()}; }
+
+    // 6. PATCH Plantilla_PDF.Temp_Params = "plantillaId|||empleadoId|||<resolved_escaped>"
+    // Escape " in resolved so it's safe inside a JSON string value
+    resolvedEsc = resolved.replaceAll("\"", "\\\"");
+    tempParamsStr = plantillaId.toString() + "|||" + empleadoId.toString() + "|||" + resolvedEsc;
+    patchBody = "{\"data\":{\"Temp_Params\":\"" + tempParamsStr + "\"}}";
+
+    patchHeaders = Map();
+    patchHeaders.put("Authorization", "Zoho-oauthtoken " + accessToken);
+    patchHeaders.put("Content-Type", "application/json");
+
+    patchUrl = "https://www.zohoapis.com/creator/v2.1/data/formacion11/human-resource-management/report/Plantilla_PDF_Report/" + plantillaId.toString();
+    patchResp = invokeurl
+    [
+        url: patchUrl
+        type: PATCH
+        body: patchBody
+        headers: patchHeaders
+    ];
+    patchCode = patchResp.get("code").toString();
+    if(patchCode != "3000")
+    { return {"success":false,"error":"patch_failed","code":patchCode,"resp":patchResp.toString()}; }
+
+    // 7. Call Node.js (no params — reads Temp_Params from Creator API)
+    response = thisapp.GenerarPDFRelleno();
+    return response;
+}

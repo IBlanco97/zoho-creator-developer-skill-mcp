@@ -14,12 +14,19 @@ string Calendario52HTML.DevolverHTMLPanelAsignaciones(string tecFilter, string c
 	tNamMap = Map();
 	// tList: list of unique tech names (for chip bar)
 	tNameSet = Map();
+	seenCombos = Map();
 	nAct = 0;
 	for each  a in Asignacion_T_cnico_Cliente[Estado != "Finalizada" && Tipo_de_Asignacion == "Cliente"]
 	{
 		nAct = nAct + 1;
 		cId = a.Cliente.toString();
 		tId = a.Tecnico.toString();
+		comboKey = cId + "_" + tId;
+		if(seenCombos.containKey(comboKey))
+		{
+			continue;
+		}
+		seenCombos.put(comboKey,1);
 		tSet.put(tId,1);
 		tNom = ifnull(a.Tecnico.Nombre.first_name,"");
 		tApe = ifnull(a.Tecnico.Nombre.last_name,"");

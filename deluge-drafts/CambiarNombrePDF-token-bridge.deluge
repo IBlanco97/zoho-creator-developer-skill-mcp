@@ -1,0 +1,32 @@
+// Function: Default.CambiarNombrePDF
+// Purpose: Token bridge — obtains Zoho OAuth token and calls RenombrarDocumento Node.js function via REST
+// Called by workflow NombrarDocumento on Subir_Documento (Creado o editado → Envío de formulario correcto)
+//
+// Security: credentials read from App Variables (Configuración → Variables), never hardcoded.
+// The Node.js function (RenombrarDocumento) never receives client_secret or refresh_token.
+
+string CambiarNombrePDF(int recordId)
+{
+	tokenResp = invokeurl
+	[
+		url: "https://accounts.zoho.com/oauth/v2/token"
+		type: POST
+		parameters: {"grant_type":"refresh_token","client_id":zoho.appvariable.ZOHO_CLIENT_ID,"client_secret":zoho.appvariable.ZOHO_CLIENT_SECRET,"refresh_token":zoho.appvariable.ZOHO_REFRESH_TOKEN}
+	];
+	accessToken = tokenResp.get("access_token");
+	if(accessToken != null && accessToken != "")
+	{
+		bodyStr = '{"params":{"recordId":"' + recordId.toString() + '","accessToken":"' + accessToken + '"}}';
+		fnResult = invokeurl
+		[
+			url: "https://www.zohoapis.com/creator/v2.1/data/formacion11/human-resource-management/action/RenombrarDocumento"
+			type: POST
+			body: bodyStr
+			headers: {"Authorization":"Zoho-oauthtoken " + accessToken,"Content-Type":"application/json"}
+		];
+	}
+	return "ok";
+}
+
+// Workflow script (NombrarDocumento):
+//   thisapp.CambiarNombrePDF(input.ID);

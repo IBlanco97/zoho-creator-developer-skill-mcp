@@ -1,0 +1,43 @@
+{
+  "url": "https://www.ctaimacae.net/CTAIMA_CAE/Programas_Admin/SeleccionaEmpresa.asp?cae=kV14VGV73DO4hVaC4BlDhg==",
+  "title": "CTAIMACAE.net - Coordinación de Actividades Empresariales",
+  "step": "03-empresa-selector",
+  "criticalFinding": "Selectize.js expone TODAS las opciones del dropdown via JS sin necesidad de abrir UI",
+  "discoveryRecipe": [
+    "Login completo (steps 01-02)",
+    "Llegar a /Programas_Admin/SeleccionaEmpresa.asp",
+    "Esperar a que selectize cargue: await page.waitForFunction(() => window.jQuery('#listaempresas')[0]?.selectize?.options && Object.keys(window.jQuery('#listaempresas')[0].selectize.options).length > 0)",
+    "Leer opciones: const opts = await page.evaluate(() => Object.values(window.jQuery('#listaempresas')[0].selectize.options))",
+    "Buscar la opción cuyo .of matchea el cliente (ej. 'en UQUIFA QUÍMICO FARMACÉUTICA, S.A.U.')",
+    "Navegar directamente a opt.url — no hace falta interactuar con el dropdown"
+  ],
+  "stableSelectors": {
+    "empresaSelectNative": "select#listaempresas",
+    "empresaSelectizeContainer": ".selectize-control.single",
+    "centrosSelect": "select#listacentros (cascade dependiente, vacío hasta seleccionar empresa)",
+    "selectizeOptionsAccess": "window.jQuery('#listaempresas')[0].selectize.options"
+  },
+  "datasetSchema": {
+    "name": "string — nombre del CONTRATISTA (variante de DOMO21/SICMA según registro del cliente)",
+    "of": "string — '\\nen {NOMBRE_EMPRESA_CLIENTE}' — clave para mapeo Zoho.Cliente → CTAIMA",
+    "url": "string — '/CTAIMA_CAE/Programas_Admin/Programas.asp?cae={base64}' — endpoint directo cliente↔contratista",
+    "st": "number — 20=activo, 0=inactivo (?)",
+    "IdEmpPromotora": "string — ID CTAIMA del cliente (estable, mejor identificador que name)",
+    "IdEmpContrata": "string — ID CTAIMA del contratista (DOMO21/SICMA)",
+    "IdLogin": "string — token sesión específico",
+    "mantenimiento": "string ('True'|'False') — relación en mantenimiento"
+  },
+  "datasetSample": [
+    {"name":"DOMO 21 INGENIERIA E INSTALACIONES,S.L.","of":"en UQUIFA QUÍMICO FARMACÉUTICA, S.A.U.","IdEmpPromotora":"1922","st":20},
+    {"name":"DOMO 21 INGENIERÍA E INSTALACIONES, S.L.","of":"en CHUPA CHUPS, S.A.U.","IdEmpPromotora":"886","st":20},
+    {"name":"ARMEUN, S.L.","of":"en CHUPA CHUPS, S.A.U.","IdEmpPromotora":"886","st":20},
+    {"name":"DOMO 21 INGENIERÍA E INSTALACIONES, S.L.","of":"en Magna Mirrors","IdEmpPromotora":"899","st":20},
+    {"name":"DOMO21 INGENIERÍA E INSTALACIONES S.L","of":"en PINTURAS HEMPEL, S.A.U.","IdEmpPromotora":"305","st":0},
+    {"name":"DOMO 21 INGENIERIA E INSTALACIONES S.L.","of":"en Grupo DAMM","IdEmpPromotora":"597","st":0}
+  ],
+  "implicationsForZohoSchema": [
+    "Forma de Envío necesita un campo nuevo: IdEmpPromotora_CTAIMA (Single Line, número)",
+    "Alternativamente: Empresa_Cliente_CTAIMA_Nombre (Single Line) — menos estable pero más legible",
+    "Recomendación: ambos. IdEmpPromotora primario, Nombre como fallback / display"
+  ]
+}

@@ -1,0 +1,310 @@
+string Calendario52HTML.DevolverHTMLCalendario52Semanas(int anio, int filtroEmpId, string tecNom, string cliNom, string recibir_, int semDesde, int semHasta)
+{
+	semAnio = zoho.currentdate.getYear();
+	if(isNull(anio) || anio == 0)
+	{
+		anio = semAnio;
+	}
+	if(isNull(filtroEmpId))
+	{
+		filtroEmpId = 0;
+	}
+	sdFrom = if(isNull(semDesde) || semDesde < 1,1,semDesde);
+	sdTo = if(isNull(semHasta) || semHasta < 1 || semHasta > 52,52,semHasta);
+	if(sdFrom > sdTo)
+	{
+		sdFrom = 1;
+		sdTo = 52;
+	}
+	tecNomL = ifnull(tecNom,"").toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+	cliNomL = ifnull(cliNom,"").toLowerCase();
+	jan4 = toDate("04-01-" + anio,"dd-MM-yyyy");
+	jan4dow = jan4.getDayOfWeek();
+	jan4isodow = if(jan4dow == 1,7,jan4dow - 1);
+	mon1 = jan4.addDay(1 - jan4isodow);
+	mnames = "ene,feb,mar,abr,may,jun,jul,ago,sep,oct,nov,dic".toList(",");
+	prevY = anio - 1;
+	nextY = anio + 1;
+	semHoy = zoho.currentdate.getWeekOfYear();
+	filterParam = if(filtroEmpId != 0,"&FiltroEmp=" + filtroEmpId,"");
+	filterParam = filterParam + if(tecNomL != "","&TecnicoNombre=" + tecNom,"");
+	filterParam = filterParam + if(cliNomL != "","&ClienteNombre=" + cliNom,"");
+	filterParam = filterParam + if(sdFrom != 1 || sdTo != 52,"&SemDesde=" + sdFrom + "&SemHasta=" + sdTo,"");
+	emailFilterParam = if(filtroEmpId != 0,"&FiltroEmp=" + filtroEmpId,"");
+	emailFilterParam = emailFilterParam + if(cliNomL != "","&ClienteNombre=" + cliNom,"");
+	emailFilterParam = emailFilterParam + if(sdFrom != 1 || sdTo != 52,"&SemDesde=" + sdFrom + "&SemHasta=" + sdTo,"");
+	hasFilter = filtroEmpId != 0 || tecNomL != "" || cliNomL != "" || sdFrom != 1 || sdTo != 52;
+	// Build sorted tech list using list.sort()
+	nameIdList = list();
+	empNameMap = Map();
+	empIdMap = Map();
+	seenTecs = Map();
+	if(filtroEmpId != 0)
+	{
+		regTemp = Asignacion_Tecnico_Cliente_Anio[Anio == anio && Tecnico == filtroEmpId];
+	}
+	else
+	{
+		regTemp = Asignacion_Tecnico_Cliente_Anio[Anio == anio];
+	}
+	for each  rt in regTemp
+	{
+		tid = rt.Tecnico.toString();
+		if(seenTecs.get(tid) == null)
+		{
+			seenTecs.put(tid,true);
+			for each  er in Nuevo_Empleado[ID == rt.Tecnico]
+			{
+				eln = ifnull(er.Nombre.last_name,"");
+				efn = ifnull(er.Nombre.first_name,"");
+				elnN = eln.toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+				efnN = efn.toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+				nameIdList.add(elnN + "|" + efnN + "|" + tid);
+				fi = if(efn != "",", " + efn.substring(0,1) + ".","");
+				empNameMap.put(tid,eln + fi);
+				empIdMap.put(tid,er.ID);
+				break;
+			}
+		}
+	}
+	nameIdList.sort();
+	q = '"';
+	nl = "\n";
+	csv = "Tecnico,Cliente,Tipo,S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12,S13,S14,S15,S16,S17,S18,S19,S20,S21,S22,S23,S24,S25,S26,S27,S28,S29,S30,S31,S32,S33,S34,S35,S36,S37,S38,S39,S40,S41,S42,S43,S44,S45,S46,S47,S48,S49,S50,S51,S52" + nl;
+	html = "<style>.cal52{border-collapse:collapse;font-size:11px;width:100%}.cal52 th{background:#1C3A5E;color:#fff;padding:3px 2px;text-align:center;white-space:nowrap}.cal52 td{padding:1px;";
+	html = html + "text-align:center}.cal52 tr:nth-child(even){background:#f5f7fa}.nm{text-align:left!important;padding:4px 6px!important;white-space:nowrap;font-weight:600;min-width:80px}.on{background:#3B82F6;color:white;";
+	html = html + "border-radius:2px;font-size:9px;padding:1px 2px;display:block}.perm{background:#10B981;color:white;border-radius:2px;font-size:9px;padding:1px 2px;display:block}.off{background:#e2e8f0;color:#94a3b8;border-radius:2px;";
+	html = html + "font-size:9px;padding:1px 2px;display:block}.cur{outline:2px solid #F59E0B;outline-offset:-1px}.thcur{background:#F59E0B!important;color:#1C3A5E!important;font-weight:700}.grp td{border-top:2px solid #94a3b8!important}.ynav{display:flex;justify-content:space-between;";
+	html = html + "align-items:center;padding:8px;font-weight:600}.ynav a{color:#1C3A5E;text-decoration:none;padding:6px 10px;border:1px solid #1C3A5E;border-radius:4px}.ynav span{font-size:16px}.wtip{position:relative}.wtip::before{content:attr(data-t);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:#1C3A5E;color:#fff;padding:4px 8px;";
+	html = html + "border-radius:4px;white-space:pre;font-size:11px;opacity:0;pointer-events:none;z-index:9999;transition:opacity .15s;max-width:240px;line-height:1.5;text-align:left}.wtip:hover::before{opacity:1}.cal52 a{text-decoration:none;color:inherit;display:block}@media print{.no-print{display:none!important}.cal52{font-size:7px}@page{size:A3 landscape;margin:8mm}}";
+	html = html + ".vac{background:#FBBF24;color:#78350F;border-radius:2px;font-size:9px;padding:1px 2px;display:block}.baja{background:#EF4444;color:#fff;border-radius:2px;font-size:9px;padding:1px 2px;display:block}.mat{background:#F472B6;color:#fff;border-radius:2px;font-size:9px;padding:1px 2px;display:block}.nohab{background:#9CA3AF;color:#fff;border-radius:2px;font-size:9px;padding:1px 2px;display:block}.libre{outline:2px dashed #10B981;outline-offset:-1px}</style>";
+	html = html + "<div class='ynav no-print'><a href='#Page:Semanas_Nuevo?Anio=" + prevY + filterParam + "'>&#9664; " + prevY + "</a><span>" + anio + "</span><a href='#Page:Semanas_Nuevo?Anio=" + nextY + filterParam + "'>" + nextY + " &#9654;</a></div>";
+	leyenda_ = "<div class='no-print' style='display:flex;gap:10px;align-items:center;padding:2px 8px 6px;flex-wrap:wrap;font-size:11px;color:#334155'><b>Leyenda:</b>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#3B82F6;display:inline-block'></span>Cliente</span>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#FBBF24;display:inline-block'></span>Vacaciones</span>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#EF4444;display:inline-block'></span>Baja m&eacute;dica</span>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#F472B6;display:inline-block'></span>Maternidad/Paternidad</span>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#9CA3AF;display:inline-block'></span>T&eacute;cnico no habitual</span>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#10B981;display:inline-block'></span>Otros permisos</span><span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;outline:2px dashed #10B981;outline-offset:-1px;display:inline-block'></span>Cliente no disponible (t&eacute;cnico libre)</span></div>";
+	html = html + leyenda_;
+	urlHtml_ = "#Page:Semanas_Nuevo?Anio=" + anio + "&TecnicoNombre=SEND_HTML" + emailFilterParam;
+	urlCsv_ = "#Page:Semanas_Nuevo?Anio=" + anio + "&TecnicoNombre=SEND_CSV" + emailFilterParam;
+	html = html + "<div class='no-print' style='display:flex;gap:8px;justify-content:flex-end;padding:2px 8px 6px'><a href='" + urlHtml_ + "' style='background:#1C3A5E;color:#fff;border-radius:4px;padding:5px 12px;font-size:12px;text-decoration:none'>&#9993; Recibir por email</a><a href='" + urlCsv_ + "' style='background:#10B981;color:#fff;border-radius:4px;padding:5px 12px;font-size:12px;text-decoration:none'>&#9993; Recibir CSV</a></div>";
+	baseUrl_ = "#Page:Semanas_Nuevo?Anio=" + anio + if(filtroEmpId != 0,"&FiltroEmp=" + filtroEmpId,"") + if(tecNomL != "","&TecnicoNombre=" + tecNom,"") + if(cliNomL != "","&ClienteNombre=" + cliNom,"");
+	html = html + "<div class='no-print' style='display:flex;gap:8px;align-items:center;padding:0 8px 6px;flex-wrap:wrap'><span style='font-size:12px;color:#64748b;font-weight:600'>Semanas:</span><input type='number' id='_sd' min='1' max='52' value='" + sdFrom + "' style='width:52px;padding:3px 5px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px'><span style='font-size:12px;color:#64748b'>&mdash;</span><input type='number' id='_st' min='1' max='52' value='" + sdTo + "' style='width:52px;padding:3px 5px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px'><button onclick='(function(){var sd=parseInt(document.getElementById(\"_sd\").value),st=parseInt(document.getElementById(\"_st\").value);if(isNaN(sd)||sd<1||sd>52){alert(\"Semana Desde debe estar entre 1 y 52\");return;}if(isNaN(st)||st<1||st>52){alert(\"Semana Hasta debe estar entre 1 y 52\");return;}if(sd>st){alert(\"Semana Desde no puede ser mayor que Semana Hasta\");return;}window.top.location.href=`" + baseUrl_ + "&SemDesde=`+sd+`&SemHasta=`+st;})()' style='background:#475569;color:#fff;border:none;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:12px'>Aplicar</button></div>";
+	if(hasFilter)
+	{
+		html = html + "<div class='no-print' style='padding:0 8px 6px'><a href='#Page:Semanas_Nuevo?Anio=" + anio + "' style='color:#ef4444;font-size:12px;padding:4px 10px;border:1px solid #ef4444;border-radius:4px;text-decoration:none;white-space:nowrap'>&#10005; Limpiar filtros</a></div>";
+	}
+	thead = "<div style='overflow-x:auto;padding:0 8px 8px'><table class='cal52'><thead><tr><th class='nm'>T&#233;cnico</th><th class='nm'>Cliente</th>";
+	for each  wn in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52}
+	{
+		if(wn >= sdFrom && wn <= sdTo)
+		{
+			thead = thead + "<th" + if(wn == semHoy && anio == semAnio," class='thcur'","") + " title='S" + wn + ": " + mon1.addDay((wn - 1) * 7).toString("d") + " " + mnames.get(mon1.addDay((wn - 1) * 7).getMonth() - 1) + " - " + mon1.addDay((wn - 1) * 7 + 6).toString("d") + " " + mnames.get(mon1.addDay((wn - 1) * 7 + 6).getMonth() - 1) + "'>" + wn + "</th>";
+		}
+	}
+	html = html + thead + "</tr></thead><tbody>";
+	prevTecStr = "";
+	for each  nameId in nameIdList
+	{
+		parts = nameId.toList("|");
+		elnN_ = parts.get(0);
+		efnN_ = parts.get(1);
+		tid = parts.get(parts.size() - 1);
+		empId = empIdMap.get(tid);
+		tecFull = ifnull(empNameMap.get(tid),"");
+		tecMatch = tecNomL == "" || elnN_.contains(tecNomL) || efnN_.contains(tecNomL) || (elnN_ + " " + efnN_).contains(tecNomL);
+		if(tecMatch == false)
+		{
+			continue;
+		}
+		empRegs = Asignacion_Tecnico_Cliente_Anio[Anio == anio && Tecnico == empId] sort by Cliente asc;
+		isFirstForTec = true;
+		for each  r in empRegs
+		{
+			cli = "";
+			esNoHabitual_ = false;
+			noDispRows_ = list();
+			for each  cliRec_ in Nuevo_Cliente[ID == r.Cliente]
+			{
+				cli = ifnull(cliRec_.Nombre_de_Cuenta,"");
+				if(cliRec_.Trabajadores_No_Habituales.contains(r.Tecnico))
+				{
+					esNoHabitual_ = true;
+				}
+				noDispRows_ = cliRec_.Fechas_cliente_no_disponible;
+				break;
+			}
+			cliMatch = cliNomL == "" || cli.toLowerCase().contains(cliNomL);
+			if(cliMatch)
+			{
+				isNewGroup = isFirstForTec && prevTecStr != "";
+				tecCell = if(isFirstForTec,tecFull,"");
+				trClass = if(isNewGroup," class='grp'","");
+				if(isFirstForTec)
+				{
+					prevTecStr = tid;
+					isFirstForTec = false;
+				}
+				tipoClass = if(r.Tipo == "Permiso","perm","on");
+				if(tipoClass == "on" && esNoHabitual_)
+				{
+					tipoClass = "nohab";
+				}
+				vPipe = ifnull(r.S1,"") + "|" + ifnull(r.S2,"") + "|" + ifnull(r.S3,"") + "|" + ifnull(r.S4,"") + "|" + ifnull(r.S5,"") + "|" + ifnull(r.S6,"") + "|" + ifnull(r.S7,"") + "|" + ifnull(r.S8,"") + "|" + ifnull(r.S9,"") + "|" + ifnull(r.S10,"") + "|" + ifnull(r.S11,"") + "|" + ifnull(r.S12,"") + "|" + ifnull(r.S13,"") + "|" + ifnull(r.S14,"") + "|" + ifnull(r.S15,"") + "|" + ifnull(r.S16,"") + "|" + ifnull(r.S17,"") + "|" + ifnull(r.S18,"") + "|" + ifnull(r.S19,"") + "|" + ifnull(r.S20,"") + "|" + ifnull(r.S21,"") + "|" + ifnull(r.S22,"") + "|" + ifnull(r.S23,"") + "|" + ifnull(r.S24,"") + "|" + ifnull(r.S25,"") + "|" + ifnull(r.S26,"") + "|" + ifnull(r.S27,"") + "|" + ifnull(r.S28,"") + "|" + ifnull(r.S29,"") + "|" + ifnull(r.S30,"") + "|" + ifnull(r.S31,"") + "|" + ifnull(r.S32,"") + "|" + ifnull(r.S33,"") + "|" + ifnull(r.S34,"") + "|" + ifnull(r.S35,"") + "|" + ifnull(r.S36,"") + "|" + ifnull(r.S37,"") + "|" + ifnull(r.S38,"") + "|" + ifnull(r.S39,"") + "|" + ifnull(r.S40,"") + "|" + ifnull(r.S41,"") + "|" + ifnull(r.S42,"") + "|" + ifnull(r.S43,"") + "|" + ifnull(r.S44,"") + "|" + ifnull(r.S45,"") + "|" + ifnull(r.S46,"") + "|" + ifnull(r.S47,"") + "|" + ifnull(r.S48,"") + "|" + ifnull(r.S49,"") + "|" + ifnull(r.S50,"") + "|" + ifnull(r.S51,"") + "|" + ifnull(r.S52,"");
+				v = vPipe.toList("|");
+				noFin_ = r.Fecha_de_Fin == null && r.Fecha_de_Inicio != null;
+				wStart_ = 1;
+				if(noFin_ && r.Fecha_de_Inicio.getYear() == anio)
+				{
+					wStart_ = r.Fecha_de_Inicio.getWeekOfYear();
+				}
+				vCsv = vPipe.replaceAll("|",",");
+				csv = csv + q + tecFull + q + "," + q + cli + q + "," + ifnull(r.Tipo,"") + "," + vCsv + nl;
+				row = "<tr" + trClass + "><td class='nm' title='" + tecFull + "'>" + tecCell + "</td><td class='nm'" + if(cli.length() > 18," title='" + cli + "'","") + ">" + if(cli.length() > 18,cli.substring(0,18) + "...",cli) + "</td>";
+				parentId_ = r.Asignacion_T_cnico_Cliente;
+				tipExtra_ = cli;
+				if(parentId_ != 0)
+				{
+					for each  par_ in Asignacion_T_cnico_Cliente[ID == parentId_]
+					{
+						turnStr_ = "";
+						for each  t_ in par_.Turnos
+						{
+							turnStr_ = turnStr_ + if(turnStr_ != "",", ","") + ifnull(t_.Turno,"");
+						}
+						if(turnStr_ != "")
+						{
+							tipExtra_ = tipExtra_ + nl + "Turnos: " + turnStr_;
+						}
+						break;
+					}
+				}
+				for each  wn in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52}
+				{
+					if(wn >= sdFrom && wn <= sdTo)
+					{
+						esLibre_ = false;
+						if(noDispRows_.size() > 0)
+						{
+							wkStart_ = mon1.addDay((wn - 1) * 7);
+							wkEnd_ = mon1.addDay((wn - 1) * 7 + 6);
+							for each  rango_ in noDispRows_
+							{
+								if(rango_.Fecha_Inicio <= wkEnd_ && rango_.Fecha_Fin >= wkStart_)
+								{
+									esLibre_ = true;
+									break;
+								}
+							}
+						}
+						row = row + "<td><a href='#Page:Detalle_Semana?Anio=" + anio + "&Semana=" + wn + "&TecnicoId=" + r.Tecnico + "'><span class='wtip " + if(v.get(wn - 1) != "" || (noFin_ && wn >= wStart_),tipoClass + if(esLibre_," libre",""),"off") + if(wn == semHoy && anio == semAnio," cur","") + "' data-t='S" + wn + " | " + mon1.addDay((wn - 1) * 7).toString("d") + " " + mnames.get(mon1.addDay((wn - 1) * 7).getMonth() - 1) + " - " + mon1.addDay((wn - 1) * 7 + 6).toString("d") + " " + mnames.get(mon1.addDay((wn - 1) * 7 + 6).getMonth() - 1) + if(v.get(wn - 1) != "" || (noFin_ && wn >= wStart_),nl + tipExtra_,"") + if(esLibre_ && v.get(wn - 1) != "" || (noFin_ && wn >= wStart_),nl + "Cliente no disponible - tecnico libre","") + "'>" + wn + "</span></a></td>";
+					}
+				}
+				html = html + row + "</tr>";
+			}
+		}
+	}
+	// Solicitudes de permiso aprobadas
+	anioStr = anio.toString();
+	yearStart = toDate("01-01-" + anioStr,"dd-MM-yyyy");
+	yearEnd = toDate("31-12-" + anioStr,"dd-MM-yyyy");
+	if(filtroEmpId != 0)
+	{
+		solRecs = Solicitud[Aprobado == "SI" && Trabajador_Solicitante == filtroEmpId && Fecha_de_comienzo >= yearStart && Fecha_de_comienzo <= yearEnd] sort by Trabajador_Solicitante asc;
+	}
+	else
+	{
+		solRecs = Solicitud[Aprobado == "SI" && Fecha_de_comienzo >= yearStart && Fecha_de_comienzo <= yearEnd] sort by Trabajador_Solicitante asc;
+	}
+	prevSolTec = "";
+	for each  sol in solRecs
+	{
+		sEmpRec = Nuevo_Empleado[ID == sol.Trabajador_Solicitante];
+		sfn = ifnull(sEmpRec.Nombre.first_name,"");
+		stecFull = ifnull(sEmpRec.Nombre.last_name,"") + if(sfn != "",", " + sfn.substring(0,1) + ".","");
+		slnN_ = ifnull(sEmpRec.Nombre.last_name,"").toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+		sfnN_ = sfn.toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+		stecMatch = tecNomL == "" || slnN_.contains(tecNomL) || sfnN_.contains(tecNomL);
+		if(stecMatch)
+		{
+			curSolTec = sol.Trabajador_Solicitante.toString();
+			isNewSolGrp = curSolTec != prevSolTec;
+			stecCell = if(isNewSolGrp,stecFull,"");
+			strClass = if(isNewSolGrp && prevSolTec != ""," class='grp'","");
+			prevSolTec = curSolTec;
+			wStart = sol.Fecha_de_comienzo.getWeekOfYear();
+			solEnd = if(isNull(sol.Fecha_de_Fin),sol.Fecha_de_comienzo,sol.Fecha_de_Fin);
+			wEnd = solEnd.getWeekOfYear();
+			if(wEnd < wStart)
+			{
+				wEnd = 52;
+			}
+			solLabel = ifnull(sol.Tipo,"Permiso");
+			solSubtipo_ = "";
+			solClass_ = "perm";
+			if(sol.Tipo == "Vacaciones")
+			{
+				solClass_ = "vac";
+			}
+			else if(sol.Tipo == "Permiso Retribuido")
+			{
+				solSubtipo_ = ifnull(sol.Tipo_de_Permiso_Retribu_do,"");
+				if(solSubtipo_ == "Enfermedad grave o accidente")
+				{
+					solClass_ = "baja";
+				}
+				else if(solSubtipo_ == "Nacimiento de hijo")
+				{
+					solClass_ = "mat";
+				}
+			}
+			else if(sol.Tipo == "Permiso no Retribuido")
+			{
+				solSubtipo_ = ifnull(sol.Tipo_de_Permiso_No_Retribuido,"");
+			}
+			tipSol_ = solLabel + if(solSubtipo_ != "",nl + solSubtipo_,"");
+			solCsv = "";
+			for each  wn in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52}
+			{
+				solCsv = solCsv + if(wn > 1,",","") + if(wn >= wStart && wn <= wEnd,"SI","");
+			}
+			csv = csv + q + stecFull + q + "," + q + solLabel + q + ",Permiso," + solCsv + nl;
+			srow = "<tr" + strClass + "><td class='nm' title='" + stecFull + "'>" + stecCell + "</td><td class='nm'>" + solLabel + "</td>";
+			for each  wn in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52}
+			{
+				if(wn >= sdFrom && wn <= sdTo)
+				{
+					srow = srow + "<td><a href='#Page:Detalle_Semana?Anio=" + anio + "&Semana=" + wn + "&TecnicoId=" + sol.Trabajador_Solicitante + "'><span class='wtip " + if(wn >= wStart && wn <= wEnd,solClass_,"off") + if(wn == semHoy && anio == semAnio," cur","") + "' data-t='" + if(wn >= wStart && wn <= wEnd,tipSol_ + nl,"") + "S" + wn + ": " + mon1.addDay((wn - 1) * 7).toString("d") + " " + mnames.get(mon1.addDay((wn - 1) * 7).getMonth() - 1) + " - " + mon1.addDay((wn - 1) * 7 + 6).toString("d") + " " + mnames.get(mon1.addDay((wn - 1) * 7 + 6).getMonth() - 1) + "'>" + wn + "</span></a></td>";
+				}
+			}
+			html = html + srow + "</tr>";
+		}
+	}
+	html = html + "</tbody></table></div><textarea id='_csv' style='position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0'>" + csv + "</textarea>";
+	if(recibir_ != "")
+	{
+		loginEmail_ = zoho.loginuserid;
+		if(recibir_ == "SEND_CSV")
+		{
+			mailSubject_ = "Planificador " + anio + " - CSV";
+			mailBody_ = "<p>CSV del planificador " + anio + ":</p><pre>" + csv + "</pre>";
+		}
+		else
+		{
+			mailSubject_ = "Planificador " + anio;
+			mailBody_ = "<p>Planificador de asignaciones " + anio + ":</p>" + html;
+		}
+		sendmail
+		[
+			from :zoho.adminuserid
+			to :loginEmail_
+			subject :mailSubject_
+			message :mailBody_
+		]
+		toast_ = "<div style='background:#10B981;color:#fff;padding:10px 16px;border-radius:6px;margin:8px;font-size:13px;text-align:center'>Email enviado a " + loginEmail_ + "</div>";
+		html = toast_ + html;
+	}
+	return html;
+}

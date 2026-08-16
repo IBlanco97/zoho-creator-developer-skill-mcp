@@ -1,0 +1,31 @@
+{
+  "url": "https://login.ctaima.com/Account/Login?ReturnUrl=...",
+  "title": "Ctaima Identity | Login",
+  "step": "02-login-step2",
+  "notes": [
+    "Tras submit step 1, redirect a IdentityServer (login.ctaima.com)",
+    "Cookie consent dialog aparece — botón 'Aceptar' (class btn btn-primary)",
+    "Email queda visible (read-only) y aparece campo Password",
+    "Form mantiene mismo id loginForm pero ahora con campos: ReturnUrl, PartnerId, Username, Password, CultureInfo, __RequestVerificationToken (anti-CSRF)",
+    "Hay dos elementos con texto 'SIGUIENTE': el a#secret-tab (tab toggle) y el button[type=submit] (real submit)",
+    "Para evitar matchear el tab, usar selector específico: form#loginForm button[type=submit]"
+  ],
+  "stableSelectors": {
+    "cookieAccept": "button.btn-primary:has-text(\"Aceptar\")",
+    "passwordInput": "input#Password",
+    "passwordSubmit": "form#loginForm button[type=submit]",
+    "csrfToken": "input[name=__RequestVerificationToken]",
+    "forgotPasswordLink": "a#forgot_pass_link"
+  },
+  "redirectChain": [
+    "https://www.ctaimacae.net/CTAIMA_CAE/connections/valida.asp (form POST)",
+    "→ https://login.ctaima.com/Account/Login?ReturnUrl=/connect/authorize/callback?... (login_hint=email)"
+  ],
+  "oidc": {
+    "client_id": "loginctaimacae",
+    "redirect_uri": "https://www.ctaimacae.net/CTAIMA_CAE/connections/valida_IDS.asp",
+    "response_type": "id_token token",
+    "response_mode": "form_post",
+    "scope": "openid profile email"
+  }
+}

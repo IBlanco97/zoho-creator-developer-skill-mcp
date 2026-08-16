@@ -1,0 +1,20 @@
+{
+  "url": "https://www.ctaimacae.net/CTAIMA_CAE/connections/valida.asp",
+  "title": "CTAIMACAE | Login",
+  "step": "01-landing",
+  "notes": [
+    "Login en dos pasos: paso 1 pide solo email, paso 2 pedirá password",
+    "Banner anuncia migración: CTAIMA + e-coordina → Twind",
+    "Pink/purple branding (Twind colors) ya presente — UI parcialmente migrada",
+    "Form method=POST sin action explícito — submit usa endpoint actual"
+  ],
+  "stableSelectors": {
+    "emailInput": "input#Username",
+    "emailInputName": "input[name=Username]",
+    "continueButton": "button[type=submit]",
+    "continueButtonText": "button:has-text(\"CONTINUAR\")",
+    "loginForm": "form#loginForm",
+    "hiddenClientToken": "input[name=clientToken]"
+  },
+  "elements": "see 01-landing.png"
+}

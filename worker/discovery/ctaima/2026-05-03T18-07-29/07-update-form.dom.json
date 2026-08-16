@@ -1,0 +1,73 @@
+{
+  "url": "https://www.ctaimacae.net/CTAIMA_CAE/ADMIN_PROMOTORA/Documentos/Empresas/Update.asp?cae=...",
+  "title": "Subir Documento de Empresa",
+  "step": "07-update-form (CRITICAL — upload form complete schema)",
+  "criticalFinding": "FORM SCHEMA COMPLETO PARA SUBIDA DE DOCUMENTO EMPRESA",
+  "forms": {
+    "altamod": {
+      "id": "form#altamod",
+      "method": "POST",
+      "enctype": "application/x-www-form-urlencoded",
+      "purpose": "Form principal con metadata del documento + sync + submit"
+    },
+    "UploadForm": {
+      "id": "form#UploadForm",
+      "method": "GET",
+      "purpose": "Container del file input — la subida real va por XHR async, no por form post"
+    }
+  },
+  "stableSelectors": {
+    "fechaExpedicion": {"input": "#campo_fecha", "name": "Fechai", "format": "dd/MM/yyyy"},
+    "fechaCaducidad": {"input": "#campo_fecha2", "name": "Fechaf", "format": "dd/MM/yyyy"},
+    "comentario": {"textarea": "#textarea", "name": "Comentario"},
+    "fileInput": {"input": "#uploadBtn", "name": "file", "type": "file"},
+    "adjuntoRadio": {"si": "#AdjuntoSI (value=1)", "no": "#AdjuntoNO (value=0)", "name": "Adjunto"},
+    "motivoNoAdjunto": {"input": "#Otros", "name": "Otros", "placeholder": "Motivo de no adjuntar fichero"},
+    "syncCheckbox": "#chkSubidaEmpresa_{IdEmpPromotora}",
+    "validacionExpress": "#chkExpress",
+    "submitButton": "#Acept (input[type=submit] value=Aceptar)",
+    "cancelButton": "input[name=Submit2] value=Cancelar"
+  },
+  "hiddenFields": {
+    "fecha_expedicion": "duplicado de Fechai (sync via JS)",
+    "fecha_caducidad": "duplicado de Fechaf (sync via JS)",
+    "Meses": "0 (general)",
+    "fichero": "string descriptivo del fichero ya cargado, ej. 'Fichero .pdf de 230 KB'",
+    "filesize": "tamaño en KB",
+    "extension": "ej 'pdf'",
+    "valor_adjunto": "0|1 — flag interno",
+    "Meses_{X}_{IdEmpPromotora}": "tolerancia meses por empresa sincronizada",
+    "CaducidadDoc_{X}_{IdEmpPromotora}": "metadatos caducidad por empresa",
+    "ContextoSesion": "{IdLogin}-{nonce} ej. '2646946-983602911'",
+    "valor_otros": "texto del motivo no adjunto"
+  },
+  "syncCheckboxesPattern": {
+    "schema": "name = 'chkSubidaEmpresa_{IdEmpPromotora}', value = '{X}|#|{Y}|#|{Z}|#|{Meses}'",
+    "criticalNote": "El IdEmpPromotora del checkbox MATCHEA el del dropdown empresa anterior. ESE ES EL ID CTAIMA DEL CLIENTE.",
+    "discoveredEmpresas": [250, 305, 363, 385, 413, 597, 628, 645, 657, 720, 886, 899, 910, 951, 1199, 1328, 1338, 1429, 1673, 2075],
+    "totalCheckboxes": 21,
+    "implication": "Subir un doc a UQUIFA con todos los checkboxes marcados sincroniza a las 21 empresas que requieren ese mismo modelo. Reduce 21 uploads → 1."
+  },
+  "fileUploadMechanism": {
+    "fileInput": "#uploadBtn (input[type=file], name=file)",
+    "behavior": "Selección de archivo dispara XHR upload AJAX (probablemente a un endpoint /Tools/UploadBD/upload.asp). Tras éxito se actualizan los hidden inputs fichero/filesize/extension/valor_adjunto. El altamod form luego POST con esos hidden — no sube el binario en el submit.",
+    "implicationsForAdapter": [
+      "page.setInputFiles('#uploadBtn', filePath) dispara automáticamente la subida",
+      "Esperar a que aparezca el indicador 'Fichero .pdf de XX KB' antes de submit",
+      "No usar setInputFiles si solo queremos exploración"
+    ]
+  },
+  "uploadFlowPseudocode": [
+    "1. Navigate to Update.asp?cae={tokenDelDoc}",
+    "2. fill #campo_fecha = fechaExpedicion (dd/MM/yyyy)",
+    "3. fill #campo_fecha2 = fechaCaducidad (dd/MM/yyyy)",
+    "4. fill #textarea = comentario opcional",
+    "5. check #AdjuntoSI",
+    "6. setInputFiles #uploadBtn = filePath  → XHR upload async",
+    "7. waitFor: indicador 'Fichero .pdf de XX KB' visible",
+    "8. for each empresaSyncId: check #chkSubidaEmpresa_{empresaSyncId}",
+    "9. (opcional) check #chkExpress",
+    "10. click #Acept",
+    "11. waitFor: redirección a List.asp con success indicator"
+  ]
+}

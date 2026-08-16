@@ -1,0 +1,99 @@
+// Función: Configuracion.PoblarCatalogoProfesional
+// Ejecutar UNA SOLA VEZ después de crear el formulario Catalogo_Profesional
+// Campos del formulario Catalogo_Profesional:
+//   Area  (Single line)
+//   Tipo  (Picklist: Profesion | Especialidad | Categoria | Puesto)
+//   Nombre (Single line)
+//
+// NOTA SINTAXIS: insert into usa campos sin semicolons (separados por espacio o newline)
+
+string Configuracion.PoblarCatalogoProfesional()
+{
+  // ── ADMINISTRACIÓN Y FINANZAS ──────────────────────────────────────────
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Profesion" Nombre="Contable"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Profesion" Nombre="Administrador/a"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Profesion" Nombre="Administrativo contable"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Profesion" Nombre="Auxiliar administrativo"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Profesion" Nombre="Becario"]
+
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Especialidad" Nombre="Contabilidad"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Especialidad" Nombre="Tesorería"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Especialidad" Nombre="Fiscalidad"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Especialidad" Nombre="Auditoría"]
+
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Categoria" Nombre="Directivo"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Categoria" Nombre="Auxiliar"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Categoria" Nombre="Técnico"]
+
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Puesto" Nombre="Administrativo Contable"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Puesto" Nombre="Contable"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Puesto" Nombre="Director Financiero"]
+  insert into Catalogo_Profesional [Area="Administración y Finanzas" Tipo="Puesto" Nombre="Asesor fiscal"]
+
+  // ── RECURSOS HUMANOS ──────────────────────────────────────────────────
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Profesion" Nombre="Director de RRHH"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Profesion" Nombre="Selección y reclutamiento"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Profesion" Nombre="Técnico de PRL"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Profesion" Nombre="Auxiliar administrativo"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Profesion" Nombre="Becario"]
+
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Especialidad" Nombre="Selección y reclutamiento"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Especialidad" Nombre="Formación y Desarrollo"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Especialidad" Nombre="Prevención de Riesgos Laborales"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Especialidad" Nombre="Administración del Personal"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Especialidad" Nombre="CAE"]
+
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Categoria" Nombre="Director"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Categoria" Nombre="Técnico"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Categoria" Nombre="Técnico Superior"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Categoria" Nombre="Auxiliar"]
+
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Puesto" Nombre="Recruiter"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Puesto" Nombre="Director de RRHH"]
+  insert into Catalogo_Profesional [Area="Recursos Humanos" Tipo="Puesto" Nombre="Técnico Superior de PRL"]
+
+  // ── INFORMÁTICA / IT ──────────────────────────────────────────────────
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Profesion" Nombre="Programador"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Profesion" Nombre="Data Analyst"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Profesion" Nombre="Data Scientist"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Profesion" Nombre="Desarrollador de Software"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Profesion" Nombre="Ingeniero de Software"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Profesion" Nombre="Especialista en Ciberseguridad"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Profesion" Nombre="Administrador de sistemas y/o redes"]
+
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Especialidad" Nombre="Ciberseguridad"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Especialidad" Nombre="Sistemas"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Especialidad" Nombre="Desarrollo/Programación"]
+
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Categoria" Nombre="Auxiliar"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Categoria" Nombre="Técnico"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Categoria" Nombre="Ingeniero"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Categoria" Nombre="Directivo"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Categoria" Nombre="Becario"]
+
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Puesto" Nombre="Programador"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Puesto" Nombre="Especialista en Ciberseguridad"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Puesto" Nombre="Administrador de Sistemas"]
+  insert into Catalogo_Profesional [Area="Informática / IT" Tipo="Puesto" Nombre="Data Analyst"]
+
+  // ── MARKETING Y COMERCIAL ─────────────────────────────────────────────
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Profesion" Nombre="Marketing"]
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Profesion" Nombre="Marketing digital"]
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Profesion" Nombre="Comercio"]
+
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Especialidad" Nombre="Marketing Digital"]
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Especialidad" Nombre="Ventas internacionales"]
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Especialidad" Nombre="Comercio Internacional"]
+
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Categoria" Nombre="Directivo"]
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Categoria" Nombre="Auxiliar"]
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Categoria" Nombre="Técnico"]
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Categoria" Nombre="Becario"]
+
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Puesto" Nombre="Responsable de Marketing"]
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Puesto" Nombre="Comercial de Ventas"]
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Puesto" Nombre="Director Comercial"]
+  insert into Catalogo_Profesional [Area="Marketing y Comercial" Tipo="Puesto" Nombre="Técnico Comercial"]
+
+  return "OK: catálogo poblado con registros de 4 áreas.";
+}

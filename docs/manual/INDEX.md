@@ -22,6 +22,13 @@ Este manual está organizado en **cuatro módulos** según las secciones de la a
 | **C** | [Sección PRL / CAE](C-prl-cae.md) | Coordinación de actividades empresariales — documentación, clientes |
 | **D** | [Administración](D-administracion.md) | Administración del sistema — usuarios, activos, WhatsApp, bajas |
 
+### Manuales dedicados STOP2
+
+| Perfil | Documento |
+|--------|-----------|
+| Técnico (Portal del Empleado) | [STOP2 — Guía del Técnico](STOP2-tecnico.md) |
+| Supervisor / Gestor RRHH-PRL | [STOP2 — Guía del Supervisor](STOP2-supervisor.md) |
+
 ---
 
 ## Por perfil de usuario
@@ -39,7 +46,7 @@ Localiza tu perfil para saber qué secciones te corresponden y qué puedes hacer
 |---------|-----------------|-----------------|
 | **Tablero Inicio** | Ver tu información, pendientes, mensajes recientes y documentación con clientes | [A §2](A-portal-empleado.md#2-tablero-inicio) |
 | **Mis STOP2** | Consultar tus análisis de seguridad previos realizados | [A §3.1](A-portal-empleado.md#31-mis-stop2) |
-| **Nuevo STOP2** | Registrar el análisis de seguridad previo a una intervención en cliente | [A §3.2](A-portal-empleado.md#32-nuevo-stop2) |
+| **Nuevo STOP2** | Registrar el análisis de seguridad previo a una intervención en cliente | [A §3.2](A-portal-empleado.md#32-nuevo-stop2) — guía completa: [STOP2 Técnico](STOP2-tecnico.md) |
 | **Mis Permisos** | Ver y solicitar vacaciones y permisos (mín. 15 días de antelación) | [A §4](A-portal-empleado.md#4-mis-permisos) |
 | **Mis EPIs** | Ver y solicitar EPIs, ropa de trabajo o herramientas | [A §5](A-portal-empleado.md#5-mis-epis-ropa-y-herramientas) |
 | **Mis Activos** | Ver equipos y herramientas actualmente asignados a tu nombre | [A §6](A-portal-empleado.md#6-mis-activos) |
@@ -75,6 +82,7 @@ Localiza tu perfil para saber qué secciones te corresponden y qué puedes hacer
 | **Timeline Permisos** | Ver permisos aprobados por mes y empleado | [B §8.2](B-panel-rrhh.md#82-timeline-de-permisos) |
 | **Panel de Asignaciones** | Vista visual de asignaciones técnico-cliente con KPIs | [B §4.2](B-panel-rrhh.md#42-panel-de-asignaciones) |
 | **Tablero Formaciones** | Ver y gestionar formaciones del personal | [B §9](B-panel-rrhh.md#9-formaciones) |
+| **STOP2 Reporte** | Consultar todos los análisis de seguridad previos de los técnicos | [B §12.1](B-panel-rrhh.md#121-reporte-stop2) — guía completa: [STOP2 Supervisor](STOP2-supervisor.md) |
 | **Filtros en Reportes** | Aplicar filtros rápidos y seleccionar vistas predefinidas en cualquier reporte | [B §11](B-panel-rrhh.md#11-filtros-en-reportes) |
 
 #### Módulo D — Administración
@@ -122,6 +130,7 @@ Localiza tu perfil para saber qué secciones te corresponden y qué puedes hacer
 | **Semáforo Caducidades EPI** | Consultar caducidades de EPIs | [B §11](B-panel-rrhh.md#11-semáforo-caducidades-epi) |
 | **Timeline Permisos** | Ver calendario de permisos aprobados | [B §8.2](B-panel-rrhh.md#82-timeline-de-permisos) |
 | **Panel de Asignaciones** | Consultar asignaciones técnico-cliente | [B §4.2](B-panel-rrhh.md#42-panel-de-asignaciones) |
+| **STOP2 Reporte** | Ver todos los checklists de seguridad previos enviados por técnicos | [B §12.1](B-panel-rrhh.md#121-reporte-stop2) |
 
 ---
 
@@ -185,6 +194,20 @@ RRHH / Gestor PRL
 6. Marcar como validado por cliente   → C §4
 ```
 
+### Checklist STOP2
+
+```
+Técnico (Portal A)              RRHH / Supervisor
+──────────────────              ──────────────────
+1. Nuevo STOP2 (antes de
+   intervenir en cliente)  →  2. Registro automático en
+                                  STOP2 Reporte (B §12.1)
+                               3. Sistema calcula
+                                  "Valida Intervención"
+                               4. Cada lunes: informe
+                                  automático → contactos cliente
+```
+
 ### Comunicado WhatsApp masivo
 
 ```
@@ -215,4 +238,4 @@ Gestor RRHH / Administrador
 
 ---
 
-*Manual actualizado el 14/05/2026 — Gestión de Recursos Humanos v2026*
+*Manual actualizado el 26/05/2026 — Gestión de Recursos Humanos v2026*

@@ -41,7 +41,7 @@ Ninguno (solo lectura).
 │   ├── .kc (Total realizados)
 │   ├── .kc (Este mes)
 │   └── .kc.kw (Con alertas críticas — rojo si > 0)
-├── .tb (toolbar con botón "+ Nuevo STOP2" → #Form:STOP2_Analisis_Previo)
+├── .tb (toolbar: botón "+ Nuevo STOP2" → #Form:STOP2_Analisis_Previo + botón "Manual Técnicos" → #Page:Enviar_Manual_STOP2_Tecnicos)
 └── .ct (contenedor de cards)
     └── .cd (card por registro, .cw si tiene alertas)
         ├── .ch (header: nombre cliente + badge OK/alertas)
@@ -67,3 +67,4 @@ Ninguno (solo lectura).
 - CSS responsive: en `≤768px` los KPIs pasan a 1 columna y las barras de sección a 3 columnas.
 - El conteo total de SIs por sección se hace campo a campo (no hay forma de sumar Decision Box en batch en Deluge).
 - Empty state: si `cntTotal == 0`, muestra SVG checkmark + mensaje "No has realizado ningún checklist STOP2 aún".
+- (2026-08-02) Se eliminó el botón "Manual Supervisión" de la toolbar — este portal es principalmente para USUARIO TRABAJADOR, no debe ofrecerse el manual de supervisión. Solo queda "Manual Técnicos". Ver [[stop2-manuales-envio-correo]] en memoria del proyecto.

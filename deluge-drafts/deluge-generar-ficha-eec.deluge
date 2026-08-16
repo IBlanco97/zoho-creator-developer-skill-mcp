@@ -1,0 +1,82 @@
+// Función Deluge: SubirDocumento.GenerarFichaEEC
+// Uso: llámala con el ID del empleado. Busca la plantilla PDF en Subir_Documento,
+// monta el mapping con datos del empleado/asignación, llama GenerarPDFRelleno,
+// y devuelve el PDF rellenado en base64.
+//
+// Params: int empleadoId
+// Return: map { "success": bool, "pdfBase64": string, "error": string }
+
+collection SubirDocumento.GenerarFichaEEC(int empleadoId)
+{
+	// --- 1. Cargar datos del empleado ---
+	empFound = 0;
+	for each emp in Nuevo_Empleado[ID == empleadoId]
+	{
+		empRec = emp;
+		empFound = 1;
+		break;
+	}
+	if(empFound == 0)
+	{
+		return {"success":false,"error":"empleado_not_found","id":empleadoId};
+	}
+
+	empNombre = empRec.Nombre;
+	empDNI    = empRec.DNI_NIE;
+	empPuesto = empRec.Puesto_de_Trabajo;
+
+	// --- 2. Buscar asignación activa del empleado ---
+	clienteNombre = "";
+	plantaNombre  = "";
+	nivelContratacion = "";
+	for each asig in Asignacion_T_cnico_Cliente[T_cnico == empleadoId]
+	{
+		clienteNombre = asig.CLIENTE.Nombre_del_Cliente;
+		plantaNombre  = asig.CLIENTE.Nombre_del_Cliente; // ajustar si hay campo Planta
+		break;
+	}
+
+	// --- 3. Buscar el PDF template en Subir_Documento ---
+	// Buscamos un documento con nombre que contenga "FICHA" y tipo de plantilla EEC
+	templateRecId = "";
+	templateFilename = "";
+	for each doc in Subir_Documento[Nombre_del_Documento contains "FICHA" && Tipo_de_Documento == "Plantilla EEC"]
+	{
+		templateRecId = doc.ID.toString();
+		templateFilename = doc.Documento.fileName;
+		break;
+	}
+
+	// Fallback: usar el ID conocido del PDF de prueba
+	if(templateRecId == "" || templateRecId == "0")
+	{
+		templateRecId = "4790826000001297002";
+		templateFilename = "1781711315462205_FICHA_DE_DATOS_EEC_Natur_Editable__DOMO21.pdf";
+	}
+
+	// --- 4. Montar el mapping de campos PDF ---
+	// Los nombres de campo vienen de InspeccionarCamposPDF (142 campos detectados)
+	mapping = Map();
+	mapping.put("PLANTA", plantaNombre);
+	mapping.put("Text1", empNombre);
+	mapping.put("Text2", empDNI);
+	mapping.put("Text3", empPuesto);
+	mapping.put("Text4", clienteNombre);
+	// Campos de texto libre para observaciones (vacíos por defecto, rellenar si hay datos)
+	// mapping.put("OBSERVACIONESCaída de objetos en manipulación", "");
+	// ... resto de campos según necesidad
+
+	mappingJson = mapping.toString(); // Zoho Map.toString() devuelve JSON compatible
+
+	// --- 5. Llamar función Node.js GenerarPDFRelleno ---
+	result = invokefunction thisapp.GenerarPDFRelleno
+		with input
+		{
+			"recId"    : templateRecId,
+			"filename" : templateFilename,
+			"mapping"  : mappingJson,
+			"flatten"  : "false"
+		};
+
+	return result;
+}

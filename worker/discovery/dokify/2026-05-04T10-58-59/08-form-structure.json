@@ -1,0 +1,95 @@
+{
+  "source": "Captured 2026-05-04 from app.dokify.net SICMA account (company_id 119281)",
+  "platform_owner": "Almaglobal SLU (Once For All Group)",
+  "company_constants": {
+    "sicma_company_id": 119281,
+    "sicma_cif": "B64648546",
+    "sicma_name": "DOMO21 INGENIERIA E INSTALACIONES SL"
+  },
+  "login": {
+    "url_marketing": "https://www.dokify.net/",
+    "url_app": "https://app.dokify.net/app/company/{company_id}",
+    "modal_button_id": "login-id-button",
+    "input_user_id": "user_identifier",
+    "input_pass_id": "password",
+    "checkbox_session_id": "checkbox-session",
+    "logout_url": "https://app.dokify.net/app/account/logout"
+  },
+  "url_patterns": {
+    "dashboard": "/app/company/{company_id}",
+    "documents": "/app/company/{company_id}/documents",
+    "documents_filtered": "/app/company/{company_id}/documents?client={client_id}&mandatory={0|1}",
+    "templates": "/app/company/{company_id}/templates",
+    "uploads_history": "/app/company/{company_id}/uploads",
+    "assigns": "/app/company/{company_id}/assigns",
+    "files": "/app/file/company/{company_id}",
+    "documents_zip": "/app/company/{company_id}/documents/zip",
+    "reqtype_detail": "/app/company/{company_id}/reqtype/{reqtype_id}/",
+    "reqtype_attach_form": "/app/reqtype/{reqtype_id}/company/{company_id}/attach",
+    "reqtype_attach_form_redirect": "/app/reqtype/{reqtype_id}/company/{company_id}/attach/upload-file?action=attach",
+    "upload_post": "/app/reqtype/{reqtype_id}/company/{company_id}/attach/upload-file"
+  },
+  "upload_form": {
+    "form_id": "file-upload-form",
+    "form_action": "POST /app/reqtype/{reqtype_id}/company/{company_id}/attach/upload-file",
+    "form_enctype": "multipart/form-data (browser-promoted from urlencoded due to file input)",
+    "file_input_selector": "input#file[name=\"file\"]",
+    "file_accept": "(unrestricted — any MIME type)",
+    "file_multiple": false,
+    "wizard_steps": [
+      { "step": 1, "name": "Subir fichero", "description": "Drop zone + file input. Submit triggers upload." },
+      { "step": 2, "name": "Selección de solicitudes", "description": "Checkboxes per client that requests this reqtype. Konvergia magic — 1 file → N clients." },
+      { "step": 3, "name": "Selección de fecha", "description": "Emisión + caducidad date pickers." },
+      { "step": 4, "name": "Confirmar", "description": "Final submit. POSTs not captured in read-only mode." }
+    ]
+  },
+  "reqtypes_observed": {
+    "_note": "10 of ~42 captured. Some are universal (e.g. 802 Cert Hacienda, 17 Cert SS), others client-specific.",
+    "items": [
+      { "id": 16269, "name": "Acreditación recibí de Coordinación de Actividades Empresariales", "scope": "universal" },
+      { "id": 103241, "name": "Acreditación recibí documentación PRL empresas contratistas", "scope": "universal" },
+      { "id": 103667, "name": "Actuaciones en caso de emergencia para personal externo Junca", "scope": "client-specific (Junca)" },
+      { "id": 134141, "name": "Acuerdo de confidencialidad ASEVI", "scope": "client-specific (ASEVI)" },
+      { "id": 16201, "name": "Acuerdo de coordinación de actividades empresariales", "scope": "universal" },
+      { "id": 106089, "name": "Anexo A - Documento acreditativo de petición y entrega de documentación", "scope": "universal" },
+      { "id": 29683, "name": "Certificado de cumplimiento legal Bricomart", "scope": "client-specific (Bricomart/Obramat)" },
+      { "id": 802, "name": "Certificado de estar al corriente de las obligaciones tributarias", "scope": "universal", "instances_observed": 16 },
+      { "id": 17, "name": "Certificado de negatividad por descubiertos de la Tesorería", "scope": "universal", "instances_observed": 16 },
+      { "id": 11702, "name": "Certificado de Pago de Salarios", "scope": "universal" }
+    ]
+  },
+  "clients_observed": [
+    { "client_id": 34801, "name": "Alcampo S.A.", "cif": null },
+    { "client_id": 102782, "name": "IKEA IBÉRICA S.A.", "cif": null },
+    { "client_id": 111595, "name": "IKEA DISTRIBUTION SERVICES SPAIN", "cif": null },
+    { "client_id": 167642, "name": "HERMANDAD FARMACEUTICA DEL MEDITERRANEO S.C.L (Grupo Hefame)", "cif": null },
+    { "client_id": 142187, "name": "JUNCA GELATINES, S.L.", "cif": null },
+    { "client_id": 267133, "name": "Clinical Nutrition SAU (CN Labs)", "cif": null },
+    { "client_id": 116919, "name": "BRICOLAJE BRICOMAN, S.L.U. (Obramat)", "cif": null },
+    { "client_id": 94287, "name": "MAKRO", "cif": null },
+    { "client_id": 375563, "name": "Kave Home - Julià Grup", "cif": null },
+    { "client_id": 245101, "name": "DIA RETAIL ESPAÑA, S.A.U.", "cif": null },
+    { "client_id": 94624, "name": "LIDL SUPERMERCADOS, S.A.U.", "cif": null },
+    { "client_id": 391740, "name": "BC NONWOVENS S.L.", "cif": null },
+    { "client_id": 327187, "name": "PROTEIN SA", "cif": null },
+    { "client_id": 117673, "name": "PROCTER & GAMBLE MATARO, S.L.", "cif": null },
+    { "client_id": 102025, "name": "PURAC BIOQUIMICA, S.A. (Corbion)", "cif": null },
+    { "client_id": 96873, "name": "ASEVI HOME BRANDS S.L.", "cif": null }
+  ],
+  "konvergia": {
+    "description": "Inter-platform document distribution network by Dokify",
+    "marketing_pitch": "Sube un documento una única vez y Konvergia se encarga de distribuirlo por el resto de aplicaciones",
+    "potential_impact": "Could replace SICMA worker for cross-platform distribution if Dokify offers Konvergia API. Requires investigation."
+  },
+  "license": {
+    "tier": "Premium - Mediana Empresa",
+    "expiration": "13/04/2027"
+  },
+  "modules_visible": ["Homologación", "Documentos"],
+  "no_blockers": {
+    "captcha": false,
+    "two_factor": false,
+    "oidc": false,
+    "rate_limit_observed": false
+  }
+}

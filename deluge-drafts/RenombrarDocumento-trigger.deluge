@@ -1,0 +1,22 @@
+// Workflow: Renombrar_Documento_PDF
+// Form: Subir_Documento  |  Trigger: on add or edit
+//
+// Requisito previo: crear App Variables (Configuración → Variables):
+//   ZOHO_CLIENT_ID, ZOHO_CLIENT_SECRET, ZOHO_REFRESH_TOKEN (valores en Zoho API Console)
+
+// 1. Obtener access token (Deluge puede invokeurl sin restrictions de seguridad)
+tokenResp = invokeurl
+[
+	url: "https://accounts.zoho.com/oauth/v2/token"
+	type: POST
+	parameters: {"grant_type":"refresh_token","client_id":zoho.appvariable.ZOHO_CLIENT_ID,"client_secret":zoho.appvariable.ZOHO_CLIENT_SECRET,"refresh_token":zoho.appvariable.ZOHO_REFRESH_TOKEN}
+];
+
+accessToken = tokenResp.get("access_token");
+
+if(accessToken != null && accessToken != "")
+{
+	// 2. Llamar función Node.js con el token
+	result = Default.RenombrarDocumento(input.ID.toLong(), accessToken);
+	// info("RenombrarDocumento: " + result);  // quitar en producción
+}

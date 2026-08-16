@@ -1,0 +1,20 @@
+// Workflow: Auto_Aprobar_RRHH
+// Form: Solicitud (Nueva Solicitud Permiso)
+// Trigger: On Add → Envío de formulario correcto
+// Desplegado: 2026-05-12 vía Playwright/IDE
+//
+// Lógica:
+//   Si quien crea el registro (zoho.loginuserid) NO es el propio trabajador
+//   solicitante, se considera que es personal de RRHH imponiendo el permiso
+//   y se marca Aprobado = "SI" automáticamente — así aparece en el Planificador
+//   y el Timeline sin que el trabajador tenga que solicitarlo.
+//
+// Nota: usamos `Mail_Portal_Empleado != zoho.loginuserid` porque `zoho.loginrole`
+// no está disponible en este contexto de workflow ("Variable 'zoho' is not
+// defined" al usar loginrole en post-submission).
+
+trab = Nuevo_Empleado[ID == input.Trabajador_Solicitante];
+if(trab.Mail_Portal_Empleado != zoho.loginuserid)
+{
+	input.Aprobado = "SI";
+}

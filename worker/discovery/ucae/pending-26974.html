@@ -1,0 +1,1240 @@
+
+
+
+
+
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Ucae</title>
+	<meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="title" content="UCAE - Unidad de Coordinacion de Actividades Empresariales - Prevencion de  riesgos laborales " />
+	<meta name="keywords" content="ucae, riesgos laborales, unidad coordinación actividades empresariales, gestion riesgos laborales, prevencion riesgos laborales" />
+    <meta name="_csrf" content="bdTBT5ekt5bJ-qHRRozrkXQcG0dVaJ5XMnAaaV0lN5QnFGYIWbf1LKeW06HknJLjf6HfohcsNn9kWKZ6V0IuWGREUfYfIVFu"/>
+	<meta name="_csrf_header" content="X-CSRF-TOKEN"/>
+	
+	<link href="/fontawesome/css/all.css?8000260300" rel="stylesheet" />	
+	<link href="/css/flags/flag-icons.min.css?8000260300" rel="stylesheet" />
+	<link href="/select2/css/select2.css?8000260300" rel="stylesheet" />
+	<link href="/bootstrap/select2-bootstrap-5-theme.css?8000260300" rel="stylesheet" />
+
+	<script src="/js/jquery-3.6.0.min.js?8000260300"></script>
+	<script src="/bootstrap/js/bootstrap.bundle.min.js?8000260300"></script>
+	<script src="/select2/js/select2.full.js?8000260300"></script>
+	<script src="/select2/js/i18n/es.js?8000260300"></script>
+	<script src="/js/moment.js?8000260300"></script>
+	<script src="/js/ucae.js?8000260300"></script>
+	
+	<script src="/bootstrap/datepicker/js/bootstrap-datepicker.min.js?8000260300"></script>
+	<script src="/bootstrap/datepicker/locales/bootstrap-datepicker.es.min.js?8000260300"></script>
+	<link rel="stylesheet" href="/bootstrap/datepicker/css/bootstrap-datepicker3.min.css?8000260300"/>
+	
+	<link href="/css/leader.css?8000260300" rel="stylesheet" />
+	<link href="/css/ucae24.css?8000260300" rel="stylesheet" /> 
+	
+	
+	<script src='/js/toastr/toastr.min.js?8000260300'></script>
+	<link href='/js/toastr/toastr.min.css?8000260300' rel='stylesheet' />
+	 
+	<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=" type="text/javascript">
+		var root='';
+		$(function(){
+				countEnConsulta();
+				uinfo("última conexion: 07/05/2026 03:50:25")
+		});
+		
+	</script>
+</head>
+<body >
+	<header class="headers mshadow">
+		<div id="logo">
+			<a id="alogo" href="/">
+				<img src="/img/logo.png" alt="Logo ucae">
+			</a>
+		</div>
+		
+		<div class="w-100">
+					<div id="topheader">
+			
+			<nav id="empresanav">
+				<ul class="ultop-nav">
+					<li class="nav-item">
+							<a href="#"><strong>DOMO21 INGENIERÍA E INSTALACIONES S.L</strong></a>
+					</li>
+				</ul>
+			</nav>
+		<div style="display:flex;gap:1rem;">		
+			<nav class="top-nav" id="usuarionav">
+				<ul class="ultop-nav gap-1" id="trnav">
+		<li class="nav-item mx-2" id="topbar-avisos">
+			<a class="cpointer d-flex align-items-center activarmenuderecha">
+				<div style="position:relative">
+					<i class="fa fa-bell"></i>
+					<span id="hayAvisosNuevos" style="display:none"></span>
+				</div>
+			</a>
+		</li>
+		<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+			$(function(){
+				checkAvisos("es","");
+			});
+		</script>
+					<li class="nav-item">
+								<a href="#" title="CAE SICMA">
+									<i class="fa fa-user" ></i>
+									&nbsp;CAE SICMA
+								</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="dropdown">
+				<button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" style="padding:0.2rem .5rem;"><i class="fa fa-gear"></i></button>
+				<ul class="dropdown-menu" style="text-align:right;">
+					<li>
+						<a class="dropdown-item" href="/logout" style="padding:.5rem">
+							<i class="fa fa-sign-out" ></i> <span>Salir</span>
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="/empresa/changepass" style="padding:.5rem;">
+							<i class="fa fa-key" ></i> Cambiar contraseña
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+ 
+						<div id="menupselect" class="d-flex justify-content-between mshadow ">
+			<nav class="top-nav">
+				<ul class="ultop-nav" id="tnavempresa">
+</style>
+						<li class="nav-item menu_gestion contrata">
+							<a href="/empresa/gestion">
+								<i class="fas fa-user-pen me-1"></i>Gestión
+							</a>
+						</li>
+						<li class="ultop-nav-separator contrata"></li>
+						<li class="nav-item menu_listados contrata">
+							<a href="/empresa/consulta">
+								<i class="fas fa-list me-1"></i>Informes
+							</a>
+						</li>
+						<li class="ultop-nav-separator contrata"></li>
+						<li class="nav-item menu_incidencia contrata">
+							<a href="/incidencia/create?tipo=c">
+								<i class="fas fa-bolt me-1"></i>Incidencias
+							</a>
+						</li>
+				</ul>
+			</nav>
+			<nav class="top-nav">
+				<ul class="ultop-nav">
+				</ul>
+			</nav>
+		</div>
+ 
+		</div>
+	</header>
+		<aside class="sidebar">
+		<ul class="sidebar" id="menu">
+		<li class="titulomgestion">3 PASOS</li>
+		<li class="menutitulo"><i class="fa fa-1"></i><span>Recursos</span></li>
+	<li class="">
+		<a href="/empresa/trabajador/list"  style="display:flex; align-items: center;">
+			<i class="fa fa-users-line extraspace"></i>
+			<span class="" style="padding-left:0.5em;">Trabajadores</span>
+		</a>
+	</li>
+	<li class="">
+		<a href="/empresa/vehiculo/list"  style="display:flex; align-items: center;">
+			<i class="fa fa-truck-monster extraspace"></i>
+			<span class="" style="padding-left:0.5em;">Vehículos </span>
+		</a>
+	</li>
+	<li class="separador"><div></div></li>
+	<li class="">
+		<a href="/empresa/solicitud/new"  style="display:flex; align-items: center;">
+			<i class="fa fa-2"></i>
+			<span class="" style="padding-left:0.5em;">Crear solicitudes</span>
+		</a>
+	</li>
+	<li class="separador"><div></div></li>
+	<li class="">
+		<a href="/empresa/contrata/documentacion/pendiente?nocal"  class="active"  style="display:flex; align-items: center;">
+			<i class="fa fa-3"></i>
+			<span class="" style="padding-left:0.5em;">Doc Pendiente</span>
+		</a>
+	</li>
+		<li class="separador mb-3"><div></div></li>
+	<li class="">
+		<a href="/empresa/contrata/documentacion/upload"  style="display:flex; align-items: center;">
+			<i class="fa fa-arrow-up-from-bracket"></i>
+			<span class="" style="padding-left:0.5em;">Carga archivo ( ITA,RNT,IDC )</span>
+		</a>
+	</li>
+	<li class="separador"><div></div></li>
+	<li class="">
+		<a href="/empresa/contrata/usuario/list"  style="display:flex; align-items: center;">
+			<i class="fa fa-users"></i>
+			<span class="" style="padding-left:0.5em;">Usuarios</span>
+		</a>
+	</li>
+ 		 </ul>
+	<style>
+		ul.sidebar li i.fa.extraspace{	
+			margin-left: 10px;
+			margin-right: 5px;
+		}
+				
+		ul.sidebar li.soloucae{
+			border-left:4px solid DarkOrange;
+		}
+	</style>
+	<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+		$(document).ready(function(){
+			const liselected = $("ul.sidebar li a.active").closest("li"); 
+			let li_adyacentes = [
+				liselected.prev(".separador"), liselected.next(".separador") ];
+			li_adyacentes.forEach(li => {
+				if (li) li.hide();
+			});
+		})
+	</script>
+		</aside>
+	<main class="content"  >
+	<div class="alert alert-success my-2">
+Tenga en cuenta que la documentación tiene que ser comprobada y validada.<br>Por ello la documentación tendría que cargarla en la plataforma como mínimo <strong>48 horas antes del acceso al centro de trabajo</strong>.<br>Para altas nuevas si no se dispone de ITA o RNT, subir el IDC original desde el menú carga Archivo.	</div>
+	
+	<div class="card  cclass"  >
+		<div class="card-header " id="">
+					<div class="d-flex justify-content-between align-items-center">
+			<div class="d-flex justify-content-start align-items-center">
+				<i class="fas fa-clipboard me-1"></i> Documentación pendiente
+				<div class="nowrap small ms-2" id="dnumdocs" style="display:none;">( <span id="numdocs"></span>&nbsp;Documentos )</div>
+			</div>
+			<div style="display:flex;gap:.5rem;" id="dtools">
+				
+			</div>
+		</div>
+
+		</div>
+		<div class="card-body">
+		<div style="display:flex;gap:.5rem;">
+			<div class="input-group input-group-sm">
+				<span class="input-group-text">Empresa:</span>
+				<div class="dropdown form-control">
+					<a id="prinselected" class="btn btn-outline-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 0 1rem;">
+Seleccione una empresa					</a>
+					<ul class="dropdown-menu" style="width:auto;">
+						<li>
+							<button disabled class="dropdown-item" style="width:45rem;" >
+								<div style="display:flex;border-bottom:1px solid gray;">
+									<span style="flex:0 0 30rem;">Empresa</span>
+									<span style="flex:0 0 5rem;text-align:right;">Permisos</span>
+									<span style="flex:0 0 5rem;text-align:right;">Docs</span>
+								</div>
+							</button>
+						</li>
+						<li>
+							<button class="dropdown-item sprincipal" value="0" nombre="Todos" >
+								<div style="display:flex;border-bottom:1px solid silver;">
+									<span style="flex:0 0 30rem;text-overflow: ellipsis;overflow: hidden;">Todos</span>
+								</div>
+							</button>
+						</li>
+							<li>
+								<button class="dropdown-item sprincipal" value="26974" nombre="AC MARCA">
+									<div style="display:flex;border-bottom:1px solid silver;">
+										<span style="flex:0 0 30rem;text-overflow: ellipsis;overflow: hidden;">AC MARCA</span>
+										<span style="flex:0 0 5rem;text-align:right;">1</span>
+										<span style="flex:0 0 5rem;text-align:right;">1</span>
+									</div>
+								</button>
+							</li>
+							<li>
+								<button class="dropdown-item sprincipal" value="4392" nombre="BEBIDAS GASEOSAS DEL NOROESTE,SA (BEGANO">
+									<div style="display:flex;border-bottom:1px solid silver;">
+										<span style="flex:0 0 30rem;text-overflow: ellipsis;overflow: hidden;">BEBIDAS GASEOSAS DEL NOROESTE,SA (BEGANO</span>
+										<span style="flex:0 0 5rem;text-align:right;">0</span>
+										<span style="flex:0 0 5rem;text-align:right;">0</span>
+									</div>
+								</button>
+							</li>
+							<li>
+								<button class="dropdown-item sprincipal" value="293" nombre="COMP.LEVANTINA BEBIDA GASEOSAS,COLEBEGA">
+									<div style="display:flex;border-bottom:1px solid silver;">
+										<span style="flex:0 0 30rem;text-overflow: ellipsis;overflow: hidden;">COMP.LEVANTINA BEBIDA GASEOSAS,COLEBEGA</span>
+										<span style="flex:0 0 5rem;text-align:right;">0</span>
+										<span style="flex:0 0 5rem;text-align:right;">0</span>
+									</div>
+								</button>
+							</li>
+							<li>
+								<button class="dropdown-item sprincipal" value="30834" nombre="CORPORACIÓN ALIMENTARIA GUISSONA - BON ÁREA*">
+									<div style="display:flex;border-bottom:1px solid silver;">
+										<span style="flex:0 0 30rem;text-overflow: ellipsis;overflow: hidden;">CORPORACIÓN ALIMENTARIA GUISSONA - BON ÁREA*</span>
+										<span style="flex:0 0 5rem;text-align:right;">4</span>
+										<span style="flex:0 0 5rem;text-align:right;">0</span>
+									</div>
+								</button>
+							</li>
+							<li>
+								<button class="dropdown-item sprincipal" value="4282" nombre="EUROPEAN PARTNERS (Planta Bilbao)*">
+									<div style="display:flex;border-bottom:1px solid silver;">
+										<span style="flex:0 0 30rem;text-overflow: ellipsis;overflow: hidden;">EUROPEAN PARTNERS (Planta Bilbao)*</span>
+										<span style="flex:0 0 5rem;text-align:right;">0</span>
+										<span style="flex:0 0 5rem;text-align:right;">0</span>
+									</div>
+								</button>
+							</li>
+							<li>
+								<button class="dropdown-item sprincipal" value="22852" nombre="LUCTA S.A*">
+									<div style="display:flex;border-bottom:1px solid silver;">
+										<span style="flex:0 0 30rem;text-overflow: ellipsis;overflow: hidden;">LUCTA S.A*</span>
+										<span style="flex:0 0 5rem;text-align:right;">7</span>
+										<span style="flex:0 0 5rem;text-align:right;">0</span>
+									</div>
+								</button>
+							</li>
+					</ul>
+				</div>				 
+			</div>
+	<div class="input-group input-group-sm anchobuscador">
+		<span class="input-group-text" >Buscar</span>
+		<input type="text" class="form-control bfiltro" id="fqueryf" placeholder='Buscar'>
+		<button class="btn btn-sm btn-outline-primary" id="fquerybt" type="button">
+			<i class="fa fa-search"></i>
+		</button>
+	</div>
+<style>
+	.anchobuscador{
+		width: 300px;
+	}
+	.noVisiblefquery{
+		display:none;
+	}
+</style>
+<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+	$(function(){
+		$("#fqueryf").on("input",function(){
+			filtradoTabla();
+		});
+		$("#fquerybt").on("click",function(){
+			filtradoTabla();
+		});
+			let $tabla = $('#tbdocumentos');
+			let totalfilas=$tabla.find('tr:visible').length;
+			$("#numdocs").html(totalfilas);
+	});
+	function filtradoTabla(){
+		let $tabla = $('#tbdocumentos');
+		$tabla.find('tr.tbsinresultados').remove();	
+		$tabla.find('tr').attr("find","0");
+		const query = $("#fqueryf").val().trim();
+		
+		if(query!==""){
+			$tabla.find('tr td:icontains("'+query+'")').closest("tr").attr("find","1");
+		}else{
+			$tabla.find('tr').attr("find","1");//Cadena vacia muestra todo
+		}
+		
+		$tabla.find('tr[find=0]').addClass("noVisiblefquery");
+		$tabla.find('tr[find=1]').removeClass("noVisiblefquery");
+		
+		let totalfilas=$tabla.find('tr:visible').length;
+			$("#numdocs").html(totalfilas);
+		if(totalfilas == 0){
+			let sin_resultados = $('<tr class="tbsinresultados"><td colspan="50">No se encontraron resultados</td></tr>');
+			$tabla.append(sin_resultados);
+		}
+	}
+	
+</script>
+		</div>
+		<div class="d-flex justify-content-end align-items-center my-2 gap-2">
+			<div>
+	<div class="input-group input-group-sm me-2">
+	  <span class="input-group-text">
+		Estado
+	  </span>
+		<select id="festado" class="bfiltro form-control cpointer">
+				<option value="">Todos</option>
+				<option value="pe">Pendiente</option>
+				<option value="pv">Pendiente de Validar</option>
+				<option value="rh">Documento rechazado</option>
+		</select>
+	</div>
+<style>
+.noVisiblefestado{
+	display:none;
+}
+</style>
+<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+$(function(){
+	$("#festado").on("change",function(){
+		festado_filtradoTabla();
+	});
+});
+
+function festado_filtradoTabla(){
+	const $tabla = $('#tbdocumentos');
+	let $elem = $("#festado");
+	let value = $elem.val();
+	if (value !== ""){
+		$tabla.find('tr[estado!="' + value + '"]').addClass("noVisiblefestado");;
+		$tabla.find('tr[estado="' + value + '"]').removeClass("noVisiblefestado");;
+	}else{
+		$tabla.find('tr').removeClass("noVisiblefestado");;
+	}
+	
+		let totalfilas=$tabla.find('tr:visible').length;
+		$("#numdocs").html(totalfilas);
+
+}
+</script>
+			</div>
+			<div>
+	<div class="input-group input-group-sm me-2">
+	  <span class="input-group-text">
+		Ámbito
+	  </span>
+		<select id="fambito" class="bfiltro form-control cpointer">
+				<option value="">Todos</option>
+				<option value="E">Empresa</option>
+				<option value="T">Trabajador</option>
+		</select>
+	</div>
+<style>
+.noVisiblefambito{
+	display:none;
+}
+</style>
+<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+$(function(){
+	$("#fambito").on("change",function(){
+		fambito_filtradoTabla();
+	});
+});
+
+function fambito_filtradoTabla(){
+	const $tabla = $('#tbdocumentos');
+	let $elem = $("#fambito");
+	let value = $elem.val();
+	if (value !== ""){
+		$tabla.find('tr[ambito!="' + value + '"]').addClass("noVisiblefambito");;
+		$tabla.find('tr[ambito="' + value + '"]').removeClass("noVisiblefambito");;
+	}else{
+		$tabla.find('tr').removeClass("noVisiblefambito");;
+	}
+	
+		let totalfilas=$tabla.find('tr:visible').length;
+		$("#numdocs").html(totalfilas);
+
+}
+</script>
+			</div>
+			<div>
+	<div class="input-group input-group-sm me-2">
+	  <span class="input-group-text">
+		Tipo
+	  </span>
+		<select id="ftipo" class="bfiltro form-control cpointer">
+				<option value="">Todos</option>
+				<option value="L">Laboral</option>
+				<option value="P">PRL</option>
+				<option value="O">Otros</option>
+				<option value="C">Opcional</option>
+		</select>
+	</div>
+<style>
+.noVisibleftipo{
+	display:none;
+}
+</style>
+<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+$(function(){
+	$("#ftipo").on("change",function(){
+		ftipo_filtradoTabla();
+	});
+});
+
+function ftipo_filtradoTabla(){
+	const $tabla = $('#tbdocumentos');
+	let $elem = $("#ftipo");
+	let value = $elem.val();
+	if (value !== ""){
+		$tabla.find('tr[tipo!="' + value + '"]').addClass("noVisibleftipo");;
+		$tabla.find('tr[tipo="' + value + '"]').removeClass("noVisibleftipo");;
+	}else{
+		$tabla.find('tr').removeClass("noVisibleftipo");;
+	}
+	
+		let totalfilas=$tabla.find('tr:visible').length;
+		$("#numdocs").html(totalfilas);
+
+}
+</script>
+			</div>
+
+		</div>
+<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+$(document).ready(function(){
+	$('#tabladocumentos .ordenartabla').click(function(e){
+		e.preventDefault();
+		let elem=$(this);
+		let tablaPadre = elem.closest("table");
+		let thparent = elem.closest('th');
+		let celdaindex = tablaPadre.find('th').index(thparent);
+		let orden = elem.attr('ord');
+		let ordborrar = elem.attr('ordborra')?elem.attr('ordborra'):"";
+		let tipo = elem.attr('tipoord');
+		cambiaOrdenElementoColumna(elem,orden);
+		let celdasSinOrdenar = tablaPadre.find('td:not(.ignorarordenar)').filter(function(){
+			return $(this).index() === celdaindex;
+		});
+		let fila,celdasOrdenadas;
+		switch(tipo){
+			case "texto":
+				celdasOrdenadas=celdasSinOrdenar.sort( function(a,b){ return compareStrings(a.innerText.trim(),b.innerText.trim(),orden)} );
+				break;
+			case "fecha":
+				celdasOrdenadas=celdasSinOrdenar.sort( function(a,b){ return compareFechas(a.innerText.trim(),b.innerText.trim(),orden)} );
+				break;
+			case "numero":
+				celdasOrdenadas=celdasSinOrdenar.sort( function(a,b){ return compareNums(a.innerText.trim(),b.innerText.trim(),orden)} );
+				break;
+			case "decimal":
+				celdasOrdenadas=celdasSinOrdenar.sort( function(a,b){ return compareDecimals(a.innerText.replace(ordborrar,'').trim(),b.innerText.replace(ordborrar,'').trim(),orden)} );
+				break;
+			case "dataorden"://Ordena por el valor de un atributo "dataorden" que tienen las celdas
+				celdasOrdenadas=celdasSinOrdenar.sort( function(a,b){ return compareStrings(a.getAttribute('dataorden').replace(ordborrar,'').trim(),b.getAttribute('dataorden').replace(ordborrar,'').trim(),orden)} );
+				break;
+			case "html":
+				celdasOrdenadas=celdasSinOrdenar.sort( function(a,b){ return compareStrings(a.innerHTML.trim(),b.innerHTML.trim(),orden)} );
+				break;
+		}
+
+		celdasOrdenadas.each(function(k,v){
+			fila=v.parentNode;
+			tablaPadre.append(fila);
+		})
+
+	});
+});
+</script>
+		
+		<table class="table table-striped table-condensed table-hover table-bordered mt-2" id="tabladocumentos">
+			<thead>
+				<tr>
+					<th style="width:1em;"></th>
+					<th style="width:1em;">Estado</th>
+					<th style="width:1em;"></th>
+					<th class="min nowrap">Ámbito<a class="ordenartabla" ord="asc" tipoord="texto" href="#"><i class="fa fa-fw fa-sort"></i></a>
+</th>
+					<th class="min nowrap">Tipo<a class="ordenartabla" ord="asc" tipoord="texto" href="#"><i class="fa fa-fw fa-sort"></i></a>
+</th>
+					<th>
+						<div>
+							Documento<a class="icofiltrocolumna ms-1">	<a class="icofiltrocolumna ms-1"><i class="fas fa-filter cpointer"></i></a>
+	<style>
+		.filtrocolumna{
+			max-width: 33,333333%;
+		}
+	</style>
+<a class="ordenartabla" ord="asc" tipoord="texto" href="#"><i class="fa fa-fw fa-sort"></i></a>
+
+						</div>
+						<div class="d-none flex-nowrap gap-1 align-items-center">
+	<input type="input" class="filtrocolumna" name="bcdocumento" placeholder="Documento"/>
+	<style>
+	.bcdocumento_noVisible{
+		display:none;
+	}
+	</style>
+	<input type="input" class="filtrocolumna" name="bcnif" placeholder="NIF"/>
+	<style>
+	.bcnif_noVisible{
+		display:none;
+	}
+	</style>
+	<input type="input" class="filtrocolumna" name="bcnombre" placeholder="Nombre/Apellidos/Matr&iacute;cula"/>
+	<style>
+	.bcnombre_noVisible{
+		display:none;
+	}
+	</style>
+						</div>
+					</th>
+					<th class="min nowrap text-center">Actual<a class="ordenartabla" ord="asc" tipoord="dataorden" href="#"><i class="fa fa-fw fa-sort"></i></a>
+</th>
+				</tr>
+			</thead>
+			<tbody id="tbdocumentos">
+				<tr>
+					<td colspan="7"><h4 style="text-align:center;">Seleccione una empresa</h4></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>	
+	</div>
+
+	<div class="modal fade" id="md-vmanual" tabindex="-1">
+	 	<div class="modal-dialog">
+	    	<div class="modal-content">
+	      		<div class="modal-header">
+	        		<h5 class="modal-title">Validación manual</h5>
+	        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      		</div>
+	      		<div class="modal-body">
+	      			<div style="display:flex">
+	<div class="input-group ingroupvm-caducidad" style="width:auto;">
+			<span class="input-group-text" title="">Caducidad</span>
+			<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=" type="text/javascript">
+	        	$(function () {
+	            	$('#vm-caducidad').datepicker(
+	            		{
+	            			format:"dd/mm/yyyy",
+	            			language:"es",
+	            			todayBtn : true,
+	            			orientation : "auto bottom",
+	            			todayHighlight : true,
+	            			container:".ingroupvm-caducidad"
+	            		}
+	            	)
+	        		;
+	        	});
+	    	</script> 
+			<span class="input-group-text" style="min-width:1rem;"><i class="fas fa-calendar" ></i></span>		
+			<input name="vm-caducidad" id="vm-caducidad" value="" type="text" class="form-control text-center " style="width:8rem!important;text-align:center;"  autocomplete="off">
+	</div>
+	      			</div>
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-primary" id="btn-savevm"><i class="fas fa-save me-2"></i>Validar</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	
+	<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+		$(function(){
+			$("#btn-savevmdana").on('click',savevManualdana);
+		})
+		function vManualdana(clave){
+			$("#btn-savevmdana").attr("clave",clave);
+			$("#md-vmanualdana").modal("show");
+		}
+		function savevManualdana(){
+			$("#md-vmanualdana").modal("hide");
+			let clave=$("#btn-savevmdana").attr("clave");
+			let url="/empresa/contrata/documentacion/dana.json";
+			let data={};
+			data.clave=clave;
+			$.post(
+				url,
+				data,
+				function(r){
+					if(r.status=="ok"){
+						$("#tbdocumentos tr[clave="+clave+"]").remove();
+						ualert("Validado correcto!<br>");
+					}else{
+						uerror(r.error);
+					}
+				},
+				"json"
+			)
+		}		
+	</script>
+	<div class="modal fade" id="md-vmanualdana" tabindex="-1">
+	 	<div class="modal-dialog">
+	    	<div class="modal-content">
+	      		<div class="modal-header">
+	        		<h5 class="modal-title">Validación manual Dana</h5>
+	        		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      		</div>
+	      		<div class="modal-body">
+	      			<div style="display:flex">
+	      				Las empresas que han sido afectadas por la dana pueden tener demorado el pago a la Seguridad Social<br>
+	      				Debido a esta situación, es posible que no se pueda obtener el Documento RNT<br>
+	      				Si este es su caso, puede validar temporalmente este documento hasta el 31/01/2025<br>
+	      			</div>
+	      		</div>
+	      		<div class="modal-footer">
+	        		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-primary" id="btn-savevmdana"><i class="fas fa-save me-2"></i>Validar</button>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+	
+	<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=" type="text/javascript" src="/js/moment.js"></script>	
+	<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+			const fila_loading = `
+				<tr id="status">
+					<td colspan="100">
+						<div class="d-flex justify-content-center">
+							<div>
+							<i class="fas fa-spinner fa-spin cverde"></i>
+							Cargando Datos...Por favor espere.
+							</div>
+						</div>
+					</td>
+				</tr>`;
+	
+		$(function(){
+			$(".sprincipal").on('click',(e)=>{
+				let b= $( e.currentTarget );
+				//ualert($(b).attr('nombre'));
+				$("#prinselected").html( b.attr('nombre') );
+				$("#prinselected").attr('idempresa', b.attr('value') );
+				//loaddocs();
+				$("#dnumdocs").show();
+				let url="/empresa/contrata/documentacion/pendiente";
+				let op=$("#prinselected").attr('idempresa');
+				if(op!='undefined' && op!=0){
+					url+= "?q="+op;
+				}
+				location.href=url;
+			});
+			
+				const opt = $("#filtrop option[value='26974']");
+				if(opt) opt.attr("selected","selected");
+				$("#prinselected").attr('idempresa',26974);
+				$("#prinselected").html( $('.sprincipal[value=26974]').attr('nombre') );
+				loaddocs();
+		})
+		
+		function loaddocs(){
+			let op = $('#filtrop').find(":selected").val();
+			if( $("#prinselected").attr('idempresa')!= undefined ) {
+				op=$("#prinselected").attr('idempresa');
+			}
+			var url="";
+			if(op=="0" || op==undefined){
+				url="/empresa/documentacion/docpendiente/48313/list.json?1778118685160";
+			}else{
+				url="/empresa/documentacion/docpendiente/48313/"+op+"/list.json?1778118685160";
+			}
+			$("#btnbuscar").prop("disabled",true);
+			$("#filtrop").prop("disabled",true);
+			$("#tbdocumentos").html(fila_loading);
+			$.getJSON(
+				url, 
+				function( r ) {
+					if(r.status.toLowerCase()=="ok" ){
+						$("#dnumdocs").show();
+						$(r.docpendiente).each(function(i,doc){
+							pintadoc(doc);
+						});
+						$(".do-vmdana").on('click',(e)=>{ vManualdana( $(e.currentTarget).attr('clave') ); });
+						
+						ucaePopoverConfirmar('[data-toggle=confirmation]',
+								"",
+								"Se eliminará el documento temporal pendiente de validar. ¿Está Ud. seguro?",
+								deleteprevio,
+								null);
+						$('[data-toggle="tooltip"]').tooltip();
+						//$('[data-toggle="tooltip"]').tooltip({trigger:"click"}); 	
+						$('#status').remove();
+						filtrodoc();		 
+					}else{
+						ucaeAlert("Error:"+r.error);
+					}						
+						
+					$("#filtrop").prop("disabled",false);			
+				})
+		}
+
+		function pintadoc(doc){
+			var r = $("#tpl-doc").html();
+			var enlace="";
+			if(doc.ambito=="E"){
+				r=r.replaceAll("%AMBITO%","Empresa");
+				r=r.replaceAll("%FAMBITO%","E");
+			}else{
+				r=r.replaceAll("%AMBITO%","Trabajador");
+				r=r.replaceAll("%FAMBITO%","T");
+			}
+			if(doc.tipo=="L"){
+				r=r.replaceAll("%TIPO%","Lab");
+				r=r.replaceAll("%FTIPO%","L");
+			}else if(doc.tipo=="P"){
+				r=r.replaceAll("%TIPO%","Prl");
+				r=r.replaceAll("%FTIPO%","P");
+			}else if(doc.tipo=="O"){
+				r=r.replaceAll("%TIPO%","Otr");
+				r=r.replaceAll("%FTIPO%","O");
+			}else{
+				//r=r.replaceAll("%TIPO%","Opc");
+				r=r.replaceAll("%TIPO%","<span class='badge bg-success' title='Opcional'>Opc</span>");
+				r=r.replaceAll("%FTIPO%","C");
+			}
+			var titulo = doc.titulo;
+			if(titulo==null || titulo==""){
+				titulo = doc.titulo;
+			}
+			r=r.replaceAll("%DOCUMENTO%",doc.ref+" - "+titulo );	
+			var nAsignado = doc.nAsignado;
+			if(nAsignado==null || nAsignado==""){
+				nAsignado = doc.nAsignado;
+				nAsignado=nAsignado==null?"":nAsignado;
+			}
+			nAsignado=nAsignado.replaceAll(" - ","");
+			if(nAsignado==""){
+				r=r.replaceAll("%NASIGNADO%","");
+			}else{
+				r=r.replaceAll("%NASIGNADO%"," | "+nAsignado);
+			}
+			if(doc.idtrabajador!=null){
+				r=r.replaceAll("%TRABAJADOR%","<br>"+doc.nif+" - "+doc.nombre);
+				r=r.replaceAll("%BCNIF%",doc.nif);
+				r=r.replaceAll("%BCNOMBRE%",doc.nombre);
+			}else{
+				r=r.replaceAll("%TRABAJADOR%","");
+			}
+			r=r.replaceAll("%CADUCIDAD%",doc.fechacaducidad==null?"":" "+doc.fechacaducidad);
+		
+			var txtestadoa ="";
+			if(doc.estado=="pe"){
+				txtestadoa="Pendiente";
+			}else if(doc.estado=="ca"){
+				txtestadoa="Caducado";
+			}else if(doc.estado=="gr"){
+				var pg=moment(doc.fechacaducidad,"YYYY-MM-DD");
+				pg.add(doc.holguracaducidad,'days');
+				txtestadoa="Periodo de gracia "+ pg.format("YYYY-MM-DD");
+			}else if(doc.estado=="va"){
+				txtestadoa="Validado";
+			}
+			//r=r.replaceAll("%SACTUAL%","<img data-toggle='tooltip' title='" +txtestadoa + "' src='/img/estado/"+doc.estado+".gif'>");
+			r=r.replaceAll("%SACTUAL%","<i data-toggle='tooltip' title='" +txtestadoa + "' " + geticonoestado(doc.estado)+ " ></i>");
+			var txt="";
+			if(doc.pestado=="rh"){
+				txt="Documento rechazado";
+				var phref="/empresa/documentacion/cargap/veradjunto?id="+doc.idprevio;
+				r=r.replaceAll("%OPEN%","<a href='" + phref + "' target='_new'><span class='fa fa-download'></span></a>");
+				txt+=" "+doc.obs;
+			}else if(doc.pestado=="pv"){
+				txt="Pendiente de Validar";
+				var phref="/empresa/documentacion/cargap/veradjunto?id="+doc.idprevio;
+				r=r.replaceAll("%OPEN%","<a href='" + phref + "' target='_new'><i class='fa fa-download'></i></a>");
+			}else if(doc.pestado=="pe"){
+				txt="Pendiente";
+				r=r.replaceAll("%OPEN%","");
+			}
+			r=r.replaceAll("%ESTADO%",doc.pestado); 
+			//r=r.replaceAll("%PESTADO%","<img data-placement='auto right' data-toggle='tooltip' title='" + txt + "' class='pestado "+ doc.pestado +"' src='/img/estado/"+doc.pestado+".gif'>");
+			r=r.replaceAll("%PESTADO%","<i data-toggle='tooltip' title='" + txt + "' "+geticonoestado(doc.pestado) +" ></i>&nbsp;");
+			
+			if(doc.fecharechazado==null){
+				r=r.replaceAll("%ISRECHAZADO%","false");
+				r=r.replaceAll("%FRECHAZADO%","");
+			}else{
+				r=r.replaceAll("%ISRECHAZADO%","true");
+				r=r.replaceAll("%FRECHAZADO%",doc.fecharechazado);
+			}
+			if(doc.idprevio!=null){
+				var verprevio = "&nbsp;<a target='_verprevio'class='btn btn-success btn-sm' href='/ucae/documentacion/validar/cargap/view?id="+doc.idprevio+"'>Ver</a>";
+				r=r.replaceAll("%VERPREVIO%",verprevio);
+			}else{
+				r=r.replaceAll("%VERPREVIO%","");
+			} 
+			if(doc.pfentrega==null || doc.fecharechazado!=null){
+				r=r.replaceAll("%FCARGA%","");
+			}else{
+				r=r.replaceAll("%FCARGA%",doc.pfentrega);
+			}
+			
+			if( !doc.consulta || doc.fecharechazado!=null){ 
+				r=r.replaceAll("%ENCONSULTA%","");			
+			}else{
+				r=r.replaceAll("%ENCONSULTA%","<span title='En consulta' class='badge bg-success' style='margin-right:0.3em;'>En consulta </span>");
+			} 
+			var btn="";
+			var idcumps = [9977, 1, 578, 1201, 7349, 9741, 8283, 8422, 7923, 10523, 17814 ];	
+			if(doc.idprevio==null || doc.fecharechazado!=null){
+				let idprincipal = $("#prinselected").attr("idempresa");
+				idprincipal=idprincipal==null?'':idprincipal;
+				if(doc.formato=="C"){
+					let idprincipal = $("#prinselected").attr("idempresa");
+					idprincipal=idprincipal==null?'':idprincipal;
+					if(idcumps.includes(doc.iddocdata)){
+						enlace ="/empresa/documentacion/docpendiente/upload?idp="+idprincipal;
+					}else{
+						enlace="/empresa/documentacion/docpendiente/carga?clave="+doc.clave+"&idp="+idprincipal;
+					}
+					btn="<a style='width:100%' class='btn btn-primary btn-sm' title='' href='"+ enlace +"'>Carga</a>"
+				}else{
+					enlace="/empresa/documentacion/descarga/create?clave="+doc.clave+"&idp="+idprincipal;
+					btn="<a style='width:100%' class='btn btn-primary btn-sm' title='' href='"+ enlace +"' >Descarga</a>"
+				}
+			}else{
+				btn="<button style='width:100%' data-toggle='confirmation' class='btn btn-sm btn-danger' title='' id='btn-eliminar-" + doc.idprevio + "' idprevio='" + doc.idprevio + "' data-original-title=''>Borrar</button>"
+			}
+			
+			r=r.replaceAll("%BTN%",btn);
+			r=r.replaceAll("%CLAVE%",doc.clave);
+			
+			if(doc.idurgencia!=null){
+				r=r.replaceAll("%URGENCIA%","<span title='Urgente' class='badge bg-danger' style='margin-right:0.3em;'>Urgente </span>");
+			}else{
+				r=r.replaceAll("%URGENCIA%","");
+			}
+			
+			r=r.replaceAll("%BTNDANA%","");
+			$("#tbdocumentos").append(r);
+		}
+		
+		function deleteprevio(elem){
+			var idprevio=$(elem).attr("idprevio");
+			var tr = $(elem).closest('tr')
+			var url="/empresa/documentacion/cargap/delete.json?id="+idprevio;
+			$.getJSON(
+				url,
+				function(data){
+					$('#btn-eliminar-'+idprevio).remove();
+					let idprincipal=$("#prinselected").attr("idempresa");
+					var clave = $(tr).attr("clave");
+					var b_carga="<a style='width:100%' class='btn btn-primary btn-sm' title='' href='/empresa/documentacion/docpendiente/carga?clave="+ clave +"&idp="+idprincipal+"' >Carga</a>";
+					$(tr).find('td:first').append(b_carga);
+
+					var btn = "<i class='fas fa-xmark text-danger' data-toggle='tooltip' title='Pendiente' class='pestado pe'></i>"
+					$('#doc-'+clave).html(btn);
+					$('#docenl-'+clave).html("");
+					if(data.status="OK"){
+						ualert("Documento eliminado correctamente");
+					}else{
+						uerror(data.status +" " +doc.error);
+					}
+				}
+			);
+		}
+		
+		
+		
+		function filtrodoc(){
+			//Hace que se ejecuten todas las funciones de filtrado 
+			$(".bfiltro").trigger("change");
+		}
+		
+		function geticonoestado(estado){
+			let style="";
+			if(estado=="pe"){
+				style="class='fa fa-xmark text-danger' ";
+			}else if( estado=="ca"){
+				style="class='fa-regular fa-thumbs-down text-danger' ";
+			}else if( estado=="gr"){
+				style="class='fa-regular fa-hourglass-half text-warning' ";
+			}else if( estado=="pv"){
+				style="class='fa fa-xmark cverde' ";
+			}else if( estado=="rh"){
+				style="class='fa fa-ban text-danger' ";
+			}else if( estado=="va"){
+				style="class='fa fa-check cverde' ";
+			}
+			return style;
+		}
+
+	</script>
+	<script type="text/template" nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4="  id="tpl-doc">
+		<tr rechazado="%ISRECHAZADO%" estado="%ESTADO%" clave="%CLAVE%" ambito="%FAMBITO%" tipo="%FTIPO%">
+			<td>%BTN%%BTNDANA% </td>
+			<td id="doc-%CLAVE%" class="nowrap">%PESTADO%%FCARGA%%FRECHAZADO%</td>
+			<td id="docenl-%CLAVE%" style="color:navy;">%OPEN%</td>
+			<td>%AMBITO%</td>
+			<td>%TIPO%</td>
+			<td bcdocumento="%DOCUMENTO%" bcnif="%BCNIF%" bcnombre="%BCNOMBRE%">%URGENCIA%%ENCONSULTA%%DOCUMENTO%%NASIGNADO%%TRABAJADOR%</td>
+			<td class="nowrap" dataorden="%CADUCIDAD%">
+				%SACTUAL%%CADUCIDAD%
+			</td>
+		</tr>
+	</script>
+	
+	<style>
+	.pestado{
+		cursor: pointer;
+	}
+	</style>
+<style>
+	.filtrocolumna{
+		max-width: 33%;
+	}
+</style>
+
+<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+	$(function(){
+		checkProcesos.start();
+		//ualert("procesos")
+	})
+	
+	const checkProcesos = {
+		execID: null,
+		start: function() {
+	    	this.execID = setInterval(() => {
+	      		//console.log("Ha pasado 10 segundos");
+	      		//ualert("Ha pasado 10 segundos");
+	      		// Aquí puedes agregar cualquier acción que quieras ejecutar cada minuto
+	      		getprocesos();
+    		}, 10000); 
+  		},
+		stop: function() {
+			if (this.execID !== null) {
+				clearInterval(this.execID);
+				this.execID = null;
+				console.log("Temporizador detenido");
+			}
+		}  		
+	};	
+	
+	function getprocesos(){
+		let url = "/empresa/proceso/check.json";
+		$.get(
+			url, 
+			function(r){
+				if(r.status=="ok"){
+					if(r.count!=null){
+						$("#rprocesos").html("( "+(r.count.num0 + r.count.num1)+" Pendientes "+r.count.num2+" Finalizados )");
+					}
+				}else{
+					ualert(r.error);
+				}
+			},
+			"json"
+		)
+		
+	}
+</script>
+<style>
+	#rprocesos {
+		font-size:85%;
+		color:#006000;
+	}
+</style>
+	</main>
+	
+	<footer class="footer" id="appfooter">
+<div class="w-100 d-flex justify-content-between align-items-center">
+	<div class="d-flex justify-content-start align-items-center gap-2 w-100">
+<div class="dropdown idiomas ms-1">
+	<button class="btn btn-outline-primary dropdown-toggle" type="button" id="btn_idiomas" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<i class="fas fa-globe me-1"></i><span class="idiomastext">Idiomas</span>
+	</button>
+	<ul class="dropdown-menu">
+		<li>
+			<button class="dropdown-item changelocale" data-lang="es">
+				<i class="fi fi-es me-2"></i>Espa&ntilde;ol
+			</button>
+		</li>
+		<li>
+			<button class="dropdown-item changelocale" data-lang="en">
+				<i class="fi fi-gb me-2"></i>English
+			</button>
+		</li>
+		<li>
+			<button class="dropdown-item changelocale" data-lang="fr">
+				<i class="fi fi-fr me-2"></i>Fran&ccedil;ais
+			</button>
+		</li>
+		<li>
+			<button class="dropdown-item changelocale" data-lang="pt">
+				<i class="fi fi-pt me-2"></i>Portugues
+			</button>
+		</li>
+		<li>
+			<button class="dropdown-item changelocale" data-lang="it">
+				<i class="fi fi-it me-2"></i>Italiano
+			</button>
+		</li>
+	</ul>
+</div>
+<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+	$(function(){
+		$(".changelocale").on('click',(e)=>{
+			let lc = $(e.currentTarget).attr('data-lang');
+			let url = "/pub/void.json?locale="+lc;
+			$.get(
+				url,
+				function(){
+					location.reload();
+				},
+				"json"
+			);
+		
+		});
+	})
+</script>
+		<div id="contacto">
+			<button type="button" id="dropdownContacto" class="btn btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+				<i class="fas fa-phone"></i>
+			</button>
+			<ul class="dropdown-menu"  id="dropdownContactoMenu" aria-labelledby="dropdownContacto">
+				<li>
+					<div id="menucontacto">
+						<div class="relleno"><i class="fa-regular fa-comment"></i></div> 
+						<div>
+							<table class="contacto">
+								<tr><td colspan="2">CONTACTO</td></tr>
+								<tr>
+									<td>
+										<a href="tel:963816249">
+											Espa&ntilde;a<i class="fas fa-phone ms-1"></i>
+										</a>
+									</td>
+									<td>
+										<a href="tel:963816249">+34 963 816 249</a>
+									</td>	
+								</tr>
+								<tr>
+									<td>
+										<a href="tel:+351300509620">
+											Portugal<i class="fas fa-phone ms-1"></i>
+										</a>
+									</td>
+									<td><a href="tel:+351300509620">+351 300 509 620</a></td>
+								</tr>
+								<tr>
+									<td>
+										<a href="mailto:ucae@ucae.es">
+											<i class="fas fa-envelope"></i>
+										</a>
+									</td>
+									<td><a href="mailto:ucae@ucae.es">ucae@ucae.es</a></td>
+								</tr>
+								<tr>
+									<td colspan="2" style="padding:0 1rem;">
+										LUNES A VIERNES DE 9:00H A 14:00H Y DE 15:00H A 18:00H
+									</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					</li>
+				</ul>
+		</div>
+		<div id="avisosHeader">
+	<div class="contentAviso"></div>
+	<div class="cerrarAviso">
+		<a><i class="fas fa-circle-xmark"></i></a>
+	</div>
+</div>
+ 
+	</div>
+	
+	<div id="rgpd">
+		<a target="_blank" href="/pub/file?id=36" class="nowrap" title="Documentación LOPD y RGPD"  >
+			<i class="fas fa-rectangle-list"></i> RGPD
+		</a>
+	</div>
+</div>	
+	</footer>
+	
+<div class="offcanvas offcanvas-end" tabindex="-1" id="menuderecha" aria-labelledby="menuderecha">
+  <div class="offcanvas-header" style="background-color: lightskyblue;">
+    <h4 class="offcanvas-title"><i class="fa-regular fa-bell me-2 "></i>Avisos</h4>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body" id="menuderecha-avisos">
+  </div>
+</div>
+<script type="text/template" nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=" id="toastmensaje">
+<div class="toast customtoast text-danger border-danger" style="overflow:hidden" role="alert" data-bs-autohide="true" data-bs-delay="###TIEMPO###000" aria-atomic="true">
+    <div class="d-flex">
+		<div class="toast-body d-flex align-items-center">
+		  	<i class="fas fa-warning fa-3x me-4 text-danger"></i>
+			<div>###MENSAJE###</div>
+		</div>
+		<button type="button" class="btn-close me-2 m-auto text-danger" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+	<div class="progress"  style="height:5px;">
+	  <div class="progress-bar bg-danger" role="progressbar" style="width:100%;animation:barraProgresoTimer ###TIEMPO2###s"></div>
+	</div>
+</div>
+</script>
+
+	<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=" title="mensajes ualert">
+		function  ucaeAlert(mensaje,tipo="alerta",tiempo=8 ){
+			if(tipo === "alerta"){
+				ualert(mensaje);
+			}else{
+				uinfo(mensaje);
+			}
+		}
+	</script>
+	
+	<style>
+		@keyframes barraProgresoTimer {
+		  from {
+			width: 100%;
+		  }
+		  to {
+			width: 0;
+		  }
+		}
+	</style>
+<script nonce="aukAoA8ckfMiptEK0m9iacT2N7LMDvXDkqh0pT8K3p4=">
+function ucaeConfirmar(mensaje, fnConfirmarCallback, options){
+	const config = {
+		titulo:null,
+		textoBtnAceptar: "Aceptar",
+		textoBtnCancelar: "Cancelar",
+		claseBtnAceptar: "btn-primary",
+		claseBtnCancelar: "btn-secondary",
+		claseDialogo:"modal-sm",
+		iconoAceptar: "fa-check",
+		iconoCancelar: "fa-cancel"
+	}
+	if(options){
+		for(let attr in options){
+			config[attr] = options[attr];
+		}
+	}
+	let ventana=$('<div class="modal"><div class="modal-dialog '+config.claseDialogo+'"><div class="modal-content"/></div></div>');
+	const xCerrar = '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+	const contenido = ventana.find(".modal-content");
+	
+	if(config.titulo){
+	    contenido.append('<div class="modal-header"><h5 class="modal-title">'+config.titulo+'</h5>'+xCerrar+'</div>');
+	}else{
+	    contenido.append('<div class="modal-header">'+xCerrar+'</div>');
+	}
+	contenido.append("<div class='modal-body'><p>"+mensaje+"</p></div>");
+	const iconoAceptar = config.iconoAceptar?'<i class="fas '+config.iconoAceptar+' me-1"></i>':'';
+	const iconoCancelar = config.iconoCancelar?'<i class="fas '+config.iconoCancelar+' me-1"></i>':'';
+	const botonCerrar = '<button type="button" class="text-capitalize btn '+config.claseBtnCancelar+'" data-bs-dismiss="modal">'+iconoCancelar+config.textoBtnCancelar+'</button>';
+	const botonAceptar =  $('<button type="button" class="text-capitalize btn '+config.claseBtnAceptar+'">'+iconoAceptar+config.textoBtnAceptar+'</button>');
+	if (fnConfirmarCallback ){
+		const fnboton = function(){
+			fnConfirmarCallback();
+			ventana.modal('hide');
+		}
+		botonAceptar.click(fnboton);
+	}
+	const footer = $('<div class="modal-footer"/>').append(botonCerrar).append(botonAceptar);
+	contenido.append(footer);
+	$("body").append(ventana);
+	ventana.modal('show');
+}
+</script>
+	
+	<style>
+		.menu_gestion{
+			text-decoration: underline double var(--leader-contrast) !important; 
+		}
+		.changelocale{
+			cursor:pointer;
+		}
+		.ucae-toast-top-right {
+			top: 6rem;
+  			right: 12px;
+		}
+	</style>
+</body>
+</html>
+

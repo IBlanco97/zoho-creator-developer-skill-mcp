@@ -1,0 +1,58 @@
+void GestionDeBajaEmpleado.CrearBaja(Nuevo_Empleado empleado, date fecha)
+{
+	requisitos = List();
+	for each  asignacion in Asignar_Activo_Empleado[Empleado == empleado.ID && Estado == "Sin Confirmar" || Estado == "Recibido"]
+	{
+		requisito = insert into Requisito_de_Baja
+		[
+			Added_User=zoho.loginuser
+			Asignacion=asignacion
+			Tipo_de_Requisito="Activo"
+			Empleado=empleado
+			Estado="Pendiente"
+		];
+		requisitoRegistro = Requisito_de_Baja[ID == requisito];
+		thisapp.GestionDeBajaEmpleado.CrearEtiquetaParaRequisitoBaja(requisitoRegistro);
+		requisitos.add(requisito);
+	}
+	for each  solicitud in Solicitud_de_EPIs_Herramientas[Trabajador_Solicitante = empleado.ID && Aprobado == "Entregado" || Aprobado == "Confirmado"]
+	{
+		tipo = solicitud.Tipo_de_equipo_solicitado;
+		epi = null;
+		ropa = null;
+		herramienta = null;
+		if(tipo = "EPI")
+		{
+			epi = solicitud;
+		}
+		if(tipo = "Ropa")
+		{
+			ropa = solicitud;
+		}
+		if(tipo = "Herramienta")
+		{
+			herramienta = solicitud;
+		}
+		requisito = insert into Requisito_de_Baja
+		[
+			Added_User=zoho.loginuser
+			EPI=epi
+			Ropa=ropa
+			Herramienta=herramienta
+			Tipo_de_Requisito=tipo
+			Empleado=empleado.ID
+			Estado="Pendiente"
+		];
+		requisitoRegistro = Requisito_de_Baja[ID == requisito];
+		thisapp.GestionDeBajaEmpleado.CrearEtiquetaParaRequisitoBaja(requisitoRegistro);
+		requisitos.add(requisito);
+	}
+	baja = insert into Dar_de_Baja
+	[
+		Added_User=zoho.loginuser
+		Trabajador=empleado.ID
+		Fecha_Programada=fecha
+		Requerimientos=requisitos
+	];
+	thisapp.GestionDeBajaEmpleado.NotificarInicioBajaRRHH(baja);
+}

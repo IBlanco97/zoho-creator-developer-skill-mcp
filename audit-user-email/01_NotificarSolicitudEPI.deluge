@@ -1,0 +1,117 @@
+// SolicitudEPI.NotificarSolicitudEPI — uso de User_Email
+// Se itera persona.Usuario11 → user.User_Email se añade a mails y se hace sendmail.
+// CORRECCION 1: cambiar a user.Email_para_notificaciones (saltar si null/"")
+
+void SolicitudEPI.NotificarSolicitudEPI(Solicitud_de_EPIs_Herramientas solicitud)
+{
+	trabajador = Nuevo_Empleado[ID == solicitud.Trabajador_Solicitante];
+	config = Configuraci_n_General[ID != 0];
+	if(config.Notificar_nuevas_solicitudes_de_Herramientas == "Activado")
+	{
+		titulo = "Solicitud de " + solicitud.Tipo_de_equipo_solicitado + " recibida";
+		fechaSolicitud = solicitud.Added_Time.toString("dd/MM/yyyy HH:mm");
+		// Tabla HTML
+		rs = "<tr><td style='padding:8px 12px;font-weight:600;color:#475569;font-size:13px;width:160px;background:#f8fafc;border:1px solid #e2e8f0;'>";
+		rm = "</td><td style='padding:8px 12px;color:#1e293b;font-size:13px;border:1px solid #e2e8f0;'>";
+		re = "</td></tr>";
+		cuerpoHTML = "<p>Se ha recibido una nueva solicitud de <b>" + solicitud.Tipo_de_equipo_solicitado + "</b>:</p>";
+		cuerpoHTML = cuerpoHTML + "<table width='100%' cellpadding='0' cellspacing='0' style='border-collapse:collapse;margin:12px 0;'>";
+		cuerpoHTML = cuerpoHTML + rs + "Trabajador" + rm + "<b>" + trabajador.Nombre + "</b>" + re;
+		if(solicitud.Equipo_Solicitado != "" && solicitud.Equipo_Solicitado != null)
+		{
+			cuerpoHTML = cuerpoHTML + rs + "Equipo" + rm + solicitud.Equipo_Solicitado + re;
+		}
+		if(solicitud.Motivo_de_la_Solucitud != null && solicitud.Motivo_de_la_Solucitud != "")
+		{
+			cuerpoHTML = cuerpoHTML + rs + "Motivo" + rm + solicitud.Motivo_de_la_Solucitud + re;
+		}
+		cuerpoHTML = cuerpoHTML + rs + "Fecha" + rm + fechaSolicitud + re;
+		cuerpoHTML = cuerpoHTML + "</table>";
+		linkReporte = "https://creatorapp.zoho.com/formacion11/human-resource-management/#Report:Solicitudes_de_EPIs_Herramientas_Report";
+		htmlEmail = "<div style='font-family:Arial,Helvetica,sans-serif;max-width:600px;margin:0 auto;'>";
+		htmlEmail = htmlEmail + "<div style='background:#1C3A5E;padding:18px 24px;text-align:center;'>";
+		htmlEmail = htmlEmail + "<span style='color:#ffffff;font-size:18px;font-weight:700;letter-spacing:0.5px;'>Domo21 | Sicma21</span></div>";
+		htmlEmail = htmlEmail + "<div style='padding:24px;border:1px solid #e2e8f0;border-top:none;'>";
+		htmlEmail = htmlEmail + "<h2 style='color:#1C3A5E;font-size:18px;margin:0 0 16px 0;padding-bottom:12px;border-bottom:2px solid #e2e8f0;'>" + titulo + "</h2>";
+		htmlEmail = htmlEmail + cuerpoHTML;
+		htmlEmail = htmlEmail + "<div style='text-align:center;margin:24px 0;'>";
+		htmlEmail = htmlEmail + "<a href='" + linkReporte + "' style='background:#1C3A5E;color:#ffffff;padding:12px 28px;text-decoration:none;border-radius:6px;font-weight:600;font-size:14px;display:inline-block;'>Ver solicitud</a></div>";
+		htmlEmail = htmlEmail + "</div>";
+		htmlEmail = htmlEmail + "<div style='padding:12px 24px;text-align:center;color:#94a3b8;font-size:11px;'>Domo21 | Sicma21 &mdash; Gesti&oacute;n de RRHH</div></div>";
+		// Mensaje WhatsApp
+		msgWA = "? *" + titulo + "*\n\n";
+		msgWA = msgWA + "? Trabajador: " + trabajador.Nombre + "\n";
+		if(solicitud.Equipo_Solicitado != "" && solicitud.Equipo_Solicitado != null)
+		{
+			msgWA = msgWA + "? Equipo: " + solicitud.Equipo_Solicitado + "\n";
+		}
+		if(solicitud.Motivo_de_la_Solucitud != null && solicitud.Motivo_de_la_Solucitud != "")
+		{
+			msgWA = msgWA + "? Motivo: " + solicitud.Motivo_de_la_Solucitud + "\n";
+		}
+		msgWA = msgWA + "? Fecha: " + fechaSolicitud + "\n\n";
+		msgWA = msgWA + "_Domo21 | Sicma21 - RRHH_";
+		personalAAvisar = config.Personal_que_recibe_notificaciones_de_solicitudes_de_herramientas;
+		reportToRedirectPush = "Solicitudes_de_EPIs_Herramientas_Report";
+		registroID = solicitud.ID;
+		usarWhatsapp = config.V_as_de_Notificaci_n_Solicitudes_EPI.contains("WhatsApp");
+		usarMail = config.V_as_de_Notificaci_n_Solicitudes_EPI.contains("Correo");
+		// Push notifications + recoger mails
+		mails = List();
+		for each  personaID in personalAAvisar
+		{
+			persona = Nuevo_Empleado[ID == personaID];
+			if(persona.Official_Email != null)
+			{
+				if(!mails.contains(persona.Official_Email))
+				{
+					mails.add(persona.Official_Email);
+				}
+				zoho.pushNotification(persona.Official_Email,titulo,titulo + " de " + trabajador.Nombre,reportToRedirectPush,registroID);
+			}
+			if(persona.Correo_Electr_nico != null && !mails.contains(persona.Correo_Electr_nico))
+			{
+				mails.add(persona.Correo_Electr_nico);
+			}
+			for each  userID in persona.Usuario11
+			{
+				user = Usuario1[ID == userID];
+				if(user.User_Email != null)
+				{
+					mails.add(user.User_Email);
+				}
+			}
+		}
+		// WhatsApp
+		if(usarWhatsapp)
+		{
+			cuenta = config.Cuenta_de_Whatsapp;
+			for each  personaID in personalAAvisar
+			{
+				persona = Nuevo_Empleado[ID == personaID];
+				if(persona.M_vil != null)
+				{
+					thisapp.NuevoEmpleado.whatsapp(cuenta,persona.M_vil,msgWA);
+				}
+				if(persona.Tel_fono != null)
+				{
+					thisapp.NuevoEmpleado.whatsapp(cuenta,persona.Tel_fono,msgWA);
+				}
+			}
+		}
+		// Email HTML
+		if(usarMail)
+		{
+			for each  mail in mails
+			{
+				sendmail
+				[
+					from :zoho.adminuserid
+					to :mail
+					subject :titulo + " — " + trabajador.Nombre
+					message :htmlEmail
+				]
+			}
+		}
+	}
+}

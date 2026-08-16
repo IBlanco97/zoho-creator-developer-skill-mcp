@@ -1,0 +1,57 @@
+void GestionDeBajaEmpleado.NotificarInicioBajaRRHH(int bajaId)
+{
+	bajaFound = 0;
+	for each  b in Dar_de_Baja[ID == bajaId]
+	{
+		baja = b;
+		bajaFound = 1;
+		break;
+	}
+	if(bajaFound == 0)
+	{
+		return;
+	}
+	empId = baja.Trabajador;
+	empFound = 0;
+	for each  emp in Nuevo_Empleado[ID == empId]
+	{
+		empRec = emp;
+		empFound = 1;
+		break;
+	}
+	if(empFound == 0)
+	{
+		return;
+	}
+	nombreCompleto = empRec.Nombre.first_name + " " + empRec.Nombre.last_name;
+	pendientes = baja.Requerimientos.size();
+	titulo = "Trámite de Baja iniciado - " + nombreCompleto;
+	fechaInicio = zoho.currentdate.toString("dd/MM/yyyy");
+	personal = List();
+	doWhatsApp = false;
+	doEmail = false;
+	for each  cfg in Configuraci_n_General[ID != 0]
+	{
+		for each  uID in cfg.Usuario_a_Notificar_Baja_Empleado_RRHH
+		{
+			u = Usuario1[ID == uID];
+			personal.add(u.Registro_de_Empleado);
+		}
+		vias = cfg.V_as_de_Notificaci_n_Baja_Empleado_RRHH.toString();
+		doWhatsApp = vias.contains("WhatsApp");
+		doEmail = vias.contains("Correo Electrónico");
+		break;
+	}
+	if(personal.size() > 0)
+	{
+		msg = "<p style='margin:0 0 16px;color:#334155;font-size:14px;'>Se ha <strong>iniciado el trámite de baja</strong> del siguiente empleado en el sistema de RRHH.</p>";
+		msg = msg + "<table style='width:100%;border-collapse:collapse;font-size:13px;margin:0 0 20px;'>";
+		msg = msg + "<tr style='background-color:#f8fafc;'><td style='padding:10px 14px;font-weight:600;color:#475569;width:38%;border-bottom:1px solid #e2e8f0;'>Empleado</td><td style='padding:10px 14px;color:#1e293b;font-weight:600;border-bottom:1px solid #e2e8f0;'>" + nombreCompleto + "</td></tr>";
+		msg = msg + "<tr><td style='padding:10px 14px;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0;'>DNI / NIE</td><td style='padding:10px 14px;color:#1e293b;border-bottom:1px solid #e2e8f0;'>" + empRec.DNI + "</td></tr>";
+		msg = msg + "<tr style='background-color:#f8fafc;'><td style='padding:10px 14px;font-weight:600;color:#475569;border-bottom:1px solid #e2e8f0;'>Fecha de inicio del trámite</td><td style='padding:10px 14px;color:#1e293b;border-bottom:1px solid #e2e8f0;'>" + fechaInicio + "</td></tr>";
+		msg = msg + "<tr><td style='padding:10px 14px;font-weight:600;color:#475569;'>Requisitos pendientes</td><td style='padding:10px 14px;color:#1e293b;'>" + pendientes + "</td></tr>";
+		msg = msg + "</table>";
+		msg = msg + "<p style='margin:0;font-size:12px;color:#94a3b8;'>Aviso generado automáticamente al iniciar el proceso de baja en el sistema de RRHH.</p>";
+		thisapp.FuncionesEstaticas.Notificacion(titulo,msg,personal,"Employee_Details",empId,doWhatsApp,doEmail);
+	}
+}

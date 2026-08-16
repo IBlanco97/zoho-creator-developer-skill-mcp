@@ -1,0 +1,38 @@
+{
+  "url": "https://www.ctaimacae.net/CTAIMA_CAE/ADMIN_PROMOTORA/Documentos/Trabajadores/Update.asp?cae=...",
+  "title": "Subir Documento Trabajador",
+  "step": "10-trabajador-update-form",
+  "criticalFinding": "Form trabajador es 95% idéntico al de empresa",
+  "differences": {
+    "extraContext": "Panel izquierdo añade 'Trabajador: nombre [DNI]' (read-only)",
+    "fechaCaducidadOptional": "Cuando el modelo no caduca, Fechaf es hidden con value '31/12/2099' (sentinel) y UI muestra 'No aplica'",
+    "syncBehavior": "Solo 1 checkbox visible (chkExpress). Las 28 empresas listadas dicen 'No se podrá realizar la actualización del documento' — para este modelo no hay sync posible",
+    "syncImplication": "Sync depende del modelo: 'Acuse de recibo Normas UQUIFA' es UQUIFA-specific. Modelos genéricos (DNI, médico) podrían tener checkboxes activos — verificar caso por caso"
+  },
+  "identicalToEmpresaForm": [
+    "form#altamod (POST urlencoded) + form#UploadForm",
+    "#campo_fecha (Fechai), hidden fecha_expedicion",
+    "#campo_fecha2 (Fechaf), hidden fecha_caducidad",
+    "textarea[name=Comentario]",
+    "#uploadBtn[name=file] (file input)",
+    "#AdjuntoSI / #AdjuntoNO radios",
+    "#Otros (motivo no adjunto)",
+    "#chkExpress (Validación Express)",
+    "#Acept (submit)"
+  ],
+  "implicationsForAdapter": [
+    "Adapter Trabajador puede compartir 90% del código con Adapter Empresa",
+    "Diferencia: la URL pre-Update requiere navegar List → expandir trabajador → click en slot",
+    "El cae token codifica todo el contexto (cliente + trabajador + modelo + sesión)"
+  ],
+  "trabajadorFlowSteps": [
+    "1. POST-LOGIN: estamos en /Programas_Admin/Programas.asp con cliente seleccionado",
+    "2. Navigate to /Documentos/Trabajadores/List.asp?cae=... (link from menu)",
+    "3. Search by NIF: input.search en barra superior 'Por NIF de trabajador'",
+    "4. Click en button[name='Expandir{N}'] (folder icon) → server reload con nuevo cae",
+    "5. Localizar fila de slot por texto del documento (matching contra Plantilla.Nombre Zoho)",
+    "6. Extraer href de Update.asp del icono ☁️ (a:has(.fa-cloud-upload))",
+    "7. Navigate a Update.asp?cae=... (mismo form que empresa)",
+    "8. Submit (mismo flow que empresa)"
+  ]
+}

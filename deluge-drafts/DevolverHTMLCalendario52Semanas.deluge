@@ -1,0 +1,500 @@
+string Calendario52HTML.DevolverHTMLCalendario52Semanas(int anio, int filtroEmpId, string tecNom, string cliNom, string recibir_, int semDesde, int semHasta, string tipoAsig)
+{
+	semAnio = zoho.currentdate.getYear();
+	if(isNull(anio) || anio == 0)
+	{
+		anio = semAnio;
+	}
+	if(isNull(filtroEmpId))
+	{
+		filtroEmpId = 0;
+	}
+	sdFrom = if(isNull(semDesde) || semDesde < 1,1,semDesde);
+	sdTo = if(isNull(semHasta) || semHasta < 1 || semHasta > 52,52,semHasta);
+	if(sdFrom > sdTo)
+	{
+		sdFrom = 1;
+		sdTo = 52;
+	}
+	tecNomL = ifnull(tecNom,"").toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+	cliNomL = ifnull(cliNom,"").toLowerCase();
+	jan4 = toDate("04-01-" + anio,"dd-MM-yyyy");
+	jan4dow = jan4.getDayOfWeek();
+	jan4isodow = if(jan4dow == 1,7,jan4dow - 1);
+	mon1 = jan4.addDay(1 - jan4isodow);
+	mnames = "ene,feb,mar,abr,may,jun,jul,ago,sep,oct,nov,dic".toList(",");
+	wkLbl = list();
+	wkStartD = list();
+	wkEndD = list();
+	for each  pwn in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52}
+	{
+		pds = mon1.addDay((pwn - 1) * 7);
+		pde = mon1.addDay((pwn - 1) * 7 + 6);
+		wkStartD.add(pds);
+		wkEndD.add(pde);
+		wkLbl.add(pds.toString("d") + " " + mnames.get(pds.getMonth() - 1) + " - " + pde.toString("d") + " " + mnames.get(pde.getMonth() - 1));
+	}
+	prevY = anio - 1;
+	nextY = anio + 1;
+	semHoy = zoho.currentdate.getWeekOfYear();
+	filterParam = if(filtroEmpId != 0,"&FiltroEmp=" + filtroEmpId,"");
+	filterParam = filterParam + if(tecNomL != "","&TecnicoNombre=" + tecNom,"");
+	filterParam = filterParam + if(cliNomL != "","&ClienteNombre=" + cliNom,"");
+	filterParam = filterParam + if(sdFrom != 1 || sdTo != 52,"&SemDesde=" + sdFrom + "&SemHasta=" + sdTo,"");
+	emailFilterParam = if(filtroEmpId != 0,"&FiltroEmp=" + filtroEmpId,"");
+	emailFilterParam = emailFilterParam + if(cliNomL != "","&ClienteNombre=" + cliNom,"");
+	emailFilterParam = emailFilterParam + if(sdFrom != 1 || sdTo != 52,"&SemDesde=" + sdFrom + "&SemHasta=" + sdTo,"");
+	hasFilter = filtroEmpId != 0 || tecNomL != "" || cliNomL != "" || sdFrom != 1 || sdTo != 52;
+	// Bloque de datos: TODO fetch a granel (1 query por tabla) para minimizar sentencias -
+	// nada de queries por tecnico dentro de bucles.
+	anioStr = anio.toString();
+	yearStart = toDate("01-01-" + anioStr,"dd-MM-yyyy");
+	yearEnd = toDate("31-12-" + anioStr,"dd-MM-yyyy");
+	if(filtroEmpId != 0)
+	{
+		regTemp = Asignacion_Tecnico_Cliente_Anio[Anio == anio && Tecnico == filtroEmpId];
+		solRecs = Solicitud[Aprobado == "SI" && Trabajador_Solicitante == filtroEmpId && Fecha_de_comienzo >= yearStart && Fecha_de_comienzo <= yearEnd] sort by Fecha_de_comienzo asc;
+		empRecsBase = Nuevo_Empleado[ID == filtroEmpId];
+	}
+	else
+	{
+		regTemp = Asignacion_Tecnico_Cliente_Anio[Anio == anio];
+		solRecs = Solicitud[Aprobado == "SI" && Fecha_de_comienzo >= yearStart && Fecha_de_comienzo <= yearEnd] sort by Fecha_de_comienzo asc;
+		empRecsBase = Nuevo_Empleado[Estado_del_Empleado == "Activo"];
+	}
+	// Nombres de cliente a granel (evita 1 query por fila de asignacion)
+	clienteNameMap = Map();
+	for each  cAll in Nuevo_Cliente
+	{
+		clienteNameMap.put(cAll.ID.toString(),ifnull(cAll.Nombre_de_Cuenta,""));
+	}
+	// Build sorted tech list: empleados activos (aunque sin datos) + tecnicos con
+	// asignacion/permiso historicos aunque no esten activos
+	nameIdList = list();
+	empNameMap = Map();
+	seenTecs = Map();
+	for each  er in empRecsBase
+	{
+		tid = er.ID.toString();
+		if(seenTecs.get(tid) == null)
+		{
+			seenTecs.put(tid,true);
+			eln = ifnull(er.Nombre.last_name,"");
+			efn = ifnull(er.Nombre.first_name,"");
+			elnN = eln.toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+			efnN = efn.toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+			nameIdList.add(elnN + "|" + efnN + "|" + tid);
+			fi = if(efn != "",", " + efn.substring(0,1) + ".","");
+			empNameMap.put(tid,eln + fi);
+		}
+	}
+	for each  rt in regTemp
+	{
+		tid = rt.Tecnico.toString();
+		if(seenTecs.get(tid) == null)
+		{
+			seenTecs.put(tid,true);
+			for each  er in Nuevo_Empleado[ID == rt.Tecnico]
+			{
+				eln = ifnull(er.Nombre.last_name,"");
+				efn = ifnull(er.Nombre.first_name,"");
+				elnN = eln.toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+				efnN = efn.toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+				nameIdList.add(elnN + "|" + efnN + "|" + tid);
+				fi = if(efn != "",", " + efn.substring(0,1) + ".","");
+				empNameMap.put(tid,eln + fi);
+				break;
+			}
+		}
+	}
+	for each  sol in solRecs
+	{
+		tid = sol.Trabajador_Solicitante.toString();
+		if(seenTecs.get(tid) == null)
+		{
+			seenTecs.put(tid,true);
+			for each  er in Nuevo_Empleado[ID == sol.Trabajador_Solicitante]
+			{
+				eln = ifnull(er.Nombre.last_name,"");
+				efn = ifnull(er.Nombre.first_name,"");
+				elnN = eln.toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+				efnN = efn.toLowerCase().replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").replaceAll("ü","u").replaceAll("ñ","n");
+				nameIdList.add(elnN + "|" + efnN + "|" + tid);
+				fi = if(efn != "",", " + efn.substring(0,1) + ".","");
+				empNameMap.put(tid,eln + fi);
+				break;
+			}
+		}
+	}
+	nameIdList.sort();
+	// Agrupar asignaciones por tecnico EN MEMORIA (1 sola pasada por regTemp,
+	// sin volver a consultar Asignacion_Tecnico_Cliente_Anio por cada tecnico).
+	// Cada entrada empaqueta: claveOrden|||cliente|||tipo|||celdasHTML|||vPipeCSV
+	empRegsByTec = Map();
+	for each  r in regTemp
+	{
+		tidR = r.Tecnico.toString();
+		cliNombreR = ifnull(clienteNameMap.get(r.Cliente.toString()),"");
+		celdasR = ifnull(r.Observaciones,"");
+		if(celdasR.contains("wtip") == false)
+		{
+			celdasR = "";
+		}
+		if(cliNombreR == "" && celdasR == "")
+		{
+			continue;
+		}
+		vPipeR = ifnull(r.S1,"") + "|" + ifnull(r.S2,"") + "|" + ifnull(r.S3,"") + "|" + ifnull(r.S4,"") + "|" + ifnull(r.S5,"") + "|" + ifnull(r.S6,"") + "|" + ifnull(r.S7,"") + "|" + ifnull(r.S8,"") + "|" + ifnull(r.S9,"") + "|" + ifnull(r.S10,"") + "|" + ifnull(r.S11,"") + "|" + ifnull(r.S12,"") + "|" + ifnull(r.S13,"") + "|" + ifnull(r.S14,"") + "|" + ifnull(r.S15,"") + "|" + ifnull(r.S16,"") + "|" + ifnull(r.S17,"") + "|" + ifnull(r.S18,"") + "|" + ifnull(r.S19,"") + "|" + ifnull(r.S20,"") + "|" + ifnull(r.S21,"") + "|" + ifnull(r.S22,"") + "|" + ifnull(r.S23,"") + "|" + ifnull(r.S24,"") + "|" + ifnull(r.S25,"") + "|" + ifnull(r.S26,"") + "|" + ifnull(r.S27,"") + "|" + ifnull(r.S28,"") + "|" + ifnull(r.S29,"") + "|" + ifnull(r.S30,"") + "|" + ifnull(r.S31,"") + "|" + ifnull(r.S32,"") + "|" + ifnull(r.S33,"") + "|" + ifnull(r.S34,"") + "|" + ifnull(r.S35,"") + "|" + ifnull(r.S36,"") + "|" + ifnull(r.S37,"") + "|" + ifnull(r.S38,"") + "|" + ifnull(r.S39,"") + "|" + ifnull(r.S40,"") + "|" + ifnull(r.S41,"") + "|" + ifnull(r.S42,"") + "|" + ifnull(r.S43,"") + "|" + ifnull(r.S44,"") + "|" + ifnull(r.S45,"") + "|" + ifnull(r.S46,"") + "|" + ifnull(r.S47,"") + "|" + ifnull(r.S48,"") + "|" + ifnull(r.S49,"") + "|" + ifnull(r.S50,"") + "|" + ifnull(r.S51,"") + "|" + ifnull(r.S52,"");
+		packedR = cliNombreR.toLowerCase() + "‡" + cliNombreR + "‡" + ifnull(r.Tipo,"") + "‡" + celdasR + "‡" + vPipeR;
+		lstR = empRegsByTec.get(tidR);
+		if(lstR == null)
+		{
+			lstR = list();
+		}
+		lstR.add(packedR);
+		empRegsByTec.put(tidR,lstR);
+	}
+	// Permisos/vacaciones agrupados por tecnico EN MEMORIA (1 sola pasada por solRecs)
+	solByTec = Map();
+	for each  sol in solRecs
+	{
+		tidS = sol.Trabajador_Solicitante.toString();
+		solLabelS = ifnull(sol.Tipo,"Permiso");
+		solSubtipoS = "";
+		solClassS = "perm";
+		if(sol.Tipo == "Vacaciones")
+		{
+			solClassS = "vac";
+		}
+		else if(sol.Tipo == "Permiso Retribuido")
+		{
+			solSubtipoS = ifnull(sol.Tipo_de_Permiso_Retribu_do,"");
+			if(solSubtipoS == "Enfermedad grave o accidente")
+			{
+				solClassS = "baja";
+			}
+			else if(solSubtipoS == "Nacimiento de hijo")
+			{
+				solClassS = "mat";
+			}
+		}
+		else if(sol.Tipo == "Permiso no Retribuido")
+		{
+			solSubtipoS = ifnull(sol.Tipo_de_Permiso_No_Retribuido,"");
+		}
+		iniStrS = sol.Fecha_de_comienzo.toString("dd-MM-yyyy");
+		finStrS = if(isNull(sol.Fecha_de_Fin),"",sol.Fecha_de_Fin.toString("dd-MM-yyyy"));
+		packedSol = iniStrS + "‡" + finStrS + "‡" + solClassS + "‡" + solLabelS + "‡" + solSubtipoS;
+		lstS = solByTec.get(tidS);
+		if(lstS == null)
+		{
+			lstS = list();
+		}
+		lstS.add(packedSol);
+		solByTec.put(tidS,lstS);
+	}
+	// Celdas "off" (52) precomputadas UNA sola vez, reutilizadas en cada fila
+	// de tecnico sin datos - evita repetir un bucle de 52 por cada tecnico vacio.
+	offCellsStatic = "";
+	for each  ocw in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52}
+	{
+		offCellsStatic = offCellsStatic + "<td><span class='wtip off' data-t='S" + ocw + ": " + wkLbl.get(ocw - 1) + "'>" + ocw + "</span></td>";
+	}
+	q = '"';
+	nl = "\n";
+	csv = "Tecnico,Cliente,Tipo,S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12,S13,S14,S15,S16,S17,S18,S19,S20,S21,S22,S23,S24,S25,S26,S27,S28,S29,S30,S31,S32,S33,S34,S35,S36,S37,S38,S39,S40,S41,S42,S43,S44,S45,S46,S47,S48,S49,S50,S51,S52" + nl;
+	html = "<style>.cal52{border-collapse:collapse;font-size:11px;width:100%}.cal52 th{background:#1C3A5E;color:#fff;padding:3px 2px;text-align:center;white-space:nowrap}.cal52 td{padding:1px;";
+	html = html + "text-align:center}.cal52 tr:nth-child(even){background:#f5f7fa}.nm{text-align:left!important;padding:4px 6px!important;white-space:nowrap;font-weight:600;min-width:80px}.on{background:#3B82F6;color:white;";
+	html = html + "border-radius:2px;font-size:9px;padding:1px 2px;display:block}.perm{background:#10B981;color:white;border-radius:2px;font-size:9px;padding:1px 2px;display:block}.off{background:#e2e8f0;color:#94a3b8;border-radius:2px;";
+	html = html + "font-size:9px;padding:1px 2px;display:block}.cur{outline:2px solid #F59E0B;outline-offset:-1px}.thcur{background:#F59E0B!important;color:#1C3A5E!important;font-weight:700}.grp td{border-top:2px solid #94a3b8!important}.ynav{display:flex;justify-content:space-between;";
+	html = html + "align-items:center;padding:8px;font-weight:600}.ynav a{color:#1C3A5E;text-decoration:none;padding:6px 10px;border:1px solid #1C3A5E;border-radius:4px}.ynav span{font-size:16px}.wtip{position:relative}.wtip::before{content:attr(data-t);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:#1C3A5E;color:#fff;padding:4px 8px;";
+	html = html + "border-radius:4px;white-space:pre;font-size:11px;opacity:0;pointer-events:none;z-index:9999;transition:opacity .15s;max-width:240px;line-height:1.5;text-align:left}.wtip:hover::before{opacity:1}.cal52 a{text-decoration:none;color:inherit;display:block}@media print{.no-print{display:none!important}.cal52{font-size:7px}@page{size:A3 landscape;margin:8mm}}";
+	html = html + ".vac{background:#FBBF24;color:#78350F;border-radius:2px;font-size:9px;padding:1px 2px;display:block}.baja{background:#EF4444;color:#fff;border-radius:2px;font-size:9px;padding:1px 2px;display:block}.mat{background:#F472B6;color:#fff;border-radius:2px;font-size:9px;padding:1px 2px;display:block}.nohab{background:#9CA3AF;color:#fff;border-radius:2px;font-size:9px;padding:1px 2px;display:block}.libre{background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.38) 0 2px,transparent 2px 5px)!important}</style>";
+	html = html + "<div class='ynav no-print'><a href='#Page:Semanas_Nuevo?Anio=" + prevY + filterParam + "'>&#9664; " + prevY + "</a><span>" + anio + "</span><a href='#Page:Semanas_Nuevo?Anio=" + nextY + filterParam + "'>" + nextY + " &#9654;</a></div>";
+	leyenda_ = "<div class='no-print' style='display:flex;gap:10px;align-items:center;padding:2px 8px 6px;flex-wrap:wrap;font-size:11px;color:#334155'><b>Leyenda:</b>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#3B82F6;display:inline-block'></span>Cliente</span>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#FBBF24;display:inline-block'></span>Vacaciones</span>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#EF4444;display:inline-block'></span>Baja m&eacute;dica</span>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#F472B6;display:inline-block'></span>Maternidad/Paternidad</span>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#9CA3AF;display:inline-block'></span>T&eacute;cnico no habitual</span>";
+	leyenda_ = leyenda_ + "<span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background:#10B981;display:inline-block'></span>Otros permisos</span><span style='display:inline-flex;align-items:center;gap:4px'><span style='width:12px;height:12px;border-radius:3px;background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.38) 0 2px,transparent 2px 5px);border:1px solid #cbd5e1;display:inline-block'></span>Cliente no disponible (t&eacute;cnico libre)</span></div>";
+	html = html + leyenda_;
+	urlHtml_ = "#Page:Semanas_Nuevo?Anio=" + anio + "&TecnicoNombre=SEND_HTML" + emailFilterParam;
+	urlCsv_ = "#Page:Semanas_Nuevo?Anio=" + anio + "&TecnicoNombre=SEND_CSV" + emailFilterParam;
+	urlPdf_ = "#Page:Semanas_Nuevo?Anio=" + anio + "&TecnicoNombre=SEND_PDF" + emailFilterParam;
+	html = html + "<div class='no-print' style='display:flex;gap:8px;justify-content:flex-end;padding:2px 8px 6px'><a href='" + urlHtml_ + "' style='background:#1C3A5E;color:#fff;border-radius:4px;padding:5px 12px;font-size:12px;text-decoration:none'>&#9993; Recibir por email</a><a href='" + urlCsv_ + "' style='background:#10B981;color:#fff;border-radius:4px;padding:5px 12px;font-size:12px;text-decoration:none'>&#9993; Recibir CSV</a><a href='" + urlPdf_ + "' style='background:#7C3AED;color:#fff;border-radius:4px;padding:5px 12px;font-size:12px;text-decoration:none'>&#128196; Generar PDF</a></div>";
+	baseUrl_ = "#Page:Semanas_Nuevo?Anio=" + anio + if(filtroEmpId != 0,"&FiltroEmp=" + filtroEmpId,"") + if(tecNomL != "","&TecnicoNombre=" + tecNom,"") + if(cliNomL != "","&ClienteNombre=" + cliNom,"");
+	html = html + "<div class='no-print' style='display:flex;gap:8px;align-items:center;padding:0 8px 6px;flex-wrap:wrap'><span style='font-size:12px;color:#64748b;font-weight:600'>Semanas:</span><input type='number' id='_sd' min='1' max='52' value='" + sdFrom + "' style='width:52px;padding:3px 5px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px'><span style='font-size:12px;color:#64748b'>&mdash;</span><input type='number' id='_st' min='1' max='52' value='" + sdTo + "' style='width:52px;padding:3px 5px;border:1px solid #cbd5e1;border-radius:4px;font-size:12px'><button onclick='(function(){var sd=parseInt(document.getElementById(\"_sd\").value),st=parseInt(document.getElementById(\"_st\").value);if(isNaN(sd)||sd<1||sd>52){alert(\"Semana Desde debe estar entre 1 y 52\");return;}if(isNaN(st)||st<1||st>52){alert(\"Semana Hasta debe estar entre 1 y 52\");return;}if(sd>st){alert(\"Semana Desde no puede ser mayor que Semana Hasta\");return;}window.top.location.href=`" + baseUrl_ + "&SemDesde=`+sd+`&SemHasta=`+st;})()' style='background:#475569;color:#fff;border:none;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:12px'>Aplicar</button></div>";
+	if(hasFilter)
+	{
+		chipsHtml_ = "<div class='no-print' style='display:flex;gap:6px;align-items:center;padding:0 8px 6px;flex-wrap:wrap'><span style='font-size:12px;color:#64748b;font-weight:600'>Filtros activos:</span>";
+		if(filtroEmpId != 0)
+		{
+			chipTecNom_ = ifnull(empNameMap.get(filtroEmpId.toString()),"Empleado " + filtroEmpId);
+			chipsHtml_ = chipsHtml_ + "<span style='background:#e0e7ff;color:#3730a3;border-radius:12px;padding:3px 10px;font-size:11px;font-weight:600'>T&eacute;cnico: " + chipTecNom_ + "</span>";
+		}
+		if(tecNomL != "")
+		{
+			chipsHtml_ = chipsHtml_ + "<span style='background:#e0e7ff;color:#3730a3;border-radius:12px;padding:3px 10px;font-size:11px;font-weight:600'>T&eacute;cnico: " + tecNom + "</span>";
+		}
+		if(cliNomL != "")
+		{
+			chipsHtml_ = chipsHtml_ + "<span style='background:#dbeafe;color:#1e40af;border-radius:12px;padding:3px 10px;font-size:11px;font-weight:600'>Cliente: " + cliNom + "</span>";
+		}
+		if(sdFrom != 1 || sdTo != 52)
+		{
+			chipsHtml_ = chipsHtml_ + "<span style='background:#fef3c7;color:#92400e;border-radius:12px;padding:3px 10px;font-size:11px;font-weight:600'>Semanas: " + sdFrom + " - " + sdTo + "</span>";
+		}
+		chipsHtml_ = chipsHtml_ + "<a href='#Page:Semanas_Nuevo?Anio=" + anio + "' style='color:#ef4444;font-size:12px;padding:3px 10px;border:1px solid #ef4444;border-radius:12px;text-decoration:none;white-space:nowrap;font-weight:600'>&#10005; Limpiar filtros</a></div>";
+		html = html + chipsHtml_;
+	}
+	thead = "<div style='overflow-x:auto;padding:0 8px 8px'><table class='cal52'><thead><tr><th class='nm'>T&#233;cnico</th><th class='nm'>Cliente</th>";
+	for each  wn in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52}
+	{
+		if(1 == 1)
+		{
+			thead = thead + "<th" + if(wn == semHoy && anio == semAnio," class='thcur'","") + " title='S" + wn + ": " + wkLbl.get(wn - 1) + "'>" + wn + "</th>";
+		}
+	}
+	html = html + thead + "</tr></thead><tbody>";
+	if(anio == semAnio && semHoy >= 1 && semHoy <= 52)
+	{
+		html = html + "<style>.cal52 tbody td:nth-child(" + (semHoy + 2) + "){outline:2px solid #F59E0B;outline-offset:-1px}</style>";
+	}
+	if(sdFrom != 1 || sdTo != 52)
+	{
+		hideCss = "<style>";
+		for each  hw in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52}
+		{
+			if(hw < sdFrom || hw > sdTo)
+			{
+				hideCss = hideCss + ".cal52 td:nth-child(" + (hw + 2) + "),.cal52 th:nth-child(" + (hw + 2) + "){display:none}";
+			}
+		}
+		hideCss = hideCss + "</style>";
+		html = html + hideCss;
+	}
+	// Render UNIFICADO por tecnico: sus asignaciones y sus permisos/vacaciones
+	// quedan agrupados juntos (misma iteracion de nameIdList), y si no tiene
+	// ningun dato igual aparece con una fila vacia (celdas off precomputadas).
+	prevTecStr = "";
+	for each  nameId in nameIdList
+	{
+		parts = nameId.toList("|");
+		elnN_ = parts.get(0);
+		efnN_ = parts.get(1);
+		tid = parts.get(parts.size() - 1);
+		tecFull = ifnull(empNameMap.get(tid),"");
+		tecMatch = tecNomL == "" || elnN_.contains(tecNomL) || efnN_.contains(tecNomL) || (elnN_ + " " + efnN_).contains(tecNomL);
+		if(tecMatch == false)
+		{
+			continue;
+		}
+		isFirstForTec = true;
+		rowsForTec = 0;
+		myRegs = empRegsByTec.get(tid);
+		if(myRegs != null)
+		{
+			myRegs.sort();
+			for each  packedR in myRegs
+			{
+				rp = packedR.toList("‡");
+				cli = rp.get(1);
+				tipoR = rp.get(2);
+				celdasR = rp.get(3);
+				vPipe = rp.get(4);
+				cliMatch = cliNomL == "" || cli.toLowerCase().contains(cliNomL);
+				if(cliMatch)
+				{
+					isNewGroup = isFirstForTec && prevTecStr != "";
+					tecCell = if(isFirstForTec,tecFull,"");
+					trClass = if(isNewGroup," class='grp'","");
+					if(isFirstForTec)
+					{
+						prevTecStr = tid;
+						isFirstForTec = false;
+					}
+					rowsForTec = rowsForTec + 1;
+					if(recibir_ != "")
+					{
+						csv = csv + q + tecFull + q + "," + q + cli + q + "," + tipoR + "," + vPipe.replaceAll("|",",") + nl;
+					}
+					row = "<tr" + trClass + "><td class='nm' title='" + tecFull + "'>" + tecCell + "</td><td class='nm'" + if(cli.length() > 18," title='" + cli + "'","") + ">" + if(cli.length() > 18,cli.substring(0,18) + "...",cli) + "</td>" + celdasR;
+					html = html + row + "</tr>";
+				}
+			}
+		}
+		// Permisos/vacaciones del mismo tecnico, inmediatamente despues de sus asignaciones
+		mySols = solByTec.get(tid);
+		if(mySols != null)
+		{
+			for each  packedSolR in mySols
+			{
+				rpSol = packedSolR.toList("‡");
+				iniStrR = rpSol.get(0);
+				finStrR = rpSol.get(1);
+				solClass_ = rpSol.get(2);
+				solLabel = rpSol.get(3);
+				solSubtipo_ = rpSol.get(4);
+				wStart = toDate(iniStrR,"dd-MM-yyyy").getWeekOfYear();
+				solEndDateR = if(finStrR == "",toDate(iniStrR,"dd-MM-yyyy"),toDate(finStrR,"dd-MM-yyyy"));
+				wEnd = solEndDateR.getWeekOfYear();
+				if(wEnd < wStart)
+				{
+					wEnd = 52;
+				}
+				tipSol_ = solLabel + if(solSubtipo_ != "",nl + solSubtipo_,"");
+				isNewGroup = isFirstForTec && prevTecStr != "";
+				stecCell = if(isFirstForTec,tecFull,"");
+				strClass = if(isNewGroup," class='grp'","");
+				if(isFirstForTec)
+				{
+					prevTecStr = tid;
+					isFirstForTec = false;
+				}
+				rowsForTec = rowsForTec + 1;
+				solCsv = "";
+				for each  wn in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52}
+				{
+					solCsv = solCsv + if(wn > 1,",","") + if(wn >= wStart && wn <= wEnd,"SI","");
+				}
+				csv = csv + q + tecFull + q + "," + q + solLabel + q + ",Permiso," + solCsv + nl;
+				srow = "<tr" + strClass + "><td class='nm' title='" + tecFull + "'>" + stecCell + "</td><td class='nm'>" + solLabel + "</td>";
+				for each  wn in {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52}
+				{
+					srow = srow + "<td><a href='#Page:Detalle_Semana?Anio=" + anio + "&Semana=" + wn + "&TecnicoId=" + tid + "'><span class='wtip " + if(wn >= wStart && wn <= wEnd,solClass_,"off") + if(wn == semHoy && anio == semAnio," cur","") + "' data-t='" + if(wn >= wStart && wn <= wEnd,tipSol_ + nl,"") + "S" + wn + ": " + wkLbl.get(wn - 1) + "'>" + wn + "</span></a></td>";
+				}
+				html = html + srow + "</tr>";
+			}
+		}
+		// Tecnico sin asignaciones ni permisos este anio -> igual aparece, fila vacia
+		// (solo cuando no hay filtro de cliente activo, que por definicion excluye a quien no cuadra)
+		if(rowsForTec == 0 && cliNomL == "")
+		{
+			isNewGroup = prevTecStr != "";
+			trClass = if(isNewGroup," class='grp'","");
+			prevTecStr = tid;
+			html = html + "<tr" + trClass + "><td class='nm' title='" + tecFull + "'>" + tecFull + "</td><td class='nm'>&mdash;</td>" + offCellsStatic + "</tr>";
+		}
+	}
+	html = html + "</tbody></table></div><textarea id='_csv' style='position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0'>" + csv + "</textarea>";
+	if(recibir_ != "")
+	{
+		loginEmail_ = zoho.loginuserid;
+		if(recibir_ == "SEND_PDF")
+		{
+			pdfFiltroTec_ = if(filtroEmpId != 0,ifnull(empNameMap.get(filtroEmpId.toString()),""),tecNom);
+			weekLabelsRaw_ = wkLbl.toString(";;");
+			PLANIF_BRIDGE_ID_ = "4790826000001439002";
+			tempParamsPdf_ = "PLANIF|||" + PLANIF_BRIDGE_ID_ + "|||" + anio + "|||" + sdFrom + "|||" + sdTo + "|||" + ifnull(pdfFiltroTec_,"") + "|||" + ifnull(cliNom,"") + "|||" + weekLabelsRaw_ + "|||" + csv;
+			tempParamsPdfStep1_ = tempParamsPdf_.replaceAll("\"","'");
+			tempParamsPdfSafe_ = tempParamsPdfStep1_.replaceAll(nl,"‡NL‡");
+			patchBodyPdf_ = "{\"data\":{\"Temp_Params\":\"" + tempParamsPdfSafe_ + "\"}}";
+
+			tokenParamsPdf_ = Map();
+			tokenParamsPdf_.put("refresh_token",zoho.appvariable.ZOHO_REFRESH_TOKEN);
+			tokenParamsPdf_.put("client_id",zoho.appvariable.ZOHO_CLIENT_ID);
+			tokenParamsPdf_.put("client_secret",zoho.appvariable.ZOHO_CLIENT_SECRET);
+			tokenParamsPdf_.put("grant_type","refresh_token");
+			tokenRespPdf_ = invokeurl
+			[
+				url :"https://accounts.zoho.com/oauth/v2/token"
+				type :POST
+				parameters :tokenParamsPdf_
+			];
+			accessTokenPdf_ = tokenRespPdf_.get("access_token").toString();
+
+			pdfGenOk_ = false;
+			debugPdf_ = "";
+			if(accessTokenPdf_ != null && accessTokenPdf_ != "" && accessTokenPdf_ != "null")
+			{
+				patchHeadersPdf_ = Map();
+				patchHeadersPdf_.put("Authorization","Zoho-oauthtoken " + accessTokenPdf_);
+				patchHeadersPdf_.put("Content-Type","application/json");
+				patchUrlPdf_ = "https://www.zohoapis.com/creator/v2.1/data/formacion11/human-resource-management/report/Plantilla_PDF_Report/" + PLANIF_BRIDGE_ID_;
+				patchRespPdf_ = invokeurl
+				[
+					url :patchUrlPdf_
+					type :PATCH
+					body :patchBodyPdf_
+					headers :patchHeadersPdf_
+				];
+				if(patchRespPdf_.get("code").toString() == "3000")
+				{
+					nodeRespPdf_ = thisapp.GenerarPDFPlanificador();
+					nodeOutputMap_ = nodeRespPdf_.get("output").toString().toMap();
+					if(nodeOutputMap_.get("success") == true)
+					{
+						pdfGenOk_ = true;
+					}
+					else
+					{
+						debugPdf_ = "node_fail: " + nodeRespPdf_.toString();
+					}
+				}
+				else
+				{
+					debugPdf_ = "patch_fail code=" + patchRespPdf_.get("code").toString() + " resp=" + patchRespPdf_.toString();
+				}
+			}
+			else
+			{
+				debugPdf_ = "token_fail: " + tokenRespPdf_.toString();
+			}
+			if(pdfGenOk_)
+			{
+				pfRec_ = null;
+				for each  pf in Plantilla_PDF[ID == PLANIF_BRIDGE_ID_.toLong()]
+				{
+					pfRec_ = pf;
+					break;
+				}
+				mailSubjectPdf_ = "Planificador " + anio + " - PDF";
+				mailBodyPdf_ = "<p>Adjunto el PDF del planificador " + anio + " con los filtros aplicados.</p>";
+				sendmail
+				[
+					from :zoho.adminuserid
+					to :loginEmail_
+					subject :mailSubjectPdf_
+					message :mailBodyPdf_
+					Attachments :file:pfRec_.Archivo_Planificador_Temp
+				]
+				toast_ = "<div style='background:#7C3AED;color:#fff;padding:10px 16px;border-radius:6px;margin:8px;font-size:13px;text-align:center'>PDF generado y enviado a " + loginEmail_ + "</div>";
+			}
+			else
+			{
+				toast_ = "<div style='background:#EF4444;color:#fff;padding:10px 16px;border-radius:6px;margin:8px;font-size:13px;text-align:center'>No se pudo generar el PDF. Inténtalo de nuevo.</div>";
+			}
+			html = toast_ + html;
+		}
+		else if(recibir_ == "SEND_CSV")
+		{
+			mailSubject_ = "Planificador " + anio + " - CSV";
+			mailBody_ = "<p>CSV del planificador " + anio + ":</p><pre>" + csv + "</pre>";
+			sendmail
+			[
+				from :zoho.adminuserid
+				to :loginEmail_
+				subject :mailSubject_
+				message :mailBody_
+			]
+			toast_ = "<div style='background:#10B981;color:#fff;padding:10px 16px;border-radius:6px;margin:8px;font-size:13px;text-align:center'>Email enviado a " + loginEmail_ + "</div>";
+			html = toast_ + html;
+		}
+		else
+		{
+			mailSubject_ = "Planificador " + anio;
+			mailBody_ = "<p>Planificador de asignaciones " + anio + ":</p>" + html;
+			sendmail
+			[
+				from :zoho.adminuserid
+				to :loginEmail_
+				subject :mailSubject_
+				message :mailBody_
+			]
+			toast_ = "<div style='background:#10B981;color:#fff;padding:10px 16px;border-radius:6px;margin:8px;font-size:13px;text-align:center'>Email enviado a " + loginEmail_ + "</div>";
+			html = toast_ + html;
+		}
+	}
+	return html;
+}

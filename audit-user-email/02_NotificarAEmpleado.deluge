@@ -1,0 +1,25 @@
+// SolicitudPermiso.NotificarAEmpleado — uso de User_Email
+// USO: mailsList recoge user.User_Email y se pasa a zoho.pushNotification(mailsList, ...)
+// ⚠ DECISIÓN: zoho.pushNotification ROUTEA POR LOGIN del usuario (User_Email es la identidad).
+//    Si se cambia a Email_para_notificaciones, la push NO llega (no hay sesión con ese login).
+//    Por tanto NO debe sustituirse aquí. User_Email es correcto.
+// (Al usuario humano se le envía email/whatsapp aparte usando campos de Nuevo_Empleado, no Usuario1.)
+
+void SolicitudPermiso.NotificarAEmpleado(Nuevo_Empleado Trabajador_Solicitante, date Fecha_de_comienzo, date Fecha_de_Fin, int solicitudID)
+{
+	configuracion_general = Configuraci_n_General[ID != 0];
+	cuenta = configuracion_general.Cuenta_de_Whatsapp;
+	portalUrl = "https://domo21.zohocreatorportal.com";
+	if(configuracion_general.Notificar_respuesta_a_Empleados == "Activado")
+	{
+		// ... (cuerpo HTML/WhatsApp)
+		mailsList = List();
+		for each  userID in Trabajador_Solicitante.Usuario11
+		{
+			user = Usuario1[ID == userID];
+			mailsList.add(user.User_Email);
+		}
+		zoho.pushNotification(mailsList,tittle,tittle + " del " + fechaIni + " al " + fechaFin,"Ver_Solicitud",solicitudID);
+		// ...
+	}
+}

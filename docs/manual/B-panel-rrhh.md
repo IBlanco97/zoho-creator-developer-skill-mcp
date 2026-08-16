@@ -2,7 +2,7 @@
 
 **Perfil:** Gestor RRHH, Responsable CAE, Supervisor, Operario CAE, Super Administrador
 **Acceso:** [https://creatorapp.zoho.com/formacion11/human-resource-management/](https://creatorapp.zoho.com/formacion11/human-resource-management/)
-**Versión:** 1.1 — Abril 2026
+**Versión:** 1.3 — Julio 2026
 
 ---
 
@@ -33,6 +33,9 @@
     - 11.1 [Búsqueda y filtros rápidos](#111-búsqueda-y-filtros-rápidos)
     - 11.2 [Filtros personalizados predefinidos](#112-filtros-personalizados-predefinidos)
     - 11.3 [Crear filtros predefinidos (Administradores)](#113-crear-filtros-predefinidos-administradores)
+12. [STOP2 — Control de Análisis Previos](#12-stop2--control-de-análisis-previos)
+    - 12.1 [Reporte STOP2](#121-reporte-stop2)
+    - 12.2 [Informe semanal automático a clientes](#122-informe-semanal-automático-a-clientes)
 
 ---
 
@@ -153,6 +156,9 @@ El **Calendario de 52 Semanas** muestra la planificación laboral anual del pers
 
 **Interacción:**
 - Clic en cualquier celda → navega al **Detalle de Semana** para esa semana/año específicos
+
+**Cliente no disponible:**
+Si el cliente tiene registrados días de cierre (vacaciones de planta, paradas técnicas, etc.), las semanas afectadas se marcan con un borde discontinuo sobre la celda, indicando que el técnico queda libre esos días. Estos periodos se gestionan desde el registro del cliente — ver [C §3 — Días de cierre del cliente](C-prl-cae.md#3-clientes).
 
 ### 3.2 Detalle de Semana
 
@@ -520,6 +526,28 @@ Notificaciones para el flujo de solicitud y respuesta de permisos.
 |-----------|-------------|
 | **Notif. respuesta RRHH** | Avisa al empleado cuando RRHH le responde un mensaje |
 
+#### Notificaciones de Alta de un Empleado
+Avisa al grupo de RRHH que configures cuando un trabajador pasa a estado **Activo** (alta).
+
+| Parámetro | Descripción |
+|-----------|-------------|
+| **Vías de notificación** | WhatsApp, Correo Electrónico (configurable) |
+| **Personal a notificar** | Usuarios seleccionados en "Usuarios a notificar". Si no hay ninguno, se muestra ⚠ *Ninguno configurado* |
+
+> **Cómo se dispara:** al editar la ficha de un empleado y cambiar **Estado del Empleado** a `Activo`. Solo notifica en la transición real (no se repite en ediciones posteriores si el empleado ya estaba Activo).
+
+#### Notificaciones de Baja de un Empleado
+Avisa al grupo de RRHH que configures cuando un trabajador pasa a estado **Inactivo-Baja**.
+
+| Parámetro | Descripción |
+|-----------|-------------|
+| **Vías de notificación** | WhatsApp, Correo Electrónico (configurable) |
+| **Personal a notificar** | Usuarios seleccionados en "Usuarios a Notificar". Si no hay ninguno, se muestra ⚠ *Ninguno configurado* |
+
+> **Cómo se dispara:** al editar la ficha de un empleado y cambiar **Estado del Empleado** a `Inactivo-Baja`. El mensaje incluye la nota de baja si el campo "Nota en caso de baja" está relleno.
+
+> **Requisito para que la notificación llegue:** cada usuario seleccionado debe tener su ficha de empleado vinculada (campo "Registro de Empleado") con el email de notificaciones y/o móvil rellenos, según la vía elegida.
+
 #### Bienvenida a Trabajadores
 Configura el correo de bienvenida que se envía automáticamente al dar de alta a un trabajador.
 
@@ -656,6 +684,72 @@ Esta sección explica cómo un administrador crea filtros con nombre que luego a
 
 ---
 
+## 12. STOP2 — Control de Análisis Previos
+
+El sistema **STOP2** (Seguridad en el Trabajo: Observación y Prevención) registra el análisis de seguridad que cada técnico realiza antes de intervenir en las instalaciones de un cliente. Desde el panel RRHH puedes consultar todos los registros y hacer seguimiento de su cumplimiento.
+
+### 12.1 Reporte STOP2
+
+![STOP2 Reporte](img/B-rrhh/B-stop2-reporte.png)
+
+**Ruta de menú:** RRHH → STOP2 Análisis Previo → STOP2 Reporte
+**URL directa:** `#Report:STOP2_Analisis_Previo_Report`
+
+Listado completo de todos los checklists STOP2 enviados por los técnicos, independientemente del cliente o del técnico.
+
+**Columnas principales:**
+
+| Columna | Descripción |
+|---------|-------------|
+| **Empleado** | Técnico que realizó el análisis |
+| **Cliente** | Cliente donde se realizó la intervención |
+| **Orden de Trabajo** | Número o referencia de la orden de trabajo asociada |
+| **Fecha Checklist** | Fecha y hora en que el técnico envió el análisis |
+| **Valida Intervención** | ✅ Sí — checklist completamente correcto / ❌ No — hay alertas pendientes |
+
+**Significado de "Valida Intervención":**
+
+El sistema calcula automáticamente si el análisis es válido en el momento en que el técnico lo envía:
+
+| Resultado | Causa |
+|-----------|-------|
+| **Válido (Sí)** | Todos los ítems de seguridad están marcados correctamente |
+| **No válido (No)** | Hay uno o más ítems críticos sin marcar, o hay condiciones de riesgo marcadas como presentes |
+
+> Los ítems críticos que invalidan una intervención son: Trabajos Eléctricos, ATEX, Alturas y Espacios Confinados (sección Acceso), así como Zona de Obra, Zona Vehículos, Intemperie (sección Entorno) y Limpieza deficiente (Materiales).
+
+**Acciones disponibles:**
+- **Ver registro** — abre el detalle completo del checklist (los 21 ítems individuales)
+- **Búsqueda y filtros** — filtra por técnico, cliente, fecha o resultado de validación (ver §11)
+- **Exportar** — descarga el listado en Excel/CSV para auditorías
+
+**Cómo revisar un análisis con alertas:**
+1. Localiza los registros con **Valida Intervención = No**
+2. Haz clic en la fila para abrir el detalle
+3. Revisa qué ítems están marcados incorrectamente (aparecen destacados)
+4. Coordina con el técnico si hay condiciones de riesgo no resueltas antes de la intervención
+
+### 12.2 Informe semanal automático a clientes
+
+El sistema envía automáticamente un **informe semanal de cumplimiento STOP2** cada lunes a las 09:00 h, dirigido a los contactos de cada cliente.
+
+**Contenido del informe:**
+- Resumen de todos los checklists realizados la semana anterior en las instalaciones del cliente
+- Por cada checklist: fecha, nombre del técnico, número de orden de trabajo, porcentaje de cumplimiento (ítems correctos / 21) y estado (OK o número de alertas críticas)
+
+**Destinatarios:**
+La ficha de cada cliente tiene un campo dedicado **"Email para enviar reporte STOP 2"** — si está relleno, el informe se envía **únicamente** a esa dirección (por ejemplo, el departamento de PRL del cliente).
+
+Si ese campo está vacío, el sistema envía el informe como alternativa a las personas de contacto configuradas en la ficha del cliente (campo "Personas de contacto en planta").
+
+**No es necesaria ninguna acción por parte de RRHH** — el envío es completamente automático. Si un cliente no recibe el informe, verifica que tenga el campo "Email para enviar reporte STOP 2" correctamente configurado, o al menos un contacto con email registrado en "Personas de contacto en planta".
+
+> Detalle completo del funcionamiento y de la configuración por cliente: **[Manual STOP2 — Supervisor](STOP2-supervisor.md)**.
+
+> **Nota:** El informe semanal solo incluye intervenciones de la semana anterior (lunes–domingo). Si no hubo intervenciones en un cliente durante esa semana, ese cliente no recibe correo.
+
+---
+
 ## Resumen de funcionalidades por sección
 
 | Sección | Qué puedes hacer |
@@ -674,9 +768,11 @@ Esta sección explica cómo un administrador crea filtros con nombre que luego a
 | Semáforo Caducidades | Ver de un vistazo qué documentos EPI están caducados por técnico |
 | Timeline Permisos | Ver todos los permisos aprobados del equipo en vista anual |
 | **Tablero Formaciones** | Gestionar formaciones del personal: próximas, en curso y pasadas |
-| Configuración General | Configurar notificaciones WhatsApp/email y parámetros del sistema |
+| Configuración General | Configurar notificaciones WhatsApp/email y parámetros del sistema, incluidas las de alta/baja de empleados |
 | **Filtros en Reportes** | Aplicar filtros rápidos temporales o seleccionar vistas predefinidas con nombre; crear nuevos filtros (admins) |
+| **STOP2 — Reporte** | Ver todos los checklists STOP2 enviados, filtrar por resultado (válido / con alertas) |
+| **STOP2 — Informe semanal** | El sistema envía automáticamente cada lunes un resumen de cumplimiento a los contactos de cada cliente |
 
 ---
 
-*Manual actualizado el 19/04/2026 — Gestión de Recursos Humanos v2026*
+*Manual actualizado el 20/07/2026 — Gestión de Recursos Humanos v2026*

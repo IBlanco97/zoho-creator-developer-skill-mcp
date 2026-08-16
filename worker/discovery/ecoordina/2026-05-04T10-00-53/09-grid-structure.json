@@ -1,0 +1,99 @@
+{
+  "source": "Captured 2026-05-04 from v5.e-coordina.com/walstead — Solicitudes de documentación tab",
+  "tab_id_pattern": "[id$=\"__t_documentacion\"]",
+  "grid_columns_visible": [
+    "Documento",
+    "Estado",
+    "Empresa",
+    "Centro",
+    "Trabajador",
+    "Puesto",
+    "Proyecto",
+    "Trabajo",
+    "Coordinación",
+    "Maquinaria",
+    "Vehículo",
+    "Producto Químico",
+    "Incidentado",
+    "Tipo doc.",
+    "F.solicitado",
+    "F.limite",
+    "F.cumplimentado",
+    "F.verificado",
+    "F.emisión",
+    "F.caducidad",
+    "Activo"
+  ],
+  "filters_visible": [
+    "Documento (search, min 3 chars)",
+    "Único coord. (checkbox)",
+    "Único centro (checkbox)",
+    "Único puesto (checkbox)",
+    "Tipo Doc. (combobox)",
+    "Estado (combobox)",
+    "Solo incidentados (checkbox)",
+    "Ocultar exentos (checkbox, default checked)",
+    "Puesto (autocomplete)",
+    "Trabajador (autocomplete)",
+    "Maquinaria (autocomplete)",
+    "Vehículo (autocomplete)",
+    "Producto Químico (autocomplete)"
+  ],
+  "context_menu_actions": {
+    "_note": "Menu items in DOM, all 9 may not be visible simultaneously — varies by slot state",
+    "items": [
+      { "text": "Ver", "class": "x-menu-item contratacion_singular_grid_submenu_view", "always_visible": true },
+      { "text": "Descargar formato", "class": "x-menu-item contratacion_singular_grid_submenu_descargar_formato", "always_visible": true },
+      { "text": "Descargar archivo", "class": "x-menu-item contratacion_singular_grid_submenu_descargar_archivo", "when": "slot has file" },
+      { "text": "Cumplimentar digitalmente", "class": "x-menu-item contratacion_singular_grid_submenu_cumplimentar", "when": "slot is form-type" },
+      { "text": "Actualizar coordinación", "class": "x-menu-item contratacion_singular_grid_submenu_cumplimentar_actualizar", "when": "form-type with data" },
+      { "text": "Cargar archivo", "class": "x-menu-item contratacion_singular_grid_submenu_cargar_archivo", "when": "Sin presentar (first upload)" },
+      { "text": "Corregir archivo", "class": "x-menu-item contratacion_singular_grid_submenu_corregir_archivo", "when": "Rechazado" },
+      { "text": "Actualizar archivo (Traspaso a histórico)", "class": "x-menu-item contratacion_singular_grid_submenu_actualizar_archivo", "when": "Caducado/Validado (renew)" },
+      { "text": "Añadir archivo", "class": "x-menu-item contratacion_singular_grid_submenu_anadir_archivo", "when": "supplementary" }
+    ]
+  },
+  "user_menu_actions": [
+    { "text": "Modificar datos del usuario", "class": "x-menu-item menu_sesion_modificar_usuario" },
+    { "text": "Preferencias", "class": "x-menu-item menu_sesion_preferencias" },
+    { "text": "Bloquear sesión", "class": "x-menu-item menu_sesion_bloquear" },
+    { "text": "Cerrar sesión", "class": "x-menu-item menu_sesion_cerrar" }
+  ],
+  "api_endpoints": {
+    "login": "POST /api/public/ajax.php?ajax=login_init",
+    "list_coordinaciones": "POST /api/public/store.php?form_element=contratacion_plural.grid&store=contratacion",
+    "list_slots": "POST /api/public/store.php?form_element=contratacion_singular.grid&store=documentacion_solicitud",
+    "list_accesos": "POST /api/public/store.php?form_element=contratacion_singular.grid_acceso&store=acceso_gestion",
+    "list_biblioteca": "POST /api/public/store.php?form_element=contratacion_singular.grid_biblioteca&store=biblioteca_centro",
+    "tree_organizacion": "POST /api/public/treestore.php?store=organizacion&order=estructura&expand=centro,empresa",
+    "form_load": "POST /api/public/form_load.php",
+    "event_load_heartbeat": "POST /api/public/event_load.php",
+    "upload": "TODO — not captured in read-only mode"
+  },
+  "stable_selectors": {
+    "tab_general": "[id$=\"__t_general\"]",
+    "tab_subcontratacion": "[id$=\"__t_subcontratacion\"]",
+    "tab_documentacion": "[id$=\"__t_documentacion\"]",
+    "tab_acceso": "[id$=\"__t_acceso\"]",
+    "tab_biblioteca": "[id$=\"__t_biblioteca\"]",
+    "row_active": ".x-grid3-row",
+    "menu_floating": ".x-menu-floating .x-menu-item",
+    "header_inner": ".x-grid3-hd-inner",
+    "cell_inner": ".x-grid3-cell-inner",
+    "login_user": "input[name=\"txt_usuario\"]",
+    "login_pass": "input[name=\"txt_password\"]"
+  },
+  "states_observed": [
+    { "label": "Validado", "color": "green dot", "action_recommended": "actualizar_archivo (renewal)" },
+    { "label": "Validación pendiente", "color": "blue dot", "action_recommended": "wait (review pending)" },
+    { "label": "Caducado", "color": "red dot", "action_recommended": "actualizar_archivo (renewal critical)" },
+    { "label": "Sin presentar", "color": "gray dot", "action_recommended": "cargar_archivo (first upload)" }
+  ],
+  "convergence_indicators": {
+    "twind_banner_login": true,
+    "utm_source": "login-ecoordina",
+    "utm_medium": "referral",
+    "twind_url": "https://twind.io/es/preguntas-actualizacion-twind/",
+    "tagline": "CTAIMA y e-coordina nos unimos para ofrecerte Twind"
+  }
+}

@@ -13,15 +13,14 @@ domStr = domPas.toString("dd/MM/yyyy");
 cliMap = Map();
 cliNomMap = Map();
 
-for each r in STOP2_Analisis_Previo[Fecha_Checklist >= lunesPas && Fecha_Checklist <= domPas]
+for each r in STOP2_Analisis_Previo[Fecha_Hora >= lunesPas && Fecha_Hora <= domPas]
 {
-	cId = ifnull(r.Cliente, 0);
-	if(cId != 0)
+	if(r.Cliente != null)
 	{
-		ck = cId.toString();
+		ck = r.Cliente.ID.toString();
 		// Build table row for this record
 		tecNom = ifnull(r.Empleado.Nombre.first_name, "") + " " + ifnull(r.Empleado.Nombre.last_name, "");
-		fchStr = ifnull(r.Fecha_Checklist.toString("dd/MM/yyyy HH:mm"), "");
+		fchStr = ifnull(r.Fecha_Hora.toString("dd/MM/yyyy HH:mm"), "");
 		ot = ifnull(r.Orden_de_Trabajo, "&mdash;");
 		// Count critical NOs
 		cr = 0;
@@ -32,7 +31,7 @@ for each r in STOP2_Analisis_Previo[Fecha_Checklist >= lunesPas && Fecha_Checkli
 		// Count total SIs
 		totalSi = 0;
 		if(r.A1_Control_Accesos == true) { totalSi = totalSi + 1; }
-		if(r.A2_Permiso_Trabajo == true) { totalSi = totalSi + 1; }
+		if(r.A2_Permiso_Trabajo == "Sí") { totalSi = totalSi + 1; }
 		if(r.A3_Trabajos_Caliente == true) { totalSi = totalSi + 1; }
 		if(r.A4_Trab_Electricos == true) { totalSi = totalSi + 1; }
 		if(r.A5_ATEX == true) { totalSi = totalSi + 1; }
@@ -43,13 +42,12 @@ for each r in STOP2_Analisis_Previo[Fecha_Checklist >= lunesPas && Fecha_Checkli
 		if(r.E3_Senalizacion == true) { totalSi = totalSi + 1; }
 		if(r.E4_Intemperie == true) { totalSi = totalSi + 1; }
 		if(r.P1_EPIs == true) { totalSi = totalSi + 1; }
-		if(r.P2_Trabajo_Solitario == true) { totalSi = totalSi + 1; }
-		if(r.P3_Herramientas == true) { totalSi = totalSi + 1; }
+		if(r.P3_Herramientas == "Sí") { totalSi = totalSi + 1; }
 		if(r.P4_Medios_Auxiliares == true) { totalSi = totalSi + 1; }
 		if(r.M1_Acceso_Seguro == true) { totalSi = totalSi + 1; }
 		if(r.M2_Limpieza == true) { totalSi = totalSi + 1; }
 		if(r.M3_Material_Riesgos == true) { totalSi = totalSi + 1; }
-		if(r.M4_Consignar == true) { totalSi = totalSi + 1; }
+		if(r.M4_Consignar == "Sí") { totalSi = totalSi + 1; }
 		if(r.F1_Protecciones == true) { totalSi = totalSi + 1; }
 		if(r.F2_Candado_Amarillo == true) { totalSi = totalSi + 1; }
 		if(r.F3_Salida_Accesos1 == true) { totalSi = totalSi + 1; }
@@ -59,7 +57,7 @@ for each r in STOP2_Analisis_Previo[Fecha_Checklist >= lunesPas && Fecha_Checkli
 		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;'>" + fchStr + "</td>";
 		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;'>" + tecNom + "</td>";
 		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;'>" + ot + "</td>";
-		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;text-align:center;'>" + totalSi + "/22</td>";
+		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;text-align:center;'>" + totalSi + "/21</td>";
 		rowH = rowH + "<td style='padding:8px 12px;border:1px solid #e2e8f0;font-size:13px;font-weight:600;color:" + resColor + ";'>" + resText + "</td>";
 		rowH = rowH + "</tr>";
 		// Append to map
@@ -106,19 +104,33 @@ for each ck in cliMap.keys()
 	}
 	if(cliFound == 1)
 	{
-		// Send to Personas_Contacto_en_Planta
-		for each contacto in cliRec.Personas_Contacto_en_Planta
+		mailStop2 = ifnull(cliRec.Email_para_enviar_reporte_STOP_2, "");
+		if(mailStop2 != "")
 		{
-			mailC = ifnull(contacto.Email, "");
-			if(mailC != "")
+			sendmail
+			[
+				from : zoho.adminuserid
+				to : mailStop2
+				subject : subject_
+				message : htmlEmail
+			]
+		}
+		else
+		{
+			// Fallback: sin email configurado, avisar a contactos de planta
+			for each contacto in cliRec.Personas_Contacto_en_Planta
 			{
-				sendmail
-				[
-					from : zoho.adminuserid
-					to : mailC
-					subject : subject_
-					message : htmlEmail
-				]
+				mailC = ifnull(contacto.Email, "");
+				if(mailC != "")
+				{
+					sendmail
+					[
+						from : zoho.adminuserid
+						to : mailC
+						subject : subject_
+						message : htmlEmail
+					]
+				}
 			}
 		}
 	}
